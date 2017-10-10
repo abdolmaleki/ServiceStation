@@ -33,7 +33,7 @@ public class PrinterHelper extends TestLog {
 
     private PrinterHelper(IDAL dal) {
         idal = dal;
-        printer = GetObj.getDal(idal).getPrinter();
+        printer = GetObj.getDal().getPrinter();
     }
 
     public static PrinterHelper getInstance() {

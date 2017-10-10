@@ -6,9 +6,9 @@ import com.technotapp.servicestation.pax.printer.PrintContent;
 
 
 public class BalanceContent extends PrintContent {
-    @Override
-    protected Bitmap getContent() {
 
+    @Override
+    protected Bitmap getContent(String... contents) {
         return null;
     }
 }

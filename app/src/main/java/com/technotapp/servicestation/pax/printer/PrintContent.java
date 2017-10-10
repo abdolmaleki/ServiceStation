@@ -6,7 +6,7 @@ import android.graphics.Bitmap;
 public abstract class PrintContent {
     Bitmap printBitmap;
 
-    protected abstract Bitmap getContent();
+    protected abstract Bitmap getContent(String... contents);
 
     ///////////////////////////////////////////////////////
     /////////////////// Content Types//////////////////////
