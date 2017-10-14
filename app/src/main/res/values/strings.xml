@@ -1,3 +1,8 @@
 <resources>
+
+    <!-- activity splash -->
     <string name="app_name">ServiceStation</string>
+    <string name="activity_splash_ansar_slogan">نماد خدمت و اعتبار</string>
+    <string name="activity_signin_signin">ورود</string>
+    <string name="activity_signin_password">رمز ورود</string>
 </resources>

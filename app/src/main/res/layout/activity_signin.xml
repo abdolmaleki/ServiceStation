@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#009688"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context="com.technotapp.servicestation.activity.SigninActivity">
+
+    <com.technotapp.servicestation.customView.CustomTextView
+        android:id="@+id/signin_txtMerchantCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="48dp"
+        android:gravity="center"
+        android:textSize="24sp"
+        android:textColor="#ffffff"
+        app:fontName="i" />
+
+    <EditText
+        android:layoutDirection="rtl"
+        android:textDirection="rtl"
+        android:hint="@string/activity_signin_password"
+        android:id="@+id/signin_edtPassword"
+        android:layout_width="196dp"
+        android:layout_height="48dp"
+        android:inputType="numberPassword"
+        android:layout_marginBottom="16dp"
+
+        />
+
+
+    <Button
+        android:elevation="16dp"
+        android:background="#AD1457"
+        android:textColor="#ffffff"
+        android:id="@+id/signin_btnSignin"
+        android:layout_width="96dp"
+        android:layout_height="48dp"
+        android:text="@string/activity_signin_signin"/>
+</LinearLayout>
