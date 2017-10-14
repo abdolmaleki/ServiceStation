@@ -17,7 +17,7 @@
         android:gravity="center"
         android:textSize="24sp"
         android:textColor="#ffffff"
-        app:fontName="i" />
+        app:fontName="irsans" />
 
     <EditText
         android:layoutDirection="rtl"
