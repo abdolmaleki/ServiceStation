@@ -61,19 +61,18 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="16dp" />
-    <!--<me.zhanghai.android.materialprogressbar.MaterialProgressBar-->
-        <!--android:id="@+id/splash_prg"-->
-        <!--style="@style/Widget.AppCompat.ProgressBar.Horizontal"-->
-        <!--android:layout_width="256dp"-->
-        <!--android:layout_height="4dp"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:indeterminate="false"-->
-        <!--android:max="100"-->
-        <!--android:minHeight="4dp"-->
-        <!--android:minWidth="256dp"-->
-        <!--android:visibility="invisible"-->
-        <!--app:mpb_progressStyle="horizontal"-->
-        <!--app:mpb_progressTint="#880E4F" />-->
+
+    <ProgressBar
+        android:id="@+id/splash_prg"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="256dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center"
+        android:indeterminate="false"
+        android:maxHeight="10dip"
+        android:minHeight="10dip"
+        android:progress="0"
+        android:progressDrawable="@drawable/bg_progressbar_linear" />
 
     <View
         android:layout_width="match_parent"

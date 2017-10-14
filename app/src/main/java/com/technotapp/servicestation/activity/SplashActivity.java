@@ -28,7 +28,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        //progressBar = (ProgressBar) findViewById(R.id.splash_prg);
+        progressBar = (ProgressBar) findViewById(R.id.splash_prg);
         logoLayout = (LinearLayout) findViewById(R.id.splash_logoLayout);
         textLayout = (LinearLayout) findViewById(R.id.splash_textLayout);
         Sequent.origin(logoLayout).
@@ -49,7 +49,7 @@ public class SplashActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        //progressBar.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(View.VISIBLE);
 
                     }
                 });
@@ -57,7 +57,7 @@ public class SplashActivity extends AppCompatActivity {
                     progressStatus += 1;
                     handler.post(new Runnable() {
                         public void run() {
-                            //progressBar.setProgress(progressStatus / 1);
+                            progressBar.setProgress(progressStatus / 1);
                         }
                     });
                     try {
