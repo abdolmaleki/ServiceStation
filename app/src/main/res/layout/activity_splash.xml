@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#009688"
+    android:background="#00695C"
     android:orientation="vertical"
     tools:context="com.technotapp.servicestation.activity.SplashActivity">
 
@@ -12,12 +12,11 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="#009688"
         android:gravity="center"
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/splash_logoLayout"
+            android:id="@+id/activity_splash_logoLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -26,13 +25,13 @@
             <ImageView
                 android:layout_width="@dimen/ansarLogoW_H"
                 android:layout_height="@dimen/ansarLogoW_H"
-                android:background="@mipmap/ic_ansarlogo"
+                android:background="@drawable/ic_ansarlogo"
                 android:elevation="96dp" />
 
             <ImageView
                 android:layout_width="108dp"
                 android:layout_height="32dp"
-                android:background="@mipmap/ic_anarlogotext" />
+                android:background="@drawable/ic_anarlogotext" />
 
         </LinearLayout>
 
@@ -41,14 +40,14 @@
             android:layout_height="24dp" />
 
         <LinearLayout
-            android:id="@+id/splash_textLayout"
+            android:id="@+id/activity_splash_textLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
             <com.technotapp.servicestation.customView.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/activity_splash_ansar_slogan"
+                android:text="@string/activity_splash_ansarSlogan"
                 android:textColor="#F5F5F5"
                 android:textSize="24dp"
                 app:fontName="irsans-Medium" />
@@ -63,16 +62,17 @@
         android:layout_height="16dp" />
 
     <ProgressBar
-        android:id="@+id/splash_prg"
+        android:id="@+id/activity_splash_prg"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="256dp"
-        android:layout_height="4dp"
+        android:layout_height="2dp"
         android:layout_gravity="center"
         android:indeterminate="false"
         android:maxHeight="10dip"
         android:minHeight="10dip"
         android:progress="0"
-        android:progressDrawable="@drawable/bg_progressbar_linear" />
+        android:progressDrawable="@drawable/bg_progressbar_linear"
+        android:visibility="invisible" />
 
     <View
         android:layout_width="match_parent"

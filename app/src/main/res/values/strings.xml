@@ -1,8 +1,16 @@
 <resources>
 
-    <!-- activity splash -->
     <string name="app_name">ServiceStation</string>
-    <string name="activity_splash_ansar_slogan">نماد خدمت و اعتبار</string>
+
+    <!--                   activity splash                      -->
+
+    <string name="activity_splash_ansarSlogan">نماد خدمت و اعتبار</string>
     <string name="activity_signin_signin">ورود</string>
     <string name="activity_signin_password">رمز ورود</string>
+    <string name="activity_signin_merchantCode">کد فروشگاه:</string>
+    <string name="activity_signin_copyWriteText">تمامی حقوق این برنامه محفوظ میباشد.</string>
+
+    <!-- ______________________________________________________ -->
+
+
 </resources>

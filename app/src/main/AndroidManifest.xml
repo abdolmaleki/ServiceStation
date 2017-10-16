@@ -10,21 +10,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.MainActivity"></activity>
+        <activity android:name=".activity.MainActivity" />
         <activity
             android:name=".activity.SplashActivity"
-            android:theme="@style/FullscreenTheme" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter></activity>
+            android:theme="@style/FullscreenTheme">
+        </activity>
         <activity android:name=".activity.CheckNetworkActivity" />
         <activity
             android:name=".activity.SigninActivity"
             android:theme="@style/FullscreenTheme"
             android:windowSoftInputMode="stateHidden|adjustResize|adjustPan">
-        </activity>
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            </activity>
     </application>
 
 </manifest>

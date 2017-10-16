@@ -28,9 +28,9 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        progressBar = (ProgressBar) findViewById(R.id.splash_prg);
-        logoLayout = (LinearLayout) findViewById(R.id.splash_logoLayout);
-        textLayout = (LinearLayout) findViewById(R.id.splash_textLayout);
+        progressBar = (ProgressBar) findViewById(R.id.activity_splash_prg);
+        logoLayout = (LinearLayout) findViewById(R.id.activity_splash_logoLayout);
+        textLayout = (LinearLayout) findViewById(R.id.activity_splash_textLayout);
         Sequent.origin(logoLayout).
                 duration(1000).
                 anim(this, Animation.FADE_IN_UP).
