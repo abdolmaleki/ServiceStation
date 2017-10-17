@@ -2,6 +2,7 @@ package com.technotapp.servicestation.Infrastructure;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -54,4 +55,15 @@ public class NetworkHelper {
         }
     }
 
+    public static boolean isNetworkAvailable(Context ctx) {
+        try {
+            ConnectivityManager connectivityManager
+                    = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        } catch (Exception e) {
+            AppMonitor.reportBug(e, "NetworkHelper", "isNetworkAvailable");
+            return false;
+        }
+    }
 }

@@ -4,24 +4,38 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.technotapp.servicestation.R;
+import com.technotapp.servicestation.adapter.DataModel.MainMenuModel;
 
-/**
- * Created by Kourosh on 10/16/17.
- */
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class MainMenuAdapter extends BaseAdapter {
     Context mContext;
+    private ArrayList<MainMenuModel> dataSet;
 
-    public MainMenuAdapter(Context mContext) {
+    private static class ViewHolder {
+        TextView title;
+        ImageView icon;
+        ListView items;
+    }
+
+    public MainMenuAdapter(Context mContext, ArrayList<MainMenuModel> dataModels) {
+        this.dataSet = dataModels;
         this.mContext = mContext;
     }
 
     @Override
     public int getCount() {
-        return 9;
+        return dataSet.size();
     }
 
     @Override
@@ -35,8 +49,37 @@ public class MainMenuAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View rowView = LayoutInflater.from(mContext).inflate(R.layout.item_grid_main_menu,parent,false);
+    public View getView(int position, View rowView, ViewGroup parent) {
+
+        ViewHolder viewHolder;
+
+        if (rowView == null) {
+
+            viewHolder = new ViewHolder();
+            rowView = LayoutInflater.from(mContext).inflate(R.layout.item_grid_main_menu, parent, false);
+            viewHolder.title = (TextView) rowView.findViewById(R.id.item_grid_main_menu_iv_title);
+            viewHolder.icon = (ImageView) rowView.findViewById(R.id.item_grid_main_menu_iv_icon);
+            viewHolder.items = (ListView) rowView.findViewById(R.id.item_grid_main_menu_list_items);
+            rowView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) rowView.getTag();
+        }
+
+        MainMenuModel dataModel = dataSet.get(position);
+        viewHolder.title.setText(dataModel.title);
+        viewHolder.icon.setImageResource(dataModel.icon);
+        viewHolder.items.setAdapter(fillFakeList(mContext));
+
         return rowView;
+    }
+
+    private ArrayAdapter<String> fillFakeList(Context ctx) {
+        List<String> items = new ArrayList<>();
+        items.add("گزینه 1");
+        items.add("گزینه 2");
+        items.add("گزینه 3");
+        ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(ctx, android.R.layout.simple_list_item_1, items);
+
+        return listAdapter;
     }
 }
