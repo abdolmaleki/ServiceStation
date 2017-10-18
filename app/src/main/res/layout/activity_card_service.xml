@@ -1,16 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_all_page"
-    android:orientation="vertical"
     android:gravity="center"
+    android:orientation="vertical"
     tools:context="com.technotapp.servicestation.activity.CardServiceActivity">
-<Button
-    android:layout_width="256dp"
-    android:layout_height="wrap_content"
-    android:text="کارت به کارت"/>
+
+    <Button
+        android:id="@+id/activity_card_service_btn_moneytransfer"
+        android:layout_width="256dp"
+        android:layout_height="wrap_content"
+        android:text="@string/activity_card_service_moneytransfer" />
+
+    <Button
+        android:id="@+id/activity_card_service_btn_balance"
+        android:layout_width="256dp"
+        android:layout_height="wrap_content"
+        android:text="@string/activity_card_service_balance" />
+
+    <Button
+        android:id="@+id/activity_card_service_btn_buy"
+        android:layout_width="256dp"
+        android:layout_height="wrap_content"
+        android:text="@string/activity_card_service_buy" />
 
 </LinearLayout>

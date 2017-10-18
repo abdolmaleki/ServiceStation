@@ -2,7 +2,9 @@
 
     <string name="app_name">ServiceStation</string>
 
-    <!--                   activity splash                      -->
+    <!--==================================================================== -->
+    <!-- splash activity -->
+    <!--==================================================================== -->
 
     <string name="activity_splash_ansarSlogan">نماد خدمت و اعتبار</string>
     <string name="activity_signin_signin">ورود</string>
@@ -10,7 +12,13 @@
     <string name="activity_signin_merchantCode">کد فروشگاه:</string>
     <string name="activity_signin_copyWriteText">تمامی حقوق این برنامه محفوظ میباشد.</string>
 
-    <!-- ______________________________________________________ -->
 
+    <!--==================================================================== -->
+    <!-- card service activity -->
+    <!--==================================================================== -->
+
+    <string name="activity_card_service_buy">خرید و برداشت</string>
+    <string name="activity_card_service_balance">موجودی</string>
+    <string name="activity_card_service_moneytransfer">کارت به کارت</string>
 
 </resources>
