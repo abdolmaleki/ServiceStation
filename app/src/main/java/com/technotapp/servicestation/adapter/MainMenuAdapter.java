@@ -1,6 +1,8 @@
 package com.technotapp.servicestation.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,7 +60,7 @@ public class MainMenuAdapter extends BaseAdapter {
             rowView = LayoutInflater.from(mContext).inflate(R.layout.item_grid_main_menu, parent, false);
             viewHolder.title = (TextView) rowView.findViewById(R.id.item_grid_main_menu_iv_title);
             viewHolder.icon = (ImageView) rowView.findViewById(R.id.item_grid_main_menu_iv_icon);
-            viewHolder.items = (ListView) rowView.findViewById(R.id.item_grid_main_menu_list_items);
+           // viewHolder.items = (ListView) rowView.findViewById(R.id.item_grid_main_menu_list_items);
             rowView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) rowView.getTag();
@@ -66,8 +68,11 @@ public class MainMenuAdapter extends BaseAdapter {
 
         MainMenuModel dataModel = dataSet.get(position);
         viewHolder.title.setText(dataModel.title);
-        viewHolder.icon.setImageResource(dataModel.icon);
-        viewHolder.items.setAdapter(fillFakeList(mContext));
+        int resource = dataModel.icon;
+        Bitmap bitmap = BitmapFactory.decodeResource(
+                mContext.getResources(), resource);
+        viewHolder.icon.setImageBitmap(bitmap);
+       // viewHolder.items.setAdapter(fillFakeList(mContext));
 
         return rowView;
     }

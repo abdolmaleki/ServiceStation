@@ -6,9 +6,10 @@
 
     <LinearLayout
         android:layout_width="92dp"
-        android:layout_height="128dp"
+        android:layout_height="118dp"
         android:background="@drawable/bg_main_grid_item"
         android:gravity="center_horizontal"
+        android:paddingTop="9dp"
         android:orientation="vertical">
 
         <ImageView
@@ -19,21 +20,12 @@
         <com.technotapp.servicestation.customView.CustomTextView
             android:id="@+id/item_grid_main_menu_iv_title"
             android:layout_width="match_parent"
-            android:layout_height="18dp"
+            android:layout_height="match_parent"
             android:gravity="center"
-            android:text="خدمات شارژ"
             android:textColor="#ffffff"
-            android:textSize="10sp" />
+            android:textSize="12sp" />
 
-        <ListView
-            android:id="@+id/item_grid_main_menu_list_items"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="3dp"
-            android:layout_weight="1"
-            android:background="@drawable/bg_main_grid_list_item">
 
-        </ListView>
     </LinearLayout>
 
 </LinearLayout>
