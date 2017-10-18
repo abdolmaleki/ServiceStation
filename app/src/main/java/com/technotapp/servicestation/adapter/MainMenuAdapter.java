@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -19,7 +18,7 @@ import java.util.List;
 
 
 public class MainMenuAdapter extends BaseAdapter {
-    Context mContext;
+    private Context mContext;
     private ArrayList<MainMenuModel> dataSet;
 
     private static class ViewHolder {
@@ -78,8 +77,7 @@ public class MainMenuAdapter extends BaseAdapter {
         items.add("گزینه 1");
         items.add("گزینه 2");
         items.add("گزینه 3");
-        ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(ctx, android.R.layout.simple_list_item_1, items);
 
-        return listAdapter;
+        return new ArrayAdapter<>(ctx, android.R.layout.simple_list_item_1, items);
     }
 }

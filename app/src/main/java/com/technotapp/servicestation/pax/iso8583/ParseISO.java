@@ -69,7 +69,7 @@ public class ParseISO {
     }
 
 
-    public IsoDataItem makeIsoItem(int type, String dump) {
+    private IsoDataItem makeIsoItem(int type, String dump) {
 
 
         switch (type) {

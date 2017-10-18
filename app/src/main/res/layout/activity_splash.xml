@@ -25,8 +25,7 @@
             <ImageView
                 android:layout_width="@dimen/ansarLogoW_H"
                 android:layout_height="@dimen/ansarLogoW_H"
-                android:background="@drawable/ic_ansarlogo"
-                android:elevation="96dp" />
+                android:background="@drawable/ic_ansarlogo"/>
 
             <ImageView
                 android:layout_width="108dp"
@@ -49,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/activity_splash_ansarSlogan"
                 android:textColor="#F5F5F5"
-                android:textSize="24dp"
+                android:textSize="24sp"
                 app:fontName="irsans-Medium" />
 
 

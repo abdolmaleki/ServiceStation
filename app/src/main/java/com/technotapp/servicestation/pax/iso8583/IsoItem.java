@@ -2,14 +2,10 @@ package com.technotapp.servicestation.pax.iso8583;
 
 import java.util.ArrayList;
 
-/**
- * Created by Kourosh on 02/10/2017.
- */
-
-public class IsoItem {
-    ArrayList<IsoDataItem> isoDataItemArray ;
-    String length , mti,bitmap;
-    public IsoItem(String length, String mti, String bitmap, ArrayList<IsoDataItem> isoDataItemArray){
+class IsoItem {
+    private ArrayList<IsoDataItem> isoDataItemArray ;
+    private String length , mti,bitmap;
+    IsoItem(String length, String mti, String bitmap, ArrayList<IsoDataItem> isoDataItemArray){
         this.isoDataItemArray=isoDataItemArray;
         this.length=length;
         this.mti=mti;

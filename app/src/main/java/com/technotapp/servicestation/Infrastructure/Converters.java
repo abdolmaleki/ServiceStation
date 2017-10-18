@@ -5,9 +5,7 @@ import java.io.UnsupportedEncodingException;
 
 public class Converters {
 
-    static int index;
-
-    protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
+    private static char[] hexArray = "0123456789ABCDEF".toCharArray();
 
     public static String hexToString(String hexString) {
 
@@ -41,7 +39,7 @@ public class Converters {
     public static String hexToBin(String hex) {
 
         String bin = "";
-        String binFragment = "";
+        String binFragment;
         int iHex;
         hex = hex.trim();
         hex = hex.replaceFirst("0x", "");

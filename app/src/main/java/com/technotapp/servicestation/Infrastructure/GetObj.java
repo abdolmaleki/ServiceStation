@@ -3,16 +3,14 @@ package com.technotapp.servicestation.Infrastructure;
 import android.util.Log;
 
 import com.pax.dal.IDAL;
-import com.technotapp.servicestation.activity.MainActivity;
 import com.technotapp.servicestation.application.AppConfig;
 
 public class GetObj {
 
-    private static IDAL dal;
-    public static String logStr = "";
+    static String logStr = "";
 
     public static IDAL getDal() {
-        dal = AppConfig.idal;
+        IDAL dal = AppConfig.idal;
         if (dal == null) {
             Log.e("NeptuneLiteDemo", "dal is null");
         }
