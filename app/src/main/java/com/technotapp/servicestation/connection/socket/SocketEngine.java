@@ -16,9 +16,9 @@ public class SocketEngine {
     private int mPort;
     private String mIp;
     private Socket mSocket;
-    private static final int TIME_OUT=5000;
+    private static final int TIME_OUT = 5000;
 
-    public SocketEngine(int port, String ip) {
+    public SocketEngine(String ip, int port) {
         this.mPort = port;
         this.mIp = ip;
     }
@@ -30,7 +30,7 @@ public class SocketEngine {
             public void run() {
                 try {
                     mSocket = new Socket();
-                    mSocket.connect(new InetSocketAddress(mIp,mPort),TIME_OUT);
+                    mSocket.connect(new InetSocketAddress(mIp, mPort), TIME_OUT);
                 } catch (IOException e) {
                     AppMonitor.reportBug(e, "SocketEngin", "connect");
                     callback.onFail();
