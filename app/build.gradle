@@ -26,8 +26,8 @@ dependencies {
     compile files('libs/PaxNeptuneLiteApi_V2.00.04_20170815.jar')
     compile files('libs/zxing.jar')
     compile files('libs/sqlcipherandroid_V20160922.jar')
-
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.fujiyuu75:sequent:0.2.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha7'
+    compile files('libs/PaxGLPacker_V1.00.06_20170623.jar')
 }

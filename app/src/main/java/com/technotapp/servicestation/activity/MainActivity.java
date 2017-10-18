@@ -6,7 +6,10 @@ import android.widget.GridView;
 
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.adapter.DataModel.MainMenuModel;
+import com.technotapp.servicestation.adapter.DataModel.TransactionDataModel;
 import com.technotapp.servicestation.adapter.MainMenuAdapter;
+import com.technotapp.servicestation.connection.socket.ISocketCallback;
+import com.technotapp.servicestation.connection.socket.SocketEngine;
 
 import java.util.ArrayList;
 
@@ -27,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
         initAdapter();
 
         clickHandler();
-
 
     }
 

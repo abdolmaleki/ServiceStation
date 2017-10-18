@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<iso8583 secondary_bitmap="NO"  support_tertiary_bitmap="NO" var_len_format="BCD">
+    <field id="h"   format="N14"        desc="header"/>	<!-- example: 6000380000603100311301 -->
+    <field id="m"   format="N4"         desc="msg_id"/>
+    <field id="2"   format="N..19"      desc="(Primary Account Number)"/>
+    <field id="3"   format="N6"         desc="(Transaction Processing Code)"/>
+    <field id="4"   format="N12"        desc="(Amount Of Transactions)"/>
+    <field id="7"   format="N10"         desc="(System Trace Audit Number)"/>
+    <field id="11"  format="N6"         desc="(System Trace Audit Number)"/>
+    <field id="12"  format="N6"         desc="(Local Time Of Transaction)"/>
+    <field id="13"  format="N4"         desc="(Local Date Of Transaction)"/>
+    <field id="17"  format="N4"         desc="(Date Of Settlement)"/>
+    <field id="18"  format="N4"         desc="(Date Of Settlement)"/>
+    <field id="19"  format="N3"         desc="(Date Of Settlement)"/>
+    <field id="22"  format="N3"         paddingpos="R" desc="(Point Of Service Entry Mode)"/>	<!-- NOTE: by default, N is left-padding -->
+    <field id="25"  format="N2"         desc="(Point Of Service Condition Mode)"/>
+    <field id="26"  format="N2"         desc="(Point Of Service PIN Capture Code)"/>
+    <field id="32"  format="N..11"      desc="(Acquiring Institution Identification Code)"/>
+    <field id="37"  format="AN12"       desc="(Retrieval Reference Number)"/>
+    <field id="41"  format="ANS8"       desc="(Card Acceptor Terminal Identification)"/>
+    <field id="42"  format="ANS15"      desc="(Card Acceptor Identification Code)"/>
+    <field id="43"  format="ANS40"      desc="(Card Acceptor Identification Code)"/>
+    <field id="48"  format="ANS...999"    desc="(Additional Data - Private)"/>
+    <field id="49"  format="AN3"        desc="(Currency Code Of Transaction)"/>
+    <field id="62"  format="ANS...999"  desc="(Reserved Private)"/>
+    <field id="63"  format="ANS...999"  desc="(Reserved Private)"/>
+    <field id="64"  format="B64"        desc="(Message Authentication"/>
+</iso8583>
+
