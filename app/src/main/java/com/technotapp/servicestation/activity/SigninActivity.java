@@ -7,13 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
-
-import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.R;
-import com.technotapp.servicestation.adapter.DataModel.TransactionDataModel;
-import com.technotapp.servicestation.connection.socket.ISocketCallback;
-import com.technotapp.servicestation.connection.socket.SocketEngine;
+
 
 public class SigninActivity extends AppCompatActivity implements View.OnClickListener {
     Button btn;

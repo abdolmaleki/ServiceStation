@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.ThemedSpinnerAdapter;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -57,7 +56,7 @@ public class SplashActivity extends AppCompatActivity {
                     progressStatus += 1;
                     handler.post(new Runnable() {
                         public void run() {
-                            progressBar.setProgress(progressStatus / 1);
+                            progressBar.setProgress(progressStatus / 10);
                         }
                     });
                     try {
