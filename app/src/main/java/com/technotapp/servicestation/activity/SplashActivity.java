@@ -52,11 +52,11 @@ public class SplashActivity extends AppCompatActivity {
 
                     }
                 });
-                while (progressStatus < 100) {
+                while (progressStatus < 200) {
                     progressStatus += 1;
                     handler.post(new Runnable() {
                         public void run() {
-                            progressBar.setProgress(progressStatus / 10);
+                            progressBar.setProgress(progressStatus );
                         }
                     });
                     try {
