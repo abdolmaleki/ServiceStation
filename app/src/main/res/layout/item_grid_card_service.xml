@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_all_page"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/item_grid_card_service_lyr"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/bg_main_grid_item"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/item_grid_card_service_iv_icon"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_recipt" />
+        </LinearLayout>
+        <com.technotapp.servicestation.customView.CustomTextView
+            android:id="@+id/item_grid_card_service_iv_title"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="کارت به کارت"
+            android:textColor="#fff"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

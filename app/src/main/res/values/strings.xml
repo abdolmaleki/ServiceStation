@@ -17,9 +17,10 @@
     <!-- card service activity -->
     <!--==================================================================== -->
 
-    <string name="activity_card_service_buy">خرید و برداشت</string>
+    <string name="activity_card_service_deposit">واریز</string>
+    <string name="activity_card_service_buy">خرید</string>
     <string name="activity_card_service_balance">موجودی</string>
-    <string name="activity_card_service_moneytransfer">کارت به کارت</string>
+    <string name="activity_card_service_card_to_card">کارت به کارت</string>
     <string name="activity_splash_ansarFullSlogan">بانک انصار، نماد خدمت و اعتبار</string>
 
 </resources>

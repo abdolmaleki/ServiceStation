@@ -12,7 +12,7 @@ import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.connection.socket.ISocketCallback;
 import com.technotapp.servicestation.connection.socket.SocketEngine;
 
-public class CardServiceActivity extends AppCompatActivity implements View.OnClickListener {
+public class CardServiceActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +28,6 @@ public class CardServiceActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void bindView() {
-        findViewById(R.id.activity_card_service_btn_balance).setOnClickListener(this);
     }
 
     private void loadData() {
@@ -72,23 +71,5 @@ public class CardServiceActivity extends AppCompatActivity implements View.OnCli
     }
 
 
-    @Override
-    public void onClick(View v) {
-        int id = v.getId();
-        if (id == R.id.activity_card_service_btn_balance) {
-            SocketEngine socketEngine = new SocketEngine(Constant.Pax.SERVER_IP, Constant.Pax.SERVER_PORT);
-            byte[] request = getPacker();
-            socketEngine.sendData(request, new ISocketCallback() {
-                @Override
-                public void onFail() {
 
-                }
-
-                @Override
-                public void onReceiveData(TransactionDataModel transactionDataModel) {
-
-                }
-            });
-        }
-    }
 }
