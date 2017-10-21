@@ -1,16 +1,17 @@
 package com.technotapp.servicestation.pax.printer;
 
 
+import android.content.Context;
 import android.graphics.Bitmap;
 
-public abstract class PrintContent {
+public abstract class Printable {
     Bitmap printBitmap;
 
-    protected abstract Bitmap getContent(String... contents);
+    public abstract Bitmap getContent(Context ctx, String... contents);
 
     ///////////////////////////////////////////////////////
     /////////////////// Content Types//////////////////////
     ///////////////////////////////////////////////////////
 
-    protected static final String BALANCE = "balance";
+    public static final String BALANCE = "balance";
 }

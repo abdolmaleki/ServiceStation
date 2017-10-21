@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
 
@@ -14,6 +15,7 @@ import com.pax.dal.IPrinter;
 import com.pax.dal.entity.EFontTypeAscii;
 import com.pax.dal.entity.EFontTypeExtCode;
 import com.pax.dal.exceptions.PrinterDevException;
+import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.GetObj;
 import com.technotapp.servicestation.Infrastructure.TestLog;
 
@@ -119,7 +121,7 @@ public class PrinterHelper extends TestLog {
         }
     }
 
-    public String start() {
+    private String start() {
         try {
             int res = printer.start();
             logTrue("start");
@@ -128,6 +130,19 @@ public class PrinterHelper extends TestLog {
             e.printStackTrace();
             logErr("start", e.toString());
             return "";
+        }
+
+    }
+
+    public void startPrint(final Bitmap bmpPrint) {
+        try {
+
+
+            String printStatus;
+
+            new NewPrint(bmpPrint).execute();
+        } catch (Exception e) {
+            AppMonitor.reportBug(e, "PrinterHelper", "startPrint");
         }
 
     }
@@ -291,7 +306,7 @@ public class PrinterHelper extends TestLog {
         return image;
     }
 
-    public static void copyAssets(Context ctx) {
+    public static void copyFontFromAssets(Context ctx) {
         AssetManager assetManager = ctx.getAssets();
         String[] files = null;
         try {
@@ -327,6 +342,65 @@ public class PrinterHelper extends TestLog {
         int read;
         while ((read = in.read(buffer)) != -1) {
             out.write(buffer, 0, read);
+        }
+    }
+
+
+    private class NewPrint extends AsyncTask<Void, Void, String> {
+
+        Bitmap printBitmap;
+
+        public NewPrint(Bitmap printBitmap) {
+            this.printBitmap = printBitmap;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            getInstance().init();
+
+            ////////////////////////////////////////////////////////////////////////////////////////
+            /// set Font //
+            ////////////////////////////////////////////////////////////////////////////////////////
+            getInstance().fontSet(EFontTypeAscii.FONT_16_16,
+                    EFontTypeExtCode.FONT_16_16);
+
+            ////////////////////////////////////////////////////////////////////////////////////////
+            /// Print picture //
+            ////////////////////////////////////////////////////////////////////////////////////////
+
+            //  PrinterTester.getInstance().printBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_shaparak));
+
+            getInstance().printBitmap(printBitmap);
+
+            ////////////////////////////////////////////////////////////////////////////////////////
+            /// Text Styles //
+            ////////////////////////////////////////////////////////////////////////////////////////
+
+            getInstance().spaceSet(Byte.parseByte("0"), // word space
+                    Byte.parseByte("0")); // line space
+            getInstance().leftIndents(Short.parseShort("0")); // left masrgin
+            getInstance().setGray(Integer.parseInt("0")); // gray
+
+
+            ////////////////////////////////////////////////////////////////////////////////////////
+            /// Page Size //
+            ////////////////////////////////////////////////////////////////////////////////////////
+
+            getInstance().step(Integer.parseInt("135")); // page height
+
+            ////////////////////////////////////////////////////////////////////////////////////////
+            /// start print and show status //
+            ////////////////////////////////////////////////////////////////////////////////////////
+
+            final String status = getInstance().start();
+            return status;
+        }
+
+        @Override
+        protected void onPostExecute(String printStatus) {
+            super.onPostExecute(printStatus);
+
+
         }
     }
 
