@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mainMenuModels.add(new MainMenuModel("پرداخات قبوض", R.drawable.ic_recipt));
         mainMenuModels.add(new MainMenuModel("خدمات بیمه", R.drawable.ic_insurance));
         mainMenuModels.add(new MainMenuModel("خدمات کارت", R.drawable.ic_bank_card));
-        mainMenuModels.add(new MainMenuModel("خدمات بانک انصار", R.drawable.ic_ansarlogo));
+        mainMenuModels.add(new MainMenuModel("خدمات بانک انصار", R.drawable.ic_ansar_logo));
         mainMenuModels.add(new MainMenuModel("خرید بسته های اینترنتی", R.drawable.ic_net));
 
         MainMenuAdapter menuAdapter = new MainMenuAdapter(this, mainMenuModels);
