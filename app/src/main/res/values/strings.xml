@@ -11,6 +11,7 @@
     <string name="activity_signin_password">رمز ورود</string>
     <string name="activity_signin_merchantCode">کد فروشگاه:</string>
     <string name="activity_signin_copyWriteText">تمامی حقوق این برنامه محفوظ میباشد.</string>
+    <string name="activity_splash_ansarFullSlogan">بانک انصار، نماد خدمت و اعتبار</string>
 
 
     <!--==================================================================== -->
@@ -21,6 +22,13 @@
     <string name="activity_card_service_buy">خرید</string>
     <string name="activity_card_service_balance">موجودی</string>
     <string name="activity_card_service_card_to_card">کارت به کارت</string>
-    <string name="activity_splash_ansarFullSlogan">بانک انصار، نماد خدمت و اعتبار</string>
+
+
+    <!--==================================================================== -->
+    <!-- Pin Fragment -->
+    <!--==================================================================== -->
+
+    <string name="PinFragment_error_minpinlenght">رمز عبور نمی تواند کمتر از 4 عدد باشد</string>
+
 
 </resources>

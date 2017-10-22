@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <in.arjsna.passcodeview.PassCodeView
+        android:id="@+id/pass_code_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:digit_size="30.0dp"
+        app:digits="4"
+        app:empty_drawable="@drawable/shape_empty_dot"
+        app:filled_drawable="@drawable/shape_fill_dot"
+        app:key_text_size="60.0sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/fragment_pin_btn_submit"
+            android:layout_width="85dp"
+            android:layout_height="45dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/bg_button_green"
+            android:text="تایید" />
+
+        <Button
+            android:id="@+id/fragment_pin_btn_reset"
+            android:layout_width="85dp"
+            android:layout_height="45dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/bg_button_yellow"
+            android:text="تصحیح" />
+
+        <Button
+            android:id="@+id/fragment_pin_btn_abort"
+            android:layout_width="85dp"
+            android:layout_height="45dp"
+            android:background="@drawable/bg_button_red"
+            android:text="لغو" />
+
+    </LinearLayout>
+
+</LinearLayout>
