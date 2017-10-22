@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:background="@drawable/bg_all_page"
     android:orientation="vertical"
     tools:context="com.technotapp.servicestation.activity.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="64dp"
         android:layout_margin="16dp"
         android:gravity="center_horizontal|start"
         android:layoutDirection="rtl">
@@ -29,19 +30,26 @@
             android:textColor="#ffffff"
             android:textSize="14sp" />
     </LinearLayout>
-
-    <GridView
-        android:layout_marginTop="16dp"
-        android:id="@+id/activity_main_grdList"
+    <LinearLayout
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_weight="1"
         android:layout_height="0dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:gravity="center"
-        android:horizontalSpacing="8dp"
-        android:numColumns="3"
-        android:verticalSpacing="40dp"/>
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center">
 
+        <GridView
+            android:id="@+id/activity_main_grdList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:gravity="center"
+            android:horizontalSpacing="8dp"
+            android:numColumns="3"
+            android:verticalSpacing="20dp"
+            tools:listitem="@layout/item_grid_main_menu" />
+    </LinearLayout>
 
 </LinearLayout>

@@ -29,8 +29,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         initAdapter();
 
-        clickHandler();
-
     }
 
     private void loadSetting() {
@@ -62,11 +60,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         gridView = (GridView) findViewById(R.id.activity_main_grdList);
         gridView.setOnItemClickListener(this);
     }
-
-    private void clickHandler() {
-
-    }
-
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

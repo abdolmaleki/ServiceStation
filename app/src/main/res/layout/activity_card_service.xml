@@ -8,44 +8,13 @@
     android:orientation="vertical"
     tools:context="com.technotapp.servicestation.activity.CardServiceActivity">
 
-    <LinearLayout
+    <include layout="@layout/toolbar"
+        />
+
+    <FrameLayout
+        android:id="@+id/activity_card_service_frame"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp">
-
-        <ImageButton
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_gravity="center"
-            android:background="@null"
-            android:src="@drawable/ic_back" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="خدمات کارت"
-            android:textColor="#ffffff"
-            android:textSize="24sp" />
-
-        <ImageButton
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="@drawable/ic_ansar_logo" />
-
-    </LinearLayout>
-
-    <GridView
-        android:id="@+id/activity_card_service_grdList"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
         android:gravity="center"
-        android:horizontalSpacing="8dp"
-        android:numColumns="2"
-        android:verticalSpacing="40dp"
-        tools:listitem="@layout/item_grid_card_service" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>

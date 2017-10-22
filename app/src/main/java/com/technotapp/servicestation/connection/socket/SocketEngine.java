@@ -61,7 +61,9 @@ public class SocketEngine {
                     callback.onReceiveData(transactionDataModel);
 
 
+
                 } catch (Exception e) {
+                    closeConnection();
                     callback.onFail();
                     AppMonitor.reportBug(e, "SocketEngin", "sendData");
                 }
@@ -70,6 +72,17 @@ public class SocketEngine {
 
         new Thread(runnable).start();
 
+    }
+
+    private void closeConnection(){
+
+        try {
+            mSocket.shutdownInput();
+            mSocket.shutdownOutput();
+            mSocket.close();
+        } catch (IOException e) {
+            AppMonitor.reportBug(e, "SocketEngin", "closeConnection");
+        }
     }
 
 }
