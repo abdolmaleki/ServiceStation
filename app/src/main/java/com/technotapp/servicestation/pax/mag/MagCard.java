@@ -2,6 +2,7 @@ package com.technotapp.servicestation.pax.mag;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -12,6 +13,8 @@ import com.pax.dal.entity.TrackData;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.fragment.PinFragment;
 
+import de.mrapp.android.dialog.ProgressDialog;
+
 public class MagCard {
     static MagCard masterMagCard;
     static MagReadThread magReadThread;
@@ -19,6 +22,7 @@ public class MagCard {
     private String mTrack2;
     private String mTrack3;
     private Handler mMagHandler;
+    private ProgressDialog mProgressDialog;
 
     private MagCard() {
 
@@ -72,14 +76,14 @@ public class MagCard {
 
     public void start(final Context ctx, final IMagCardCallback callback) {
 
-        final AlertDialog dialog = new AlertDialog.Builder(ctx).setTitle("کارتو بکشید ..").show();
+        showDialog(ctx);
 
         mMagHandler = new Handler(Looper.getMainLooper()) {
             public void handleMessage(android.os.Message msg) {
                 switch (msg.what) {
                     case 0:
                         callback.onFail();
-                        dialog.cancel();
+                        hideDialog();
                         magReadThread.interrupt();
                         magReadThread = null;
 
@@ -102,7 +106,7 @@ public class MagCard {
                         callback.onSuccessful(mTrack1, mTrack2, mTrack3);
                         magReadThread.interrupt();
                         magReadThread = null;
-                        dialog.cancel();
+                        hideDialog();
                         break;
                     default:
                         break;
@@ -130,5 +134,33 @@ public class MagCard {
             AppMonitor.reportBug(e, "MagCard", "submitPinFragment");
         }
 
+    }
+
+    private void showDialog(Context ctx) {
+        try {
+            ProgressDialog.Builder dialogBuilder = new ProgressDialog.Builder(ctx);
+            dialogBuilder.setMessage("لطفا کارت خود را بکشید ...");
+            dialogBuilder.setNegativeButton("لغو", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    magReadThread.interrupt();
+                    magReadThread = null;
+                    hideDialog();
+                }
+            });
+            dialogBuilder.setProgressBarPosition(ProgressDialog.ProgressBarPosition.RIGHT);
+            mProgressDialog = dialogBuilder.create();
+            mProgressDialog.show();
+        } catch (Exception e) {
+            AppMonitor.reportBug(e, "MagCard", "showDialog");
+        }
+
+
+    }
+
+    private void hideDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.hide();
+        }
     }
 }

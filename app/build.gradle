@@ -30,4 +30,5 @@ dependencies {
     compile 'com.fujiyuu75:sequent:0.2.1'
     compile files('libs/PaxGLPacker_V1.00.06_20170623.jar')
     compile 'in.arjsna:passcodeview:1.2.1'
+    compile 'com.github.michael-rapp:android-material-dialog:4.1.0'
 }

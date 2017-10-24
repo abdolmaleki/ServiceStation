@@ -19,7 +19,7 @@ import in.arjsna.passcodeview.PassCodeView;
 public class PinFragment extends DialogFragment implements View.OnClickListener {
 
     private PassCodeView mPassCodeView;
-    private IPin mPinContoller;
+    private IPin mPinController;
 
     @Nullable
     @Override
@@ -44,6 +44,9 @@ public class PinFragment extends DialogFragment implements View.OnClickListener 
             mPassCodeView.setDigitLength(4);
             mPassCodeView.reset();
 
+            getDialog().setTitle(R.string.fragment_pin_title);
+            getDialog().getWindow().setGravity(Gravity.CENTER);
+
             mPassCodeView.setOnTextChangeListener(new PassCodeView.TextChangeListener() {
                 @Override
                 public void onTextChanged(String text) {
@@ -54,24 +57,20 @@ public class PinFragment extends DialogFragment implements View.OnClickListener 
         }
 
 
-        getDialog().setTitle("لطفا رمز اول کارت را وارد کنید");
-        getDialog().getWindow().setGravity(Gravity.CENTER);
-
-
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         if (activity instanceof IPin) {
-            mPinContoller = (IPin) activity;
+            mPinController = (IPin) activity;
         }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mPinContoller = null;
+        mPinController = null;
     }
 
     @Override
@@ -80,7 +79,7 @@ public class PinFragment extends DialogFragment implements View.OnClickListener 
 
         if (id == R.id.fragment_pin_btn_submit) {
             if (isValidationPin()) {
-                mPinContoller.onPinEntered(mPassCodeView.getPassCodeText());
+                mPinController.onPinEntered(mPassCodeView.getPassCodeText());
                 getDialog().cancel();
             } else {
                 AppMonitor.Toast(getActivity(), getString(R.string.PinFragment_error_minpinlenght), Toast.LENGTH_SHORT);
