@@ -1,6 +1,8 @@
 package com.technotapp.servicestation.adapter.DataModel;
 
 
+import com.technotapp.servicestation.Infrastructure.DateHelper;
+
 public class TransactionDataModel {
     private  String panNumber;
     private  String amount;
@@ -9,6 +11,10 @@ public class TransactionDataModel {
     private  String responseCode;
     private  String terminalID;
     private  String MAC;
+
+    public TransactionDataModel() {
+        setDateTimeShaparak(DateHelper.getGregorianDateTime("MMddhhmmss"));
+    }
 
     public  void setPanNumber(String panNumber1) {
         panNumber = "";

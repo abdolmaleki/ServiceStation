@@ -71,16 +71,12 @@ public class MagCardHelper extends TestLog {
         return b;
     }
 
-    public TrackData read() {
-        try {
-            TrackData trackData = iMag.read();
-            logTrue("read");
-            return trackData;
-        } catch (MagDevException e) {
-            e.printStackTrace();
-            logErr("read", e.toString());
-            return null;
-        }
+    public TrackData read() throws MagDevException {
+
+        TrackData trackData = iMag.read();
+        logTrue("read");
+        return trackData;
+
     }
 
 }

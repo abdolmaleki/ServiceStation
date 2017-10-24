@@ -1,31 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toolbar_main"
     android:layout_width="match_parent"
     android:layout_height="48dp"
     android:layout_margin="16dp"
     android:orientation="horizontal">
 
 
-        <ImageButton
-            android:id="@+id/activity_card_service_back"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_gravity="center"
-            android:background="@null"
-            android:src="@drawable/ic_back" />
+    <ImageButton
+        android:id="@+id/toolbar_img_back"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_gravity="center"
+        android:background="@null"
+        android:src="@drawable/ic_back" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="خدمات کارت"
-            android:textColor="#ffffff"
-            android:textSize="24sp" />
+    <TextView
+        android:id="@+id/toolbar_tv_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="تست"
+        android:textColor="#ffffff"
+        android:textSize="24sp" />
 
-        <ImageButton
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="@drawable/ic_ansar_logo" />
-    </LinearLayout>
+    <ImageView
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/ic_ansar_logo" />
+</LinearLayout>

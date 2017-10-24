@@ -8,13 +8,14 @@
     android:orientation="vertical"
     tools:context="com.technotapp.servicestation.activity.CardServiceActivity">
 
-    <include layout="@layout/toolbar"
-        />
+    <include
+
+        layout="@layout/toolbar" />
 
     <FrameLayout
         android:id="@+id/activity_card_service_frame"
         android:layout_width="match_parent"
-        android:gravity="center"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:gravity="center" />
 
 </LinearLayout>

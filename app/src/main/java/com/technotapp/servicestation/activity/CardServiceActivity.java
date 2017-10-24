@@ -2,15 +2,14 @@ package com.technotapp.servicestation.activity;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.fragment.CardServiceFragment;
 
-public class CardServiceActivity extends AppCompatActivity implements  View.OnClickListener {
-//    ImageButton btnBack;
+public class CardServiceActivity extends SubMenuActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,15 +32,12 @@ public class CardServiceActivity extends AppCompatActivity implements  View.OnCl
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.activity_card_service_frame, fragment).commit();
-        }catch (Exception e){
-            AppMonitor.reportBug(e,"CardServiceActivity","submitFragment");
+        } catch (Exception e) {
+            AppMonitor.reportBug(e, "CardServiceActivity", "submitFragment");
         }
     }
 
     private void bindView() {
-//        btnBack.setOnClickListener(this);
-//        btnBack = (ImageButton) findViewById(R.id.activity_card_service_back);
-
 
     }
 
@@ -51,18 +47,8 @@ public class CardServiceActivity extends AppCompatActivity implements  View.OnCl
     }
 
 
-
     private void loadSetting() {
 
     }
 
-
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.activity_card_service_back:
-                break;
-        }
-    }
 }

@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private void initAdapter() {
         ArrayList<MainMenuModel> mainMenuModels = new ArrayList<>();
-
+    //TODO set main menu item title and icons
         mainMenuModels.add(new MainMenuModel("خرید شارژ", R.drawable.ic_charg));
         mainMenuModels.add(new MainMenuModel("خرید بلیط", R.drawable.ic_ticket));
         mainMenuModels.add(new MainMenuModel("خدمات و کالاها", R.drawable.ic_shopping));

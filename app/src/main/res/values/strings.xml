@@ -31,5 +31,39 @@
     <string name="PinFragment_error_minpinlenght">رمز عبور نمی تواند کمتر از 4 عدد باشد</string>
     <string name="fragment_pin_title">لطفا رمز اول کارت را وارد کنید</string>
 
+    <!--==================================================================== -->
+    <!-- Fragment Titles -->
+    <!--==================================================================== -->
+    <string name="CardServiceFragment_title">خدمات کارت</string>
+
+
+    <!--==================================================================== -->
+    <!-- CardService Fragment -->
+    <!--==================================================================== -->
+
+    <string name="CardServiceFragment_Menu_cardToCard">کارت به کارت</string>
+    <string name="CardServiceFragment_Menu_Deposit">واریز به حساب</string>
+    <string name="CardServiceFragment_Menu_Buy">برداشت از حساب</string>
+    <string name="CardServiceFragment_Menu_Balance">موجودی حساب</string>
+
+    <!--==================================================================== -->
+    <!-- CardService Balance Fragment -->
+    <!--==================================================================== -->
+    <string name="CardServiceBalanceFragment_title">موجودی کارت</string>
+    <string name="CardServiceBalanceFragment_TransactionError">تراکنش ناموفق</string>
+
+
+    <!--==================================================================== -->
+    <!-- CardService Fragment -->
+    <!--==================================================================== -->
+
+
+    <!--==================================================================== -->
+    <!-- MagCard -->
+    <!--==================================================================== -->
+
+    <string name="MagCard_error_SweepCard">خطا در کشیدن کارت</string>
+    <string name="MagCard_PleaseSweepCard">لطفا کارت خود را بکشید ...</string>
+
 
 </resources>

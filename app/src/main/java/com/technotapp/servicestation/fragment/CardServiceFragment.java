@@ -1,10 +1,7 @@
 package com.technotapp.servicestation.fragment;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -21,11 +18,9 @@ import com.technotapp.servicestation.adapter.SubMenuAdapter;
 import java.util.ArrayList;
 
 
-public class CardServiceFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class CardServiceFragment extends SubMenuFragment implements AdapterView.OnItemClickListener {
 
     GridView gridView;
-    private Context mActivity;
-
 
     public static CardServiceFragment newInstance() {
         CardServiceFragment fragment = new CardServiceFragment();
@@ -54,31 +49,19 @@ public class CardServiceFragment extends Fragment implements AdapterView.OnItemC
         return rooView;
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        mActivity = activity;
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mActivity = null;
-
-    }
-
     private void initView() {
         setRetainInstance(true);
+        setTitle(getString(R.string.CardServiceFragment_title));
         gridView.setOnItemClickListener(this);
     }
 
     private void initAdapter() {
         ArrayList<SubMenuModel> subMenuModels = new ArrayList<>();
 
-        subMenuModels.add(new SubMenuModel("کارت به کارت", R.drawable.ic_card_to_card));
-        subMenuModels.add(new SubMenuModel("واریز به حساب", R.drawable.ic_deposit));
-        subMenuModels.add(new SubMenuModel("برداشت از حساب", R.drawable.ic_buy_card));
-        subMenuModels.add(new SubMenuModel("موجودی حساب", R.drawable.ic_balance));
+        subMenuModels.add(new SubMenuModel(getString(R.string.CardServiceFragment_Menu_cardToCard), R.drawable.ic_card_to_card));
+        subMenuModels.add(new SubMenuModel(getString(R.string.CardServiceFragment_Menu_Deposit), R.drawable.ic_deposit));
+        subMenuModels.add(new SubMenuModel(getString(R.string.CardServiceFragment_Menu_Buy), R.drawable.ic_buy_card));
+        subMenuModels.add(new SubMenuModel(getString(R.string.CardServiceFragment_Menu_Balance), R.drawable.ic_balance));
 
         SubMenuAdapter menuAdapter = new SubMenuAdapter(mActivity, subMenuModels);
         gridView.setAdapter(menuAdapter);
@@ -87,25 +70,16 @@ public class CardServiceFragment extends Fragment implements AdapterView.OnItemC
     private void loadData() {
 
     }
-    private void submitFragment() {
-        try {
 
 
-            CardServiceBalanceFragment fragment = CardServiceBalanceFragment.newInstance();
-            FragmentManager fragmentManager =getActivity().getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.activity_card_service_frame, fragment).commit();
-        }catch (Exception e){
-            AppMonitor.reportBug(e,"CardServiceActivity","submitFragment");
-        }
-    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         switch (position) {
             case 3:
-                submitFragment();
+                submitFragment(CardServiceBalanceFragment.newInstance());
                 break;
+            //TODO add other menus
 //            case 1:
 //                startActivity(new Intent(CardServiceActivity.this, .class));
 //                break;

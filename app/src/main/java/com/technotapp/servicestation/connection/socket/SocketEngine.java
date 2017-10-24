@@ -17,10 +17,13 @@ public class SocketEngine {
     private String mIp;
     private Socket mSocket;
     private static final int TIME_OUT = 5000;
+    private TransactionDataModel mTransactionDataModel;
 
-    public SocketEngine(String ip, int port) {
+
+    public SocketEngine(String ip, int port, TransactionDataModel transactionDataModel) {
         this.mPort = port;
         this.mIp = ip;
+        mTransactionDataModel=transactionDataModel;
     }
 
     public void sendData(final byte[] request, final ISocketCallback callback) {
@@ -35,7 +38,6 @@ public class SocketEngine {
                     AppMonitor.reportBug(e, "SocketEngin", "connect");
                     callback.onFail();
                 }
-
 
                 try {
 
@@ -56,9 +58,10 @@ public class SocketEngine {
                     byte[] final_b;
                     final_b = Arrays.copyOf(messageByte, bytesRead);
                     String tx = Converters.bytesToHex(final_b);
-                    ParseISO parseISO = new ParseISO(new TransactionDataModel());
-                    TransactionDataModel transactionDataModel = parseISO.parseDataItem(tx);
-                    callback.onReceiveData(transactionDataModel);
+                    ParseISO parseISO = new ParseISO(mTransactionDataModel);
+                    //mTransactionDataModel= parseISO.parseDataItem(tx);
+                    parseISO.parseDataItem(tx);
+                    callback.onReceiveData(mTransactionDataModel);
 
 
 
