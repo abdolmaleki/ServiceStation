@@ -21,8 +21,9 @@ public class Constant {
     public static class RequestMode {
         public static final int BALANCE = 0;
         public static final int DEPOSIT = 1;
-        public static final int PURCHASE= 2;
+        public static final int BUY = 2;
 
     }
+
 
 }

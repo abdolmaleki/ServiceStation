@@ -46,7 +46,7 @@ public class MagCard {
                     if (MagCardHelper.getInstance().isSwiped()) {
                         TrackData trackData = MagCardHelper.getInstance().read();
                         if (trackData != null) {
-                            String resStr = "";
+                            String resStr;
                             if (trackData.getResultCode() == 0) {
                                 resStr = Resources.getSystem().getString(R.string.MagCard_error_SweepCard);
                                 Message.obtain(mMagHandler, 0, resStr).sendToTarget();

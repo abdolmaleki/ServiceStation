@@ -1,19 +1,19 @@
 package com.technotapp.servicestation.fragment;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.GridView;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.TransactionHelper;
 import com.technotapp.servicestation.R;
-import com.technotapp.servicestation.adapter.DataModel.SubMenuModel;
 import com.technotapp.servicestation.adapter.DataModel.TransactionDataModel;
-import com.technotapp.servicestation.adapter.SubMenuAdapter;
 import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.connection.socket.ISocketCallback;
 import com.technotapp.servicestation.connection.socket.SocketEngine;
@@ -23,90 +23,35 @@ import com.technotapp.servicestation.pax.printer.PrintFactory;
 import com.technotapp.servicestation.pax.printer.Printable;
 import com.technotapp.servicestation.pax.printer.PrinterHelper;
 
-import java.util.ArrayList;
+public class CardServiceBuyFragment extends SubMenuFragment implements View.OnClickListener {
+    TransactionDataModel transactionDataModel;
+    TextView tvAmount;
+    Button button;
 
-public class CardServiceFragment extends SubMenuFragment implements AdapterView.OnItemClickListener {
-
-    GridView gridView;
-
-    public static CardServiceFragment newInstance() {
-        CardServiceFragment fragment = new CardServiceFragment();
+    public static CardServiceBuyFragment newInstance() {
+        CardServiceBuyFragment fragment = new CardServiceBuyFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        loadData();
-
     }
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rooView = inflater.inflate(R.layout.fragment_card_services, container, false);
-        gridView = (GridView) rooView.findViewById(R.id.fragment_card_services_grdList);
-
-        initView();
-        initAdapter();
-
-        return rooView;
+        View rootView = inflater.inflate(R.layout.fragment_card_service_buy, container, false);
+        initView(rootView);
+        submitKeypadFragment(KeypadFragment.newInstance(tvAmount), R.id.fragment_card_service_buy_frame);
+        return rootView;
     }
 
-    private void initView() {
-        setRetainInstance(true);
-        setTitle(getString(R.string.CardServiceFragment_title));
-        gridView.setOnItemClickListener(this);
+    private void initView(View v) {
+        tvAmount = (TextView) v.findViewById(R.id.fragment_card_service_buy_txtAmount);
+        button = (Button) v.findViewById(R.id.fragment_card_service_buy_btn);
+        setTitle("خرید");
+        button.setOnClickListener(this);
     }
 
-    private void initAdapter() {
-        ArrayList<SubMenuModel> subMenuModels = new ArrayList<>();
-
-        subMenuModels.add(new SubMenuModel(getString(R.string.CardServiceFragment_Menu_cardToCard), R.drawable.ic_card_to_card));
-        subMenuModels.add(new SubMenuModel(getString(R.string.CardServiceFragment_Menu_Deposit), R.drawable.ic_deposit));
-        subMenuModels.add(new SubMenuModel(getString(R.string.CardServiceFragment_Menu_Buy), R.drawable.ic_buy_card));
-        subMenuModels.add(new SubMenuModel(getString(R.string.CardServiceFragment_Menu_Balance), R.drawable.ic_balance));
-
-        SubMenuAdapter menuAdapter = new SubMenuAdapter(mActivity, subMenuModels);
-        gridView.setAdapter(menuAdapter);
-    }
-
-    private void loadData() {
-
-    }
-
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        switch (position) {
-            // TODO ad card to card
-//            case 0:
-//                startActivity();
-//                break;
-            case 1:
-                submitFragment(CardServiceDepositFragment.newInstance());
-                break;
-            case 2:
-                submitFragment(CardServiceBuyFragment.newInstance());
-                break;
-            case 3:
-//                submitFragment(CardServiceBalanceFragment.newInstance());
-                balanceCard();
-                break;
-
-        }
-    }
-
-    TransactionDataModel transactionDataModel;
-
-    private void balanceCard() {
-
-        startMagCard();
-
-    }
 
     private void startMagCard() {
         try {
@@ -128,20 +73,12 @@ public class CardServiceFragment extends SubMenuFragment implements AdapterView.
                     } else if (track2 != null && !track2.equals("")) {
                         transactionDataModel.setPanNumber(track2.substring(0, 16));
                     }
-                    sendRequest(Constant.RequestMode.BALANCE);
+                    sendRequest(Constant.RequestMode.BUY);
                 }
             });
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "CardServiceBalanceFragment", "startMagCard");
+            AppMonitor.reportBug(e, "CardServiceBuyFragment", "startMagCard");
         }
-    }
-
-    private void initTransactionModel() {
-        transactionDataModel = new TransactionDataModel();
-        //TODO setTerminalID
-        //TODO setPanNumber
-        transactionDataModel.setTerminalID("23801101741");
-        transactionDataModel.setPanNumber("6037997293714508");
     }
 
     private void sendRequest(int mode) {
@@ -149,14 +86,14 @@ public class CardServiceFragment extends SubMenuFragment implements AdapterView.
         try {
 
             SocketEngine socketEngine = new SocketEngine(Constant.Pax.SERVER_IP, Constant.Pax.SERVER_PORT, transactionDataModel);
-            socketEngine.sendData(TransactionHelper.getPacker(getActivity(),transactionDataModel, mode,"0" ), new ISocketCallback() {
+            socketEngine.sendData(TransactionHelper.getPacker( getActivity(),transactionDataModel, mode, tvAmount.getText().toString()), new ISocketCallback() {
                 @Override
                 public void onFail() {
 
                 }
 
                 @Override
-                public void onReceiveData(TransactionDataModel dataModel) {
+                public void onReceiveData(final TransactionDataModel dataModel) {
                     AppMonitor.Log(dataModel.getPanNumber());
 
                     //TODO set parameters to tvAmount
@@ -168,16 +105,56 @@ public class CardServiceFragment extends SubMenuFragment implements AdapterView.
 //                            dataModel.getResponseCode() + "\n" +
 //                            dataModel.getMAC() + "\n");
 
-                    Printable printable = PrintFactory.getPrintContent(Printable.BALANCE);
+                    final String backTransactionID = dataModel.getBackTransactionID();
+                    final String amount = dataModel.getAmount();
+                    final String terminalID = dataModel.getTerminalID();
+                    final String panNumber = dataModel.getPanNumber();
+
+                    Printable printable = PrintFactory.getPrintContent(Printable.BUY_CUSTOMER);
                     PrinterHelper printerHelper = PrinterHelper.getInstance();
                     if (printable != null) {
                         printerHelper.startPrint(printable.getContent(getActivity(), "فروشگاه اکبر فرهادی", "77695885", "1475478589", "12:22:15", "1396/08/02", dataModel.getBackTransactionID(), dataModel.getTerminalID(), dataModel.getPanNumber(), dataModel.getAmount()));
                     }
+
+                    new AlertDialog.Builder(getActivity()).setMessage("آیا نیاز به رسید فروشنده می باشد؟").setPositiveButton("بله", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Printable printable = PrintFactory.getPrintContent(Printable.BUY_SELLER);
+                            PrinterHelper printerHelper = PrinterHelper.getInstance();
+                            if (printable != null) {
+                                printerHelper.startPrint(printable.getContent(getActivity(), "فروشگاه اکبر فرهادی", "77695885", "1475478589", "12:22:15", "1396/08/02", backTransactionID, terminalID, panNumber, amount));
+                            }
+
+                        }
+                    }).setNegativeButton("خیر", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    }).show();
+
+
                 }
             });
 
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "CardServiceBalanceFragment", "sendRequest");
+            AppMonitor.reportBug(e, "CardServiceBuyFragment", "sendRequest");
+        }
+    }
+
+    private void initTransactionModel() {
+        transactionDataModel = new TransactionDataModel();
+        //TODO setTerminalID
+        //TODO setPanNumber
+        transactionDataModel.setTerminalID("23801101741");
+        transactionDataModel.setPanNumber("6037997293714508");
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        if (id == R.id.fragment_card_service_buy_btn) {
+            startMagCard();
         }
     }
 }

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="ansarLogoW_H">150dp</dimen>
+    <dimen name="fragment_keypad_buttontext">16sp</dimen>
 </resources>

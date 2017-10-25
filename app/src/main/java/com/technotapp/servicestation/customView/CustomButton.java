@@ -24,5 +24,4 @@ public class CustomButton extends android.support.v7.widget.AppCompatButton {
         Typeface type = Typeface.createFromAsset(context.getAssets(), fontName+".ttf");
         this.setTypeface(type);
     }
-
 }

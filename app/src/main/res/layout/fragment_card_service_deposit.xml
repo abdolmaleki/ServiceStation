@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.technotapp.servicestation.fragment.CardServiceBalanceFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="24dp"
+        android:orientation="vertical">
+<LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layoutDirection="rtl"
+    android:layout_marginEnd="24dp"
+    android:layout_height="wrap_content">
+    <com.technotapp.servicestation.customView.CustomTextView
+        android:layout_width="wrap_content"
+        android:text="@string/fragment_card_service_deposit_buy_amount"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:layout_height="match_parent" />
+        <com.technotapp.servicestation.customView.CustomTextView
+            android:id="@+id/fragment_card_service_deposit_txtAmount"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/cs_textview_get_amount"
+            android:gravity="center"
+            android:inputType="numberDecimal"
+            android:textSize="32sp"
+            app:fontName="zar"
+            android:lines="1"
+            android:textColor="@color/white"
+            android:maxLength="7" />
+</LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/fragment_card_service_deposit_frame"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="16dp"
+            android:gravity="center" />
+
+        <Button
+            android:id="@+id/fragment_card_service_deposit_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:background="#00695C"
+            android:text="@string/fragment_card_service_deposit_buy_confirm"
+            android:textColor="#fff" />
+    </LinearLayout>
+</LinearLayout>

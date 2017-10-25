@@ -22,7 +22,6 @@
         android:layout_gravity="center"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="تست"
         android:textColor="#ffffff"
         android:textSize="24sp" />
 

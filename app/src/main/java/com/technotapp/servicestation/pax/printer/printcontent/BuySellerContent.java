@@ -17,7 +17,7 @@ import static com.technotapp.servicestation.application.Constant.Pax.Printer.FON
 import static com.technotapp.servicestation.application.Constant.Pax.Printer.FONT_SMALL;
 import static com.technotapp.servicestation.pax.printer.PrinterHelper.textToBitmap;
 
-public class SellContent extends Printable {
+public class BuySellerContent extends Printable {
     @Override
     public Bitmap getContent(Context ctx, String... contents) {
         IGL gl;
@@ -36,7 +36,7 @@ public class SellContent extends Printable {
         page.addLine();
         page.addLine().addUnit(BitmapFactory.decodeResource(ctx.getResources(), R.drawable.ic_dash_line), IImgProcessing.IPage.EAlign.CENTER);
         page.addLine();
-        page.addLine().addUnit(Helper.ConvertTextToHighlitedText("خرید/رسید مشتری", 24.0f), IImgProcessing.IPage.EAlign.CENTER);
+        page.addLine().addUnit(Helper.ConvertTextToHighlitedText("خرید/رسید فروشنده", 24.0f), IImgProcessing.IPage.EAlign.CENTER);
         page.addLine();
         page.addLine().addUnit(Helper.convertEnDigitToPersian(contents[3]), FONT_SMALL, IImgProcessing.IPage.EAlign.LEFT).addUnit(Helper.convertEnDigitToPersian(contents[4]), FONT_SMALL, IImgProcessing.IPage.EAlign.RIGHT); //time - date
         page.addLine().addUnit(Helper.convertEnDigitToPersian(contents[5]), FONT_SMALL, IImgProcessing.IPage.EAlign.LEFT).addUnit(textToBitmap("پیگیری/ارجاع"), IImgProcessing.IPage.EAlign.RIGHT); //ref no
@@ -51,11 +51,10 @@ public class SellContent extends Printable {
         page.addLine();
         page.addLine().addUnit(BitmapFactory.decodeResource(ctx.getResources(), R.drawable.ic_dash_line), IImgProcessing.IPage.EAlign.CENTER);
         page.addLine();
-        page.addLine().addUnit(Helper.ConvertTextToHighlitedText("www.TechnoTap.com", 24.0f), IImgProcessing.IPage.EAlign.CENTER);
+        page.addLine().addUnit(Helper.ConvertTextToHighlitedText("www.technotapp.com", 24.0f), IImgProcessing.IPage.EAlign.CENTER);
         page.addLine();
-        page.addLine().addUnit(Helper.convertEnDigitToPersian("مرکز تماس: 1505 و 02122578583"), FONT_NORMAL, IImgProcessing.IPage.EAlign.CENTER);
-        Bitmap prnbmp = img.pageToBitmap(page, 384);
+        page.addLine().addUnit(Helper.convertEnDigitToPersian("مرکز تماس: 02122578583"), FONT_NORMAL, IImgProcessing.IPage.EAlign.CENTER);
 
-        return prnbmp;
+        return img.pageToBitmap(page, 384);
     }
 }

@@ -14,4 +14,7 @@ public abstract class Printable {
     ///////////////////////////////////////////////////////
 
     public static final String BALANCE = "balance";
+    public static final String DEPOSIT = "deposit";
+    public static final String BUY_SELLER = "seller";
+    public static final String BUY_CUSTOMER = "customer";
 }

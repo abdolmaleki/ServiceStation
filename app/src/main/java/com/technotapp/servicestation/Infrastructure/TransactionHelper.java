@@ -11,7 +11,7 @@ import java.util.Random;
 public class TransactionHelper {
 
 
-    public static byte[] getPacker(TransactionDataModel transactionDataModel, int mode, Context mContext) {
+    public static byte[] getPacker(Context mContext,TransactionDataModel transactionDataModel, int mode,String amount ) {
         //TODO remove fakes
         Random fakeRandom = new Random();
         long number = 10000000 + ((long) (fakeRandom.nextDouble() * (99999999 - 10000000)));
@@ -23,20 +23,16 @@ public class TransactionHelper {
 
 
         String transactionType = null;
-        String amount = null;
 
         switch (mode) {
             case Constant.RequestMode.BALANCE:
                 transactionType = "22";
-                amount = "0";
                 break;
             case Constant.RequestMode.DEPOSIT:
-                transactionType = "00";
-                amount = transactionDataModel.getAmount();
-                break;
-            case Constant.RequestMode.PURCHASE:
                 transactionType = "a0";
-                amount = "100000";
+                break;
+            case Constant.RequestMode.BUY:
+                transactionType = "00";
                 break;
         }
 

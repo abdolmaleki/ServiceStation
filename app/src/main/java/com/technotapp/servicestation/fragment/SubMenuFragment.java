@@ -33,10 +33,23 @@ public class SubMenuFragment extends Fragment {
 
     public void submitFragment(Fragment fragment) {
         try {
+            String backStateName = fragment.getClass().getName();
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.addToBackStack(backStateName);
             fragmentTransaction.replace(R.id.activity_card_service_frame, fragment).commit();
+        } catch (Exception e) {
+            AppMonitor.reportBug(e, "CardServiceActivity", "submitFragment");
+        }
+    }
+
+    public void submitKeypadFragment(Fragment fragment,int frameID) {
+        try {
+            String backStateName = fragment.getClass().getName();
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.addToBackStack(backStateName);
+            fragmentTransaction.replace(frameID, fragment).commit();
         } catch (Exception e) {
             AppMonitor.reportBug(e, "CardServiceActivity", "submitFragment");
         }
@@ -46,3 +59,4 @@ public class SubMenuFragment extends Fragment {
         mToolbarController.setTitle(title);
     }
 }
+

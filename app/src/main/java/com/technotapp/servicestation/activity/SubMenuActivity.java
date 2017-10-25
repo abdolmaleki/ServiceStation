@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.technotapp.servicestation.R;
+import com.technotapp.servicestation.fragment.KeypadFragment;
 
 public class SubMenuActivity extends AppCompatActivity implements IToolBar {
 
@@ -22,6 +23,10 @@ public class SubMenuActivity extends AppCompatActivity implements IToolBar {
     public void back() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         if (fragmentManager.getBackStackEntryCount() > 0) {
+            String stackFragment=fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount()-1).getName();
+            if (stackFragment.equals(KeypadFragment.class.getName())){
+                fragmentManager.popBackStack();
+            }
             fragmentManager.popBackStack();
         } else {
             finish();

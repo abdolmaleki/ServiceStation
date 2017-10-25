@@ -64,6 +64,10 @@
 
     <string name="MagCard_error_SweepCard">خطا در کشیدن کارت</string>
     <string name="MagCard_PleaseSweepCard">لطفا کارت خود را بکشید ...</string>
+    <string name="fragment_keypad_font_name">b-titr</string>
+    <string name="fragment_card_service_deposit_buy_amount">مبلغ:</string>
+    <string name="fragment_card_service_deposit_buy_confirm">تایید</string>
+    <string name="activity_splash_ansar_bank_name">بانک انصار</string>
 
 
 </resources>

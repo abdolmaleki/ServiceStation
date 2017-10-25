@@ -105,7 +105,7 @@
                 android:gravity="center"
                 android:maxLength="16"
                 android:text="@string/activity_signin_signin"
-                android:textColor="#000"
+                android:textColor="@color/black"
                 android:textSize="18sp"
                 app:fontName="irsans" />
 
@@ -120,7 +120,7 @@
         android:gravity="center_horizontal|bottom"
         android:selectAllOnFocus="false"
         android:text="@string/activity_signin_copyWriteText"
-        android:textColor="#000"
+        android:textColor="@color/black"
         android:textSize="14sp" />
 
 </LinearLayout>

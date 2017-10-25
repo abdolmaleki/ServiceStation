@@ -8,6 +8,8 @@ public class AppMonitor {
     private static boolean isDebugMode = true;
 
     public static void reportBug(Exception ex, String className, String methodName) {
+
+        AppMonitor.Log("Ex: " + ex.getMessage() + "class: " + className + "method: " + methodName);
     }
 
     public static void Log(String logStr) {

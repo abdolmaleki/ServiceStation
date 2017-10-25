@@ -18,7 +18,7 @@ public class ParseISO {
         mTransactionDataModel = transactionDataModel;
     }
 
-    private static int index = 0;
+    private int index = 0;
 
 
     public TransactionDataModel parseDataItem(String dump) {
