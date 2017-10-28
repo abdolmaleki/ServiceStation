@@ -35,7 +35,7 @@ public class SocketEngine {
                     mSocket = new Socket();
                     mSocket.connect(new InetSocketAddress(mIp, mPort), TIME_OUT);
                 } catch (IOException e) {
-                    AppMonitor.reportBug(e, "SocketEngin", "connect");
+                    AppMonitor.reportBug(e, "SocketEngine", "connect");
                     callback.onFail();
                 }
 
@@ -68,7 +68,7 @@ public class SocketEngine {
                 } catch (Exception e) {
                     closeConnection();
                     callback.onFail();
-                    AppMonitor.reportBug(e, "SocketEngin", "sendData");
+                    AppMonitor.reportBug(e, "SocketEngine", "sendData");
                 }
             }
         };
@@ -84,7 +84,7 @@ public class SocketEngine {
             mSocket.shutdownOutput();
             mSocket.close();
         } catch (IOException e) {
-            AppMonitor.reportBug(e, "SocketEngin", "closeConnection");
+            AppMonitor.reportBug(e, "SocketEngine", "closeConnection");
         }
     }
 

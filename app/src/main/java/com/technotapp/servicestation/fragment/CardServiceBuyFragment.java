@@ -73,72 +73,10 @@ public class CardServiceBuyFragment extends SubMenuFragment implements View.OnCl
                     } else if (track2 != null && !track2.equals("")) {
                         transactionDataModel.setPanNumber(track2.substring(0, 16));
                     }
-                    sendRequest(Constant.RequestMode.BUY);
                 }
             });
         } catch (Exception e) {
             AppMonitor.reportBug(e, "CardServiceBuyFragment", "startMagCard");
-        }
-    }
-
-    private void sendRequest(int mode) {
-
-        try {
-
-            SocketEngine socketEngine = new SocketEngine(Constant.Pax.SERVER_IP, Constant.Pax.SERVER_PORT, transactionDataModel);
-            socketEngine.sendData(TransactionHelper.getPacker( getActivity(),transactionDataModel, mode, tvAmount.getText().toString()), new ISocketCallback() {
-                @Override
-                public void onFail() {
-
-                }
-
-                @Override
-                public void onReceiveData(final TransactionDataModel dataModel) {
-                    AppMonitor.Log(dataModel.getPanNumber());
-
-                    //TODO set parameters to tvAmount
-//                    Log.i("aa -------->", dataModel.getPanNumber() + "\n" +
-//                            dataModel.getBackTransactionID() + "\n" +
-//                            dataModel.getAmount() + "\n" +
-//                            dataModel.getDateTimeShaparak() + "\n" +
-//                            dataModel.getTerminalID() + "\n" +
-//                            dataModel.getResponseCode() + "\n" +
-//                            dataModel.getMAC() + "\n");
-
-                    final String backTransactionID = dataModel.getBackTransactionID();
-                    final String amount = dataModel.getAmount();
-                    final String terminalID = dataModel.getTerminalID();
-                    final String panNumber = dataModel.getPanNumber();
-
-                    Printable printable = PrintFactory.getPrintContent(Printable.BUY_CUSTOMER);
-                    PrinterHelper printerHelper = PrinterHelper.getInstance();
-                    if (printable != null) {
-                        printerHelper.startPrint(printable.getContent(getActivity(), "فروشگاه اکبر فرهادی", "77695885", "1475478589", "12:22:15", "1396/08/02", dataModel.getBackTransactionID(), dataModel.getTerminalID(), dataModel.getPanNumber(), dataModel.getAmount()));
-                    }
-
-                    new AlertDialog.Builder(getActivity()).setMessage("آیا نیاز به رسید فروشنده می باشد؟").setPositiveButton("بله", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Printable printable = PrintFactory.getPrintContent(Printable.BUY_SELLER);
-                            PrinterHelper printerHelper = PrinterHelper.getInstance();
-                            if (printable != null) {
-                                printerHelper.startPrint(printable.getContent(getActivity(), "فروشگاه اکبر فرهادی", "77695885", "1475478589", "12:22:15", "1396/08/02", backTransactionID, terminalID, panNumber, amount));
-                            }
-
-                        }
-                    }).setNegativeButton("خیر", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    }).show();
-
-
-                }
-            });
-
-        } catch (Exception e) {
-            AppMonitor.reportBug(e, "CardServiceBuyFragment", "sendRequest");
         }
     }
 
@@ -148,6 +86,13 @@ public class CardServiceBuyFragment extends SubMenuFragment implements View.OnCl
         //TODO setPanNumber
         transactionDataModel.setTerminalID("23801101741");
         transactionDataModel.setPanNumber("6037997293714508");
+    }
+
+    @Override
+    public void onPinEnteredSuccessfully() {
+        super.onPinEnteredSuccessfully();
+        TransactionHelper.sendRequest(getActivity(), Constant.RequestMode.BUY, transactionDataModel, tvAmount.getText().toString());
+
     }
 
     @Override

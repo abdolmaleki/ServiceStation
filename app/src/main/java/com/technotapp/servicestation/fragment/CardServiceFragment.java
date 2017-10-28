@@ -110,7 +110,8 @@ public class CardServiceFragment extends SubMenuFragment implements AdapterView.
     @Override
     public void onPinEnteredSuccessfully() {
         super.onPinEnteredSuccessfully();
-        sendRequest(Constant.RequestMode.BALANCE);
+        TransactionHelper.sendRequest(getActivity(), Constant.RequestMode.BALANCE, transactionDataModel, "0");
+
     }
 
     private void startMagCard() {
@@ -148,40 +149,4 @@ public class CardServiceFragment extends SubMenuFragment implements AdapterView.
         transactionDataModel.setPanNumber("6037997293714508");
     }
 
-    private void sendRequest(int mode) {
-
-        try {
-
-            SocketEngine socketEngine = new SocketEngine(Constant.Pax.SERVER_IP, Constant.Pax.SERVER_PORT, transactionDataModel);
-            socketEngine.sendData(TransactionHelper.getPacker(getActivity(),transactionDataModel, mode,"0" ), new ISocketCallback() {
-                @Override
-                public void onFail() {
-
-                }
-
-                @Override
-                public void onReceiveData(TransactionDataModel dataModel) {
-                    AppMonitor.Log(dataModel.getPanNumber());
-
-                    //TODO set parameters to tvAmount
-//                    Log.i("aa -------->", dataModel.getPanNumber() + "\n" +
-//                            dataModel.getBackTransactionID() + "\n" +
-//                            dataModel.getAmount() + "\n" +
-//                            dataModel.getDateTimeShaparak() + "\n" +
-//                            dataModel.getTerminalID() + "\n" +
-//                            dataModel.getResponseCode() + "\n" +
-//                            dataModel.getMAC() + "\n");
-
-                    Printable printable = PrintFactory.getPrintContent(Printable.BALANCE);
-                    PrinterHelper printerHelper = PrinterHelper.getInstance();
-                    if (printable != null) {
-                        printerHelper.startPrint(printable.getContent(getActivity(), "فروشگاه اکبر فرهادی", "77695885", "1475478589", "12:22:15", "1396/08/02", dataModel.getBackTransactionID(), dataModel.getTerminalID(), dataModel.getPanNumber(), dataModel.getAmount()));
-                    }
-                }
-            });
-
-        } catch (Exception e) {
-            AppMonitor.reportBug(e, "CardServiceBalanceFragment", "sendRequest");
-        }
-    }
 }

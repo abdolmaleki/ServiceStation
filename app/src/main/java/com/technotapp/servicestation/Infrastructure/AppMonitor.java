@@ -9,7 +9,7 @@ public class AppMonitor {
 
     public static void reportBug(Exception ex, String className, String methodName) {
 
-        AppMonitor.Log("Ex: " + ex.getMessage() + "class: " + className + "method: " + methodName);
+        AppMonitor.Log("Ex: " + ex.getMessage() + " class: " + className + " method: " + methodName);
     }
 
     public static void Log(String logStr) {

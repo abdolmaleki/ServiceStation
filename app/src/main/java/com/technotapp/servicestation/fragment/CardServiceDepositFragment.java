@@ -49,6 +49,7 @@ public class CardServiceDepositFragment extends SubMenuFragment implements View.
         setTitle("واریز");
         button.setOnClickListener(this);
     }
+
     private void startMagCard() {
         try {
 
@@ -69,49 +70,10 @@ public class CardServiceDepositFragment extends SubMenuFragment implements View.
                     } else if (track2 != null && !track2.equals("")) {
                         transactionDataModel.setPanNumber(track2.substring(0, 16));
                     }
-                    sendRequest(Constant.RequestMode.DEPOSIT);
                 }
             });
         } catch (Exception e) {
             AppMonitor.reportBug(e, "CardServiceDepositFragment", "startMagCard");
-        }
-    }
-
-    private void sendRequest(int mode) {
-
-        try {
-
-            SocketEngine socketEngine = new SocketEngine(Constant.Pax.SERVER_IP, Constant.Pax.SERVER_PORT, transactionDataModel);
-            socketEngine.sendData(TransactionHelper.getPacker(getActivity(),transactionDataModel, mode, tvAmount.getText().toString()), new ISocketCallback() {
-                @Override
-                public void onFail() {
-
-                }
-
-                @Override
-                public void onReceiveData(TransactionDataModel dataModel) {
-                    AppMonitor.Log(dataModel.getPanNumber());
-
-                    //TODO set parameters to tvAmount
-//                    Log.i("aa -------->", dataModel.getPanNumber() + "\n" +
-//                            dataModel.getBackTransactionID() + "\n" +
-//                            dataModel.getAmount() + "\n" +
-//                            dataModel.getDateTimeShaparak() + "\n" +
-//                            dataModel.getTerminalID() + "\n" +
-//                            dataModel.getResponseCode() + "\n" +
-//                            dataModel.getMAC() + "\n");
-
-
-                    Printable printable = PrintFactory.getPrintContent(Printable.DEPOSIT);
-                    PrinterHelper printerHelper = PrinterHelper.getInstance();
-                    if (printable != null) {
-                        printerHelper.startPrint(printable.getContent(getActivity(), "فروشگاه اکبر فرهادی", "77695885", "1475478589", "12:22:15", "1396/08/02", dataModel.getBackTransactionID(), dataModel.getTerminalID(), dataModel.getPanNumber(), dataModel.getAmount()));
-                    }
-                }
-            });
-
-        } catch (Exception e) {
-            AppMonitor.reportBug(e, "CardServiceDepositFragment", "sendRequest");
         }
     }
 
@@ -122,6 +84,12 @@ public class CardServiceDepositFragment extends SubMenuFragment implements View.
         //TODO setPanNumber
         transactionDataModel.setTerminalID("23801101741");
         transactionDataModel.setPanNumber("6037997293714508");
+    }
+
+    @Override
+    public void onPinEnteredSuccessfully() {
+        super.onPinEnteredSuccessfully();
+        TransactionHelper.sendRequest(getActivity(), Constant.RequestMode.DEPOSIT, transactionDataModel, tvAmount.getText().toString());
     }
 
     @Override
