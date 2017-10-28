@@ -43,7 +43,7 @@ public class SubMenuFragment extends Fragment {
         }
     }
 
-    public void submitKeypadFragment(Fragment fragment,int frameID) {
+    public void submitKeypadFragment(Fragment fragment, int frameID) {
         try {
             String backStateName = fragment.getClass().getName();
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -57,6 +57,9 @@ public class SubMenuFragment extends Fragment {
 
     public void setTitle(String title) {
         mToolbarController.setTitle(title);
+    }
+
+    public void onPinEnteredSuccessfully() {
     }
 }
 

@@ -1,4 +1,4 @@
-package com.technotapp.servicestation.fragment;
+package com.technotapp.servicestation.activity;
 
 
 public interface IPin {

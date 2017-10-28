@@ -5,6 +5,7 @@ public class Constant {
     public static class Pax {
         public static final String TEST = "test";
         public static final String SERVER_IP = "87.236.214.176 ";
+        public static final String API_BASE_URL = "87.236.214.176 ";
         public static final int SERVER_PORT = 8887;
 
         public static class Printer {

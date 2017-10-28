@@ -105,7 +105,12 @@ public class CardServiceFragment extends SubMenuFragment implements AdapterView.
     private void balanceCard() {
 
         startMagCard();
+    }
 
+    @Override
+    public void onPinEnteredSuccessfully() {
+        super.onPinEnteredSuccessfully();
+        sendRequest(Constant.RequestMode.BALANCE);
     }
 
     private void startMagCard() {
@@ -128,7 +133,6 @@ public class CardServiceFragment extends SubMenuFragment implements AdapterView.
                     } else if (track2 != null && !track2.equals("")) {
                         transactionDataModel.setPanNumber(track2.substring(0, 16));
                     }
-                    sendRequest(Constant.RequestMode.BALANCE);
                 }
             });
         } catch (Exception e) {

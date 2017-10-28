@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.technotapp.servicestation"
         minSdkVersion 17
@@ -31,4 +31,6 @@ dependencies {
     compile files('libs/PaxGLPacker_V1.00.06_20170623.jar')
     compile 'in.arjsna:passcodeview:1.2.1'
     compile 'com.github.michael-rapp:android-material-dialog:4.1.0'
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
 }

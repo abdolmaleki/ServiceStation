@@ -1,15 +1,19 @@
 package com.technotapp.servicestation.activity;
 
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
-import android.view.View;
 
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.fragment.CardServiceFragment;
+import com.technotapp.servicestation.fragment.SubMenuFragment;
 
-public class CardServiceActivity extends SubMenuActivity {
+public class CardServiceActivity extends SubMenuActivity implements IPin {
+
+    private SubMenuFragment mSubmenuContollrer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,4 +55,18 @@ public class CardServiceActivity extends SubMenuActivity {
 
     }
 
+    @Override
+    public void onPinEntered(String pin) {
+        if (mSubmenuContollrer != null) {
+            mSubmenuContollrer.onPinEnteredSuccessfully();
+        }
+    }
+
+    @Override
+    public void onAttachFragment(Fragment fragment) {
+        super.onAttachFragment(fragment);
+        if (fragment instanceof SubMenuFragment) {
+            mSubmenuContollrer = (SubMenuFragment) fragment;
+        }
+    }
 }

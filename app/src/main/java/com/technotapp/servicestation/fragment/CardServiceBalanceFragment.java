@@ -86,6 +86,14 @@ public class CardServiceBalanceFragment extends SubMenuFragment implements View.
         }
     }
 
+    @Override
+    public void onPinEnteredSuccessfully() {
+        super.onPinEnteredSuccessfully();
+        sendRequest(Constant.RequestMode.BALANCE);
+
+
+    }
+
     private void startMagCard() {
         try {
 
@@ -106,7 +114,6 @@ public class CardServiceBalanceFragment extends SubMenuFragment implements View.
                     } else if (track2 != null && !track2.equals("")) {
                         transactionDataModel.setPanNumber(track2.substring(0, 16));
                     }
-                    sendRequest(Constant.RequestMode.BALANCE);
                 }
             });
         } catch (Exception e) {
