@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/ServiceStation.iml" filepath="$PROJECT_DIR$/ServiceStation.iml" />
       <module fileurl="file://D:\Projects\Master-Project\Android\ServiceStation\ServiceStation\ServiceStationtest.iml" filepath="D:\Projects\Master-Project\Android\ServiceStation\ServiceStation\ServiceStationtest.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dimon/dimon.iml" filepath="$PROJECT_DIR$/dimon/dimon.iml" />
     </modules>
   </component>
 </project>
