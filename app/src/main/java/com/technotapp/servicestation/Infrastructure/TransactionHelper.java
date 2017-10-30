@@ -184,4 +184,27 @@ public class TransactionHelper {
         }
     }
 
+    public static String getRsponseMessage(String code) {
+        switch (code) {
+            case "12":
+                return "این تراکنش قبلا ثبت شده است";
+            case "03":
+                return "رمینال وجود ندارد یا فعال نیست";
+            case "14":
+                return "شماره کارت وجود ندارد";
+            case "39":
+                return "حساب وجود ندارد یا غیر فعال است";
+            case "51":
+                return "مبلغ درخواستی از حداقل موجودی حساب بیشتر است";
+            case "00":
+                return "عملیات با موفقیت انجام شد";
+            case "-1":
+                return "ERROR_MESSAGE()";
+
+            default:
+                return null;
+
+        }
+    }
+
 }
