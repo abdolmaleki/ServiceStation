@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+def androidSupportVersion = '25.3.1'
 android {
     compileSdkVersion 25
     buildToolsVersion '26.0.2'
@@ -20,17 +20,23 @@ android {
 }
 
 dependencies {
+    compile "com.android.support:appcompat-v7:$androidSupportVersion"
+    compile "com.android.support:design:$androidSupportVersion"
+
+
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile files('libs/ant.jar')
     compile files('libs/PaxNeptuneApi_V1.00.00_20161025.jar')
     compile files('libs/PaxNeptuneLiteApi_V2.00.04_20170815.jar')
     compile files('libs/zxing.jar')
     compile files('libs/sqlcipherandroid_V20160922.jar')
-    compile 'com.android.support:appcompat-v7:25.3.1'
+
+
     compile 'com.fujiyuu75:sequent:0.2.1'
     compile files('libs/PaxGLPacker_V1.00.06_20170623.jar')
     compile 'in.arjsna:passcodeview:1.2.1'
     compile 'com.github.michael-rapp:android-material-dialog:4.1.0'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+
 }

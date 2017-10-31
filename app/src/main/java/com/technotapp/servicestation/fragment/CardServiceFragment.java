@@ -2,6 +2,8 @@ package com.technotapp.servicestation.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,9 +85,17 @@ public class CardServiceFragment extends SubMenuFragment implements AdapterView.
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         switch (position) {
             // TODO ad card to card
-//            case 0:
+            case 0:
+                FragmentManager manager = getActivity().getSupportFragmentManager();
+                TransactionResponseDialogFragment dialog = new TransactionResponseDialogFragment();
+                Bundle bundle=new Bundle();
+                bundle.putBoolean("hasRecipt",true);
+                bundle.putString("extraMessage","آیا نیاز به رسید فروشنده دارید؟");
+
+                dialog.setArguments(bundle);
+                dialog.show(manager, "");
 //                startActivity();
-//                break;
+                break;
             case 1:
                 submitFragment(CardServiceDepositFragment.newInstance());
                 break;

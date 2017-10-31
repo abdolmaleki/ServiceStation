@@ -275,7 +275,7 @@ public class PrinterHelper extends TestLog {
                 res = "دمای پرینتر بسیار بالا است ";
                 break;
             case 9:
-                res = "ولتاز گرینتر بسیار پایین اسات";
+                res = "ولتاز پرینتر بسیار پایین است";
                 break;
             case 240:
                 res = "عملیات چاپ ناتمام ";
@@ -399,7 +399,7 @@ public class PrinterHelper extends TestLog {
         @Override
         protected void onPostExecute(String printStatus) {
             super.onPostExecute(printStatus);
-
+            AppMonitor.Log(printStatus);
 
         }
     }

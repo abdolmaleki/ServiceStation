@@ -12,8 +12,6 @@ import com.technotapp.servicestation.fragment.SubMenuFragment;
 
 public class CardServiceActivity extends SubMenuActivity implements IPin {
 
-    private SubMenuFragment mSubmenuContollrer;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +31,13 @@ public class CardServiceActivity extends SubMenuActivity implements IPin {
     private void submitFragment() {
         try {
             CardServiceFragment fragment = CardServiceFragment.newInstance();
+            String backStateName = fragment.getClass().getName();
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.activity_card_service_frame, fragment).commit();
+            fragmentTransaction.replace(R.id.activity_card_service_frame, fragment, backStateName);
+            fragmentTransaction.addToBackStack(backStateName);
+            fragmentTransaction.commit();
+
         } catch (Exception e) {
             AppMonitor.reportBug(e, "CardServiceActivity", "submitFragment");
         }
@@ -67,6 +69,14 @@ public class CardServiceActivity extends SubMenuActivity implements IPin {
         super.onAttachFragment(fragment);
         if (fragment instanceof SubMenuFragment) {
             mSubmenuContollrer = (SubMenuFragment) fragment;
+        }
+    }
+
+    @Override
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if (mSubmenuContollrer!=null){
+            mSubmenuContollrer=null;
         }
     }
 }

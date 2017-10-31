@@ -89,7 +89,7 @@ public class CardServiceDepositFragment extends SubMenuFragment implements View.
     @Override
     public void onPinEnteredSuccessfully() {
         super.onPinEnteredSuccessfully();
-        TransactionHelper.sendRequest(getActivity(), Constant.RequestMode.DEPOSIT, transactionDataModel, tvAmount.getText().toString());
+        TransactionHelper.sendRequest(getActivity(), Constant.RequestMode.DEPOSIT, transactionDataModel, tvAmount.getText().toString().replaceAll(",",""));
     }
 
     @Override

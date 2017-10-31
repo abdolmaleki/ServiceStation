@@ -36,8 +36,9 @@ public class SubMenuFragment extends Fragment {
             String backStateName = fragment.getClass().getName();
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.activity_card_service_frame, fragment, backStateName);
             fragmentTransaction.addToBackStack(backStateName);
-            fragmentTransaction.replace(R.id.activity_card_service_frame, fragment).commit();
+            fragmentTransaction.commit();
         } catch (Exception e) {
             AppMonitor.reportBug(e, "CardServiceActivity", "submitFragment");
         }
@@ -48,8 +49,9 @@ public class SubMenuFragment extends Fragment {
             String backStateName = fragment.getClass().getName();
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(frameID, fragment);
             fragmentTransaction.addToBackStack(backStateName);
-            fragmentTransaction.replace(frameID, fragment).commit();
+            fragmentTransaction.commit();
         } catch (Exception e) {
             AppMonitor.reportBug(e, "CardServiceActivity", "submitFragment");
         }

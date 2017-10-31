@@ -91,7 +91,7 @@ public class CardServiceBuyFragment extends SubMenuFragment implements View.OnCl
     @Override
     public void onPinEnteredSuccessfully() {
         super.onPinEnteredSuccessfully();
-        TransactionHelper.sendRequest(getActivity(), Constant.RequestMode.BUY, transactionDataModel, tvAmount.getText().toString());
+        TransactionHelper.sendRequest(getActivity(), Constant.RequestMode.BUY, transactionDataModel, tvAmount.getText().toString().replaceAll(",",""));
 
     }
 

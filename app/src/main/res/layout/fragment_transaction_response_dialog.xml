@@ -1,0 +1,71 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context="com.technotapp.servicestation.fragment.TransactionResponseDialogFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="130dp">
+
+        <View
+            android:id="@+id/fragment_transaction_response_dialog_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/fragment_transaction_response_dialog_successBackgroungColor" />
+
+        <ImageView
+            android:id="@+id/fragment_transaction_response_dialog_imgIcon"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/success" />
+    </RelativeLayout>
+
+    <com.technotapp.servicestation.customView.CustomTextView
+        android:id="@+id/fragment_transaction_response_dialog_txtTransactionResponse"
+        android:layout_width="match_parent"
+        android:textColor="@color/fragment_transaction_response_dialog_success_textColor"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="16dp"
+        android:text="تراکنش موفق"
+        android:textSize="18sp" />
+
+    <com.technotapp.servicestation.customView.CustomTextView
+        android:id="@+id/fragment_transaction_response_dialog_txtExtraMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:text="نیاز به رسید فروشنده میباشد؟"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layoutDirection="ltr"
+        android:orientation="horizontal">
+        <com.technotapp.servicestation.customView.CustomButton
+            android:id="@+id/fragment_transaction_response_dialog_btnNegative"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#0288D1"
+            android:background="@null"
+            android:text="خیر" />
+        <com.technotapp.servicestation.customView.CustomButton
+            android:id="@+id/fragment_transaction_response_dialog_btnPositive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#0288D1"
+            android:background="@null"
+            android:text="بله" />
+
+
+    </LinearLayout>
+</LinearLayout>
