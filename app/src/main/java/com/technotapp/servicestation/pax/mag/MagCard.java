@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
+
 import com.pax.dal.entity.TrackData;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.R;
@@ -93,8 +94,7 @@ public class MagCard {
                     case 0:
                         callback.onFail();
                         hideDialog();
-                        magReadThread.interrupt();
-                        magReadThread = null;
+
 
                         break;
 
@@ -113,21 +113,15 @@ public class MagCard {
                     case 4: // successful finish read
                         submitPinFragment(((Activity) ctx));
                         callback.onSuccessful(mTrack1, mTrack2, mTrack3);
-                        magReadThread.interrupt();
-                        magReadThread = null;
                         hideDialog();
                         break;
 
                     case 5:// crash for bad read card
                         hideDialog();
-                        magReadThread.interrupt();
-                        magReadThread = null;
                         break;
 
                     case 6:// card sweeping time-outed
                         hideDialog();
-                        magReadThread.interrupt();
-                        magReadThread = null;
                         break;
 
                     default:
@@ -171,38 +165,20 @@ public class MagCard {
                 @Override
                 public void onCancelOrTimeout() {
                     Message.obtain(mMagHandler, 6, "").sendToTarget();
-
-
                 }
             });
-//            mSweepingCardDialogFragment.setCancelable(false);
-//            mSweepingCardDialogFragment.show(((Activity) ctx).getFragmentManager(), "sweepcard");
+
         } catch (Exception e) {
             AppMonitor.reportBug(e, "MagCard", "showDialog");
         }
-
-//        try {
-//            ProgressDialog.Builder dialogBuilder = new ProgressDialog.Builder(ctx);
-//            dialogBuilder.setMessage(R.string.MagCard_PleaseSweepCard);
-//            dialogBuilder.setNegativeButton("لغو", new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-//                    magReadThread.interrupt();
-//                    magReadThread = null;
-//                    hideDialog();
-//                }
-//            });
-//            dialogBuilder.setProgressBarPosition(ProgressDialog.ProgressBarPosition.RIGHT);
-//            mProgressDialog = dialogBuilder.create();
-//            mProgressDialog.show();
-//        } catch (Exception e) {
-//            AppMonitor.reportBug(e, "MagCard", "showDialog");
-//        }
-
-
     }
 
     private void hideDialog() {
+        if (magReadThread != null && !magReadThread.isInterrupted()) {
+            magReadThread.interrupt();
+            magReadThread = null;
+        }
+
         if (mSweepingCardDialogFragment != null && mSweepingCardDialogFragment.isVisible()) {
             mSweepingCardDialogFragment.intruptSweepCard();
             mSweepingCardDialogFragment.dismiss();
