@@ -3,12 +3,15 @@ package com.technotapp.servicestation.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.R;
 
 
@@ -43,7 +46,43 @@ public class KeypadFragment extends Fragment implements View.OnClickListener, Vi
         btnTripleZero = (Button) v.findViewById(R.id.fragment_keypad_zero);
         btnZero.setEnabled(false);
         btnTripleZero.setEnabled(false);
+        tv.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+
+            }
+
+            private String current = "";
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    tv.removeTextChangedListener(this);
+                    if (!tv.getText().toString().trim().equals("")) {
+                        if (!s.toString().equals(current)) {
+
+                            String cleanString = s.toString().replaceAll("[,]", "");
+                            String formatted = String.format("%,d", Long.parseLong(cleanString));
+
+                            // formatted = getString(R.string.fragment_payment_hint_amount);
+
+                            current = formatted;
+                            tv.setText(formatted);
+                        }
+                    }
+                    tv.addTextChangedListener(this);
+                } catch (Exception ex) {
+
+                }
+            }
+        });
         (v.findViewById(R.id.fragment_keypad_one)).setOnClickListener(this);
         (v.findViewById(R.id.fragment_keypad_two)).setOnClickListener(this);
         (v.findViewById(R.id.fragment_keypad_three)).setOnClickListener(this);

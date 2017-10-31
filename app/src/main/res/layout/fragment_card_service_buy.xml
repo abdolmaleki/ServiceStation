@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.technotapp.servicestation.fragment.CardServiceBalanceFragment">
+    tools:context="com.technotapp.servicestation.fragment.CardServiceBuyFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,6 +28,7 @@
             <com.technotapp.servicestation.customView.CustomTextView
                 android:id="@+id/fragment_card_service_buy_txtAmount"
                 android:layout_width="match_parent"
+                android:layout_marginStart="16dp"
                 android:layout_height="48dp"
                 android:background="@drawable/cs_textview_get_amount"
                 android:gravity="center"
@@ -36,7 +37,7 @@
                 app:fontName="zar"
                 android:lines="1"
                 android:textColor="@color/white"
-                android:maxLength="7" />
+                android:maxLength="9" />
         </LinearLayout>
 
         <FrameLayout

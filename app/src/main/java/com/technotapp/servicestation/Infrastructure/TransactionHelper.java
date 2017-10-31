@@ -86,12 +86,13 @@ public class TransactionHelper {
             socketEngine.sendData(TransactionHelper.getPacker(ctx, transactionDataModel, mode, amount), new ISocketCallback() {
                 @Override
                 public void onFail() {
-
+                    //todo handle fail transaction
                 }
 
                 @Override
                 public void onReceiveData(TransactionDataModel dataModel) {
                     AppMonitor.Log(dataModel.getPanNumber());
+                    //todo handle fail transaction
 
                     //TODO set parameters to tvAmount
 //                    Log.i("aa -------->", dataModel.getPanNumber() + "\n" +
@@ -104,9 +105,8 @@ public class TransactionHelper {
 
                     PrinterHelper printerHelper = PrinterHelper.getInstance();
                     Printable printable;
-
+                    transactionDialog(mode, ctx, dataModel);
                     switch (mode) {
-
 
                         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                         /////// DEPOSIT
@@ -118,6 +118,7 @@ public class TransactionHelper {
                             if (printable != null) {
                                 printerHelper.startPrint(printable.getContent(ctx, "فروشگاه اکبر فرهادی", "77695885", "1475478589", "12:22:15", "1396/08/02", dataModel.getBackTransactionID(), dataModel.getTerminalID(), dataModel.getPanNumber(), dataModel.getAmount()));
                             }
+
                             break;
 
                         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -136,29 +137,29 @@ public class TransactionHelper {
                                 printerHelper.startPrint(printable.getContent(ctx, "فروشگاه اکبر فرهادی", "77695885", "1475478589", "12:22:15", "1396/08/02", dataModel.getBackTransactionID(), dataModel.getTerminalID(), dataModel.getPanNumber(), dataModel.getAmount()));
                             }
 
-                            new android.os.Handler(Looper.getMainLooper()) {
-                            }.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    new AlertDialog.Builder(ctx).setMessage("آیا نیاز به رسید فروشنده می باشد؟").setPositiveButton("بله", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            Printable printable = PrintFactory.getPrintContent(Printable.BUY_SELLER);
-                                            PrinterHelper printerHelper = PrinterHelper.getInstance();
-                                            if (printable != null) {
-                                                printerHelper.startPrint(printable.getContent(ctx, "فروشگاه اکبر فرهادی", "77695885", "1475478589", "12:22:15", "1396/08/02", backTransactionID, terminalID, panNumber, amount));
-                                            }
+//                            new android.os.Handler(Looper.getMainLooper()) {
+//                            }.post(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    new AlertDialog.Builder(ctx).setMessage("آیا نیاز به رسید فروشنده می باشد؟").setPositiveButton("بله", new DialogInterface.OnClickListener() {
+//                                        @Override
+//                                        public void onClick(DialogInterface dialog, int which) {
+//                                            Printable printable = PrintFactory.getPrintContent(Printable.BUY_SELLER);
+//                                            PrinterHelper printerHelper = PrinterHelper.getInstance();
+//                                            if (printable != null) {
+//                                                printerHelper.startPrint(printable.getContent(ctx, "فروشگاه اکبر فرهادی", "77695885", "1475478589", "12:22:15", "1396/08/02", backTransactionID, terminalID, panNumber, amount));
+//                                            }
+//
+//                                        }
+//                                    }).setNegativeButton("خیر", new DialogInterface.OnClickListener() {
+//                                        @Override
+//                                        public void onClick(DialogInterface dialog, int which) {
+//                                            dialog.cancel();
+//                                        }
+//                                    }).show();
 
-                                        }
-                                    }).setNegativeButton("خیر", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.cancel();
-                                        }
-                                    }).show();
-
-                                }
-                            });
+//                                }
+//                            });
 
                             break;
 
@@ -186,20 +187,20 @@ public class TransactionHelper {
 
     public static String getRsponseMessage(String code) {
         switch (code) {
+            case "-1":
+                return "ERROR_MESSAGE()";
+            case "00":
+                return "عملیات با موفقیت انجام شد";
+            case "03":
+                return "ترمینال وجود ندارد یا فعال نیست";
             case "12":
                 return "این تراکنش قبلا ثبت شده است";
-            case "03":
-                return "رمینال وجود ندارد یا فعال نیست";
             case "14":
                 return "شماره کارت وجود ندارد";
             case "39":
                 return "حساب وجود ندارد یا غیر فعال است";
             case "51":
                 return "مبلغ درخواستی از حداقل موجودی حساب بیشتر است";
-            case "00":
-                return "عملیات با موفقیت انجام شد";
-            case "-1":
-                return "ERROR_MESSAGE()";
 
             default:
                 return null;
@@ -207,4 +208,56 @@ public class TransactionHelper {
         }
     }
 
+
+    private static void transactionDialog(int mode, final Context ctx, final TransactionDataModel dataModel) {
+        switch (mode) {
+            case Constant.RequestMode.BALANCE:
+            case Constant.RequestMode.DEPOSIT:
+
+                new android.os.Handler(Looper.getMainLooper()) {
+                }.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        new AlertDialog.Builder(ctx).setMessage("تراکنش موفق").setPositiveButton("تایید", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
+
+                    }
+                });
+                break;
+
+
+            case Constant.RequestMode.BUY:
+
+                new android.os.Handler(Looper.getMainLooper()) {
+                }.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        new AlertDialog.Builder(ctx).setMessage("تراکنش موفق\n آیا نیاز به رسید فروشنده می باشد؟").setPositiveButton("بله", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Printable printable = PrintFactory.getPrintContent(Printable.BUY_SELLER);
+                                PrinterHelper printerHelper = PrinterHelper.getInstance();
+                                if (printable != null) {
+                                    printerHelper.startPrint(printable.getContent(ctx, "فروشگاه اکبر فرهادی", "77695885", "1475478589", "12:22:15", "1396/08/02", dataModel.getBackTransactionID(), dataModel.getTerminalID(), dataModel.getPanNumber(), dataModel.getAmount()));
+                                }
+
+                            }
+                        }).setNegativeButton("خیر", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        }).show();
+
+                    }
+                });
+                break;
+
+        }
+
+    }
 }

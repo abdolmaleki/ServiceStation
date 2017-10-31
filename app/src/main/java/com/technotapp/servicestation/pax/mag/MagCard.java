@@ -2,19 +2,16 @@ package com.technotapp.servicestation.pax.mag;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
-
 import com.pax.dal.entity.TrackData;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.fragment.PinFragment;
-
-import de.mrapp.android.dialog.ProgressDialog;
+import com.technotapp.servicestation.fragment.SweepingCardDialogFragment;
 
 public class MagCard {
     private static MagCard masterMagCard;
@@ -23,7 +20,7 @@ public class MagCard {
     private String mTrack2;
     private String mTrack3;
     private Handler mMagHandler;
-    private ProgressDialog mProgressDialog;
+    private SweepingCardDialogFragment mSweepingCardDialogFragment;
 
     private MagCard() {
 
@@ -72,7 +69,6 @@ public class MagCard {
                                 Message.obtain(mMagHandler, 4, "").sendToTarget();
 
                             }
-
 
                         }
                         break;
@@ -128,6 +124,12 @@ public class MagCard {
                         magReadThread = null;
                         break;
 
+                    case 6:// card sweeping time-outed
+                        hideDialog();
+                        magReadThread.interrupt();
+                        magReadThread = null;
+                        break;
+
                     default:
                         break;
                 }
@@ -162,30 +164,48 @@ public class MagCard {
     }
 
     private void showDialog(Context ctx) {
+
         try {
-            ProgressDialog.Builder dialogBuilder = new ProgressDialog.Builder(ctx);
-            dialogBuilder.setMessage(R.string.MagCard_PleaseSweepCard);
-            dialogBuilder.setNegativeButton("لغو", new DialogInterface.OnClickListener() {
+            mSweepingCardDialogFragment = new SweepingCardDialogFragment();
+            mSweepingCardDialogFragment.show((Activity) ctx, new SweepingCardDialogFragment.ISweepDialog() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    magReadThread.interrupt();
-                    magReadThread = null;
-                    hideDialog();
+                public void onCancelOrTimeout() {
+                    Message.obtain(mMagHandler, 6, "").sendToTarget();
+
+
                 }
             });
-            dialogBuilder.setProgressBarPosition(ProgressDialog.ProgressBarPosition.RIGHT);
-            mProgressDialog = dialogBuilder.create();
-            mProgressDialog.show();
+//            mSweepingCardDialogFragment.setCancelable(false);
+//            mSweepingCardDialogFragment.show(((Activity) ctx).getFragmentManager(), "sweepcard");
         } catch (Exception e) {
             AppMonitor.reportBug(e, "MagCard", "showDialog");
         }
+
+//        try {
+//            ProgressDialog.Builder dialogBuilder = new ProgressDialog.Builder(ctx);
+//            dialogBuilder.setMessage(R.string.MagCard_PleaseSweepCard);
+//            dialogBuilder.setNegativeButton("لغو", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    magReadThread.interrupt();
+//                    magReadThread = null;
+//                    hideDialog();
+//                }
+//            });
+//            dialogBuilder.setProgressBarPosition(ProgressDialog.ProgressBarPosition.RIGHT);
+//            mProgressDialog = dialogBuilder.create();
+//            mProgressDialog.show();
+//        } catch (Exception e) {
+//            AppMonitor.reportBug(e, "MagCard", "showDialog");
+//        }
 
 
     }
 
     private void hideDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.hide();
+        if (mSweepingCardDialogFragment != null && mSweepingCardDialogFragment.isVisible()) {
+            mSweepingCardDialogFragment.intruptSweepCard();
+            mSweepingCardDialogFragment.dismiss();
         }
     }
 }

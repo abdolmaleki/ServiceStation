@@ -66,12 +66,8 @@ public class SplashActivity extends AppCompatActivity {
                     }
                 }
 
-                if (NetworkHelper.isNetworkAvailable(SplashActivity.this)) {
+                if (NetworkHelper.checkNetwork(SplashActivity.this)){
                     startActivity(new Intent(SplashActivity.this, SigninActivity.class));
-
-                } else {
-                    startActivity(new Intent(SplashActivity.this, CheckNetworkActivity.class));
-
                 }
                 finish();
             }

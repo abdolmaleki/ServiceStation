@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/activity_splash_ansar_bank_name"
                 android:layout_marginTop="4dp"
-                android:textColor="#e4fdb0"
+                android:textColor="#efcb99"
                 android:textSize="34sp"
                 app:fontName="b-titr" />
 
