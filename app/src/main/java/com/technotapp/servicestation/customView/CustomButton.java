@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 
 import com.technotapp.servicestation.R;
+import com.technotapp.servicestation.application.Constant;
 
 
 public class CustomButton extends android.support.v7.widget.AppCompatButton {
@@ -17,10 +18,9 @@ public class CustomButton extends android.support.v7.widget.AppCompatButton {
 
     public CustomButton(Context context, AttributeSet attrs) {
         super(context, attrs);
-        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.CustomButton);
-        String fontName = a.getString(R.styleable.CustomButton_fontName);
+        String fontName = getContext().obtainStyledAttributes(attrs, R.styleable.CustomButton).getString(R.styleable.CustomButton_fontName);
         if (TextUtils.isEmpty(fontName))
-            fontName = "irsans";
+            fontName = Constant.Fonts.IRSANS;
         Typeface type = Typeface.createFromAsset(context.getAssets(), fontName+".ttf");
         this.setTypeface(type);
     }

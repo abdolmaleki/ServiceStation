@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
+import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.adapter.DataModel.MainMenuModel;
 import com.technotapp.servicestation.adapter.MainMenuAdapter;
@@ -40,25 +41,33 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     private void initAdapter() {
-        ArrayList<MainMenuModel> mainMenuModels = new ArrayList<>();
-    //TODO set main menu item title and icons
-        mainMenuModels.add(new MainMenuModel("خرید شارژ", R.drawable.ic_charg));
-        mainMenuModels.add(new MainMenuModel("خرید بلیط", R.drawable.ic_ticket));
-        mainMenuModels.add(new MainMenuModel("خدمات و کالاها", R.drawable.ic_shopping));
-        mainMenuModels.add(new MainMenuModel("شارژ سیم کارت", R.drawable.ic_simcard));
-        mainMenuModels.add(new MainMenuModel("پرداخات قبوض", R.drawable.ic_recipt));
-        mainMenuModels.add(new MainMenuModel("خدمات بیمه", R.drawable.ic_insurance));
-        mainMenuModels.add(new MainMenuModel("خدمات کارت", R.drawable.ic_bank_card));
-        mainMenuModels.add(new MainMenuModel("خدمات بانک انصار", R.drawable.ic_ansar_logo));
-        mainMenuModels.add(new MainMenuModel("خرید بسته های اینترنتی", R.drawable.ic_net));
+        try {
+            ArrayList<MainMenuModel> mainMenuModels = new ArrayList<>();
+            //TODO set main menu item title and icons
+            mainMenuModels.add(new MainMenuModel(getString(R.string.MainActivity_buy_charge), R.drawable.ic_charg));
+            mainMenuModels.add(new MainMenuModel(getString(R.string.MainActivity_buy_ticket), R.drawable.ic_ticket));
+            mainMenuModels.add(new MainMenuModel(getString(R.string.MainActivity_services_and_goods), R.drawable.ic_shopping));
+            mainMenuModels.add(new MainMenuModel(getString(R.string.MainActivity_simcard_services), R.drawable.ic_simcard));
+            mainMenuModels.add(new MainMenuModel(getString(R.string.MainActivity_pay_bills), R.drawable.ic_recipt));
+            mainMenuModels.add(new MainMenuModel(getString(R.string.MainActivity_insurance_services), R.drawable.ic_insurance));
+            mainMenuModels.add(new MainMenuModel(getString(R.string.MainActivity_card_services), R.drawable.ic_bank_card));
+            mainMenuModels.add(new MainMenuModel(getString(R.string.MainActivity_ansar_bank_services), R.drawable.ic_ansar_logo));
+            mainMenuModels.add(new MainMenuModel(getString(R.string.MainActivity_buy_internet_packages), R.drawable.ic_net));
 
-        MainMenuAdapter menuAdapter = new MainMenuAdapter(this, mainMenuModels);
-        gridView.setAdapter(menuAdapter);
+            MainMenuAdapter menuAdapter = new MainMenuAdapter(this, mainMenuModels);
+            gridView.setAdapter(menuAdapter);
+        } catch (Exception e) {
+            AppMonitor.reportBug(e, "MainActivity", "initAdapter");
+        }
     }
 
     private void bindView() {
-        gridView = (GridView) findViewById(R.id.activity_main_grdList);
-        gridView.setOnItemClickListener(this);
+        try {
+            gridView = (GridView) findViewById(R.id.activity_main_grdList);
+            gridView.setOnItemClickListener(this);
+        }catch (Exception e){
+            AppMonitor.reportBug(e, "MainActivity", "bindView");
+        }
     }
 
     @Override

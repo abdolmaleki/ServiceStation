@@ -2,8 +2,7 @@ package com.technotapp.servicestation.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,19 +16,16 @@ import com.technotapp.servicestation.adapter.DataModel.SubMenuModel;
 import com.technotapp.servicestation.adapter.DataModel.TransactionDataModel;
 import com.technotapp.servicestation.adapter.SubMenuAdapter;
 import com.technotapp.servicestation.application.Constant;
-import com.technotapp.servicestation.connection.socket.ISocketCallback;
-import com.technotapp.servicestation.connection.socket.SocketEngine;
 import com.technotapp.servicestation.pax.mag.IMagCardCallback;
 import com.technotapp.servicestation.pax.mag.MagCard;
-import com.technotapp.servicestation.pax.printer.PrintFactory;
-import com.technotapp.servicestation.pax.printer.Printable;
-import com.technotapp.servicestation.pax.printer.PrinterHelper;
 
 import java.util.ArrayList;
 
 public class CardServiceFragment extends SubMenuFragment implements AdapterView.OnItemClickListener {
 
     GridView gridView;
+    Bundle args;
+    Fragment fragment;
 
     public static CardServiceFragment newInstance() {
         CardServiceFragment fragment = new CardServiceFragment();
@@ -59,21 +55,32 @@ public class CardServiceFragment extends SubMenuFragment implements AdapterView.
     }
 
     private void initView() {
-        setRetainInstance(true);
-        setTitle(getString(R.string.CardServiceFragment_title));
-        gridView.setOnItemClickListener(this);
+        try {
+
+            fragment= CardServiceDepositAndBuyFragment.newInstance();
+            setRetainInstance(true);
+            setTitle(getString(R.string.CardServiceFragment_title));
+            gridView.setOnItemClickListener(this);
+        }catch (Exception e){
+            AppMonitor.reportBug(e,"CardServiceFragment","initView");
+        }
     }
 
     private void initAdapter() {
-        ArrayList<SubMenuModel> subMenuModels = new ArrayList<>();
+        try {
 
-        subMenuModels.add(new SubMenuModel(getString(R.string.CardServiceFragment_Menu_cardToCard), R.drawable.ic_card_to_card));
-        subMenuModels.add(new SubMenuModel(getString(R.string.CardServiceFragment_Menu_Deposit), R.drawable.ic_deposit));
-        subMenuModels.add(new SubMenuModel(getString(R.string.CardServiceFragment_Menu_Buy), R.drawable.ic_buy_card));
-        subMenuModels.add(new SubMenuModel(getString(R.string.CardServiceFragment_Menu_Balance), R.drawable.ic_balance));
+            ArrayList<SubMenuModel> subMenuModels = new ArrayList<>();
 
-        SubMenuAdapter menuAdapter = new SubMenuAdapter(mActivity, subMenuModels);
-        gridView.setAdapter(menuAdapter);
+            subMenuModels.add(new SubMenuModel(getString(R.string.CardServiceFragment_Menu_cardToCard), R.drawable.ic_card_to_card));
+            subMenuModels.add(new SubMenuModel(getString(R.string.CardServiceFragment_Menu_Deposit), R.drawable.ic_deposit));
+            subMenuModels.add(new SubMenuModel(getString(R.string.CardServiceFragment_Menu_Buy), R.drawable.ic_buy_card));
+            subMenuModels.add(new SubMenuModel(getString(R.string.CardServiceFragment_Menu_Balance), R.drawable.ic_balance));
+
+            SubMenuAdapter menuAdapter = new SubMenuAdapter(mActivity, subMenuModels);
+            gridView.setAdapter(menuAdapter);
+        }catch (Exception e){
+            AppMonitor.reportBug(e,"CardServiceFragment","initAdapter");
+        }
     }
 
     private void loadData() {
@@ -83,31 +90,31 @@ public class CardServiceFragment extends SubMenuFragment implements AdapterView.
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        switch (position) {
-            // TODO ad card to card
-            case 0:
-                FragmentManager manager = getActivity().getSupportFragmentManager();
-                TransactionResponseDialogFragment dialog = new TransactionResponseDialogFragment();
-                Bundle bundle=new Bundle();
-                bundle.putBoolean("hasRecipt",true);
-                bundle.putString("extraMessage","آیا نیاز به رسید فروشنده دارید؟");
+        try {
+            args = new Bundle();
+            switch (position) {
+                // TODO add card to card
+                case 0:
+                    break;
+                case 1:
+                    args.putBoolean("isDeposit", true);
+                    fragment.setArguments(args);
+                    submitFragment(fragment);
+                    break;
+                case 2:
+                    args.putBoolean("isDeposit", false);
+                    fragment.setArguments(args);
+                    submitFragment(fragment);
+                    break;
+                case 3:
+                    balanceCard();
+                    break;
 
-                dialog.setArguments(bundle);
-                dialog.show(manager, "");
-//                startActivity();
-                break;
-            case 1:
-                submitFragment(CardServiceDepositFragment.newInstance());
-                break;
-            case 2:
-                submitFragment(CardServiceBuyFragment.newInstance());
-                break;
-            case 3:
-//                submitFragment(CardServiceBalanceFragment.newInstance());
-                balanceCard();
-                break;
-
+            }
+        }catch (Exception e){
+            AppMonitor.reportBug(e,"CardServiceFragment","onItemClick");
         }
+
     }
 
     TransactionDataModel transactionDataModel;
@@ -120,7 +127,11 @@ public class CardServiceFragment extends SubMenuFragment implements AdapterView.
     @Override
     public void onPinEnteredSuccessfully() {
         super.onPinEnteredSuccessfully();
-        TransactionHelper.sendRequest(getActivity(), Constant.RequestMode.BALANCE, transactionDataModel, "0");
+        try {
+            TransactionHelper.sendRequest(getActivity(), Constant.RequestMode.BALANCE, transactionDataModel, "0");
+        }catch (Exception e){
+            AppMonitor.reportBug(e,"CardServiceFragment","onPinEnteredSuccessfully");
+        }
 
     }
 
@@ -147,7 +158,7 @@ public class CardServiceFragment extends SubMenuFragment implements AdapterView.
                 }
             });
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "CardServiceBalanceFragment", "startMagCard");
+            AppMonitor.reportBug(e, "CardServiceFragment", "startMagCard");
         }
     }
 

@@ -11,13 +11,13 @@
         android:layout_height="130dp">
 
         <View
-            android:id="@+id/fragment_transaction_response_dialog_background"
+            android:id="@+id/fragment_dialog_transaction_response_background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/fragment_transaction_response_dialog_successBackgroungColor" />
+            android:background="#00E676" />
 
         <ImageView
-            android:id="@+id/fragment_transaction_response_dialog_imgIcon"
+            android:id="@+id/fragment_dialog_transaction_response_imgIcon"
             android:layout_width="96dp"
             android:layout_height="96dp"
             android:layout_centerInParent="true"
@@ -25,7 +25,7 @@
     </RelativeLayout>
 
     <com.technotapp.servicestation.customView.CustomTextView
-        android:id="@+id/fragment_transaction_response_dialog_txtTransactionResponse"
+        android:id="@+id/fragment_dialog_transaction_response_txtTransactionResponse"
         android:layout_width="match_parent"
         android:textColor="@color/fragment_transaction_response_dialog_success_textColor"
         android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
         android:textSize="18sp" />
 
     <com.technotapp.servicestation.customView.CustomTextView
-        android:id="@+id/fragment_transaction_response_dialog_txtExtraMessage"
+        android:id="@+id/fragment_dialog_transaction_response_txtExtraMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -52,14 +52,14 @@
         android:layoutDirection="ltr"
         android:orientation="horizontal">
         <com.technotapp.servicestation.customView.CustomButton
-            android:id="@+id/fragment_transaction_response_dialog_btnNegative"
+            android:id="@+id/fragment_dialog_transaction_response_btnNegative"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#0288D1"
             android:background="@null"
             android:text="خیر" />
         <com.technotapp.servicestation.customView.CustomButton
-            android:id="@+id/fragment_transaction_response_dialog_btnPositive"
+            android:id="@+id/fragment_dialog_transaction_response_btnPositive"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#0288D1"

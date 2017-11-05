@@ -180,7 +180,7 @@ public class MagCard {
         }
 
         if (mSweepingCardDialogFragment != null && mSweepingCardDialogFragment.isVisible()) {
-            mSweepingCardDialogFragment.intruptSweepCard();
+            mSweepingCardDialogFragment.interruptSweepCard();
             mSweepingCardDialogFragment.dismiss();
         }
     }

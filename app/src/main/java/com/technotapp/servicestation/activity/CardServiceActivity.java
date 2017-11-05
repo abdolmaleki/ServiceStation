@@ -12,7 +12,6 @@ import com.technotapp.servicestation.fragment.SubMenuFragment;
 
 public class CardServiceActivity extends SubMenuActivity implements IPin {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,8 +20,6 @@ public class CardServiceActivity extends SubMenuActivity implements IPin {
         loadSetting();
 
         loadData();
-
-        bindView();
 
         submitFragment();
 
@@ -43,15 +40,10 @@ public class CardServiceActivity extends SubMenuActivity implements IPin {
         }
     }
 
-    private void bindView() {
-
-    }
-
 
     private void loadData() {
 
     }
-
 
     private void loadSetting() {
 
@@ -59,8 +51,8 @@ public class CardServiceActivity extends SubMenuActivity implements IPin {
 
     @Override
     public void onPinEntered(String pin) {
-        if (mSubmenuContollrer != null) {
-            mSubmenuContollrer.onPinEnteredSuccessfully();
+        if (mSubmenuController != null) {
+            mSubmenuController.onPinEnteredSuccessfully();
         }
     }
 
@@ -68,15 +60,15 @@ public class CardServiceActivity extends SubMenuActivity implements IPin {
     public void onAttachFragment(Fragment fragment) {
         super.onAttachFragment(fragment);
         if (fragment instanceof SubMenuFragment) {
-            mSubmenuContollrer = (SubMenuFragment) fragment;
+            mSubmenuController = (SubMenuFragment) fragment;
         }
     }
 
     @Override
     public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        if (mSubmenuContollrer!=null){
-            mSubmenuContollrer=null;
+        if (mSubmenuController !=null){
+            mSubmenuController =null;
         }
     }
 }

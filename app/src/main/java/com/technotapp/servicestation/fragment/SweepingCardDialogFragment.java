@@ -11,88 +11,117 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.ProgressBar;
 
+import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.R;
 
 public class SweepingCardDialogFragment extends DialogFragment implements View.OnClickListener {
     private Thread mCardSweepTimeoutThread;
     private Handler handler;
-    private Button btn;
     private ISweepDialog mISweepDialog;
     private boolean mIsDialogHide = false;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_dialog_sweepingcard_progress, container);
-        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        btn = (Button) view.findViewById(R.id.fragment_dialog_sweepingcard_progress_button);
-        btn.setOnClickListener(this);
-        counter((ProgressBar) view.findViewById(R.id.fragment_dialog_sweepingcard_progress_progressBar), 1000);
-        return view;
+        try {
+            View view = inflater.inflate(R.layout.fragment_dialog_sweepingcard_progress, container);
+            if (getDialog().getWindow() != null) {
+                getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+            }
+            (view.findViewById(R.id.fragment_dialog_sweepingcard_progress_button)).setOnClickListener(this);
+            counter((ProgressBar) view.findViewById(R.id.fragment_dialog_sweepingcard_progress_progressBar));
+            return view;
+
+        } catch (Exception e) {
+            AppMonitor.reportBug(e, "SweepingCardDialogFragment", "onCreateView");
+            return null;
+        }
     }
 
 
     @SuppressLint("HandlerLeak")
-    private void counter(final ProgressBar progressBar, final int second) {
+    private void counter(final ProgressBar progressBar) {
+        try {
+            mCardSweepTimeoutThread = new Thread(new Runnable() {
+                @Override
+                public void run() {
 
-        mCardSweepTimeoutThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                for (int i = second; i > 0; i--) {
-                    try {
-                        Thread.sleep(10);
-                        Message message = Message.obtain();
-                        message.arg1 = i / 10;
-                        handler.sendMessage(message);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                    for (int i = 1000; i > 0; i--) {
+                        try {
+                            Thread.sleep(10);
+                            Message message = Message.obtain();
+                            message.arg1 = i / 10;
+                            handler.sendMessage(message);
+                        } catch (InterruptedException e) {
+                            AppMonitor.reportBug(e, "SweepingCardDialogFragment", "counter:for");
+                        }
                     }
+                    if (mIsDialogHide) {
+                        return;
+                    }
+                    mISweepDialog.onCancelOrTimeout();
                 }
-                if (mIsDialogHide) {
-                    return;
+            });
+
+            mCardSweepTimeoutThread.start();
+            handler = new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    progressBar.setProgress(msg.arg1);
+
                 }
-                mISweepDialog.onCancelOrTimeout();
-            }
-        });
+            };
+        } catch (Exception e) {
+            AppMonitor.reportBug(e, "SweepingCardDialogFragment", "counter");
 
-        mCardSweepTimeoutThread.start();
-        handler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                progressBar.setProgress(msg.arg1);
+        }
 
-            }
-        };
 
     }
 
     public void show(Activity activity, ISweepDialog iSweepDialog) {
-        mISweepDialog = iSweepDialog;
-        this.setCancelable(false);
-        this.show(activity.getFragmentManager(), "sweepcard");
+        try {
+
+            mISweepDialog = iSweepDialog;
+            this.setCancelable(false);
+            this.show(activity.getFragmentManager(), "sweepcard");
+        } catch (Exception e) {
+            AppMonitor.reportBug(e, "SweepingCardDialogFragment", "show");
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
+
         int width = 600;
         int height = 300;
-        getDialog().getWindow().setLayout(width, height);
+        try {
+            if (getDialog().getWindow() != null) {
+                getDialog().getWindow().setLayout(width, height);
+            }
+
+        } catch (Exception e) {
+            AppMonitor.reportBug(e, "SweepingCardDialogFragment", "onResume");
+        }
     }
 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.fragment_dialog_sweepingcard_progress_button) {
-            mIsDialogHide = true;
-            mISweepDialog.onCancelOrTimeout();
+            try {
+
+                mIsDialogHide = true;
+                mISweepDialog.onCancelOrTimeout();
+            } catch (Exception e) {
+                AppMonitor.reportBug(e, "SweepingCardDialogFragment", "onClick");
+            }
         }
     }
 
-    public void intruptSweepCard() {
+    public void interruptSweepCard() {
         mIsDialogHide = true;
         mCardSweepTimeoutThread.interrupt();
         mCardSweepTimeoutThread = null;

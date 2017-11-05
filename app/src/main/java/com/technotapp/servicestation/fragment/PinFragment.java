@@ -25,7 +25,9 @@ public class PinFragment extends DialogFragment implements View.OnClickListener 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_pin, container);
+        try {
+            View rootView = inflater.inflate(R.layout.fragment_pin, container);
+
         mPassCodeView = (PassCodeView) rootView.findViewById(R.id.pass_code_view);
 
         rootView.findViewById(R.id.fragment_pin_btn_submit).setOnClickListener(this);
@@ -35,6 +37,10 @@ public class PinFragment extends DialogFragment implements View.OnClickListener 
         initView();
 
         return rootView;
+        } catch (Exception e) {
+            AppMonitor.reportBug(e, "PinFragment", "onCreateView");
+            return null;
+        }
     }
 
     private void initView() {
@@ -76,6 +82,7 @@ public class PinFragment extends DialogFragment implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
+        try {
         int id = v.getId();
 
         if (id == R.id.fragment_pin_btn_submit) {
@@ -92,6 +99,9 @@ public class PinFragment extends DialogFragment implements View.OnClickListener 
         } else if (id == R.id.fragment_pin_btn_abort) {
             getDialog().cancel();
         }
+    } catch (Exception e) {
+        AppMonitor.reportBug(e, "PinFragment", "onClick");
+    }
     }
 
     private boolean isValidationPin() {

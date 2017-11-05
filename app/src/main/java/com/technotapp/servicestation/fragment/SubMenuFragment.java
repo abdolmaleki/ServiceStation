@@ -1,6 +1,5 @@
 package com.technotapp.servicestation.fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -40,22 +39,10 @@ public class SubMenuFragment extends Fragment {
             fragmentTransaction.addToBackStack(backStateName);
             fragmentTransaction.commit();
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "CardServiceActivity", "submitFragment");
+            AppMonitor.reportBug(e, "SubMenuFragment", "submitFragment");
         }
     }
 
-    public void submitKeypadFragment(Fragment fragment, int frameID) {
-        try {
-            String backStateName = fragment.getClass().getName();
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(frameID, fragment);
-            fragmentTransaction.addToBackStack(backStateName);
-            fragmentTransaction.commit();
-        } catch (Exception e) {
-            AppMonitor.reportBug(e, "CardServiceActivity", "submitFragment");
-        }
-    }
 
     public void setTitle(String title) {
         mToolbarController.setTitle(title);

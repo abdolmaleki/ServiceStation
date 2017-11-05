@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.adapter.DataModel.MainMenuModel;
 
@@ -51,38 +52,34 @@ public class MainMenuAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View rowView, ViewGroup parent) {
+        try {
+            ViewHolder viewHolder;
 
-        ViewHolder viewHolder;
+            if (rowView == null) {
 
-        if (rowView == null) {
+                viewHolder = new ViewHolder();
+                rowView = LayoutInflater.from(mContext).inflate(R.layout.item_grid_main_menu, parent, false);
+                viewHolder.title = (TextView) rowView.findViewById(R.id.item_grid_main_menu_iv_title);
+                viewHolder.icon = (ImageView) rowView.findViewById(R.id.item_grid_main_menu_iv_icon);
+                rowView.setTag(viewHolder);
+            } else {
+                viewHolder = (ViewHolder) rowView.getTag();
+            }
 
-            viewHolder = new ViewHolder();
-            rowView = LayoutInflater.from(mContext).inflate(R.layout.item_grid_main_menu, parent, false);
-            viewHolder.title = (TextView) rowView.findViewById(R.id.item_grid_main_menu_iv_title);
-            viewHolder.icon = (ImageView) rowView.findViewById(R.id.item_grid_main_menu_iv_icon);
-           // viewHolder.items = (ListView) rowView.findViewById(R.id.item_grid_main_menu_list_items);
-            rowView.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) rowView.getTag();
+            MainMenuModel dataModel = dataSet.get(position);
+            viewHolder.title.setText(dataModel.title);
+            int resource = dataModel.icon;
+            Bitmap bitmap = BitmapFactory.decodeResource(
+                    mContext.getResources(), resource);
+            viewHolder.icon.setImageBitmap(bitmap);
+
+            return rowView;
+        } catch (Exception e) {
+            AppMonitor.reportBug(e, "MainMenuAdapter", "getView");
+            return null;
         }
 
-        MainMenuModel dataModel = dataSet.get(position);
-        viewHolder.title.setText(dataModel.title);
-        int resource = dataModel.icon;
-        Bitmap bitmap = BitmapFactory.decodeResource(
-                mContext.getResources(), resource);
-        viewHolder.icon.setImageBitmap(bitmap);
-       // viewHolder.items.setAdapter(fillFakeList(mContext));
-
-        return rowView;
     }
 
-    private ArrayAdapter<String> fillFakeList(Context ctx) {
-        List<String> items = new ArrayList<>();
-        items.add("گزینه 1");
-        items.add("گزینه 2");
-        items.add("گزینه 3");
 
-        return new ArrayAdapter<>(ctx, android.R.layout.simple_list_item_1, items);
-    }
 }

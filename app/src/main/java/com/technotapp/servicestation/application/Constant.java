@@ -27,4 +27,17 @@ public class Constant {
     }
 
 
+    public static class ResponseCode {
+        public static final String SUCCESS = "00";
+    }
+    public static class Fonts {
+        public static final String BTITR = "irsans";
+        public static final String IRSANS = "irsans";
+        public static final String IRSANSM = "irsans";
+        public static final String IRSANSUL = "irsans";
+        public static final String IRSANSB = "irsans";
+        public static final String ZAR = "irsans";
+    }
+
+
 }

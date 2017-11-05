@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.adapter.DataModel.MainMenuModel;
 import com.technotapp.servicestation.adapter.DataModel.SubMenuModel;
@@ -51,26 +52,30 @@ public class SubMenuAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View rowView, ViewGroup parent) {
+        try {
+            ViewHolder viewHolder;
 
-        ViewHolder viewHolder;
+            if (rowView == null) {
 
-        if (rowView == null) {
+                viewHolder = new ViewHolder();
+                rowView = LayoutInflater.from(mContext).inflate(R.layout.item_grid_card_service, parent, false);
+                viewHolder.title = (TextView) rowView.findViewById(R.id.item_grid_card_service_iv_title);
+                viewHolder.icon = (ImageView) rowView.findViewById(R.id.item_grid_card_service_iv_icon);
+                rowView.setTag(viewHolder);
+            } else {
+                viewHolder = (ViewHolder) rowView.getTag();
+            }
 
-            viewHolder = new ViewHolder();
-            rowView = LayoutInflater.from(mContext).inflate(R.layout.item_grid_card_service, parent, false);
-            viewHolder.title = (TextView) rowView.findViewById(R.id.item_grid_card_service_iv_title);
-            viewHolder.icon = (ImageView) rowView.findViewById(R.id.item_grid_card_service_iv_icon);
-            rowView.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) rowView.getTag();
+            SubMenuModel dataModel = dataSet.get(position);
+            viewHolder.title.setText(dataModel.title);
+            int resource = dataModel.icon;
+            Bitmap bitmap = BitmapFactory.decodeResource(
+                    mContext.getResources(), resource);
+            viewHolder.icon.setImageBitmap(bitmap);
+            return rowView;
+        } catch (Exception e) {
+            AppMonitor.reportBug(e, "MainMenuAdapter", "getView");
+            return null;
         }
-
-        SubMenuModel dataModel = dataSet.get(position);
-        viewHolder.title.setText(dataModel.title);
-        int resource = dataModel.icon;
-        Bitmap bitmap = BitmapFactory.decodeResource(
-                mContext.getResources(), resource);
-        viewHolder.icon.setImageBitmap(bitmap);
-        return rowView;
     }
 }

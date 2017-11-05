@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 
 import com.fujiyuu75.sequent.Animation;
 import com.fujiyuu75.sequent.Sequent;
+import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.NetworkHelper;
 import com.technotapp.servicestation.R;
 
@@ -41,55 +42,63 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void playSplash() {
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
+        try {
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
 
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progressBar.setVisibility(View.VISIBLE);
-
-                    }
-                });
-                while (progressStatus < 200) {
-                    progressStatus += 1;
-                    handler.post(new Runnable() {
+                    runOnUiThread(new Runnable() {
+                        @Override
                         public void run() {
-                            progressBar.setProgress(progressStatus );
+                            progressBar.setVisibility(View.VISIBLE);
+
                         }
                     });
-                    try {
-                        Thread.sleep(10);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                    while (progressStatus < 200) {
+                        progressStatus += 1;
+                        handler.post(new Runnable() {
+                            public void run() {
+                                progressBar.setProgress(progressStatus);
+                            }
+                        });
+                        try {
+                            Thread.sleep(10);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
-                }
 
-                if (NetworkHelper.checkNetwork(SplashActivity.this)){
-                    startActivity(new Intent(SplashActivity.this, SigninActivity.class));
+                    if (NetworkHelper.checkNetwork(SplashActivity.this)) {
+                        startActivity(new Intent(SplashActivity.this, SigninActivity.class));
+                    }
+                    finish();
                 }
-                finish();
-            }
-        }, 4000);
+            }, 4000);
+        } catch (Exception e) {
+            AppMonitor.reportBug(e, "SplashActivity", "playSplash");
+        }
     }
 
     private void initView() {
         progressBar = (ProgressBar) findViewById(R.id.activity_splash_prg);
         logoLayout = (LinearLayout) findViewById(R.id.activity_splash_logoLayout);
         textLayout = (LinearLayout) findViewById(R.id.activity_splash_textLayout);
+        try {
 
-        Sequent.origin(logoLayout).
-                duration(1000).
-                anim(this, Animation.FADE_IN_UP).
-                start();
 
-        Sequent.origin(textLayout).
-                delay(1000).
-                duration(2000).
-                anim(this, Animation.FADE_IN).
-                start();
+            Sequent.origin(logoLayout).
+                    duration(1000).
+                    anim(this, Animation.FADE_IN_UP).
+                    start();
 
+            Sequent.origin(textLayout).
+                    delay(1000).
+                    duration(2000).
+                    anim(this, Animation.FADE_IN).
+                    start();
+        } catch (Exception e) {
+            AppMonitor.reportBug(e, "SplashActivity", "initView");
+        }
     }
 
     private void loadData() {

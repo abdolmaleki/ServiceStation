@@ -2,7 +2,7 @@ package com.technotapp.servicestation.application;
 
 import android.app.Application;
 import android.os.Environment;
-
+import com.pax.neptunelite.api.*;
 import com.pax.dal.IDAL;
 import com.pax.neptunelite.api.NeptuneLiteUser;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
@@ -12,16 +12,28 @@ import com.technotapp.servicestation.setting.Session;
 import java.io.File;
 
 public class AppConfig extends Application {
-
+private NeptuneLiteUser neptuneLiteUser=NeptuneLiteUser.getInstance();
     public static IDAL idal = null;
     private Session mSession;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        configDevice();
         init();
         copyFonts();
 
+    }
+
+    private void configDevice() {
+        try {
+            neptuneLiteUser.getDal(getApplicationContext()).getSys().enableNavigationBar(false);
+            neptuneLiteUser.getDal(getApplicationContext()).getSys().showNavigationBar(false);
+            neptuneLiteUser.getDal(getApplicationContext()).getSys().showStatusBar(false);
+            neptuneLiteUser.getDal(getApplicationContext()).getSys().enableStatusBar(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void init() {
@@ -36,7 +48,6 @@ public class AppConfig extends Application {
             AppMonitor.reportBug(e, "AppConfig", "initIDAL");
         }
     }
-
     private void copyFonts() {
         try {
             if (mSession.IsFirstRun()) {

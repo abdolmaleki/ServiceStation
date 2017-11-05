@@ -1,16 +1,12 @@
 package com.technotapp.servicestation.Infrastructure;
 
-import android.app.Activity;
-import android.app.DialogFragment;
-import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Looper;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.widget.Toast;
 
 import com.pax.gl.pack.impl.PaxGLPacker;
 import com.technotapp.servicestation.R;
@@ -24,12 +20,12 @@ import com.technotapp.servicestation.pax.printer.Printable;
 import com.technotapp.servicestation.pax.printer.PrinterHelper;
 
 import java.util.Random;
-import java.util.logging.Handler;
 
 public class TransactionHelper {
 
+    private static Printable printable;
 
-    public static byte[] getPacker(Context mContext, TransactionDataModel transactionDataModel, int mode, String amount) {
+    private static byte[] getPacker(Context mContext, TransactionDataModel transactionDataModel, int mode, String amount) {
         //TODO remove fakes
         Random fakeRandom = new Random();
         long number = 10000000 + ((long) (fakeRandom.nextDouble() * (99999999 - 10000000)));
@@ -63,7 +59,6 @@ public class TransactionHelper {
             pa.getIso8583().getEntity().loadTemplate("packer200.xml");
             pa.getIso8583().getEntity().setFieldValue("h", "008360000480B5");
             pa.getIso8583().getEntity().setFieldValue("m", "0200");
-//            pa.getIso8583().getEntity().setFieldValue("2", transactionDataModel.getPanNumber());
             pa.getIso8583().getEntity().setFieldValue("2", fakePan);
             pa.getIso8583().getEntity().setFieldValue("3", "500000");
             pa.getIso8583().getEntity().setFieldValue("4", amount);
@@ -81,40 +76,52 @@ public class TransactionHelper {
             pa.getIso8583().getEntity().setFieldValue("64", fakeMAC);
             result = pa.getIso8583().pack();
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "CardServiceActivity", "getPacker");
+            AppMonitor.reportBug(e, "TransactionHelper", "getPacker");
         }
 
         return result;
     }
 
-    public static void sendRequest(final Context ctx, final int mode, TransactionDataModel transactionDataModel, String amount) {
-
+    public static void sendRequest(final Context ctx, final int mode, final TransactionDataModel transactionDataModel, String amount) {
         try {
+            final ProgressDialog transactionWaitingDialog;
+
+            transactionWaitingDialog = new ProgressDialog(ctx);
+            transactionWaitingDialog.setMessage(ctx.getString(R.string.TransactionHelper_pleaseWait));
+            transactionWaitingDialog.setCancelable(false);
+
+            transactionWaitingDialog.show();
 
             SocketEngine socketEngine = new SocketEngine(Constant.Pax.SERVER_IP, Constant.Pax.SERVER_PORT, transactionDataModel);
             socketEngine.sendData(TransactionHelper.getPacker(ctx, transactionDataModel, mode, amount), new ISocketCallback() {
                 @Override
                 public void onFail() {
+                    transactionWaitingDialog.dismiss();
                     //todo handle fail transaction
+                    AppMonitor.Toast(ctx, "بروز مشکل در سرور", Toast.LENGTH_LONG);
                 }
 
                 @Override
                 public void onReceiveData(TransactionDataModel dataModel) {
+                    transactionWaitingDialog.dismiss();
                     AppMonitor.Log(dataModel.getPanNumber());
                     //todo handle fail transaction
 
-                    //TODO set parameters to tvAmount
-//                    Log.i("aa -------->", dataModel.getPanNumber() + "\n" +
-//                            dataModel.getBackTransactionID() + "\n" +
-//                            dataModel.getAmount() + "\n" +
-//                            dataModel.getDateTimeShaparak() + "\n" +
-//                            dataModel.getTerminalID() + "\n" +
-//                            dataModel.getResponseCode() + "\n" +
-//                            dataModel.getMAC() + "\n");
+                    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    /////// Failed transaction
+                    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    if (!(dataModel.getResponseCode().equals(Constant.ResponseCode.SUCCESS))) {
+                        transactionDialog(ctx, dataModel, mode, false);
 
-                    PrinterHelper printerHelper = PrinterHelper.getInstance();
-                    Printable printable;
-                    transactionDialog(mode, ctx, dataModel);
+
+                        return;
+                    }
+
+                    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    /////// Successful  transaction
+                    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                    transactionDialog(ctx, dataModel, mode, true);
                     switch (mode) {
 
                         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -122,12 +129,7 @@ public class TransactionHelper {
                         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
                         case Constant.RequestMode.DEPOSIT:
-
                             printable = PrintFactory.getPrintContent(Printable.DEPOSIT);
-                            if (printable != null) {
-                                printerHelper.startPrint(printable.getContent(ctx, "فروشگاه اکبر فرهادی", "77695885", "1475478589", "12:22:15", "1396/08/02", dataModel.getBackTransactionID(), dataModel.getTerminalID(), dataModel.getPanNumber(), dataModel.getAmount()));
-                            }
-
                             break;
 
                         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -135,43 +137,8 @@ public class TransactionHelper {
                         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
                         case Constant.RequestMode.BUY:
-
-                            final String backTransactionID = dataModel.getBackTransactionID();
-                            final String amount = dataModel.getAmount();
-                            final String terminalID = dataModel.getTerminalID();
-                            final String panNumber = dataModel.getPanNumber();
-
                             printable = PrintFactory.getPrintContent(Printable.BUY_CUSTOMER);
-                            if (printable != null) {
-                                printerHelper.startPrint(printable.getContent(ctx, "فروشگاه اکبر فرهادی", "77695885", "1475478589", "12:22:15", "1396/08/02", dataModel.getBackTransactionID(), dataModel.getTerminalID(), dataModel.getPanNumber(), dataModel.getAmount()));
-                            }
-
-//                            new android.os.Handler(Looper.getMainLooper()) {
-//                            }.post(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    new AlertDialog.Builder(ctx).setMessage("آیا نیاز به رسید فروشنده می باشد؟").setPositiveButton("بله", new DialogInterface.OnClickListener() {
-//                                        @Override
-//                                        public void onClick(DialogInterface dialog, int which) {
-//                                            Printable printable = PrintFactory.getPrintContent(Printable.BUY_SELLER);
-//                                            PrinterHelper printerHelper = PrinterHelper.getInstance();
-//                                            if (printable != null) {
-//                                                printerHelper.startPrint(printable.getContent(ctx, "فروشگاه اکبر فرهادی", "77695885", "1475478589", "12:22:15", "1396/08/02", backTransactionID, terminalID, panNumber, amount));
-//                                            }
-//
-//                                        }
-//                                    }).setNegativeButton("خیر", new DialogInterface.OnClickListener() {
-//                                        @Override
-//                                        public void onClick(DialogInterface dialog, int which) {
-//                                            dialog.cancel();
-//                                        }
-//                                    }).show();
-
-//                                }
-//                            });
-
                             break;
-
 
                         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                         /////// BALANCE
@@ -179,20 +146,22 @@ public class TransactionHelper {
 
                         case Constant.RequestMode.BALANCE:
                             printable = PrintFactory.getPrintContent(Printable.BALANCE);
-                            if (printable != null) {
-                                printerHelper.startPrint(printable.getContent(ctx, "فروشگاه اکبر فرهادی", "77695885", "1475478589", "12:22:15", "1396/08/02", dataModel.getBackTransactionID(), dataModel.getTerminalID(), dataModel.getPanNumber(), dataModel.getAmount()));
-                            }
                             break;
+
+                    }
+                    // Todo change print static content
+                    if (printable != null) {
+                        PrinterHelper.getInstance().startPrint(printable.getContent(ctx, "فروشگاه اکبر فرهادی", "77695885", "1475478589", "12:22:15", "1396/08/02", dataModel.getBackTransactionID(), dataModel.getTerminalID(), dataModel.getPanNumber(), dataModel.getAmount()));
                     }
                 }
             });
 
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "CardServiceDepositFragment", "sendRequest");
+            AppMonitor.reportBug(e, "TransactionHelper", "sendRequest");
         }
     }
 
-    public static String getRsponseMessage(String code) {
+    public static String getResponseMessage(String code) {
         switch (code) {
             case "-1":
                 return "ERROR_MESSAGE()";
@@ -208,73 +177,99 @@ public class TransactionHelper {
                 return "حساب وجود ندارد یا غیر فعال است";
             case "51":
                 return "مبلغ درخواستی از حداقل موجودی حساب بیشتر است";
-
             default:
+
                 return null;
 
         }
     }
 
+    private static void transactionDialog(final Context ctx, final TransactionDataModel dataModel, int transactionMode, boolean isSuccess) {
+        try {
 
-    private static void transactionDialog(int mode, final Context ctx, final TransactionDataModel dataModel) {
-        FragmentManager manager = ((FragmentActivity) ctx).getSupportFragmentManager();
-        final TransactionResponseDialogFragment dialog = new TransactionResponseDialogFragment();
-        Bundle bundle = new Bundle();
-        switch (mode) {
-            case Constant.RequestMode.BALANCE:
-            case Constant.RequestMode.DEPOSIT:
+            FragmentManager manager = ((FragmentActivity) ctx).getSupportFragmentManager();
+            final TransactionResponseDialogFragment dialog = new TransactionResponseDialogFragment();
+            dialog.setCancelable(false);
+            Bundle bundle = new Bundle();
+            if (isSuccess) {
+                switch (transactionMode) {
+                    case Constant.RequestMode.BALANCE:
+                    case Constant.RequestMode.DEPOSIT:
 
-                bundle.putBoolean("hasRecipt", false);
-                dialog.setArguments(bundle);
-                dialog.show(manager, "");
+                        bundle.putBoolean("isSuccess", true);
+                        bundle.putBoolean("hasSellerReceipt", false);
 
-                dialog.onClickListener(new TransactionResponseDialogFragment.MyOnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                        dialog.onClickListener(new TransactionResponseDialogFragment.MyOnClickListener() {
+                            @Override
+                            public void onClick(View v) {
 
-                        switch (v.getId()) {
-                            case R.id.fragment_transaction_response_dialog_btnPositive:
-                                dialog.dismiss();
-                                break;
+                                switch (v.getId()) {
+                                    case R.id.fragment_dialog_transaction_response_btnPositive:
+                                        dialog.dismiss();
+                                        break;
 
-
-                        }
-
-                    }
-                });
-                break;
-
-
-            case Constant.RequestMode.BUY:
-                bundle.putBoolean("hasRecipt", true);
-                bundle.putString("extraMessage", "آیا نیاز به رسید فروشنده دارید؟");
-                dialog.setArguments(bundle);
-                dialog.onClickListener(new TransactionResponseDialogFragment.MyOnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        switch (v.getId()) {
-                            case R.id.fragment_transaction_response_dialog_btnPositive:
-                                Printable printable = PrintFactory.getPrintContent(Printable.BUY_SELLER);
-                                PrinterHelper printerHelper = PrinterHelper.getInstance();
-                                if (printable != null) {
-                                    printerHelper.startPrint(printable.getContent(ctx, "فروشگاه اکبر فرهادی", "77695885", "1475478589", "12:22:15", "1396/08/02", dataModel.getBackTransactionID(), dataModel.getTerminalID(), dataModel.getPanNumber(), dataModel.getAmount()));
 
                                 }
+
+                            }
+                        });
+                        break;
+
+
+                    case Constant.RequestMode.BUY:
+                        bundle.putBoolean("hasSellerReceipt", true);
+                        bundle.putBoolean("isSuccess", true);
+                        bundle.putString("extraMessage", "آیا نیاز به رسید فروشنده دارید؟");
+                        dialog.onClickListener(new TransactionResponseDialogFragment.MyOnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                switch (v.getId()) {
+                                    case R.id.fragment_dialog_transaction_response_btnPositive:
+                                        Printable printable = PrintFactory.getPrintContent(Printable.BUY_SELLER);
+                                        PrinterHelper printerHelper = PrinterHelper.getInstance();
+                                        if (printable != null) {
+                                            printerHelper.startPrint(printable.getContent(ctx, "فروشگاه اکبر فرهادی", "77695885", "1475478589", "12:22:15", "1396/08/02", dataModel.getBackTransactionID(), dataModel.getTerminalID(), dataModel.getPanNumber(), dataModel.getAmount()));
+
+                                        }
+                                        dialog.dismiss();
+                                        break;
+                                    case R.id.fragment_dialog_transaction_response_btnNegative:
+                                        dialog.dismiss();
+                                        break;
+
+                                }
+
+                            }
+                        });
+
+                        break;
+
+                }
+            } else {
+                bundle.putBoolean("isSuccess", false);
+                bundle.putString("extraMessage", getResponseMessage(dataModel.getResponseCode()));
+
+                dialog.onClickListener(new TransactionResponseDialogFragment.MyOnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        switch (v.getId()) {
+                            case R.id.fragment_dialog_transaction_response_btnPositive:
                                 dialog.dismiss();
-                                break;
-                            case R.id.fragment_transaction_response_dialog_btnNegative:
-                               dialog.dismiss();
                                 break;
 
                         }
 
                     }
                 });
-                dialog.show(manager, "");
 
-                break;
+            }
+            dialog.setArguments(bundle);
+            dialog.show(manager, "");
 
+        } catch (Exception e) {
+            AppMonitor.reportBug(e, "TransactionHelper", "transactionDialog");
         }
 
     }

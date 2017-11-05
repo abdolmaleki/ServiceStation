@@ -8,5 +8,7 @@
     <color name="black">#000000</color>
 <color name="fragment_keypad_button_text">#000000</color>
     <color name="fragment_transaction_response_dialog_successBackgroungColor">#00E676</color>
+    <color name="fragment_transaction_response_dialog_failBackgroungColor">#b71c1c</color>
     <color name="fragment_transaction_response_dialog_success_textColor">#00796B</color>
+    <color name="fragment_transaction_response_dialog_fail_textColor">#560000</color>
 </resources>
