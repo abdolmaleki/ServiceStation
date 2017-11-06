@@ -49,6 +49,19 @@ public class Constant {
         public static int Information = 0;
 
     }
+    public static class Key {
+     public static final String CURRENT_FRAGMENT = "current_fragment" ;
+    }
+    public static class MainItem {
+        public static final String CHARGE = "charge_service";
+        public static final String CARDSERVICE = "card_service";
+        public static final String INSURANCE = "insurance_service";
+
+    }
+
+
+
+
 
 
 }
