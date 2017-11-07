@@ -1,21 +1,26 @@
 package com.technotapp.servicestation.activity;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.adapter.DataModel.MainMenuModel;
 import com.technotapp.servicestation.adapter.MainMenuAdapter;
+import com.technotapp.servicestation.application.Constant;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
     GridView gridView;
+    ImageButton btnSetting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,18 +68,67 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private void bindView() {
         try {
+            btnSetting = (ImageButton) findViewById(R.id.activity_main_btnSetting);
             gridView = (GridView) findViewById(R.id.activity_main_grdList);
             gridView.setOnItemClickListener(this);
-        }catch (Exception e){
+            btnSetting.setOnClickListener(this);
+        } catch (Exception e) {
             AppMonitor.reportBug(e, "MainActivity", "bindView");
         }
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent =new Intent(MainActivity.this, PublicServiceActivity.class);
         switch (position) {
+            case 0:
+                intent.putExtra(Constant.Key.CURRENT_FRAGMENT, Constant.MainItem.CHARGE);
+                break;
             case 6:
-                startActivity(new Intent(MainActivity.this, CardServiceActivity.class));
+                intent.putExtra(Constant.Key.CURRENT_FRAGMENT, Constant.MainItem.CARDSERVICE);
+                break;
+        }
+
+        startActivity(intent);
+
+    }
+
+    byte counter = 0;
+    boolean isFirst = true;
+    Toast toastMessage;
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.activity_main_btnSetting:
+                if (toastMessage!= null) {
+                    toastMessage.cancel();
+                }
+
+                if (counter == 9) {
+                    counter = 0;
+                    startActivity(new Intent(MainActivity.this,SettingActivity.class));
+                    finish();
+                    return;
+                }
+                else if (counter>3){
+
+                    toastMessage=Toast.makeText(MainActivity.this, "شما "+(9-counter)+" قدمی دسترسی به تنظیمات هستید.", Toast.LENGTH_SHORT);
+                    toastMessage.show();
+
+                }
+
+                counter++;
+                if (isFirst) {
+                    new Handler().postDelayed(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            counter = 0;
+                            isFirst=false;
+                        }
+                    }, 10000);
+
+                }
                 break;
         }
     }
