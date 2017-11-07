@@ -20,22 +20,12 @@ public interface ServiceStationApi {
 //    @GET("service/IndividualPersonMobile")
 //    Call<Person> getPersonInfo(@Header("Authorization") String bearer);
 
-    @Headers({
-            "Accept: application/json",
-            "Content-Type: application/x-www-form-urlencoded"
-    })
-    @FormUrlEncoded
-    @POST("service/token")
-    Call<MediaSessionCompat.Token> getToken(@Field("grant_type") String grant_type, @Field("username") String userName, @Field("password") String password);
+//    @Headers({
+//            "Accept: application/json",
+//            "Content-Type: application/x-www-form-urlencoded"
+//    })
 
-    @GET("api/Allapi")
-    Call<String> getData(@Query("key") String key, @Query("value") String value, @Query("type") String apiType);
-
-    @GET("api/SaveClient")
-    Call<String> saveClient(@Query("key") String key, @Query("value") String value);
-
-    @GET("api/Suggest")
-    Call<String> sendOffer(@Query("key") String key, @Query("value") String value);
-
+    @POST("api/Applications/LoginTerminal")
+    Call<String> terminalLoginModel(@Query("key") String key, @Query("value") String value, @Query("deviceInfo") String apiType);
 
 }

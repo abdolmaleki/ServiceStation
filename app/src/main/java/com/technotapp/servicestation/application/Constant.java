@@ -3,7 +3,6 @@ package com.technotapp.servicestation.application;
 public class Constant {
 
     public static class Pax {
-        public static final String TEST = "test";
         public static final String SERVER_IP = "87.236.214.176 ";
         public static final int SERVER_PORT = 8887;
         public static final String API_BASE_URL = "http://87.236.214.176:3400/";
@@ -49,9 +48,12 @@ public class Constant {
         public static int Information = 0;
 
     }
+
     public static class Key {
-     public static final String CURRENT_FRAGMENT = "current_fragment" ;
+        public static final String CURRENT_FRAGMENT = "current_fragment";
+        public static final String MENU_PACKAGE = "menu.package";
     }
+
     public static class MainItem {
         public static final String CHARGE = "charge_service";
         public static final String CARDSERVICE = "card_service";
@@ -59,9 +61,23 @@ public class Constant {
 
     }
 
+    public static class Api {
+        public static class Type {
+            public static final int TERMINAL_LOGIN = 0;
+            public static final int CheckTokenValidation = 1;
+        }
 
+        public static class ErrorCode {
+            public static final int Successfull = 8;
+            public static final int CheckTokenValidation = 1;
+        }
 
+    }
 
+    public static class Encryption {
+        public static final String RSA_KEY = "pkT+gaenqqIXUzNRdoj+xqdqJXgAHgpp2ZNdaGfV4wUWJ8KTAYZlXP0cvgbwlu94M7cvLjQ3P6rn4U+VirsskSjnburdNGDTb2lf2mnaIQs9M7npb0SVaY0aWyZiuJTDjOxbgegYxA6tNDw66ewpIWMavyOyke59xmHUFqUnylULSpdmKkAuxbjBkxkRjzqsWER6HdRo6LJr4LjNYCVzyDurorFkinvyawBmO5Wi0AknkAQxQbC7sFlR6jLPoHVEL259TEq3vogsuQVXZfiPB0WmwRJtKBx++PAXR7WtJghVc7Ub/48x4I3zgL8yNtxuMqh8n0mUw6cBNeXgMJdf2Q==";
+
+    }
 
 
 }

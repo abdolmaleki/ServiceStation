@@ -2,6 +2,8 @@ package com.technotapp.servicestation.Infrastructure;
 
 import android.util.Base64;
 
+import com.technotapp.servicestation.application.Constant;
+
 import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.security.InvalidAlgorithmParameterException;
@@ -99,16 +101,19 @@ public class Encryptor {
             }
 
             String result = new String(decryptedData);
+            String str = result;
+            str += "ff";
 
             return result;
         } catch (Exception e) {
-            return "";
+            AppMonitor.reportBug(e, "Encryptor", "decriptAES");
+            return null;
         }
     }
 
     public static String encriptRSA(String text) {
         try {
-            String modulusString = "pkT+gaenqqIXUzNRdoj+xqdqJXgAHgpp2ZNdaGfV4wUWJ8KTAYZlXP0cvgbwlu94M7cvLjQ3P6rn4U+VirsskSjnburdNGDTb2lf2mnaIQs9M7npb0SVaY0aWyZiuJTDjOxbgegYxA6tNDw66ewpIWMavyOyke59xmHUFqUnylULSpdmKkAuxbjBkxkRjzqsWER6HdRo6LJr4LjNYCVzyDurorFkinvyawBmO5Wi0AknkAQxQbC7sFlR6jLPoHVEL259TEq3vogsuQVXZfiPB0WmwRJtKBx++PAXR7WtJghVc7Ub/48x4I3zgL8yNtxuMqh8n0mUw6cBNeXgMJdf2Q==";
+            String modulusString = Constant.Encryption.RSA_KEY;
             String publicExponentString = "AQAB";
             BigInteger modulus = new BigInteger(1, Base64.decode(modulusString, Base64.DEFAULT));
             BigInteger publicExponent = new BigInteger(1, Base64.decode(publicExponentString, Base64.DEFAULT));
@@ -145,7 +150,7 @@ public class Encryptor {
         try {
 
 
-            String modulusString = "pkT+gaenqqIXUzNRdoj+xqdqJXgAHgpp2ZNdaGfV4wUWJ8KTAYZlXP0cvgbwlu94M7cvLjQ3P6rn4U+VirsskSjnburdNGDTb2lf2mnaIQs9M7npb0SVaY0aWyZiuJTDjOxbgegYxA6tNDw66ewpIWMavyOyke59xmHUFqUnylULSpdmKkAuxbjBkxkRjzqsWER6HdRo6LJr4LjNYCVzyDurorFkinvyawBmO5Wi0AknkAQxQbC7sFlR6jLPoHVEL259TEq3vogsuQVXZfiPB0WmwRJtKBx++PAXR7WtJghVc7Ub/48x4I3zgL8yNtxuMqh8n0mUw6cBNeXgMJdf2Q==";
+            String modulusString = Constant.Encryption.RSA_KEY;
             String publicExponentString = "AQAB";
             BigInteger modulus = new BigInteger(1, Base64.decode(modulusString, Base64.DEFAULT));
             BigInteger publicExponent = new BigInteger(1, Base64.decode(publicExponentString, Base64.DEFAULT));

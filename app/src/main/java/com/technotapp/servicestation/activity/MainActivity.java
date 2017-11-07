@@ -15,8 +15,10 @@ import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.adapter.DataModel.MainMenuModel;
 import com.technotapp.servicestation.adapter.MainMenuAdapter;
 import com.technotapp.servicestation.application.Constant;
+import com.technotapp.servicestation.connection.restapi.sto.MenuSto;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
     GridView gridView;
@@ -43,6 +45,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private void loadData() {
 
+        Bundle bundle;
+        try {
+            if (getIntent().hasExtra(Constant.Key.MENU_PACKAGE)) {
+                bundle = getIntent().getExtras();
+                if (bundle != null) {
+                    ArrayList<MenuSto> menus = bundle.getParcelableArrayList(Constant.Key.MENU_PACKAGE);
+                    AppMonitor.Log(menus.get(0).messageModel.get(0).errorCode + "");
+                }
+
+            }
+        } catch (Exception e) {
+            AppMonitor.reportBug(e, "MainActivity", "loadData");
+        }
     }
 
     private void initAdapter() {
