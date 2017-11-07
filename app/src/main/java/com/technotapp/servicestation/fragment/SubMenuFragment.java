@@ -35,7 +35,8 @@ public class SubMenuFragment extends Fragment {
             String backStateName = fragment.getClass().getName();
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.activity_card_service_frame, fragment, backStateName);
+            //todo change this frame
+            fragmentTransaction.replace(R.id.activity_public_service_frame, fragment, backStateName);
             fragmentTransaction.addToBackStack(backStateName);
             fragmentTransaction.commit();
         } catch (Exception e) {

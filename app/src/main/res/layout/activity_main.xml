@@ -16,10 +16,11 @@
         android:gravity="center_horizontal|start"
         android:layoutDirection="rtl">
 
-        <ImageView
+        <ImageButton
+            android:id="@+id/activity_main_btnSetting"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            app:srcCompat="@drawable/ic_ansar_logo" />
+            android:background="@drawable/ic_ansar_logo" />
 
         <com.technotapp.servicestation.customView.CustomTextView
             android:layout_width="wrap_content"

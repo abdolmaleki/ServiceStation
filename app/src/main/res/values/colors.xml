@@ -11,4 +11,8 @@
     <color name="fragment_transaction_response_dialog_failBackgroungColor">#b71c1c</color>
     <color name="fragment_transaction_response_dialog_success_textColor">#00796B</color>
     <color name="fragment_transaction_response_dialog_fail_textColor">#560000</color>
+    <color name="fragment_charge_irancell">#fbc70a</color>
+    <color name="fragment_charge_hamraheAval">#48c2cb</color>
+    <color name="fragment_charge_taliya">#fd0028</color>
+    <color name="fragment_charge_rightel">#982b6b</color>
 </resources>

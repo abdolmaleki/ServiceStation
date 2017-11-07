@@ -82,5 +82,6 @@
     <string name="MainActivity_ansar_bank_services">خدمات بانک انصار</string>
     <string name="MainActivity_buy_internet_packages">خرید بسته های اینترنتی</string>
     <string name="TransactionHelper_pleaseWait">لطفا کمی صبر کنید...</string>
+    <string name="ChargeFragment_charge_service">خدمات شارژ</string>
 
 </resources>

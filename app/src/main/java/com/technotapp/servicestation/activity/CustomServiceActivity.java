@@ -1,21 +1,21 @@
 package com.technotapp.servicestation.activity;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.os.Bundle;
 
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.fragment.CardServiceFragment;
 import com.technotapp.servicestation.fragment.SubMenuFragment;
 
-public class CardServiceActivity extends SubMenuActivity implements IPin {
+public class CustomServiceActivity extends SubMenuActivity implements IPin {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_card_service);
+        setContentView(R.layout.activity_custom_service);
 
         loadSetting();
 
@@ -31,12 +31,12 @@ public class CardServiceActivity extends SubMenuActivity implements IPin {
             String backStateName = fragment.getClass().getName();
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.activity_card_service_frame, fragment, backStateName);
+            fragmentTransaction.replace(R.id.activity_custom_service_frame, fragment, backStateName);
             fragmentTransaction.addToBackStack(backStateName);
             fragmentTransaction.commit();
 
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "CardServiceActivity", "submitFragment");
+            AppMonitor.reportBug(e, "CustomServiceActivity", "submitFragment");
         }
     }
 

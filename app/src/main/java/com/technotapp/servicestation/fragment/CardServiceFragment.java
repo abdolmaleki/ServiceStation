@@ -46,17 +46,16 @@ public class CardServiceFragment extends SubMenuFragment implements AdapterView.
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rooView = inflater.inflate(R.layout.fragment_card_services, container, false);
-        gridView = (GridView) rooView.findViewById(R.id.fragment_card_services_grdList);
 
-        initView();
+        initView(rooView);
         initAdapter();
 
         return rooView;
     }
 
-    private void initView() {
+    private void initView(View v) {
         try {
-
+            gridView = (GridView) v.findViewById(R.id.fragment_card_services_grdList);
             fragment= CardServiceDepositAndBuyFragment.newInstance();
             setRetainInstance(true);
             setTitle(getString(R.string.CardServiceFragment_title));
@@ -70,12 +69,10 @@ public class CardServiceFragment extends SubMenuFragment implements AdapterView.
         try {
 
             ArrayList<SubMenuModel> subMenuModels = new ArrayList<>();
-
             subMenuModels.add(new SubMenuModel(getString(R.string.CardServiceFragment_Menu_cardToCard), R.drawable.ic_card_to_card));
             subMenuModels.add(new SubMenuModel(getString(R.string.CardServiceFragment_Menu_Deposit), R.drawable.ic_deposit));
             subMenuModels.add(new SubMenuModel(getString(R.string.CardServiceFragment_Menu_Buy), R.drawable.ic_buy_card));
             subMenuModels.add(new SubMenuModel(getString(R.string.CardServiceFragment_Menu_Balance), R.drawable.ic_balance));
-
             SubMenuAdapter menuAdapter = new SubMenuAdapter(mActivity, subMenuModels);
             gridView.setAdapter(menuAdapter);
         }catch (Exception e){
