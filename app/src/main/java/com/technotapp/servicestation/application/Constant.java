@@ -61,6 +61,14 @@ public class Constant {
 
     }
 
+    public static class Operator {
+        public static final byte RIGHTEL = 0;
+        public static final byte IRANCELL = 1;
+        public static final byte HAMRAHEAVAL = 2;
+        public static final byte TALIYA = 3;
+
+    }
+
     public static class Api {
         public static class Type {
             public static final int TERMINAL_LOGIN = 0;

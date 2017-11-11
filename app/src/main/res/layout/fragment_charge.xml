@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,279 +13,220 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="16dp"
-        android:background="@color/white"
+        android:background="@drawable/background"
         android:orientation="vertical">
+
+        <com.technotapp.servicestation.customView.CustomTextView
+            android:id="@+id/fragment_charge_txtOperatorType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/fragment_charge_hamraheAval"
+            android:gravity="center"
+            android:scrollbars="horizontal"
+            android:text="شارژ همراه اول"
+            android:textColor="@color/white"
+            android:textSize="18dp"
+            app:fontName="irsans_bold" />
+
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/fragment_charge_btnHamraheAval"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginStart="4dp"
+                android:background="@drawable/bg_button_charge_service_hamrahe_aval"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_hamrah_aval" />
+
+            <ImageButton
+                android:id="@+id/fragment_charge_btnRightel"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginStart="4dp"
+                android:background="@drawable/bg_button_charge_service_rightel"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_rightel" />
+
+            <ImageButton
+                android:id="@+id/fragment_charge_btnIrancell"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginStart="4dp"
+                android:background="@drawable/bg_button_charge_service_irancell"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_irancell" />
+
+            <ImageButton
+                android:id="@+id/fragment_charge_btnTaliya"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginStart="4dp"
+                android:background="@drawable/bg_button_charge_service_taliya"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_taliya" />
+
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/background"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="72dp"
-                android:layout_marginTop="16dp"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <View
-                    android:id="@+id/fragment_charge_viewBg"
-                    android:layout_width="match_parent"
-                    android:layout_height="8dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginTop="8dp" />
-
-                <LinearLayout
-                    android:id="@+id/linearLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal">
-
-                    <ImageButton
-                        android:id="@+id/fragment_charge_btnHamraheAval"
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:layout_marginEnd="4dp"
-                        android:layout_marginStart="4dp"
-                        android:background="@drawable/bg_button_charge_service_hamrahe_aval"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/ic_hamrah_aval" />
-
-                    <ImageButton
-                        android:id="@+id/fragment_charge_btnRightel"
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:layout_marginEnd="4dp"
-                        android:layout_marginStart="4dp"
-                        android:background="@drawable/bg_button_charge_service_rightel"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/ic_rightel" />
-
-                    <ImageButton
-                        android:id="@+id/fragment_charge_btnIrancell"
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:layout_marginEnd="4dp"
-                        android:layout_marginStart="4dp"
-                        android:background="@drawable/bg_button_charge_service_irancell"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/ic_irancell" />
-
-                    <ImageButton
-                        android:id="@+id/fragment_charge_btnTaliya"
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:layout_marginEnd="4dp"
-                        android:layout_marginStart="4dp"
-                        android:background="@drawable/bg_button_charge_service_taliya"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/ic_taliya" />
-
-
-                </LinearLayout>
-
-
-            </RelativeLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="38dp"
-                android:layout_marginBottom="4dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="16dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <com.technotapp.servicestation.customView.CustomTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="مستقیم " />
-
-                <com.kyleduo.switchbutton.SwitchButton
-                    android:id="@+id/fragment_charge_switchTypeCharge1"
-                    android:layout_width="64dp"
-                    android:layout_height="32dp"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    app:kswBackColor="#1f000000"
-                    app:kswBackRadius="8dp"
-                    app:kswThumbColor="@color/white"
-                    app:kswThumbRadius="8dp" />
-
-                <com.technotapp.servicestation.customView.CustomTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="کد شارژ " />
-
-            </LinearLayout>
-
-            <LinearLayout
-
-                android:layout_width="match_parent"
-                android:layout_height="38dp"
-                android:layout_margin="4dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <com.technotapp.servicestation.customView.CustomTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="عادی " />
-
-                <com.kyleduo.switchbutton.SwitchButton
-                    android:id="@+id/fragment_charge_switchTypeCharge2"
-                    android:layout_width="64dp"
-                    android:layout_height="32dp"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    app:kswBackColor="#1f000000"
-                    app:kswBackRadius="8dp"
-                    app:kswThumbColor="@color/white"
-                    app:kswThumbRadius="8dp" />
-
-                <com.technotapp.servicestation.customView.CustomTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="شگفت انگیز" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <com.technotapp.servicestation.customView.CustomButton
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_margin="8dp"
-                        android:layout_weight="1"
-                        android:text="1000"
-                        app:fontName="zar" />
-
-                    <com.technotapp.servicestation.customView.CustomButton
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_margin="8dp"
-                        android:layout_weight="1"
-                        android:text="2000"
-                        app:fontName="zar" />
-
-                    <com.technotapp.servicestation.customView.CustomButton
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_margin="8dp"
-                        android:layout_weight="1"
-                        android:text="5000"
-                        app:fontName="zar" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <com.technotapp.servicestation.customView.CustomButton
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_margin="8dp"
-                        android:layout_weight="1"
-                        android:text="10000"
-                        app:fontName="zar" />
-
-
-                    <com.technotapp.servicestation.customView.CustomButton
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_margin="8dp"
-                        android:layout_weight="1"
-                        android:text="20000"
-                        app:fontName="zar" />
-
-                    <com.technotapp.servicestation.customView.CustomButton
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_margin="8dp"
-                        android:layout_weight="1"
-                        android:text="50000"
-                        app:fontName="zar" />
-                </LinearLayout>
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <com.technotapp.servicestation.customView.CustomTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="16dp"
-                    android:gravity="center_vertical"
-                    android:text="شماره تلفن:" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
-
-                <EditText
-                    android:layout_width="128dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="09361816500"
-                    android:textColor="@color/fragment_charge_hamraheAval"
-                    android:textSize="18dp" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
+            android:layout_height="38dp"
+            android:layout_margin="4dp"
+            android:gravity="center"
+            android:orientation="horizontal">
 
             <com.technotapp.servicestation.customView.CustomTextView
-                android:id="@+id/fragment_charge_txtOperatorType"
-                android:layout_width="match_parent"
+                android:id="@+id/fragment_charge_txtMostaghim"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:background="@color/fragment_charge_hamraheAval"
+                android:layout_weight="1"
                 android:gravity="center"
-                android:text="شارژ همراه اول"
-                android:textColor="@color/white"
-                android:textSize="18dp"
-                app:fontName="irsans_bold" />
+                android:text="مستقیم "
+                android:textColor="@color/fragment_charge_switch_text_color"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <com.kyleduo.switchbutton.SwitchButton
+                android:id="@+id/fragment_charge_switchTypeCharge1"
+                android:layout_width="64dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                app:kswBackDrawable="@drawable/bg_fragment_charge_back_switch_hamraheaval"
+                app:kswThumbDrawable="@drawable/bg_fragment_charge_thumb_switch_hamraheaval"
+                app:kswThumbHeight="24dp"
+                app:kswThumbMarginLeft="2dp"
+                app:kswThumbMarginRight="2dp"
+                app:kswThumbWidth="24dp" />
+
+            <com.technotapp.servicestation.customView.CustomTextView
+                android:id="@+id/fragment_charge_txtCodeCharge"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="کد شارژ "
+                android:textColor="@color/fragment_charge_switch_text_color"
+                android:textSize="14sp" />
+
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fragment_charge_linDirectCharge"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:layout_margin="4dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.technotapp.servicestation.customView.CustomTextView
+                android:id="@+id/fragment_charge_txtAdi"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="عادی "
+                android:textColor="@color/fragment_charge_switch_text_color"
+                android:textSize="14sp" />
+
+            <com.kyleduo.switchbutton.SwitchButton
+                android:id="@+id/fragment_charge_switchTypeCharge2"
+                android:layout_width="64dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                app:kswBackDrawable="@drawable/bg_fragment_charge_back_switch_hamraheaval"
+                app:kswThumbDrawable="@drawable/bg_fragment_charge_thumb_switch_hamraheaval"
+                app:kswThumbHeight="24dp"
+                app:kswThumbMarginLeft="2dp"
+                app:kswThumbMarginRight="2dp"
+                app:kswThumbWidth="24dp"
+
+                />
+
+            <com.technotapp.servicestation.customView.CustomTextView
+                android:id="@+id/fragment_charge_txtShegeftAngiz"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="شگفت انگیز"
+                android:textColor="@color/fragment_charge_switch_text_color"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <com.yarolegovich.discretescrollview.DiscreteScrollView
+            android:id="@+id/fragment_charge_rclCharges"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:layoutDirection="rtl"
+            android:padding="2dp"
+            app:dsv_orientation="horizontal" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.technotapp.servicestation.customView.CustomTextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="48dp"
+                android:gravity="center_vertical"
+                android:text="شماره تلفن:" />
+
+            <com.technotapp.servicestation.customView.CustomEditText
+                android:layout_width="128dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_fragment_charge_back_edt_phone"
+                android:gravity="center"
+
+                android:hint="+++++++++09"
+                android:textColor="@color/button_bar_divider_color_dark"
+                android:textSize="18dp"
+                app:fontName="zar" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/fragment_charge_btnConfirm"
+            android:layout_width="196dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:layout_margin="16dp"
+            android:background="@drawable/bg_fragment_charge_btn_confirm_hamraheaval"
+            android:text="تایید" />
+
     </LinearLayout>
+
 
 </LinearLayout>

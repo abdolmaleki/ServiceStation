@@ -15,4 +15,6 @@
     <color name="fragment_charge_hamraheAval">#48c2cb</color>
     <color name="fragment_charge_taliya">#fd0028</color>
     <color name="fragment_charge_rightel">#982b6b</color>
+    <color name="item_rcl_fragment_charge_irancell_color2">#00678f</color>
+    <color name="fragment_charge_switch_text_color">#727273</color>
 </resources>

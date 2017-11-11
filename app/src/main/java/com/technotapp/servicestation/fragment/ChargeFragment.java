@@ -1,50 +1,75 @@
 package com.technotapp.servicestation.fragment;
 
 
-import android.content.Context;
-import android.content.res.ColorStateList;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.util.DisplayMetrics;
-import android.util.TypedValue;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PagerSnapHelper;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.kyleduo.switchbutton.SwitchButton;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
+import com.technotapp.servicestation.adapter.CardChargeAdapter;
+import com.technotapp.servicestation.application.Constant;
+import com.yarolegovich.discretescrollview.DiscreteScrollView;
+
+import java.util.ArrayList;
 import com.technotapp.servicestation.R;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 
 public class ChargeFragment extends SubMenuFragment implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
-    Fragment fragment;
-    Context mContext;
 
-    private ImageButton btnIrancell;
-    private ImageButton btnRightel;
-    private ImageButton btnHamraheAval;
-    private ImageButton btnTaliya;
-    private TextView txtOperatorName;
-    private View topBackground;
-    private LinearLayout stroke;
-    private SwitchButton switchTypeCharge1;
-    private SwitchButton switchTypeCharge2;
+    @BindView(R.id.fragment_charge_linDirectCharge)
+    LinearLayout linDirectCharge;
+    @BindView(R.id.fragment_charge_btnIrancell)
+    ImageButton btnIrancell;
+    @BindView(R.id.fragment_charge_btnRightel)
+    ImageButton btnRightel;
+    @BindView(R.id.fragment_charge_btnTaliya)
+    ImageButton btnTaliya;
+    @BindView(R.id.fragment_charge_btnHamraheAval)
+    ImageButton btnHamraheAval;
 
-    private static final byte RIGHTEL = 0;
-    private static final byte IRANCELL = 1;
-    private static final byte HAMRAHEAVAL = 2;
-    private static final byte TALIYA = 3;
+    @BindView(R.id.fragment_charge_btnConfirm)
+    Button btnConfirm;
 
-    private int currentColor;
+    @BindView(R.id.fragment_charge_txtOperatorType)
+    TextView txtOperatorName;
+    @BindView(R.id.fragment_charge_txtAdi)
+    TextView txtAdi;
+    @BindView(R.id.fragment_charge_txtMostaghim)
+    TextView txtMostaghim;
+    @BindView(R.id.fragment_charge_txtShegeftAngiz)
+    TextView txtShegeftAngiz;
+    @BindView(R.id.fragment_charge_txtCodeCharge)
+    TextView txtCodeCharge;
+
+    @BindView(R.id.fragment_charge_switchTypeCharge1)
+    SwitchButton switchTypeCharge1;
+    @BindView(R.id.fragment_charge_switchTypeCharge2)
+    SwitchButton switchTypeCharge2;
+
+    @BindView(R.id.fragment_charge_rclCharges)
+    DiscreteScrollView rclCardCharge;
+
+    private RecyclerView.LayoutManager layoutManagerCardCharge;
+    private RecyclerView.Adapter adapterCardCharge;
+    private ArrayList<String> data;
+    private byte currentOperator;
+    private Unbinder unbinder;
+
 
     public static ChargeFragment newInstance() {
         ChargeFragment fragment = new ChargeFragment();
@@ -59,88 +84,103 @@ public class ChargeFragment extends SubMenuFragment implements View.OnClickListe
 
     }
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rooView = inflater.inflate(R.layout.fragment_charge, container, false);
-        bindView(rooView);
+        ButterKnife.bind(this, rooView);
+        unbinder = ButterKnife.bind(this, rooView);
+        data = new ArrayList<>();
+        data.add("1");
+        data.add("2");
+        data.add("5");
+        data.add("10");
+        data.add("20");
+        data.add("50");
+
+        initView();
+
         return rooView;
     }
 
-    private void bindView(View v) {
+    private void initView() {
         try {
             setRetainInstance(true);
-            setTitle(getString(R.string.ChargeFragment_charge_service));
 
-            btnHamraheAval = (ImageButton) v.findViewById(R.id.fragment_charge_btnHamraheAval);
-            btnIrancell = (ImageButton) v.findViewById(R.id.fragment_charge_btnIrancell);
-            btnRightel = (ImageButton) v.findViewById(R.id.fragment_charge_btnRightel);
-            btnTaliya = (ImageButton) v.findViewById(R.id.fragment_charge_btnTaliya);
-            txtOperatorName = (TextView) v.findViewById(R.id.fragment_charge_txtOperatorType);
-            topBackground = v.findViewById(R.id.fragment_charge_viewBg);
-            switchTypeCharge1 = (SwitchButton) v.findViewById(R.id.fragment_charge_switchTypeCharge1);
-            switchTypeCharge2 = (SwitchButton) v.findViewById(R.id.fragment_charge_switchTypeCharge2);
+            setTitle(getString(R.string.ChargeFragment_charge_service));
 
             btnHamraheAval.setOnClickListener(this);
             btnIrancell.setOnClickListener(this);
             btnRightel.setOnClickListener(this);
             btnTaliya.setOnClickListener(this);
             switchTypeCharge1.setOnCheckedChangeListener(this);
+            switchTypeCharge2.setOnCheckedChangeListener(this);
+
+            btnHamraheAval.performClick();
+
         } catch (Exception e) {
             AppMonitor.reportBug(e, "ChargeFragment", "bindView");
         }
     }
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fragment_charge_btnHamraheAval:
-                currentColor = currentColor(HAMRAHEAVAL);
-                initView("شارژ همراه اول");
+                currentOperator = Constant.Operator.HAMRAHEAVAL;
+                changeView("شارژ همراه اول", getCurrentColor(currentOperator), R.drawable.bg_fragment_charge_back_switch_hamraheaval, R.drawable.bg_fragment_charge_thumb_switch_hamraheaval,R.drawable.bg_fragment_charge_btn_confirm_hamraheaval);
                 break;
 
             case R.id.fragment_charge_btnRightel:
-                currentColor = currentColor(RIGHTEL);
-                initView("شارژ رایتل");
+                currentOperator = Constant.Operator.RIGHTEL;
+                changeView("شارژ رایتل", getCurrentColor(currentOperator), R.drawable.bg_fragment_charge_back_switch_rightel, R.drawable.bg_fragment_charge_thumb_switch_rightel,R.drawable.bg_fragment_charge_btn_confirm_rightel);
                 break;
 
             case R.id.fragment_charge_btnTaliya:
-                currentColor = currentColor(TALIYA);
-                initView("شارژ تالیا");
+                currentOperator = Constant.Operator.TALIYA;
+                changeView("شارژ تالیا", getCurrentColor(currentOperator), R.drawable.bg_fragment_charge_back_switch_taliya, R.drawable.bg_fragment_charge_thumb_switch_taliya,R.drawable.bg_fragment_charge_btn_confirm_taliya);
                 break;
 
             case R.id.fragment_charge_btnIrancell:
-                currentColor = currentColor(IRANCELL);
-                initView("شارژ ایرانسل");
+                currentOperator = Constant.Operator.IRANCELL;
+                changeView("شارژ ایرانسل", getCurrentColor(currentOperator), R.drawable.bg_fragment_charge_back_switch_irancell, R.drawable.bg_fragment_charge_thumb_switch_irancell,R.drawable.bg_fragment_charge_btn_confirm_irancell);
 
                 break;
 
         }
 
+        adapterCardCharge = new CardChargeAdapter(data, currentOperator, getContext());
+        rclCardCharge.setAdapter(adapterCardCharge);
+
     }
 
-    private void initView(String str) {
+    private void changeView(String str, int color, int backSwitch, int thumbSwitch,int btnBackground) {
+        switchTypeCharge1.setChecked(false);
+        switchTypeCharge2.setChecked(false);
+        switchTypeCharge1.setChecked(true);
+        switchTypeCharge2.setChecked(true);
+
+        switchTypeCharge1.setBackDrawable(getResources().getDrawable(backSwitch));
+        switchTypeCharge1.setThumbDrawable(getResources().getDrawable(thumbSwitch));
+        switchTypeCharge2.setBackDrawable(getResources().getDrawable(backSwitch));
+        switchTypeCharge2.setThumbDrawable(getResources().getDrawable(thumbSwitch));
+
         txtOperatorName.setText(str);
-        txtOperatorName.setBackground(getResources().getDrawable(currentColor));
-//        topBackground.setBackground(getResources().getDrawable(currentColor));
-        switchTypeCharge1.setThumbColorRes(currentColor);
-        switchTypeCharge2.setThumbColorRes(currentColor);
+        txtOperatorName.setBackground(getResources().getDrawable(color));
 
-
+        btnConfirm.setBackground(getResources().getDrawable(btnBackground));
     }
 
 
-    private int currentColor(byte currentOperator) {
-        switch (currentOperator) {
-            case HAMRAHEAVAL:
+    private int getCurrentColor(byte Operator) {
+        switch (Operator) {
+            case Constant.Operator.HAMRAHEAVAL:
                 return R.color.fragment_charge_hamraheAval;
-            case RIGHTEL:
+            case Constant.Operator.RIGHTEL:
                 return R.color.fragment_charge_rightel;
-            case IRANCELL:
+            case Constant.Operator.IRANCELL:
                 return R.color.fragment_charge_irancell;
-            case TALIYA:
+            case Constant.Operator.TALIYA:
                 return R.color.fragment_charge_taliya;
         }
         return 0;
@@ -151,18 +191,50 @@ public class ChargeFragment extends SubMenuFragment implements View.OnClickListe
         switch (buttonView.getId()) {
             case R.id.fragment_charge_switchTypeCharge1:
                 if (isChecked) {
+                    linDirectCharge.setVisibility(View.VISIBLE);
 
+                    txtMostaghim.setTextSize(16.0f);
+                    txtMostaghim.setTextColor(getResources().getColor(getCurrentColor(currentOperator)));
+
+                    txtCodeCharge.setTextSize(14.0f);
+                    txtCodeCharge.setTextColor(getResources().getColor(R.color.fragment_charge_switch_text_color));
 
                 } else {
+                    linDirectCharge.setVisibility(View.INVISIBLE);
+
+                    txtMostaghim.setTextSize(14.0f);
+                    txtMostaghim.setTextColor(getResources().getColor(R.color.fragment_charge_switch_text_color));
 
 
+                    txtCodeCharge.setTextSize(16.0f);
+                    txtCodeCharge.setTextColor(getResources().getColor(getCurrentColor(currentOperator)));
                 }
                 break;
             case R.id.fragment_charge_switchTypeCharge2:
+                if (isChecked) {
 
+                    txtAdi.setTextSize(16.0f);
+                    txtAdi.setTextColor(getResources().getColor(getCurrentColor(currentOperator)));
+
+                    txtShegeftAngiz.setTextSize(14.0f);
+                    txtShegeftAngiz.setTextColor(getResources().getColor(R.color.fragment_charge_switch_text_color));
+
+                } else {
+                    txtAdi.setTextSize(14.0f);
+                    txtAdi.setTextColor(getResources().getColor(R.color.fragment_charge_switch_text_color));
+
+                    txtShegeftAngiz.setTextSize(16.0f);
+                    txtShegeftAngiz.setTextColor(getResources().getColor(getCurrentColor(currentOperator)));
+                }
 
                 break;
         }
 
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }
