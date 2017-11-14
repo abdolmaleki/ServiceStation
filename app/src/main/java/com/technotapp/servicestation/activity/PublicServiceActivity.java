@@ -10,6 +10,7 @@ import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.fragment.CardServiceFragment;
 import com.technotapp.servicestation.fragment.ChargeFragment;
+import com.technotapp.servicestation.fragment.ReceiptFragment;
 import com.technotapp.servicestation.fragment.SubMenuFragment;
 
 public class PublicServiceActivity extends SubMenuActivity implements IPin {
@@ -43,12 +44,13 @@ public class PublicServiceActivity extends SubMenuActivity implements IPin {
 
     private Fragment getFragment(String fragmnt) {
         switch (fragmnt) {
+            case Constant.MainItem.RECEIPT:
+                return ReceiptFragment.newInstance();
             case Constant.MainItem.CHARGE:
                 return ChargeFragment.newInstance();
 
             case Constant.MainItem.CARDSERVICE:
                 return CardServiceFragment.newInstance();
-
 
 
         }

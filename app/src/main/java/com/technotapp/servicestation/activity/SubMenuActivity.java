@@ -51,8 +51,8 @@ public abstract class SubMenuActivity extends AppCompatActivity implements ITool
     @Override
     public void setTitle(String title) {
         try {
-            LinearLayout ll = (LinearLayout) findViewById(R.id.toolbar_main);
-            TextView tv_title = (TextView) ll.findViewById(R.id.toolbar_tv_title);
+            LinearLayout ll = findViewById(R.id.toolbar_main);
+            TextView tv_title = ll.findViewById(R.id.toolbar_tv_title);
             tv_title.setText(title);
         } catch (Exception e) {
             AppMonitor.reportBug(e, "SubMenuActivity", "setTitle");
@@ -63,8 +63,8 @@ public abstract class SubMenuActivity extends AppCompatActivity implements ITool
     protected void onResume() {
         super.onResume();
         try {
-            LinearLayout ll = (LinearLayout) findViewById(R.id.toolbar_main);
-            ImageButton img_back = (ImageButton) ll.findViewById(R.id.toolbar_img_back);
+            LinearLayout ll = findViewById(R.id.toolbar_main);
+            ImageButton img_back = ll.findViewById(R.id.toolbar_img_back);
             img_back.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -75,4 +75,6 @@ public abstract class SubMenuActivity extends AppCompatActivity implements ITool
             AppMonitor.reportBug(e, "SubMenuActivity", "onResume");
         }
     }
+
+
 }

@@ -99,6 +99,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             case 0:
                 intent.putExtra(Constant.Key.CURRENT_FRAGMENT, Constant.MainItem.CHARGE);
                 break;
+            case 4:
+                intent.putExtra(Constant.Key.CURRENT_FRAGMENT, Constant.MainItem.RECEIPT);
+                break;
             case 6:
                 intent.putExtra(Constant.Key.CURRENT_FRAGMENT, Constant.MainItem.CARDSERVICE);
                 break;

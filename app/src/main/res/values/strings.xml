@@ -83,5 +83,6 @@
     <string name="MainActivity_buy_internet_packages">خرید بسته های اینترنتی</string>
     <string name="TransactionHelper_pleaseWait">لطفا کمی صبر کنید...</string>
     <string name="ChargeFragment_charge_service">خدمات شارژ</string>
+    <string name="ReceiptFragment_billingPay">پرداخت قبض</string>
 
 </resources>

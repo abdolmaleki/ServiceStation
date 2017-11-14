@@ -57,6 +57,7 @@ public class Constant {
     public static class MainItem {
         public static final String CHARGE = "charge_service";
         public static final String CARDSERVICE = "card_service";
+        public static final String RECEIPT = "receipt_service";
         public static final String INSURANCE = "insurance_service";
 
     }
@@ -87,5 +88,18 @@ public class Constant {
 
     }
 
+    public static class PayBill {
+        public static class Organization {
+            public static final byte WATER = 1;
+            public static final byte ELECTRICAL = 2;
+            public static final byte GAS = 3;
+            public static final byte PHONE = 4;
+            public static final byte MOBILE = 5;
+            public static final byte TAX_OF_MUNICIPALITY = 6;
+            public static final byte TAX = 8;
+            public static final byte TRAFFIC_CRIME = 9;
+        }
 
+
+    }
 }

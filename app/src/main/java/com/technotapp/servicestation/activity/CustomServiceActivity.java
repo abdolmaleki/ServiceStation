@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.fragment.CardServiceFragment;
@@ -71,4 +70,5 @@ public class CustomServiceActivity extends SubMenuActivity implements IPin {
             mSubmenuController =null;
         }
     }
+
 }
