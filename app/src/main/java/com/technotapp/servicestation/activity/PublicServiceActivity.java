@@ -44,12 +44,12 @@ public class PublicServiceActivity extends SubMenuActivity implements IPin {
 
     private Fragment getFragment(String fragmnt) {
         switch (fragmnt) {
-            case Constant.MainItem.RECEIPT:
+            case Constant.MenuAction.RECEIPT:
                 return ReceiptFragment.newInstance();
-            case Constant.MainItem.CHARGE:
+            case Constant.MenuAction.CHARGE:
                 return ChargeFragment.newInstance();
 
-            case Constant.MainItem.CARDSERVICE:
+            case Constant.MenuAction.CARDSERVICE:
                 return CardServiceFragment.newInstance();
 
 

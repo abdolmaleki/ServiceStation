@@ -52,13 +52,22 @@ public class Constant {
     public static class Key {
         public static final String CURRENT_FRAGMENT = "current_fragment";
         public static final String MENU_PACKAGE = "menu.package";
+        public static final String MENU_ACTION = "menu.action";
     }
 
-    public static class MainItem {
+    public static class MenuAction {
         public static final String CHARGE = "charge_service";
         public static final String CARDSERVICE = "card_service";
-        public static final String RECEIPT = "receipt_service";
         public static final String INSURANCE = "insurance_service";
+        public static final String TICKET = "ticket_service";
+        public static final String SIMCARD = "simcard_service";
+        public static final String RECEIPT = "receipt_service";
+        public static final String INTERNET = "internet_package_service";
+        public static final String ANSAR = "ansar_service";
+        public static final String CARD_TO_CARD = "card_to_card_service";
+        public static final String DEPOSIT = "deposit_service";
+        public static final String BUY = "buy_service";
+        public static final String BALANCE = "balance_service";
 
     }
 

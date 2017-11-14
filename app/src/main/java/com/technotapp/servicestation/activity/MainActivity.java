@@ -18,7 +18,6 @@ import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.connection.restapi.sto.MenuSto;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
     GridView gridView;
@@ -97,13 +96,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Intent intent =new Intent(MainActivity.this, PublicServiceActivity.class);
         switch (position) {
             case 0:
-                intent.putExtra(Constant.Key.CURRENT_FRAGMENT, Constant.MainItem.CHARGE);
+                intent.putExtra(Constant.Key.CURRENT_FRAGMENT, Constant.MenuAction.CHARGE);
                 break;
             case 4:
-                intent.putExtra(Constant.Key.CURRENT_FRAGMENT, Constant.MainItem.RECEIPT);
+                intent.putExtra(Constant.Key.CURRENT_FRAGMENT, Constant.MenuAction.RECEIPT);
                 break;
             case 6:
-                intent.putExtra(Constant.Key.CURRENT_FRAGMENT, Constant.MainItem.CARDSERVICE);
+                intent.putExtra(Constant.Key.CURRENT_FRAGMENT, Constant.MenuAction.CARDSERVICE);
                 break;
         }
 

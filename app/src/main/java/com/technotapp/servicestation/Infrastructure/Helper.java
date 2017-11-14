@@ -1,21 +1,17 @@
 package com.technotapp.servicestation.Infrastructure;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 
 import com.desai.vatsal.mydynamictoast.MyCustomToast;
-import com.google.gson.reflect.TypeToken;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.application.Constant;
-import com.technotapp.servicestation.connection.restapi.sto.BaseSto;
-import com.technotapp.servicestation.connection.restapi.sto.MenuSto;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
 
 import dmax.dialog.SpotsDialog;
 
@@ -89,11 +85,39 @@ public class Helper {
         }
 
         myCustomToast.show();
-
     }
 
     public static boolean IsAppUpToDate() {
         boolean isUptodate = false;
         return isUptodate;
+    }
+
+    public static void lunchActivity(Context ctx, String controllerName, String action) {
+        final String PACKAGE_NAME = ctx.getApplicationContext().getPackageName();
+        String activityToStart = PACKAGE_NAME + "." + controllerName;
+        try {
+            Class<?> destActivity = Class.forName(activityToStart);
+            Intent intent = new Intent(ctx, destActivity);
+            if (action != null) {
+                intent.putExtra(Constant.Key.MENU_ACTION, action);
+            }
+            ctx.startActivity(intent);
+        } catch (ClassNotFoundException ignored) {
+            AppMonitor.reportBug(ignored, "Helper", "lunchActivity");
+        }
+
+    }
+
+    public static Drawable getDrawable(Context ctx, String name) {
+        try {
+            Resources resources = ctx.getResources();
+            final int resourceId = resources.getIdentifier(name, "drawable",
+                    ctx.getPackageName());
+            return resources.getDrawable(resourceId);
+        } catch (Exception e) {
+            AppMonitor.reportBug(e, "Helper", "getDrawable");
+            return null;
+        }
+
     }
 }

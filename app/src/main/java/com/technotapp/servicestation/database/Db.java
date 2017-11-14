@@ -1,4 +1,4 @@
 package com.technotapp.servicestation.database;
 
-public class test {
+public class Db {
 }
