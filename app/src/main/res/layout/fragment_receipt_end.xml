@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layoutDirection="rtl"
     android:orientation="vertical">
 
@@ -11,97 +11,122 @@
         android:layout_height="match_parent"
         android:layout_margin="16dp"
         android:background="@drawable/background"
+        android:gravity="center_horizontal"
         android:orientation="vertical">
 
-        <android.support.v7.widget.CardView
-            android:layout_marginTop="16dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/fragment_receipt_end_imgOrganization"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_organization_traffic_police" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:orientation="vertical">
-
-                <com.technotapp.servicestation.customView.CustomTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_fragment_receipt_end"
-                    android:gravity="center"
-                    android:text="شناسایی با بارکد خوان"
-                    android:textColor="#46535a"
-                    android:padding="4dp"
-                    app:fontName="irsans_bold"
-                    android:textSize="18sp" />
-
-                <ImageButton
-                    android:id="@+id/fragment_receipt_btnQrReader"
-                    android:layout_width="92dp"
-                    android:layout_height="92dp"
-                    android:layout_gravity="center"
-                    android:layout_margin="16dp"
-                    android:background="@drawable/ic_qr_reader" />
-            </LinearLayout>
-
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp">
+            android:layout_marginTop="24dp"
+            android:background="#22673AB7"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="8dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <com.technotapp.servicestation.customView.CustomTextView
+                android:layout_width="192dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:orientation="vertical">
-                <com.technotapp.servicestation.customView.CustomTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_fragment_receipt_end"
-                    android:gravity="center"
-                    android:text="شناسایی دستی"
-                    android:textColor="#46535a"
-                    android:padding="4dp"
-                    app:fontName="irsans_bold"
-                    android:textSize="18sp" />
+                android:layout_gravity="start"
+                android:clickable="false"
+                android:gravity="center"
+                android:inputType="none"
+                android:text="شناسه قبض"
+                android:textColor="#673AB7"
+                android:textSize="18sp"
+                app:fontName="zar"
 
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="24dp"
-                    android:gravity="center">
+                />
 
-                    <com.technotapp.servicestation.customView.CustomEditText
-                        android:id="@+id/fragment_receipt_edtPaymentCode"
-                        android:layout_width="192dp"
-                        android:layout_height="match_parent"
-                        android:hint="شناسه پرداخت"
-                        android:textSize="16sp" />
-                </android.support.design.widget.TextInputLayout>
+            <com.technotapp.servicestation.customView.CustomTextView
+                android:id="@+id/fragment_receipt_end_txtBillingId"
+                android:layout_width="192dp"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:gravity="center"
+                android:inputType="none"
+                android:textColor="#000000"
+                android:textSize="24dp"
+                app:fontName="zar"
+
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_margin="8dp"
+                android:background="#673AB7" />
+
+            <com.technotapp.servicestation.customView.CustomTextView
+                android:layout_width="192dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginTop="8dp"
+                android:clickable="false"
+                android:gravity="center"
+                android:inputType="none"
+                android:text="شناسه پرداخت"
+                android:textColor="#673AB7"
+                android:textSize="18sp"
+                app:fontName="zar"
+
+                />
+
+            <com.technotapp.servicestation.customView.CustomTextView
+                android:id="@+id/fragment_receipt_end_txtPaymentCode"
+                android:layout_width="192dp"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:gravity="center"
+                android:inputType="none"
+                android:textColor="#000000"
+                android:textSize="24dp"
+                app:fontName="zar"
 
 
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="8dp"
-                    android:gravity="center">
+                />
 
-                    <com.technotapp.servicestation.customView.CustomEditText
-                        android:id="@+id/fragment_receipt_edtBillingId"
-                        android:layout_width="192dp"
-                        android:layout_height="match_parent"
-                        android:hint="شناسه قبض"
-                        android:textSize="16sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_margin="8dp"
+                android:background="#673AB7" />
 
-                </android.support.design.widget.TextInputLayout>
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
+            <com.technotapp.servicestation.customView.CustomTextView
+                android:layout_width="192dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginTop="8dp"
+                android:clickable="false"
+                android:gravity="center"
+                android:inputType="none"
+                android:text="مبلغ"
+                android:textColor="#673AB7"
+                android:textSize="18sp"
+                app:fontName="zar"
+
+                />
+
+            <com.technotapp.servicestation.customView.CustomTextView
+                android:id="@+id/fragment_receipt_end_txtAmount"
+                android:layout_width="192dp"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:gravity="center"
+                android:inputType="none"
+                android:textColor="#000000"
+                android:textSize="24dp"
+                app:fontName="zar"
+
+
+                />
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
@@ -113,11 +138,11 @@
             android:layout_height="48dp"
             android:layout_gravity="center"
             android:layout_marginBottom="16dp"
-            android:background="@color/fragment_transaction_response_dialog_success_textColor"
+            android:background="#673AB7"
             android:gravity="center"
             android:text="پرداخت"
-            android:textColor="@color/white" />
-
+            android:textColor="@color/white"
+            app:fontName="irsans_bold" />
     </LinearLayout>
 
 </LinearLayout>

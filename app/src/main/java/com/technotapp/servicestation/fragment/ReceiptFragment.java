@@ -3,18 +3,23 @@ package com.technotapp.servicestation.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pax.dal.IScanner;
 import com.pax.dal.entity.EScannerType;
 import com.pax.neptunelite.api.NeptuneLiteUser;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
+import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.application.Constant;
 
@@ -31,8 +36,10 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
     EditText edtPaymentCode;
     @BindView(R.id.fragment_receipt_edtBillingId)
     EditText edtBillingId;
-
+    @BindView(R.id.fragment_receipt_btnConfirm)
+    Button btnConfirm;
     private Unbinder unbinder;
+    Bundle bundle;
 
     public static ReceiptFragment newInstance() {
         ReceiptFragment fragment = new ReceiptFragment();
@@ -64,8 +71,9 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
             setRetainInstance(true);
 
             setTitle(getString(R.string.ReceiptFragment_billingPay));
-
+            bundle = new Bundle();
             btnQrReader.setOnClickListener(this);
+            btnConfirm.setOnClickListener(this);
         } catch (Exception e) {
             AppMonitor.reportBug(e, "ReceiptFragment", "initView");
         }
@@ -81,82 +89,202 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.fragment_receipt_btnQrReader) {
-            try {
-                neptuneLiteUser.getDal(getActivity()).getScanner(EScannerType.RIGHT).open();
-                neptuneLiteUser.getDal(getActivity()).getScanner(EScannerType.RIGHT).start(new IScanner.IScanListener() {
-                    @Override
-                    public void onRead(String result) {
-                        if (result != null) {
-                            if (result.length() == 26) {
-                                parseBillDetail(result);
+        switch (v.getId()) {
+            case R.id.fragment_receipt_btnQrReader:
+                try {
+                    neptuneLiteUser.getDal(getActivity()).getScanner(EScannerType.RIGHT).open();
+                    neptuneLiteUser.getDal(getActivity()).getScanner(EScannerType.RIGHT).start(new IScanner.IScanListener() {
+                        @Override
+                        public void onRead(String result) {
 
-                            } else {
+                            checkValidation(result);
 
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            try {
+                                neptuneLiteUser.getDal(getActivity()).getScanner(EScannerType.RIGHT).close();
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-                        } else {
-                            AppMonitor.Log("result null");
-
-                        }
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        try {
-                            neptuneLiteUser.getDal(getActivity()).getScanner(EScannerType.RIGHT).close();
-                        } catch (Exception e) {
-                            e.printStackTrace();
                         }
 
-                    }
+                        @Override
+                        public void onCancel() {
 
-                    @Override
-                    public void onCancel() {
+                        }
+                    });
 
-                    }
-                });
+                } catch (Exception e) {
+                    AppMonitor.reportBug(e, "ReceiptFragment", "submitFragment");
+                }
+                break;
+            case R.id.fragment_receipt_btnConfirm:
+                String strBill = edtBillingId.getText().toString();
+                String strpayment = edtPaymentCode.getText().toString();
+                int lenghtBill=(13 - strBill.length());
+                int lenghtPayment=(13 - strpayment.length());
+                for (int i = 0; i < lenghtBill; i++) {
+                    strBill = "0" + strBill;
+                }
+                for (int i = 0; i < lenghtPayment; i++) {
+                    strpayment = "0" + strpayment;
+                }
+                checkValidation(strBill+strpayment);
+                break;
+        }
 
+    }
+
+    private void checkValidation(String result) {
+        if (parseBillDetail(result)) {
+            try {
+                Fragment fragment = ReceiptEndFragment.newInstance();
+                fragment.setArguments(bundle);
+                //todo change this transaction
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                fragmentTransaction.replace(R.id.activity_public_service_frame, fragment);
+                fragmentTransaction.commitAllowingStateLoss();
             } catch (Exception e) {
-                AppMonitor.reportBug(e, "ReceiptFragment", "submitFragment");
+                AppMonitor.reportBug(e, "SubMenuFragment", "submitFragment");
             }
-
         }
     }
 
 
-    private void parseBillDetail(String strBarcode) {
-        String paymentCode = strBarcode.substring(0, 13);
-        String billingId = strBarcode.substring(14);
-        String amount = Integer.parseInt(billingId.substring(0, 7)) * 1000 + "";
-        byte organizationCode = Byte.parseByte(paymentCode.substring(11, 12));
-        if (organizationCode==0){
+    private boolean parseBillDetail(String strBarcode) {
+        boolean isTrue = false;
+        if (strBarcode != null) {
+            if (strBarcode.length() == 26) {
 
-        }else {
-            edtPaymentCode.setText(paymentCode);
-            edtBillingId.setText(billingId);
+                String billingId = strBarcode.substring(0, 13);
+                String paymentCode = strBarcode.substring(13);
+
+                byte organizationCode = Byte.parseByte(billingId.substring(11, 12));
+                bundle.putInt("organization_image", Helper.getImageOrganization(organizationCode));
+                bundle.putString("amount", "" + Integer.parseInt(paymentCode.substring(0, 8)) * 10000);
+
+                switch (organizationCode) {
+                    case Constant.PayBill.Organization.WATER:
+                    case Constant.PayBill.Organization.ELECTRICAL:
+                    case Constant.PayBill.Organization.GAS:
+                    case Constant.PayBill.Organization.PHONE:
+                        if (isValidBillDetail(billingId, paymentCode)) {
+                            isTrue = true;
+                        } else {
+                            Toast.makeText(mActivity, "این کد نامعتبر می باشد", Toast.LENGTH_SHORT).show();
+                        }
+                        break;
+                }
+            } else {
+                Toast.makeText(mActivity, "بارکد مورد نظر اشتباه می باشد", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            AppMonitor.Log("result null");
+
         }
+
+        return isTrue;
     }
 
-    private int getImageOrganization(byte organizationCode) {
-        switch (organizationCode) {
-            case Constant.PayBill.Organization.WATER:
-                return R.drawable.ic_organization_water;
-            case Constant.PayBill.Organization.ELECTRICAL:
-                return R.drawable.ic_organization_electrical;
-            case Constant.PayBill.Organization.GAS:
-                return R.drawable.ic_organization_gas;
-            case Constant.PayBill.Organization.PHONE:
-                return R.drawable.ic_organization_phone;
-            case Constant.PayBill.Organization.MOBILE:
-                return R.drawable.ic_organization_phone;
-            case Constant.PayBill.Organization.TAX_OF_MUNICIPALITY:
-                return R.drawable.ic_organization_tax_of_municipality;
-            case Constant.PayBill.Organization.TAX:
-                return R.drawable.ic_organization_tax;
-            case Constant.PayBill.Organization.TRAFFIC_CRIME:
-                return R.drawable.ic_organization_traffic_police;
-            default:
-                return 0;
+    private boolean isValidBillDetail(String strBillingCode, String strPaymentCode) {
+        int[] numBill = new int[13];
+        int[] numPayment = new int[13];
+
+        for (int i = 0; i < 13; i++) {
+            numBill[i] = Integer.parseInt(String.valueOf(strBillingCode.charAt(i)));
+            numPayment[i] = Integer.parseInt(String.valueOf(strPaymentCode.charAt(i)));
         }
+        if (isValidBillingId(numBill)) {
+            if (isValidPaymentControl1(numPayment)) {
+                return isValidPaymentControl2(strPaymentCode, strBillingCode);
+            }
+        }
+
+
+        return false;
     }
+
+    private boolean isValidBillingId(int[] numbers) {
+        byte k = 2;
+        int sum = 0;
+
+        for (int i = 12; i >= 0; i--) {
+
+            if (i != 12) {
+                sum += numbers[i] * k;
+                k++;
+                if (k == 8) {
+                    k = 2;
+                }
+            }
+        }
+        int modeNumber = (sum % 11);
+        if (modeNumber == 0 || modeNumber == 1) {
+            modeNumber = 11;
+        }
+        return numbers[12] == (11 - modeNumber);
+    }
+
+    private boolean isValidPaymentControl1(int[] numbers) {
+
+        byte k = 2;
+        int sum = 0;
+
+        for (int i = 11; i >= 0; i--) {
+
+            if (i != 11) {
+                sum += numbers[i] * k;
+                k++;
+                if (k == 8) {
+                    k = 2;
+                }
+            }
+        }
+        int modeNumber = (sum % 11);
+        if (modeNumber == 0 || modeNumber == 1) {
+            modeNumber = 11;
+        }
+        return numbers[11] == (11 - modeNumber);
+    }
+
+    private boolean isValidPaymentControl2(String payment, String billing) {
+        Long longPayment = Long.parseLong(payment);
+        Long longBilling = Long.parseLong(billing);
+        String strPayment = longPayment.toString();
+        String strBilling = longBilling.toString();
+
+        bundle.putString("paymentCode", strPayment);
+        bundle.putString("billingId", strBilling);
+
+        String total = strBilling + strPayment;
+        byte k = 2;
+        int sum = 0;
+        int size = total.length();
+
+        int[] numbers = new int[size];
+
+        for (int i = size - 1; i >= 0; i--) {
+            numbers[i] = Integer.parseInt(String.valueOf(total.charAt(i)));
+            if (i != size - 1) {
+                sum += numbers[i] * k;
+                k++;
+                if (k == 8) {
+                    k = 2;
+                }
+            }
+        }
+
+        int modeNumber = (sum % 11);
+        if (modeNumber == 0 || modeNumber == 1) {
+            modeNumber = 11;
+        }
+
+        return (numbers[size - 1] == (11 - modeNumber));
+    }
+
+
 }
