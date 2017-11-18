@@ -44,7 +44,12 @@ public class CardServiceFragment extends SubMenuFragment implements AdapterView.
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loadData();
+        initDb();
 
+    }
+
+    private void initDb() {
+        Db.init();
     }
 
 
@@ -96,23 +101,25 @@ public class CardServiceFragment extends SubMenuFragment implements AdapterView.
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        MenuModel model = Db.Menu.getMenuById(id);
         try {
             args = new Bundle();
-            switch (position) {
+            switch (model.action) {
                 // TODO add card to card
-                case 0:
+                case Constant.MenuAction.CARD_TO_CARD:
                     break;
-                case 1:
+                case Constant.MenuAction.DEPOSIT:
                     args.putBoolean("isDeposit", true);
                     fragment.setArguments(args);
                     submitFragment(fragment);
                     break;
-                case 2:
+                case Constant.MenuAction.BUY:
                     args.putBoolean("isDeposit", false);
                     fragment.setArguments(args);
                     submitFragment(fragment);
                     break;
-                case 3:
+                case Constant.MenuAction.BALANCE:
                     balanceCard();
                     break;
 
