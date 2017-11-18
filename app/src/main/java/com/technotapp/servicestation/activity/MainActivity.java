@@ -11,10 +11,10 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
+import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.R;
-import com.technotapp.servicestation.adapter.DataModel.MainMenuAdapterModel;
+import com.technotapp.servicestation.adapter.DataModel.MenuAdapterModel;
 import com.technotapp.servicestation.adapter.MainMenuAdapter;
-import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.database.Db;
 import com.technotapp.servicestation.database.model.MenuModel;
 
@@ -58,22 +58,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private void initAdapter() {
         try {
-            ArrayList<MainMenuAdapterModel> mainMenuAdapterModels = new ArrayList<>();
+            ArrayList<MenuAdapterModel> mainMenuAdapterModels = new ArrayList<>();
             RealmResults<MenuModel> models = Db.Menu.getMainMenu();
             for (MenuModel menuModel : models) {
-                mainMenuAdapterModels.add(new MainMenuAdapterModel(menuModel));
+                mainMenuAdapterModels.add(new MenuAdapterModel(menuModel));
             }
             //TODO set main menu item title and icons
-//            mainMenuModels.add(new MainMenuAdapterModel(getString(R.string.MainActivity_buy_charge), R.drawable.ic_charg));
-//            mainMenuModels.add(new MainMenuAdapterModel(getString(R.string.MainActivity_buy_ticket), R.drawable.ic_ticket));
-//            mainMenuModels.add(new MainMenuAdapterModel(getString(R.string.MainActivity_services_and_goods), R.drawable.ic_shopping));
-//            mainMenuModels.add(new MainMenuAdapterModel(getString(R.string.MainActivity_simcard_services), R.drawable.ic_simcard));
-//            mainMenuModels.add(new MainMenuAdapterModel(getString(R.string.MainActivity_pay_bills), R.drawable.ic_recipt));
-//            mainMenuModels.add(new MainMenuAdapterModel(getString(R.string.MainActivity_insurance_services), R.drawable.ic_insurance));
-//            mainMenuModels.add(new MainMenuAdapterModel(getString(R.string.MainActivity_card_services), R.drawable.ic_bank_card));
-//            mainMenuModels.add(new MainMenuAdapterModel(getString(R.string.MainActivity_ansar_bank_services), R.drawable.ic_ansar_logo));
-//            mainMenuModels.add(new MainMenuAdapterModel(getString(R.string.MainActivity_buy_internet_packages), R.drawable.ic_net));
-
             MainMenuAdapter menuAdapter = new MainMenuAdapter(this, mainMenuAdapterModels);
             gridView.setAdapter(menuAdapter);
         } catch (Exception e) {
@@ -94,21 +84,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent = new Intent(MainActivity.this, PublicServiceActivity.class);
-        switch (position) {
-            case 0:
-                intent.putExtra(Constant.Key.CURRENT_FRAGMENT, Constant.MenuAction.CHARGE);
-                break;
-            case 4:
-                intent.putExtra(Constant.Key.CURRENT_FRAGMENT, Constant.MenuAction.RECEIPT);
-                break;
-            case 6:
-                intent.putExtra(Constant.Key.CURRENT_FRAGMENT, Constant.MenuAction.CARDSERVICE);
-                break;
-        }
 
-        startActivity(intent);
-
+        MenuModel selectedMenuItem = Db.Menu.getMenuById(id);
+        Helper.lunchActivity(this, selectedMenuItem.controller, (int) id);
     }
 
     byte counter = 0;
@@ -119,35 +97,39 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.activity_main_btnSetting:
-                if (toastMessage != null) {
-                    toastMessage.cancel();
-                }
-
-                if (counter == 9) {
-                    counter = 0;
-                    startActivity(new Intent(MainActivity.this, SettingActivity.class));
-                    finish();
-                    return;
-                } else if (counter > 3) {
-
-                    toastMessage = Toast.makeText(MainActivity.this, "شما " + (9 - counter) + " قدمی دسترسی به تنظیمات هستید.", Toast.LENGTH_SHORT);
-                    toastMessage.show();
-
-                }
-
-                counter++;
-                if (isFirst) {
-                    new Handler().postDelayed(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            counter = 0;
-                            isFirst = false;
-                        }
-                    }, 10000);
-
-                }
+                openSettingMenu();
                 break;
+        }
+    }
+
+    private void openSettingMenu() {
+        if (toastMessage != null) {
+            toastMessage.cancel();
+        }
+
+        if (counter == 9) {
+            counter = 0;
+            startActivity(new Intent(MainActivity.this, SettingActivity.class));
+            finish();
+            return;
+        } else if (counter > 3) {
+
+            toastMessage = Toast.makeText(MainActivity.this, "شما " + (9 - counter) + " قدمی دسترسی به تنظیمات هستید.", Toast.LENGTH_SHORT);
+            toastMessage.show();
+
+        }
+
+        counter++;
+        if (isFirst) {
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    counter = 0;
+                    isFirst = false;
+                }
+            }, 10000);
+
         }
     }
 }

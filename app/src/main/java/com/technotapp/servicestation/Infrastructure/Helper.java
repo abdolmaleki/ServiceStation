@@ -3,10 +3,7 @@ package com.technotapp.servicestation.Infrastructure;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 
 import com.desai.vatsal.mydynamictoast.MyCustomToast;
@@ -15,10 +12,7 @@ import com.technotapp.servicestation.application.Constant;
 
 import dmax.dialog.SpotsDialog;
 
-import static android.graphics.Paint.ANTI_ALIAS_FLAG;
-
 public class Helper {
-
 
 
     public static String getDeviceInfo() {
@@ -73,15 +67,13 @@ public class Helper {
         return isUptodate;
     }
 
-    public static void lunchActivity(Context ctx, String controllerName, String action) {
-        final String PACKAGE_NAME = ctx.getApplicationContext().getPackageName();
+    public static void lunchActivity(Context ctx, String controllerName, int menuId) {
+        final String PACKAGE_NAME = ctx.getApplicationContext().getPackageName() + ".activity";
         String activityToStart = PACKAGE_NAME + "." + controllerName;
         try {
             Class<?> destActivity = Class.forName(activityToStart);
             Intent intent = new Intent(ctx, destActivity);
-            if (action != null) {
-                intent.putExtra(Constant.Key.MENU_ACTION, action);
-            }
+            intent.putExtra(Constant.Key.MENU_ID, menuId);
             ctx.startActivity(intent);
         } catch (ClassNotFoundException ignored) {
             AppMonitor.reportBug(ignored, "Helper", "lunchActivity");

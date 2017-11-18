@@ -8,12 +8,17 @@ import android.os.Bundle;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.application.Constant;
+import com.technotapp.servicestation.database.Db;
+import com.technotapp.servicestation.database.model.MenuModel;
 import com.technotapp.servicestation.fragment.CardServiceFragment;
 import com.technotapp.servicestation.fragment.ChargeFragment;
 import com.technotapp.servicestation.fragment.ReceiptFragment;
 import com.technotapp.servicestation.fragment.SubMenuFragment;
 
 public class PublicServiceActivity extends SubMenuActivity implements IPin {
+
+    private int mParentMenuId;
+    private MenuModel mCurrentMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,26 +29,30 @@ public class PublicServiceActivity extends SubMenuActivity implements IPin {
 
         loadData();
 
-        submitFragment();
-
     }
 
     private void submitFragment() {
         try {
-            Fragment fragment = getFragment(getIntent().getStringExtra(Constant.Key.CURRENT_FRAGMENT));
-            String backStateName = fragment.getClass().getName();
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.activity_public_service_frame, fragment, backStateName);
-            fragmentTransaction.addToBackStack(backStateName);
-            fragmentTransaction.commit();
+            Fragment fragment = getFragment(mCurrentMenu.action);
+            if (fragment != null) {
+                String backStateName = fragment.getClass().getName();
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                Bundle bundle = new Bundle();
+                bundle.putInt(Constant.Key.MENU_ID, mCurrentMenu.id);
+                fragment.setArguments(bundle);
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.activity_public_service_frame, fragment, backStateName);
+                fragmentTransaction.addToBackStack(backStateName);
+                fragmentTransaction.commit();
+            }
+
         } catch (Exception e) {
             AppMonitor.reportBug(e, "PublicServiceActivity", "submitFragment");
         }
     }
 
-    private Fragment getFragment(String fragmnt) {
-        switch (fragmnt) {
+    private Fragment getFragment(String action) {
+        switch (action) {
             case Constant.MenuAction.RECEIPT:
                 return ReceiptFragment.newInstance();
             case Constant.MenuAction.CHARGE:
@@ -51,15 +60,18 @@ public class PublicServiceActivity extends SubMenuActivity implements IPin {
 
             case Constant.MenuAction.CARDSERVICE:
                 return CardServiceFragment.newInstance();
-
-
         }
         return null;
     }
 
 
     private void loadData() {
-
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            mParentMenuId = bundle.getInt(Constant.Key.MENU_ID);
+            mCurrentMenu = Db.Menu.getMenuById(mParentMenuId);
+            submitFragment();
+        }
     }
 
     private void loadSetting() {

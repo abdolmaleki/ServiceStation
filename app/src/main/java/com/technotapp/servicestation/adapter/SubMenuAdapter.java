@@ -12,21 +12,21 @@ import android.widget.TextView;
 
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.R;
-import com.technotapp.servicestation.adapter.DataModel.SubMenuModel;
+import com.technotapp.servicestation.adapter.DataModel.SubMenuAdapterModel;
 
 import java.util.ArrayList;
 
 
 public class SubMenuAdapter extends BaseAdapter {
     private Context mContext;
-    private ArrayList<SubMenuModel> dataSet;
+    private ArrayList<SubMenuAdapterModel> dataSet;
 
     private static class ViewHolder {
         TextView title;
         ImageView icon;
     }
 
-    public SubMenuAdapter(Context mContext, ArrayList<SubMenuModel> dataModels) {
+    public SubMenuAdapter(Context mContext, ArrayList<SubMenuAdapterModel> dataModels) {
         this.dataSet = dataModels;
         this.mContext = mContext;
     }
@@ -62,7 +62,7 @@ public class SubMenuAdapter extends BaseAdapter {
                 viewHolder = (ViewHolder) rowView.getTag();
             }
 
-            SubMenuModel dataModel = dataSet.get(position);
+            SubMenuAdapterModel dataModel = dataSet.get(position);
             viewHolder.title.setText(dataModel.title);
             int resource = dataModel.icon;
             Bitmap bitmap = BitmapFactory.decodeResource(

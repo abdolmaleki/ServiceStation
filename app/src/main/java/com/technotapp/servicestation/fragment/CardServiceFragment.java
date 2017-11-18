@@ -12,20 +12,26 @@ import android.widget.GridView;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.TransactionHelper;
 import com.technotapp.servicestation.R;
-import com.technotapp.servicestation.adapter.DataModel.SubMenuModel;
+import com.technotapp.servicestation.adapter.DataModel.MenuAdapterModel;
 import com.technotapp.servicestation.adapter.DataModel.TransactionDataModel;
+import com.technotapp.servicestation.adapter.MainMenuAdapter;
 import com.technotapp.servicestation.adapter.SubMenuAdapter;
 import com.technotapp.servicestation.application.Constant;
+import com.technotapp.servicestation.database.Db;
+import com.technotapp.servicestation.database.model.MenuModel;
 import com.technotapp.servicestation.pax.mag.IMagCardCallback;
 import com.technotapp.servicestation.pax.mag.MagCard;
 
 import java.util.ArrayList;
+
+import io.realm.RealmResults;
 
 public class CardServiceFragment extends SubMenuFragment implements AdapterView.OnItemClickListener {
 
     GridView gridView;
     Bundle args;
     Fragment fragment;
+    private int mMenuId;
 
     public static CardServiceFragment newInstance() {
         CardServiceFragment fragment = new CardServiceFragment();
@@ -55,35 +61,38 @@ public class CardServiceFragment extends SubMenuFragment implements AdapterView.
 
     private void initView(View v) {
         try {
-            gridView = (GridView) v.findViewById(R.id.fragment_card_services_grdList);
-            fragment= CardServiceDepositAndBuyFragment.newInstance();
+            gridView = v.findViewById(R.id.fragment_card_services_grdList);
+            fragment = CardServiceDepositAndBuyFragment.newInstance();
             setRetainInstance(true);
             setTitle(getString(R.string.CardServiceFragment_title));
             gridView.setOnItemClickListener(this);
-        }catch (Exception e){
-            AppMonitor.reportBug(e,"CardServiceFragment","initView");
+        } catch (Exception e) {
+            AppMonitor.reportBug(e, "CardServiceFragment", "initView");
         }
     }
 
     private void initAdapter() {
-        try {
 
-            ArrayList<SubMenuModel> subMenuModels = new ArrayList<>();
-            subMenuModels.add(new SubMenuModel(getString(R.string.CardServiceFragment_Menu_cardToCard), R.drawable.ic_card_to_card));
-            subMenuModels.add(new SubMenuModel(getString(R.string.CardServiceFragment_Menu_Deposit), R.drawable.ic_deposit));
-            subMenuModels.add(new SubMenuModel(getString(R.string.CardServiceFragment_Menu_Buy), R.drawable.ic_buy_card));
-            subMenuModels.add(new SubMenuModel(getString(R.string.CardServiceFragment_Menu_Balance), R.drawable.ic_balance));
-            SubMenuAdapter menuAdapter = new SubMenuAdapter(mActivity, subMenuModels);
+        try {
+            ArrayList<MenuAdapterModel> mainMenuAdapterModels = new ArrayList<>();
+            RealmResults<MenuModel> models = Db.Menu.getSubMenu(mMenuId);
+            for (MenuModel menuModel : models) {
+                mainMenuAdapterModels.add(new MenuAdapterModel(menuModel));
+            }
+            //TODO set main menu item title and icons
+            MainMenuAdapter menuAdapter = new MainMenuAdapter(mActivity, mainMenuAdapterModels);
             gridView.setAdapter(menuAdapter);
-        }catch (Exception e){
-            AppMonitor.reportBug(e,"CardServiceFragment","initAdapter");
+        } catch (Exception e) {
+            AppMonitor.reportBug(e, "CardServiceFragment", "initAdapter");
         }
     }
 
     private void loadData() {
-
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            mMenuId = bundle.getInt(Constant.Key.MENU_ID, -1);
+        }
     }
-
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -108,8 +117,8 @@ public class CardServiceFragment extends SubMenuFragment implements AdapterView.
                     break;
 
             }
-        }catch (Exception e){
-            AppMonitor.reportBug(e,"CardServiceFragment","onItemClick");
+        } catch (Exception e) {
+            AppMonitor.reportBug(e, "CardServiceFragment", "onItemClick");
         }
 
     }
@@ -126,8 +135,8 @@ public class CardServiceFragment extends SubMenuFragment implements AdapterView.
         super.onPinEnteredSuccessfully();
         try {
             TransactionHelper.sendRequest(getActivity(), Constant.RequestMode.BALANCE, transactionDataModel, "0");
-        }catch (Exception e){
-            AppMonitor.reportBug(e,"CardServiceFragment","onPinEnteredSuccessfully");
+        } catch (Exception e) {
+            AppMonitor.reportBug(e, "CardServiceFragment", "onPinEnteredSuccessfully");
         }
 
     }

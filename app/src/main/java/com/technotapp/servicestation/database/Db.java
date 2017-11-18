@@ -39,5 +39,13 @@ public class Db {
         public static RealmResults<MenuModel> getMainMenu() {
             return realm.where(MenuModel.class).equalTo("parentMenuID", -1).findAll();
         }
+
+        public static RealmResults<MenuModel> getSubMenu(int parentId) {
+            return realm.where(MenuModel.class).equalTo("parentMenuID", parentId).findAll();
+        }
+
+        public static MenuModel getMenuById(long id) {
+            return realm.where(MenuModel.class).equalTo("id", id).findFirst();
+        }
     }
 }

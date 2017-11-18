@@ -48,7 +48,7 @@
             android:layout_marginStart="8dp"
             android:gravity="center"
             android:horizontalSpacing="8dp"
-            android:numColumns="3"
+            android:numColumns="2"
             android:verticalSpacing="20dp"
             tools:listitem="@layout/item_grid_main_menu" />
     </LinearLayout>

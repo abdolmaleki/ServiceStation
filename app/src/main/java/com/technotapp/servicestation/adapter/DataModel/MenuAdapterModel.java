@@ -2,7 +2,7 @@ package com.technotapp.servicestation.adapter.DataModel;
 
 import com.technotapp.servicestation.database.model.MenuModel;
 
-public class MainMenuAdapterModel {
+public class MenuAdapterModel {
     public int id;
     public int parentMenuID;
     public String title;
@@ -15,7 +15,7 @@ public class MainMenuAdapterModel {
     public int orderNo;
 
 
-    public MainMenuAdapterModel(MenuModel model) {
+    public MenuAdapterModel(MenuModel model) {
         this.title = model.title;
         this.icon = model.icon;
         this.action = model.action;

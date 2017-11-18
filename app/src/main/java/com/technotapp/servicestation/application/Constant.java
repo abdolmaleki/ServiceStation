@@ -73,7 +73,7 @@ public class Constant {
     public static class Key {
         public static final String CURRENT_FRAGMENT = "current_fragment";
         public static final String MENU_PACKAGE = "menu.package";
-        public static final String MENU_ACTION = "menu.action";
+        public static final String MENU_ID = "menu.id";
     }
 
     public static class MenuAction {
