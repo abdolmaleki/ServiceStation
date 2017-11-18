@@ -13,6 +13,9 @@ import com.technotapp.servicestation.setting.Session;
 
 import java.io.File;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+
 public class AppConfig extends Application {
     public static IDAL idal = null;
     private Session mSession;
@@ -27,7 +30,8 @@ public class AppConfig extends Application {
         super.onCreate();
 //        PaxHelper.disableAllNavigationButton(getApplicationContext());
         init();
-        copyFonts();
+        //copyFonts();
+        configDb();
 
     }
 
@@ -57,5 +61,22 @@ public class AppConfig extends Application {
         } catch (Exception e) {
             AppMonitor.reportBug(e, "AppConfig", "copyFonts");
         }
+    }
+
+    private void configDb() {
+        try {
+            Realm.init(this);
+
+            RealmConfiguration config = new RealmConfiguration.Builder()
+                    .name("service_station.realm")
+                    .schemaVersion(0)
+                    .deleteRealmIfMigrationNeeded()
+                    .build();
+
+            Realm.setDefaultConfiguration(config);
+        } catch (Exception e) {
+            AppMonitor.reportBug(e, "", "");
+        }
+
     }
 }

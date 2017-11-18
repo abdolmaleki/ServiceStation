@@ -6,6 +6,7 @@ public class Constant {
         public static final String SERVER_IP = "87.236.214.176 ";
         public static final int SERVER_PORT = 8887;
         public static final String API_BASE_URL = "http://87.236.214.176:3400/";
+        public static final String PICTURE_BASE_URL = "http://87.236.214.176:8000/POS/";
 
 
         public static class Printer {
@@ -17,6 +18,26 @@ public class Constant {
 
     public static class Session {
         public static final String IS_FIRST_RUN = "isFirstRun";
+        public static final String MOBILE = "mobile";
+        public static final String FIRST_NAME = "firstname";
+        public static final String LASTNAME = "lastname";
+        public static final String GENDER = "gender";
+        public static final String BIRTHDATE = "birthdate";
+        public static final String EMAIL = "email";
+        public static final String ADDRESS = "address";
+        public static final String SCORE = "score";
+        public static final String IS_CUSTOMER = "is_customer";
+        public static final String TOKEN_ID = "token_id";
+
+        //    mobileNumber = in.readString();
+//    isCustomer = in.readInt();
+//    firstName = in.readString();
+//    lastName = in.readString();
+//    gender = in.readInt();
+//    birthDate = in.readString();
+//    email = in.readString();
+//    address = in.readString();
+//    score = in.readInt();
 
     }
 

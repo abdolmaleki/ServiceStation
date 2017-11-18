@@ -22,7 +22,8 @@
                 android:id="@+id/item_grid_main_menu_iv_icon"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"
+                android:src="@drawable/ic_ticket" />
         </LinearLayout>
 
         <com.technotapp.servicestation.customView.CustomTextView

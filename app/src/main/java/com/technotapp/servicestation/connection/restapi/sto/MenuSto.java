@@ -2,6 +2,7 @@ package com.technotapp.servicestation.connection.restapi.sto;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.view.Menu;
 
 import java.io.Serializable;
 import java.util.List;
@@ -73,6 +74,148 @@ public class MenuSto extends BaseSto implements Parcelable {
             dest.writeTypedList(info);
             dest.writeTypedList(menu);
         }
+
+        public static class Info implements Serializable, Parcelable {
+            public String mobileNumber;
+            public int isCustomer;
+            public String firstName;
+            public String lastName;
+            public int gender;
+            public String birthDate;
+            public String email;
+            public String address;
+            public int score;
+
+            protected Info(Parcel in) {
+                mobileNumber = in.readString();
+                isCustomer = in.readInt();
+                firstName = in.readString();
+                lastName = in.readString();
+                gender = in.readInt();
+                birthDate = in.readString();
+                email = in.readString();
+                address = in.readString();
+                score = in.readInt();
+            }
+
+            public static final Creator<Info> CREATOR = new Creator<Info>() {
+                @Override
+                public Info createFromParcel(Parcel in) {
+                    return new Info(in);
+                }
+
+                @Override
+                public Info[] newArray(int size) {
+                    return new Info[size];
+                }
+            };
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+                dest.writeString(mobileNumber);
+                dest.writeInt(isCustomer);
+                dest.writeString(firstName);
+                dest.writeString(lastName);
+                dest.writeInt(gender);
+                dest.writeString(birthDate);
+                dest.writeString(email);
+                dest.writeString(address);
+                dest.writeInt(score);
+            }
+        }
+
+
+        public static class Menu implements Serializable, Parcelable {
+            public int menuID;
+            public Integer parentMenuID;
+            public String title;
+            public String description;
+            public String icon;
+            public String url;
+            public String controller;
+            public String action;
+            public boolean status;
+            public Integer orderNo;
+            public Integer orderNoSubMenu;
+
+            protected Menu(Parcel in) {
+                menuID = in.readInt();
+                if (in.readByte() == 0) {
+                    parentMenuID = null;
+                } else {
+                    parentMenuID = in.readInt();
+                }
+                title = in.readString();
+                description = in.readString();
+                icon = in.readString();
+                url = in.readString();
+                controller = in.readString();
+                action = in.readString();
+                status = in.readByte() != 0;
+                if (in.readByte() == 0) {
+                    orderNo = null;
+                } else {
+                    orderNo = in.readInt();
+                }
+                if (in.readByte() == 0) {
+                    orderNoSubMenu = null;
+                } else {
+                    orderNoSubMenu = in.readInt();
+                }
+            }
+
+            public static final Creator<Menu> CREATOR = new Creator<Menu>() {
+                @Override
+                public Menu createFromParcel(Parcel in) {
+                    return new Menu(in);
+                }
+
+                @Override
+                public Menu[] newArray(int size) {
+                    return new Menu[size];
+                }
+            };
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+                dest.writeInt(menuID);
+                if (parentMenuID == null) {
+                    dest.writeByte((byte) 0);
+                } else {
+                    dest.writeByte((byte) 1);
+                    dest.writeInt(parentMenuID);
+                }
+                dest.writeString(title);
+                dest.writeString(description);
+                dest.writeString(icon);
+                dest.writeString(url);
+                dest.writeString(controller);
+                dest.writeString(action);
+                dest.writeByte((byte) (status ? 1 : 0));
+                if (orderNo == null) {
+                    dest.writeByte((byte) 0);
+                } else {
+                    dest.writeByte((byte) 1);
+                    dest.writeInt(orderNo);
+                }
+                if (orderNoSubMenu == null) {
+                    dest.writeByte((byte) 0);
+                } else {
+                    dest.writeByte((byte) 1);
+                    dest.writeInt(orderNoSubMenu);
+                }
+            }
+        }
     }
 
     public static class MessageModel implements Serializable, Parcelable {
@@ -109,145 +252,8 @@ public class MenuSto extends BaseSto implements Parcelable {
         }
     }
 
-    public static class Menu implements Serializable, Parcelable {
-        public int menuID;
-        public Integer parentMenuID;
-        public String title;
-        public String description;
-        public String icon;
-        public String url;
-        public String controller;
-        public String action;
-        public boolean status;
-        public Integer orderNo;
-        public Integer orderNoSubMenu;
 
-        protected Menu(Parcel in) {
-            menuID = in.readInt();
-            if (in.readByte() == 0) {
-                parentMenuID = null;
-            } else {
-                parentMenuID = in.readInt();
-            }
-            title = in.readString();
-            description = in.readString();
-            icon = in.readString();
-            url = in.readString();
-            controller = in.readString();
-            action = in.readString();
-            status = in.readByte() != 0;
-            if (in.readByte() == 0) {
-                orderNo = null;
-            } else {
-                orderNo = in.readInt();
-            }
-            if (in.readByte() == 0) {
-                orderNoSubMenu = null;
-            } else {
-                orderNoSubMenu = in.readInt();
-            }
-        }
 
-        public static final Creator<Menu> CREATOR = new Creator<Menu>() {
-            @Override
-            public Menu createFromParcel(Parcel in) {
-                return new Menu(in);
-            }
 
-            @Override
-            public Menu[] newArray(int size) {
-                return new Menu[size];
-            }
-        };
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeInt(menuID);
-            if (parentMenuID == null) {
-                dest.writeByte((byte) 0);
-            } else {
-                dest.writeByte((byte) 1);
-                dest.writeInt(parentMenuID);
-            }
-            dest.writeString(title);
-            dest.writeString(description);
-            dest.writeString(icon);
-            dest.writeString(url);
-            dest.writeString(controller);
-            dest.writeString(action);
-            dest.writeByte((byte) (status ? 1 : 0));
-            if (orderNo == null) {
-                dest.writeByte((byte) 0);
-            } else {
-                dest.writeByte((byte) 1);
-                dest.writeInt(orderNo);
-            }
-            if (orderNoSubMenu == null) {
-                dest.writeByte((byte) 0);
-            } else {
-                dest.writeByte((byte) 1);
-                dest.writeInt(orderNoSubMenu);
-            }
-        }
-    }
-
-    public static class Info implements Serializable, Parcelable {
-        public String mobileNumber;
-        public int isCustomer;
-        public String firstName;
-        public String lastName;
-        public int gender;
-        public String birthDate;
-        public String email;
-        public String address;
-        public int score;
-
-        protected Info(Parcel in) {
-            mobileNumber = in.readString();
-            isCustomer = in.readInt();
-            firstName = in.readString();
-            lastName = in.readString();
-            gender = in.readInt();
-            birthDate = in.readString();
-            email = in.readString();
-            address = in.readString();
-            score = in.readInt();
-        }
-
-        public static final Creator<Info> CREATOR = new Creator<Info>() {
-            @Override
-            public Info createFromParcel(Parcel in) {
-                return new Info(in);
-            }
-
-            @Override
-            public Info[] newArray(int size) {
-                return new Info[size];
-            }
-        };
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeString(mobileNumber);
-            dest.writeInt(isCustomer);
-            dest.writeString(firstName);
-            dest.writeString(lastName);
-            dest.writeInt(gender);
-            dest.writeString(birthDate);
-            dest.writeString(email);
-            dest.writeString(address);
-            dest.writeInt(score);
-        }
-    }
 
 }

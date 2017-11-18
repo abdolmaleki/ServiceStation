@@ -22,9 +22,13 @@ import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.connection.restapi.ApiCaller;
 import com.technotapp.servicestation.connection.restapi.dto.MenuDto;
 import com.technotapp.servicestation.connection.restapi.sto.MenuSto;
+import com.technotapp.servicestation.database.Db;
+import com.technotapp.servicestation.database.model.MenuModel;
+import com.technotapp.servicestation.mapper.MenuMapper;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.crypto.SecretKey;
 
@@ -145,9 +149,11 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
 
                         if (menuStos != null) {
                             if (menuStos.get(0).messageModel.get(0).errorCode == Constant.Api.ErrorCode.Successfull) {
-                                Intent intent = new Intent(SigninActivity.this, MainActivity.class);
-                                intent.putParcelableArrayListExtra(Constant.Key.MENU_PACKAGE, menuStos);
-                                startActivity(intent);
+                                if (saveMenu(menuStos)) {
+                                    startActivity(new Intent(SigninActivity.this, MainActivity.class));
+                                } else {
+                                    Helper.alert(SigninActivity.this, menuStos.get(0).messageModel.get(0).errorString, Constant.AlertType.Error, Toast.LENGTH_SHORT);
+                                }
 
 
                             } else {
@@ -176,12 +182,27 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
         MenuDto menuDto = new MenuDto();
 
         menuDto.userName = "pirouze";
-        menuDto.password = "bpoYjfrt949iOqFsMGRfmg==";
+        menuDto.password = "4240235464";
         menuDto.deviceInfo = "My Pos Info";
         menuDto.terminalCode = "R215454D5";
         menuDto.deviceIP = "192.0.0.1";
 
         return menuDto;
+    }
+
+    private boolean saveMenu(List<MenuSto> menuStos) {
+        try {
+
+            Db.init();
+            List<MenuModel> menuModels = MenuMapper.convertStosToModels(menuStos);
+            Db.Menu.insert(menuModels);
+            return true;
+
+        } catch (Exception e) {
+            AppMonitor.reportBug(e, "SigninActivity", "saveMenu");
+            return false;
+        }
+
     }
 
 
