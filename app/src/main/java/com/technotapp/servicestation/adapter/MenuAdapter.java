@@ -17,7 +17,7 @@ import com.technotapp.servicestation.application.Constant;
 import java.util.ArrayList;
 
 
-public class MainMenuAdapter extends BaseAdapter {
+public class MenuAdapter extends BaseAdapter {
     private Context mContext;
     private ArrayList<MenuAdapterModel> dataSet;
 
@@ -26,7 +26,7 @@ public class MainMenuAdapter extends BaseAdapter {
         ImageView icon;
     }
 
-    public MainMenuAdapter(Context mContext, ArrayList<MenuAdapterModel> dataModels) {
+    public MenuAdapter(Context mContext, ArrayList<MenuAdapterModel> dataModels) {
         this.dataSet = dataModels;
         this.mContext = mContext;
     }
@@ -73,7 +73,7 @@ public class MainMenuAdapter extends BaseAdapter {
 
             return rowView;
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "MainMenuAdapter", "getView");
+            AppMonitor.reportBug(e, "MenuAdapter", "getView");
             return null;
         }
 

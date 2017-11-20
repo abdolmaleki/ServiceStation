@@ -14,8 +14,7 @@ import com.technotapp.servicestation.Infrastructure.TransactionHelper;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.adapter.DataModel.MenuAdapterModel;
 import com.technotapp.servicestation.adapter.DataModel.TransactionDataModel;
-import com.technotapp.servicestation.adapter.MainMenuAdapter;
-import com.technotapp.servicestation.adapter.SubMenuAdapter;
+import com.technotapp.servicestation.adapter.MenuAdapter;
 import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.database.Db;
 import com.technotapp.servicestation.database.model.MenuModel;
@@ -85,7 +84,7 @@ public class CardServiceFragment extends SubMenuFragment implements AdapterView.
                 mainMenuAdapterModels.add(new MenuAdapterModel(menuModel));
             }
             //TODO set main menu item title and icons
-            MainMenuAdapter menuAdapter = new MainMenuAdapter(mActivity, mainMenuAdapterModels);
+            MenuAdapter menuAdapter = new MenuAdapter(mActivity, mainMenuAdapterModels);
             gridView.setAdapter(menuAdapter);
         } catch (Exception e) {
             AppMonitor.reportBug(e, "CardServiceFragment", "initAdapter");

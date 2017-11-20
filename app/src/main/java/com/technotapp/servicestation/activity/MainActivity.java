@@ -14,7 +14,7 @@ import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.adapter.DataModel.MenuAdapterModel;
-import com.technotapp.servicestation.adapter.MainMenuAdapter;
+import com.technotapp.servicestation.adapter.MenuAdapter;
 import com.technotapp.servicestation.database.Db;
 import com.technotapp.servicestation.database.model.MenuModel;
 
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 mainMenuAdapterModels.add(new MenuAdapterModel(menuModel));
             }
             //TODO set main menu item title and icons
-            MainMenuAdapter menuAdapter = new MainMenuAdapter(this, mainMenuAdapterModels);
+            MenuAdapter menuAdapter = new MenuAdapter(this, mainMenuAdapterModels);
             gridView.setAdapter(menuAdapter);
         } catch (Exception e) {
             AppMonitor.reportBug(e, "MainActivity", "initAdapter");
