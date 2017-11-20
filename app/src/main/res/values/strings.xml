@@ -84,5 +84,6 @@
     <string name="TransactionHelper_pleaseWait">لطفا کمی صبر کنید...</string>
     <string name="ChargeFragment_charge_service">خدمات شارژ</string>
     <string name="ReceiptFragment_billingPay">پرداخت قبض</string>
+    <string name="QrFragmentTitle">بارکد فروشگاه</string>
 
 </resources>

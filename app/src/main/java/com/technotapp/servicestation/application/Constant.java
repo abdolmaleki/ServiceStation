@@ -90,6 +90,7 @@ public class Constant {
         public static final String BUY = "buy_service";
         public static final String BALANCE = "balance_service";
 
+        public static final String QR_READER = "merchant_qr_code";
     }
 
     public static class Operator {

@@ -12,6 +12,7 @@ import com.technotapp.servicestation.database.Db;
 import com.technotapp.servicestation.database.model.MenuModel;
 import com.technotapp.servicestation.fragment.CardServiceFragment;
 import com.technotapp.servicestation.fragment.ChargeFragment;
+import com.technotapp.servicestation.fragment.QrFragment;
 import com.technotapp.servicestation.fragment.ReceiptFragment;
 import com.technotapp.servicestation.fragment.SubMenuFragment;
 
@@ -60,6 +61,8 @@ public class PublicServiceActivity extends SubMenuActivity implements IPin {
 
             case Constant.MenuAction.CARDSERVICE:
                 return CardServiceFragment.newInstance();
+            case Constant.MenuAction.QR_READER:
+                return QrFragment.newInstance();
         }
         return null;
     }

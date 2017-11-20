@@ -138,6 +138,7 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
     }
 
     private void checkValidation(String result) {
+        AppMonitor.Log(result);
         if (parseBillDetail(result)) {
             try {
                 Fragment fragment = ReceiptEndFragment.newInstance();
