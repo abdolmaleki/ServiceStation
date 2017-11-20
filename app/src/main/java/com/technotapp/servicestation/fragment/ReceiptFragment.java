@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +39,7 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
     Button btnConfirm;
     private Unbinder unbinder;
     Bundle bundle;
+    private final String mClassName = getClass().getSimpleName();
 
     public static ReceiptFragment newInstance() {
         ReceiptFragment fragment = new ReceiptFragment();
@@ -75,7 +75,7 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
             btnQrReader.setOnClickListener(this);
             btnConfirm.setOnClickListener(this);
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "ReceiptFragment", "initView");
+            AppMonitor.reportBug(e, mClassName, "initView");
         }
     }
 
@@ -117,21 +117,21 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
                     });
 
                 } catch (Exception e) {
-                    AppMonitor.reportBug(e, "ReceiptFragment", "submitFragment");
+                    AppMonitor.reportBug(e, mClassName, "submitFragment");
                 }
                 break;
             case R.id.fragment_receipt_btnConfirm:
                 String strBill = edtBillingId.getText().toString();
                 String strpayment = edtPaymentCode.getText().toString();
-                int lenghtBill=(13 - strBill.length());
-                int lenghtPayment=(13 - strpayment.length());
+                int lenghtBill = (13 - strBill.length());
+                int lenghtPayment = (13 - strpayment.length());
                 for (int i = 0; i < lenghtBill; i++) {
                     strBill = "0" + strBill;
                 }
                 for (int i = 0; i < lenghtPayment; i++) {
                     strpayment = "0" + strpayment;
                 }
-                checkValidation(strBill+strpayment);
+                checkValidation(strBill + strpayment);
                 break;
         }
 
@@ -149,7 +149,7 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
                 fragmentTransaction.replace(R.id.activity_public_service_frame, fragment);
                 fragmentTransaction.commitAllowingStateLoss();
             } catch (Exception e) {
-                AppMonitor.reportBug(e, "SubMenuFragment", "submitFragment");
+                AppMonitor.reportBug(e, mClassName, "submitFragment");
             }
         }
     }
@@ -175,12 +175,18 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
                         if (isValidBillDetail(billingId, paymentCode)) {
                             isTrue = true;
                         } else {
-                            Toast.makeText(mActivity, "این کد نامعتبر می باشد", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mActivity, "بارکد مورد نظر معتبر نمی باشد", Toast.LENGTH_SHORT).show();
                         }
+                        break;
+                    case Constant.PayBill.Organization.MOBILE:
+                    case Constant.PayBill.Organization.TAX_OF_MUNICIPALITY:
+                    case Constant.PayBill.Organization.TAX:
+                    case Constant.PayBill.Organization.TRAFFIC_CRIME:
+                        Toast.makeText(mActivity, "بارکد مورد نظر معتبر نمی باشد", Toast.LENGTH_SHORT).show();
                         break;
                 }
             } else {
-                Toast.makeText(mActivity, "بارکد مورد نظر اشتباه می باشد", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mActivity, "بارکد مورد نظر معتبر نمی باشد", Toast.LENGTH_SHORT).show();
             }
         } else {
             AppMonitor.Log("result null");
