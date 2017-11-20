@@ -32,4 +32,27 @@ public class NetworkHelper {
             return false;
         }
     }
+
+    public boolean isConnectingToInternet(Context ctx) {
+
+        try {
+            ConnectivityManager connectivity = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (connectivity != null) {
+                NetworkInfo[] info = connectivity.getAllNetworkInfo();
+                if (info != null)
+                    for (int i = 0; i < info.length; i++)
+                        if (info[i].getState() == NetworkInfo.State.CONNECTED) {
+                            return true;
+                        }
+
+            }
+        } catch (Exception e) {
+            AppMonitor.reportBug(e, this.getClass().getName(), "isConnectingToInternet");
+            return false;
+        }
+
+        return false;
+    }
+
+
 }

@@ -22,6 +22,9 @@ public class Db {
         public static boolean insert(List<MenuModel> menuModels) {
             try {
                 realm.beginTransaction();
+                realm.delete(MenuModel.class);
+                realm.commitTransaction();
+                realm.beginTransaction();
                 realm.insert(menuModels);
                 realm.commitTransaction();
                 return true;
