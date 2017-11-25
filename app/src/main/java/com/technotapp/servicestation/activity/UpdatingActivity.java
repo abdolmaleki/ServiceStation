@@ -2,11 +2,9 @@ package com.technotapp.servicestation.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -18,7 +16,7 @@ import com.technotapp.servicestation.Infrastructure.UpdateHelper;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.connection.restapi.ApiCaller;
-import com.technotapp.servicestation.connection.restapi.dto.MenuDto;
+import com.technotapp.servicestation.connection.restapi.dto.TerminalInfoDto;
 import com.technotapp.servicestation.connection.restapi.sto.MenuSto;
 import com.technotapp.servicestation.database.Db;
 import com.technotapp.servicestation.database.model.MenuModel;
@@ -31,104 +29,34 @@ import java.util.List;
 
 import javax.crypto.SecretKey;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+public class UpdatingActivity extends AppCompatActivity {
 
-
-public class SigninActivity extends AppCompatActivity implements View.OnClickListener {
-    @BindView(R.id.activity_signin_btnSignin)
-    Button btnSignin;
-    @BindView(R.id.activity_signin_edtMerchantCode)
-    EditText edtUsername;
-    @BindView(R.id.activity_signin_edtPassword)
-    EditText edtPassword;
-
-    private String fakeUsername = "0000";
-    private String fakePassword = "0000";
     private Context mContext;
-
     private final String mClassName = getClass().getSimpleName();
+    private Session mSession;
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signin);
-
-        loadSetting();
-
-        loadData();
+        setContentView(R.layout.activity_updating);
 
         initView();
-
     }
 
-
-    private void loadSetting() {
-
-    }
-
-    private void loadData() {
-
-    }
-
-    //initialize views & variables
     private void initView() {
-        try {
-            ButterKnife.bind(this);
-            mContext = SigninActivity.this;
-            btnSignin.setOnClickListener(this);
-        } catch (Exception e) {
-            AppMonitor.reportBug(e, mClassName, "initView");
-        }
+        mContext = this;
+        mSession = Session.getInstance(this);
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.activity_signin_btnSignin:
-                if (checkInputValidation(edtUsername, edtPassword)) {
-                    if (!Helper.IsAppUpToDate()) {
-                        callGetMenu();
-                    } else {
-                        Intent intent = new Intent(mContext, MainActivity.class);
-                        startActivity(intent);
-                    }
-                }
-                break;
-        }
-    }
-
-    //check merchantId and merchantPassword if account is valid return true
-    private boolean checkInputValidation(EditText username, EditText password) {
+    public void callGetMenu() {
         try {
-            if (username.getText().toString().isEmpty()) {
-                Toast.makeText(mContext, getString(R.string.SignInActivity_empty_merchantID), Toast.LENGTH_LONG).show();
-                return false;
-            } else if (password.getText().toString().isEmpty()) {
-                Toast.makeText(mContext, getString(R.string.SignInActivity_empty_merchantPassword), Toast.LENGTH_LONG).show();
-                return false;
-            } else if (!username.getText().toString().trim().equals(fakeUsername)) {
-                Toast.makeText(mContext, getString(R.string.SignInActivity_invalid_merchant_username), Toast.LENGTH_SHORT).show();
-                return false;
-            } else if (!password.getText().toString().trim().equals(fakePassword)) {
-                Toast.makeText(mContext, getString(R.string.SignInActivity_invalid_merchant_password), Toast.LENGTH_SHORT).show();
-                return false;
-            }
-            return true;
-        } catch (Exception e) {
-            AppMonitor.reportBug(e, mClassName, "checkInputValidation");
-            return false;
-        }
-    }
-
-    private void callGetMenu() {
-
-        try {
-            MenuDto menuDto = createMenuDto();
+            TerminalInfoDto terminalInfoDto = createTerminalInfoDto();
             final SecretKey AESsecretKey = Encryptor.generateRandomAESKey();
             Helper.ProgressBar.showDialog(mContext, getString(R.string.SignInActivity_loading));
 
-            new ApiCaller(Constant.Api.Type.TERMINAL_LOGIN).call(mContext, menuDto, AESsecretKey, new ApiCaller.ApiCallback() {
+            new ApiCaller(Constant.Api.Type.TERMINAL_LOGIN).call(mContext, terminalInfoDto, AESsecretKey, new ApiCaller.ApiCallback() {
                 @Override
                 public void onResponse(int responseCode, String jsonResult) {
                     Gson gson = Helper.getGson();
@@ -138,7 +66,9 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
 
                     if (menuStos != null) {
                         if (menuStos.get(0).messageModel.get(0).errorCode == Constant.Api.ErrorCode.Successfull) {
-                            UpdateHelper.setLastVersion(menuStos.get(0).messageModel.get(0).ver);
+                            int appVersion = menuStos.get(0).messageModel.get(0).ver;
+                            UpdateHelper.setLastVersion(appVersion);
+                            mSession.setAppVersion(appVersion);
 
                             if (saveMenu(menuStos) && saveInfo(menuStos)) {
                                 startActivity(new Intent(mContext, MainActivity.class));
@@ -165,18 +95,16 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
+    private TerminalInfoDto createTerminalInfoDto() {
 
-    private MenuDto createMenuDto() {
+        TerminalInfoDto terminalInfoDto = new TerminalInfoDto();
 
-        MenuDto menuDto = new MenuDto();
+        terminalInfoDto.terminalCode = "R215454D5";
+        terminalInfoDto.deviceIP = "192.0.0.1";
+        terminalInfoDto.tokenId = mSession.getTokenId();
 
-        menuDto.userName = "pirouze";
-        menuDto.password = "4240235464";
-        menuDto.deviceInfo = "My Pos Info";
-        menuDto.terminalCode = "R215454D5";
-        menuDto.deviceIP = "192.0.0.1";
 
-        return menuDto;
+        return terminalInfoDto;
     }
 
     private boolean saveMenu(List<MenuSto> menuStos) {
@@ -215,6 +143,4 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
         }
 
     }
-
-
 }

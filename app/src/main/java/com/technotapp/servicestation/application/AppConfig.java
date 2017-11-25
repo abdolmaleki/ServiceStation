@@ -36,7 +36,7 @@ public class AppConfig extends Application {
     }
 
     private void init() {
-        mSession = new Session(this);
+        mSession = Session.getInstance(this);
         initIDAL();
     }
 

@@ -1,14 +1,27 @@
 package com.technotapp.servicestation.connection.restapi;
 
+import android.content.Context;
+import android.content.Intent;
 import android.util.Base64;
+import android.widget.Toast;
 
+import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.Encryptor;
 import com.technotapp.servicestation.Infrastructure.Helper;
+import com.technotapp.servicestation.Infrastructure.UpdateHelper;
+import com.technotapp.servicestation.activity.MainActivity;
+import com.technotapp.servicestation.activity.SigninActivity;
+import com.technotapp.servicestation.activity.UpdatingActivity;
 import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.connection.restapi.dto.BaseDto;
+import com.technotapp.servicestation.connection.restapi.sto.MenuSto;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import javax.crypto.SecretKey;
@@ -16,6 +29,7 @@ import javax.crypto.SecretKey;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -36,7 +50,7 @@ public class ApiCaller {
     //                                             |___/
 
 
-    public void call(BaseDto dto, SecretKey AESsecretKey, Callback<String> callback) {
+    public void call(final Context ctx, BaseDto dto, final SecretKey AESsecretKey, final ApiCallback apiCallback) {
         try {
             // Client For Retrofit
             final OkHttpClient okHttpClient = new OkHttpClient.Builder()
@@ -74,13 +88,62 @@ public class ApiCaller {
             switch (mApiType) {
                 case Constant.Api.Type.TERMINAL_LOGIN:
                     token = apiService.terminalLoginModel(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
-
                     break;
             }
-            token.enqueue(callback);
+
+            Helper.ProgressBar.showDialog(ctx, "در حال بارگیری اطلاعات");
+
+            token.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+                    Helper.ProgressBar.hideDialog();
+                    String EncryptedResponse = response.body();
+                    if (EncryptedResponse == null || EncryptedResponse.isEmpty()) {
+                        Helper.alert(ctx, "خطا در دریافت اطلاعات", Constant.AlertType.Error, Toast.LENGTH_SHORT);
+                    } else {
+
+                        ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                        //////// Decrypt Response Message and convert To Json and Format it
+                        ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                        Gson gson = Helper.getGson();
+                        String AESsecretKeyString = Base64.encodeToString(AESsecretKey.getEncoded(), Base64.DEFAULT);
+                        String decryptedResponseString = Encryptor.decriptAES(AESsecretKeyString, EncryptedResponse);
+                        String formattedJsonString = gson.fromJson(decryptedResponseString, String.class);
+                        if (formattedJsonString != null && !formattedJsonString.equals("")) {
+                            apiCallback.onResponse(response.code(), formattedJsonString);
+
+                            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                            //////// Check if menu needing update do it
+                            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                            UpdateHelper.checkNeedingUpdate(ctx);
+
+                        } else {
+                            Helper.alert(ctx, "خطا در دریافت اطلاعات", Constant.AlertType.Error, Toast.LENGTH_SHORT);
+                        }
+                    }
+                }
+
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    Helper.ProgressBar.hideDialog();
+                    apiCallback.onFail();
+                }
+            });
+
+
         } catch (Exception e) {
             AppMonitor.reportBug(e, "ApiCaller", "call");
         }
+    }
+
+
+    public interface ApiCallback {
+        void onResponse(int responseCode, String jsonResult);
+
+        void onFail();
     }
 
 

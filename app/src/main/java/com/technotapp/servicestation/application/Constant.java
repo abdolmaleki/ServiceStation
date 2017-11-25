@@ -22,22 +22,15 @@ public class Constant {
         public static final String FIRST_NAME = "firstname";
         public static final String LASTNAME = "lastname";
         public static final String GENDER = "gender";
+        public static final String APP_VERSION = "app.version";
         public static final String BIRTHDATE = "birthdate";
         public static final String EMAIL = "email";
         public static final String ADDRESS = "address";
+        public static final String TERMINAL_ID = "terminal.id";
+        public static final String SHOP_NAME = "shop.name";
         public static final String SCORE = "score";
         public static final String IS_CUSTOMER = "is_customer";
         public static final String TOKEN_ID = "token_id";
-
-        //    mobileNumber = in.readString();
-//    isCustomer = in.readInt();
-//    firstName = in.readString();
-//    lastName = in.readString();
-//    gender = in.readInt();
-//    birthDate = in.readString();
-//    email = in.readString();
-//    address = in.readString();
-//    score = in.readInt();
 
     }
 

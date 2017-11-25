@@ -10,11 +10,10 @@ import java.util.List;
 public class MenuSto extends BaseSto implements Parcelable {
 
     public List<DataModel> dataModel;
-    public List<MessageModel> messageModel;
 
     protected MenuSto(Parcel in) {
+        super();
         dataModel = in.createTypedArrayList(DataModel.CREATOR);
-        messageModel = in.createTypedArrayList(MessageModel.CREATOR);
     }
 
     public static final Creator<MenuSto> CREATOR = new Creator<MenuSto>() {
@@ -37,21 +36,27 @@ public class MenuSto extends BaseSto implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeTypedList(dataModel);
-        dest.writeTypedList(messageModel);
     }
 
     public static class DataModel implements Serializable, Parcelable {
         public String tokenId;
+        public String terminalCode;
+        public String url;
         public List<Info> info;
         public List<Menu> menu;
+        public List<Shop> shop;
+
 
         protected DataModel(Parcel in) {
             tokenId = in.readString();
+            terminalCode = in.readString();
+            url = in.readString();
             info = in.createTypedArrayList(Info.CREATOR);
             menu = in.createTypedArrayList(Menu.CREATOR);
+            shop = in.createTypedArrayList(Shop.CREATOR);
         }
 
-        public static Creator<DataModel> CREATOR = new Creator<DataModel>() {
+        public static final Creator<DataModel> CREATOR = new Creator<DataModel>() {
             @Override
             public DataModel createFromParcel(Parcel in) {
                 return new DataModel(in);
@@ -69,32 +74,33 @@ public class MenuSto extends BaseSto implements Parcelable {
         }
 
         @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeString(tokenId);
-            dest.writeTypedList(info);
-            dest.writeTypedList(menu);
+        public void writeToParcel(Parcel parcel, int i) {
+            parcel.writeString(tokenId);
+            parcel.writeString(terminalCode);
+            parcel.writeString(url);
+            parcel.writeTypedList(info);
+            parcel.writeTypedList(menu);
+            parcel.writeTypedList(shop);
         }
 
+
         public static class Info implements Serializable, Parcelable {
-            public String mobileNumber;
-            public int isCustomer;
+            public String hashId;
             public String firstName;
             public String lastName;
             public int gender;
-            public String birthDate;
             public String email;
-            public String address;
             public int score;
+            public String mobileNumber;
+
 
             protected Info(Parcel in) {
                 mobileNumber = in.readString();
-                isCustomer = in.readInt();
                 firstName = in.readString();
                 lastName = in.readString();
                 gender = in.readInt();
-                birthDate = in.readString();
                 email = in.readString();
-                address = in.readString();
+                hashId = in.readString();
                 score = in.readInt();
             }
 
@@ -118,17 +124,78 @@ public class MenuSto extends BaseSto implements Parcelable {
             @Override
             public void writeToParcel(Parcel dest, int flags) {
                 dest.writeString(mobileNumber);
-                dest.writeInt(isCustomer);
                 dest.writeString(firstName);
                 dest.writeString(lastName);
+                dest.writeString(hashId);
                 dest.writeInt(gender);
-                dest.writeString(birthDate);
                 dest.writeString(email);
-                dest.writeString(address);
                 dest.writeInt(score);
             }
         }
 
+
+        public static class Shop implements Serializable, Parcelable {
+            public String address;
+            public String description;
+            public String economicCode;
+            public String email;
+            public String fax;
+            public String managerName;
+            public String mobile;
+            public String registerDate;
+            public long registerNumber;
+            public String shopCategory;
+            public String tel;
+            public String title;
+
+            protected Shop(Parcel in) {
+                address = in.readString();
+                description = in.readString();
+                economicCode = in.readString();
+                email = in.readString();
+                fax = in.readString();
+                managerName = in.readString();
+                mobile = in.readString();
+                registerDate = in.readString();
+                registerNumber = in.readLong();
+                shopCategory = in.readString();
+                tel = in.readString();
+                title = in.readString();
+            }
+
+            public static final Creator<Shop> CREATOR = new Creator<Shop>() {
+                @Override
+                public Shop createFromParcel(Parcel in) {
+                    return new Shop(in);
+                }
+
+                @Override
+                public Shop[] newArray(int size) {
+                    return new Shop[size];
+                }
+            };
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel parcel, int i) {
+                parcel.writeString(address);
+                parcel.writeString(description);
+                parcel.writeString(economicCode);
+                parcel.writeString(email);
+                parcel.writeString(fax);
+                parcel.writeString(managerName);
+                parcel.writeString(mobile);
+                parcel.writeString(registerDate);
+                parcel.writeLong(registerNumber);
+                parcel.writeString(shopCategory);
+                parcel.writeString(tel);
+                parcel.writeString(title);
+            }
+        }
 
         public static class Menu implements Serializable, Parcelable {
             public int menuID;
@@ -217,41 +284,6 @@ public class MenuSto extends BaseSto implements Parcelable {
             }
         }
     }
-
-    public static class MessageModel implements Serializable, Parcelable {
-
-        public int errorCode;
-        public String errorString;
-
-        protected MessageModel(Parcel in) {
-            errorCode = in.readInt();
-            errorString = in.readString();
-        }
-
-        public static final Creator<MessageModel> CREATOR = new Creator<MessageModel>() {
-            @Override
-            public MessageModel createFromParcel(Parcel in) {
-                return new MessageModel(in);
-            }
-
-            @Override
-            public MessageModel[] newArray(int size) {
-                return new MessageModel[size];
-            }
-        };
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeInt(errorCode);
-            dest.writeString(errorString);
-        }
-    }
-
 
 
 
