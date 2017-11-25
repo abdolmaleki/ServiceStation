@@ -1,5 +1,6 @@
 package com.technotapp.servicestation.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
@@ -26,31 +27,35 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.RealmResults;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity {
 
-    @BindView(R.id.activity_main_btnSetting)
-    ImageButton btnSetting;
     @BindView(R.id.activity_main_viewPager)
     ViewPager viewPager;
     @BindView(R.id.activity_main_pagerIndicator)
     InkPageIndicator mIndicator;
+
     private MainMenuPageAdapter mPagerAdapter;
     private Toast mToastMessage;
     private byte mCounter = 0;
     private boolean mIsFirst = true;
     private final String mClassName = getClass().getSimpleName();
+    private Context mContext;
+
+    public static final int NUMBER_OF_ITEMS = 9;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         loadSetting();
 
         initDb();
 
         loadData();
 
-        bindView();
+        initView();
 
         initAdapter();
 
@@ -68,26 +73,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    //create gridViewPager
     private void initAdapter() {
         try {
             RealmResults<MenuModel> models = Db.Menu.getMainMenu();
             Iterator<MenuModel> it;
             List<MainGridFragment> gridFragments = new ArrayList<>();
-
             it = models.iterator();
-
             while (it.hasNext()) {
                 ArrayList<MenuAdapterModel> imLst = new ArrayList<>();
 
-                for (int i = 0; i < 9; i++) {
+                for (int i = 0; i < NUMBER_OF_ITEMS; i++) {
                     if (it.hasNext()) {
                         MenuAdapterModel itm = new MenuAdapterModel(it.next());
                         imLst.add(itm);
                     } else break;
                 }
-                gridFragments.add(new MainGridFragment(imLst, this));
+                gridFragments.add(new MainGridFragment(mContext, imLst));
             }
-
             mPagerAdapter = new MainMenuPageAdapter(getSupportFragmentManager(), gridFragments);
             viewPager.setAdapter(mPagerAdapter);
             mIndicator.setViewPager(viewPager);
@@ -96,55 +99,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void bindView() {
+    private void initView() {
         try {
             ButterKnife.bind(this);
-            btnSetting.setOnClickListener(this);
+            mContext = MainActivity.this;
 
         } catch (Exception e) {
-            AppMonitor.reportBug(e, mClassName, "bindView");
+            AppMonitor.reportBug(e, mClassName, "initView");
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.activity_main_btnSetting:
-                openSettingMenu();
-                break;
+    //open settingActivity after 10th click on logo
+    public void openSettingMenu(View view) {
+        try {
+            if (mToastMessage != null) {
+                mToastMessage.cancel();
+            }
+
+            if (mCounter == 9) {
+                mCounter = 0;
+                startActivity(new Intent(mContext, SettingActivity.class));
+                finish();
+                return;
+            } else if (mCounter > 3) {
+                mToastMessage = Toast.makeText(mContext, "شما " + (9 - mCounter) + " قدمی دسترسی به تنظیمات هستید.", Toast.LENGTH_SHORT);
+                mToastMessage.show();
+            }
+            mCounter++;
+            if (mIsFirst) {
+                new Handler().postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        mCounter = 0;
+                        mIsFirst = false;
+                    }
+                }, 10000);
+
+            }
+        } catch (Exception e) {
+            AppMonitor.reportBug(e, mClassName, "openSettingMenu");
         }
-    }
-
-    private void openSettingMenu() {
-       try{
-        if (mToastMessage != null) {
-            mToastMessage.cancel();
-        }
-
-        if (mCounter == 9) {
-            mCounter = 0;
-            startActivity(new Intent(MainActivity.this, SettingActivity.class));
-            finish();
-            return;
-        } else if (mCounter > 3) {
-            mToastMessage = Toast.makeText(MainActivity.this, "شما " + (9 - mCounter) + " قدمی دسترسی به تنظیمات هستید.", Toast.LENGTH_SHORT);
-            mToastMessage.show();
-        }
-
-        mCounter++;
-        if (mIsFirst) {
-            new Handler().postDelayed(new Runnable() {
-
-                @Override
-                public void run() {
-                    mCounter = 0;
-                    mIsFirst = false;
-                }
-            }, 10000);
-
-        }}catch (Exception e){
-           AppMonitor.reportBug(e,mClassName,"openSettingMenu");
-       }
     }
 
 

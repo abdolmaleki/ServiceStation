@@ -24,40 +24,19 @@
 
             <ImageView
                 android:id="@+id/imageView2"
+                android:layout_marginTop="4dp"
                 android:layout_width="@dimen/ansarLogoW_H"
                 android:layout_height="@dimen/ansarLogoW_H"
                 android:background="@drawable/ic_ansar_logo" />
 
             <com.technotapp.servicestation.customView.CustomTextView
                 android:id="@+id/customTextView"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/activity_splash_ansar_bank_name"
-                android:layout_marginTop="4dp"
-                android:textColor="#efcb99"
+                android:text="@string/ansar_bank"
+                android:textColor="#b00f20"
                 android:textSize="34sp"
                 app:fontName="b-titr" />
-
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="34dp" />
-
-        <LinearLayout
-            android:id="@+id/activity_splash_textLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <com.technotapp.servicestation.customView.CustomTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/activity_splash_ansarSlogan"
-                android:textColor="#ffffff"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:fontName="irsans_bold" />
 
 
         </LinearLayout>

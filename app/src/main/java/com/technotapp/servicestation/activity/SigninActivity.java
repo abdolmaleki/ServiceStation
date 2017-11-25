@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,18 +32,26 @@ import java.util.List;
 
 import javax.crypto.SecretKey;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
 public class SigninActivity extends AppCompatActivity implements View.OnClickListener {
-    private Button btnSignin;
-    private EditText edtUsername;
-    private EditText edtPassword;
+    @BindView(R.id.activity_signin_btnSignin)
+    Button btnSignin;
+    @BindView(R.id.activity_signin_edtMerchantCode)
+    EditText edtUsername;
+    @BindView(R.id.activity_signin_edtPassword)
+    EditText edtPassword;
+
     private String fakeUsername = "0000";
     private String fakePassword = "0000";
     private Context mContext;
+
+    private final String mClassName = getClass().getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +61,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
 
         loadData();
 
-        bindView();
-
-        clickHandler();
+        initView();
 
     }
 
@@ -69,31 +74,26 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
-    private void bindView() {
+    //initialize views & variables
+    private void initView() {
         try {
-            btnSignin = (Button) findViewById(R.id.activity_signin_btnSignin);
-            edtUsername = (EditText) findViewById(R.id.activity_signin_edtMerchantCode);
-            edtPassword = (EditText) findViewById(R.id.activity_signin_edtPassword);
+            ButterKnife.bind(this);
             mContext = SigninActivity.this;
+            btnSignin.setOnClickListener(this);
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "SigninActivity", "bindView");
+            AppMonitor.reportBug(e, mClassName, "initView");
         }
     }
-
-    private void clickHandler() {
-        btnSignin.setOnClickListener(this);
-    }
-
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.activity_signin_btnSignin:
-                if (checkAuthentication(edtUsername, edtPassword)) {
+                if (checkInputValidation(edtUsername, edtPassword)) {
                     if (!Helper.IsAppUpToDate()) {
                         callGetMenu();
                     } else {
-                        Intent intent = new Intent(SigninActivity.this, MainActivity.class);
+                        Intent intent = new Intent(mContext, MainActivity.class);
                         startActivity(intent);
                     }
                 }
@@ -101,23 +101,25 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    private boolean checkAuthentication(EditText username, EditText password) {
-        //todo remove hardcode
+    //check merchantId and merchantPassword if account is valid return true
+    private boolean checkInputValidation(EditText username, EditText password) {
         try {
             if (username.getText().toString().isEmpty()) {
+                Toast.makeText(mContext, R.string.SignInActivity_empty_merchantID, Toast.LENGTH_LONG).show();
                 return false;
             } else if (password.getText().toString().isEmpty()) {
+                Toast.makeText(mContext, R.string.SignInActivity_empty_merchantPassword, Toast.LENGTH_LONG).show();
                 return false;
             } else if (!username.getText().toString().trim().equals(fakeUsername)) {
-                Toast.makeText(this, getString(R.string.SigninActivity_invalid_merchant_username), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, getString(R.string.SignInActivity_invalid_merchant_username), Toast.LENGTH_SHORT).show();
                 return false;
             } else if (!password.getText().toString().trim().equals(fakePassword)) {
-                Toast.makeText(this, getString(R.string.SigninActivity_invalid_merchant_password), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, getString(R.string.SignInActivity_invalid_merchant_password), Toast.LENGTH_SHORT).show();
                 return false;
             }
             return true;
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "SigninActivity", "checkAuthentication");
+            AppMonitor.reportBug(e, mClassName, "checkInputValidation");
             return false;
         }
     }
@@ -127,7 +129,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
         try {
             MenuDto menuDto = createMenuDto();
             final SecretKey AESsecretKey = Encryptor.generateRandomAESKey();
-            Helper.ProgressBar.showDialog(this, "در حال بارگیری اطلاعات");
+            Helper.ProgressBar.showDialog(mContext, getString(R.string.SignInActivity_loading));
 
             new ApiCaller(Constant.Api.Type.TERMINAL_LOGIN).call(menuDto, AESsecretKey, new Callback<String>() {
                 @Override
@@ -135,7 +137,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
                     Helper.ProgressBar.hideDialog();
                     String EncryptedResponse = response.body();
                     if (EncryptedResponse == null || EncryptedResponse.isEmpty()) {
-                        Helper.alert(mContext, "خطا در دریافت اطلاعات", Constant.AlertType.Error, Toast.LENGTH_SHORT);
+                        Helper.alert(mContext, getString(R.string.SignInActivity_data_download_error), Constant.AlertType.Error, Toast.LENGTH_SHORT);
 
                     } else {
                         Gson gson = new GsonBuilder()
@@ -152,9 +154,9 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
                         if (menuStos != null) {
                             if (menuStos.get(0).messageModel.get(0).errorCode == Constant.Api.ErrorCode.Successfull) {
                                 if (saveMenu(menuStos)) {
-                                    startActivity(new Intent(SigninActivity.this, MainActivity.class));
+                                    startActivity(new Intent(mContext, MainActivity.class));
                                 } else {
-                                    Helper.alert(SigninActivity.this, menuStos.get(0).messageModel.get(0).errorString, Constant.AlertType.Error, Toast.LENGTH_SHORT);
+                                    Helper.alert(mContext, menuStos.get(0).messageModel.get(0).errorString, Constant.AlertType.Error, Toast.LENGTH_SHORT);
                                 }
 
 
@@ -162,7 +164,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
                                 Helper.alert(mContext, menuStos.get(0).messageModel.get(0).errorString, Constant.AlertType.Error, Toast.LENGTH_SHORT);
                             }
                         } else {
-                            Helper.alert(mContext, "خطا در دریافت اطلاعات", Constant.AlertType.Error, Toast.LENGTH_SHORT);
+                            Helper.alert(mContext, getString(R.string.SignInActivity_data_download_error), Constant.AlertType.Error, Toast.LENGTH_SHORT);
                         }
                     }
                 }
@@ -170,12 +172,12 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
                 @Override
                 public void onFailure(Call<String> call, Throwable t) {
                     Helper.ProgressBar.hideDialog();
-                    Helper.alert(mContext, "خطا در ارتباط با سرور مرکزی", Constant.AlertType.Error, Toast.LENGTH_SHORT);
+                    Helper.alert(mContext, getString(R.string.SignInActivity_serverConnectingError), Constant.AlertType.Error, Toast.LENGTH_SHORT);
 
                 }
             });
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "SigninActivity", "callGetMenu");
+            AppMonitor.reportBug(e, mClassName, "callGetMenu");
         }
     }
 
@@ -201,11 +203,10 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
             return true;
 
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "SigninActivity", "saveMenu");
+            AppMonitor.reportBug(e, mClassName, "saveMenu");
             return false;
         }
 
     }
-
 
 }

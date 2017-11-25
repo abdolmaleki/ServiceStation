@@ -9,50 +9,30 @@
     android:orientation="vertical"
     tools:context="com.technotapp.servicestation.activity.SigninActivity">
 
-
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="150dp"
+        android:layout_height="176dp"
+        android:layout_gravity="end"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="38dp"
         app:srcCompat="@drawable/ic_ansar_logo_text" />
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/cs_edittext"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="48dp"
         android:gravity="center"
         android:orientation="vertical">
 
-        <com.technotapp.servicestation.customView.CustomTextView
-            android:id="@+id/activity_signin_txtMerchantName"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginBottom="32dp"
-            android:background="@drawable/cs_merchant_name"
-            android:gravity="center"
-            android:paddingBottom="8dp"
-            android:paddingTop="8dp"
-            android:text="فروشگاه اصغر فرهادی"
-            android:textColor="#ffffff"
-            android:textSize="16sp"
-            app:fontName="irsans" />
+            android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#00607D8B"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingBottom="28dp"
-            android:paddingEnd="28dp"
-            android:paddingStart="28dp">
-
-            <EditText
+            <com.technotapp.servicestation.customView.CustomEditText
                 android:id="@+id/activity_signin_edtMerchantCode"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -60,41 +40,48 @@
                 android:hint="@string/activity_signin_merchant_code"
                 android:inputType="numberDecimal"
                 android:maxLength="8"
-                android:textAlignment="center"
-                android:textColor="#ffffff"
+                android:paddingRight="8dp"
+                android:textColor="#353333"
                 android:textColorHint="#55ffffff"
-                android:textDirection="ltr" />
+                android:textDirection="rtl"
+                android:typeface="monospace" />
 
-            <EditText
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.technotapp.servicestation.customView.CustomEditText
                 android:id="@+id/activity_signin_edtPassword"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/activity_signin_password"
                 android:inputType="numberPassword"
                 android:maxLength="8"
-                android:textAlignment="center"
-                android:textColor="#ffffff"
+                android:paddingRight="8dp"
+                android:textAlignment="textEnd"
+                android:textColor="#353333"
                 android:textColorHint="#55ffffff"
-                android:textDirection="ltr" />
+                android:typeface="monospace" />
+        </android.support.design.widget.TextInputLayout>
 
             <com.technotapp.servicestation.customView.CustomButton
                 android:id="@+id/activity_signin_btnSignin"
-                android:layout_width="168dp"
+                android:layout_marginTop="48dp"
+                android:layout_marginBottom="8dp"
+                android:layout_width="128dp"
                 android:layout_height="48dp"
-                android:layout_marginTop="16dp"
                 android:background="@drawable/cs_signin_button"
                 android:gravity="center"
                 android:maxLength="16"
                 android:text="@string/activity_signin_signin"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="18sp"
                 app:fontName="irsans" />
-
-        </LinearLayout>
     </LinearLayout>
 
     <TextView
-
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="10dp"
@@ -102,7 +89,7 @@
         android:gravity="center_horizontal|bottom"
         android:selectAllOnFocus="false"
         android:text="@string/activity_signin_copyWriteText"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="14sp" />
 
 </LinearLayout>

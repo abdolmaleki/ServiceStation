@@ -5,7 +5,11 @@ import com.technotapp.servicestation.database.model.MenuModel;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
+import io.realm.ObjectChangeSet;
 import io.realm.Realm;
+import io.realm.RealmObjectChangeListener;
 import io.realm.RealmResults;
 
 public class Db {
@@ -19,14 +23,23 @@ public class Db {
     }
 
     public static class Menu {
-        public static boolean insert(List<MenuModel> menuModels) {
+        public static boolean insert(final List<MenuModel> menuModels) {
+            final RealmResults<MenuModel> results = realm.where(MenuModel.class).findAll();
+
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    results.deleteAllFromRealm();
+                }
+            });
+
+
             try {
-                realm.beginTransaction();
-                realm.delete(MenuModel.class);
-                realm.commitTransaction();
+
                 realm.beginTransaction();
                 realm.insert(menuModels);
                 realm.commitTransaction();
+
                 return true;
 
             } catch (Exception e) {

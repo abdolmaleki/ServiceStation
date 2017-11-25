@@ -2,6 +2,7 @@ package com.technotapp.servicestation.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -28,14 +29,14 @@ public class MainGridFragment extends Fragment {
     private MenuAdapter mGridAdapter;
     private ArrayList<MenuAdapterModel> dataSet;
 
-    private Activity mActivity;
+    private Context mContext;
     private final String mClassName = getClass().getSimpleName();
 
 
     @SuppressLint("ValidFragment")
-    public MainGridFragment(ArrayList<MenuAdapterModel> dataSet, Activity activity) {
+    public MainGridFragment( Context mContext,ArrayList<MenuAdapterModel> dataSet) {
         this.dataSet = dataSet;
-        this.mActivity = activity;
+        this.mContext = mContext;
     }
 
     @Override
@@ -49,10 +50,8 @@ public class MainGridFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         try {
-
-
-            if (mActivity != null) {
-                mGridAdapter = new MenuAdapter(mActivity, dataSet);
+            if (mContext != null) {
+                mGridAdapter = new MenuAdapter(mContext, dataSet);
                 if (mGridView != null) {
                     mGridView.setAdapter(mGridAdapter);
                 }
@@ -71,7 +70,7 @@ public class MainGridFragment extends Fragment {
     public void onGridItemClick(GridView g, View v, int pos, long id) {
         try {
             MenuModel selectedMenuItem = Db.Menu.getMenuById(id);
-            Helper.lunchActivity(mActivity, selectedMenuItem.controller, (int) id);
+            Helper.lunchActivity(mContext, selectedMenuItem.controller, (int) id);
         } catch (Exception e) {
             AppMonitor.reportBug(e, mClassName, "onGridItemClick");
         }

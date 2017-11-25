@@ -1,5 +1,6 @@
 package com.technotapp.servicestation.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,14 +18,20 @@ import com.technotapp.servicestation.R;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 public class SplashActivity extends AppCompatActivity {
+    @BindView(R.id.activity_splash_prg)
+    ProgressBar progressBar;
+    @BindView(R.id.activity_splash_logoLayout)
     LinearLayout logoLayout;
-    LinearLayout textLayout;
 
-    private ProgressBar progressBar;
     private int progressStatus = 0;
     private Handler handler = new Handler();
+    private final String mClassName = getClass().getSimpleName();
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +48,15 @@ public class SplashActivity extends AppCompatActivity {
 
     }
 
+    //run splash animation and show progressBar after two second
     private void playSplash() {
         try {
+
+            Sequent.origin(logoLayout).
+                    duration(1000).
+                    anim(mContext, Animation.FADE_IN_UP).
+                    start();
+
             new Timer().schedule(new TimerTask() {
                 @Override
                 public void run() {
@@ -64,40 +78,28 @@ public class SplashActivity extends AppCompatActivity {
                         try {
                             Thread.sleep(10);
                         } catch (InterruptedException e) {
-                            e.printStackTrace();
+                            AppMonitor.reportBug(e, mClassName, "playSplash-Timer");
                         }
                     }
 
-                    if (NetworkHelper.checkNetwork(SplashActivity.this)) {
-                        startActivity(new Intent(SplashActivity.this, SigninActivity.class));
+                    if (NetworkHelper.checkNetwork(mContext)) {
+                        startActivity(new Intent(mContext, SigninActivity.class));
                     }
                     finish();
                 }
-            }, 4000);
+            }, 2000);
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "SplashActivity", "playSplash");
+            AppMonitor.reportBug(e, mClassName, "playSplash");
         }
     }
 
+    //initialize views & variables
     private void initView() {
-        progressBar = (ProgressBar) findViewById(R.id.activity_splash_prg);
-        logoLayout = (LinearLayout) findViewById(R.id.activity_splash_logoLayout);
-        textLayout = (LinearLayout) findViewById(R.id.activity_splash_textLayout);
         try {
-
-
-            Sequent.origin(logoLayout).
-                    duration(1000).
-                    anim(this, Animation.FADE_IN_UP).
-                    start();
-
-            Sequent.origin(textLayout).
-                    delay(1000).
-                    duration(2000).
-                    anim(this, Animation.FADE_IN).
-                    start();
+            ButterKnife.bind(this);
+            mContext = SplashActivity.this;
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "SplashActivity", "initView");
+            AppMonitor.reportBug(e, mClassName, "initView");
         }
     }
 

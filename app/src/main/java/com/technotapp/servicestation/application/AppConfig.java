@@ -28,7 +28,7 @@ public class AppConfig extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-//        PaxHelper.disableAllNavigationButton(getApplicationContext());
+        PaxHelper.disableAllNavigationButton(getApplicationContext());
         init();
         //copyFonts();
         configDb();

@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.adapter.DataModel.MenuAdapterModel;
@@ -52,7 +54,6 @@ public class MenuAdapter extends BaseAdapter {
             ViewHolder viewHolder;
 
             if (rowView == null) {
-
                 rowView = LayoutInflater.from(mContext).inflate(R.layout.item_grid_main_menu, parent, false);
                 viewHolder = new ViewHolder();
                 viewHolder.title = rowView.findViewById(R.id.item_grid_main_menu_iv_title);
@@ -67,6 +68,9 @@ public class MenuAdapter extends BaseAdapter {
             Glide.with(mContext)
                     .load(Constant.Pax.PICTURE_BASE_URL + dataModel.icon + ".png")
                     .into(viewHolder.icon);
+//              todo Add no disk cache
+//                    .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE))
+
             //Bitmap bitmap = BitmapFactory.decodeResource(
             //mContext.getResources(), resource);
             //viewHolder.icon.setImageBitmap(bitmap);

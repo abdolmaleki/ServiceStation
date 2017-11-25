@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
-    <corners android:radius="2dp" />
-    <solid android:color="#FAFAFA" />
-    <stroke
-        android:width="2dp"
-        android:color="@color/colorBorder" />
-</shape>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:state_pressed="true"
+        android:state_enabled="true"
+        android:drawable="@drawable/cs_signin_button_pressed" />
+    <item
+        android:state_enabled="true"
+        android:drawable="@drawable/cs_signin_button_normal" />
+</selector>
