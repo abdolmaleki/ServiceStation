@@ -68,4 +68,5 @@ dependencies {
 
     compile 'com.pacioianu.david:ink-page-indicator:1.2.0'
     compile 'com.github.kenglxn.QRGen:android:2.3.0'
+    compile 'com.timqi.sectorprogressview:library:2.0.1'
 }

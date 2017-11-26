@@ -89,9 +89,11 @@ public class ApiCaller {
                 case Constant.Api.Type.TERMINAL_LOGIN:
                     token = apiService.terminalLoginModel(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
                     break;
-            }
 
-            Helper.ProgressBar.showDialog(ctx, "در حال بارگیری اطلاعات");
+                case Constant.Api.Type.TERMINAL_INFO:
+                    token = apiService.getTerminalInfo(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
+                    break;
+            }
 
             token.enqueue(new Callback<String>() {
                 @Override

@@ -9,8 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.adapter.DataModel.MenuAdapterModel;
@@ -53,11 +51,20 @@ public class MenuAdapter extends BaseAdapter {
         try {
             ViewHolder viewHolder;
 
+
             if (rowView == null) {
-                rowView = LayoutInflater.from(mContext).inflate(R.layout.item_grid_card_service, parent, false);
+
                 viewHolder = new ViewHolder();
-                viewHolder.title = rowView.findViewById(R.id.item_grid_card_service_iv_title);
-                viewHolder.icon = rowView.findViewById(R.id.item_grid_card_service_iv_icon);
+                if (dataSet.get(position).parentMenuID == -1) {
+                    rowView = LayoutInflater.from(mContext).inflate(R.layout.item_grid_main_menu, parent, false);
+                    viewHolder.title = rowView.findViewById(R.id.item_grid_main_menu_iv_title);
+                    viewHolder.icon = rowView.findViewById(R.id.item_grid_main_menu_iv_icon);
+                } else {
+                    rowView = LayoutInflater.from(mContext).inflate(R.layout.item_grid_sub_menu, parent, false);
+                    viewHolder.title = rowView.findViewById(R.id.item_grid_card_service_iv_title);
+                    viewHolder.icon = rowView.findViewById(R.id.item_grid_card_service_iv_icon);
+                }
+
                 rowView.setTag(viewHolder);
             } else {
                 viewHolder = (ViewHolder) rowView.getTag();

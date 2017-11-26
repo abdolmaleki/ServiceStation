@@ -37,7 +37,9 @@ public class Helper {
         }
 
         public static void hideDialog() {
-            dialog.dismiss();
+            if (dialog != null && dialog.isShowing()) {
+                dialog.dismiss();
+            }
         }
     }
 

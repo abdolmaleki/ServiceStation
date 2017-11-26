@@ -165,7 +165,6 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
-
     private MenuDto createMenuDto() {
 
         MenuDto menuDto = new MenuDto();
@@ -193,7 +192,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
         }
 
     }
-
+    
     private boolean saveInfo(ArrayList<MenuSto> menuStos) {
         try {
             Session session = Session.getInstance(mContext);

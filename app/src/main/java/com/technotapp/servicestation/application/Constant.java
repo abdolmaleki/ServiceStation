@@ -98,6 +98,8 @@ public class Constant {
         public static class Type {
             public static final int TERMINAL_LOGIN = 0;
             public static final int CheckTokenValidation = 1;
+            public static final int TERMINAL_INFO = 2;
+
         }
 
         public static class ErrorCode {

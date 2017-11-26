@@ -19,6 +19,6 @@
         android:horizontalSpacing="0dp"
         android:gravity="center"
         android:numColumns="2"
-        tools:listitem="@layout/item_grid_card_service" />
+        tools:listitem="@layout/item_grid_sub_menu" />
 
 </LinearLayout>

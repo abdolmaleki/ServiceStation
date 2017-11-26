@@ -65,7 +65,7 @@ public class Session {
     }
 
     public void setTokenId(String tokenId) {
-        prefs.edit().putString(Constant.Session.ADDRESS, tokenId).apply();
+        prefs.edit().putString(Constant.Session.TOKEN_ID, tokenId).apply();
     }
 
     public void setAppVersion(int ver) {

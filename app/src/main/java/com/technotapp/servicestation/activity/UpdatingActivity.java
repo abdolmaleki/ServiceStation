@@ -3,8 +3,11 @@ package com.technotapp.servicestation.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -12,6 +15,7 @@ import com.google.gson.reflect.TypeToken;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.Encryptor;
 import com.technotapp.servicestation.Infrastructure.Helper;
+import com.technotapp.servicestation.Infrastructure.NetworkHelper;
 import com.technotapp.servicestation.Infrastructure.UpdateHelper;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.application.Constant;
@@ -22,10 +26,13 @@ import com.technotapp.servicestation.database.Db;
 import com.technotapp.servicestation.database.model.MenuModel;
 import com.technotapp.servicestation.mapper.MenuMapper;
 import com.technotapp.servicestation.setting.Session;
+import com.timqi.sectorprogressview.ColorfulRingProgressView;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.crypto.SecretKey;
 
@@ -34,6 +41,8 @@ public class UpdatingActivity extends AppCompatActivity {
     private Context mContext;
     private final String mClassName = getClass().getSimpleName();
     private Session mSession;
+    private ColorfulRingProgressView mProgressView;
+    private int progressStatus = 0;
 
 
     @Override
@@ -43,20 +52,65 @@ public class UpdatingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_updating);
 
         initView();
+        startUpdate();
+    }
+
+    private void startUpdate() {
+
+
+        try {
+            if (NetworkHelper.checkNetwork(this)) {
+                Handler handler = new Handler(Looper.getMainLooper());
+
+                new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mProgressView.setVisibility(View.VISIBLE);
+
+                            }
+                        });
+                        while (progressStatus < 90) {
+                            progressStatus += 1;
+                            handler.post(new Runnable() {
+                                public void run() {
+                                    mProgressView.setPercent(progressStatus + 0.f);
+                                }
+                            });
+                            try {
+                                Thread.sleep(50);
+                            } catch (InterruptedException e) {
+                                AppMonitor.reportBug(e, mClassName, "startUpdate");
+                            }
+                        }
+                        callGetTerminalInfo();
+                    }
+                }, 2000);
+            } else {
+                Helper.alert(this, "به دلیل عدم ارتباط با اینترنت بروزرسانی ممکن نمی باشد", Constant.AlertType.Error, Toast.LENGTH_SHORT);
+            }
+
+
+        } catch (Exception e) {
+            AppMonitor.reportBug(e, mClassName, "playSplash");
+        }
     }
 
     private void initView() {
         mContext = this;
+        mProgressView = findViewById(R.id.activity_updating_progress);
         mSession = Session.getInstance(this);
     }
 
-    public void callGetMenu() {
+    public void callGetTerminalInfo() {
         try {
             TerminalInfoDto terminalInfoDto = createTerminalInfoDto();
             final SecretKey AESsecretKey = Encryptor.generateRandomAESKey();
-            Helper.ProgressBar.showDialog(mContext, getString(R.string.SignInActivity_loading));
 
-            new ApiCaller(Constant.Api.Type.TERMINAL_LOGIN).call(mContext, terminalInfoDto, AESsecretKey, new ApiCaller.ApiCallback() {
+            new ApiCaller(Constant.Api.Type.TERMINAL_INFO).call(mContext, terminalInfoDto, AESsecretKey, new ApiCaller.ApiCallback() {
                 @Override
                 public void onResponse(int responseCode, String jsonResult) {
                     Gson gson = Helper.getGson();
@@ -71,6 +125,8 @@ public class UpdatingActivity extends AppCompatActivity {
                             mSession.setAppVersion(appVersion);
 
                             if (saveMenu(menuStos) && saveInfo(menuStos)) {
+                                mProgressView.setPercent(100.0f);
+                                Helper.alert(UpdatingActivity.this, "بروزرسانی با موفقیت انجام شد", Constant.AlertType.Done, Toast.LENGTH_SHORT);
                                 startActivity(new Intent(mContext, MainActivity.class));
                             } else {
                                 Helper.alert(mContext, menuStos.get(0).messageModel.get(0).errorString, Constant.AlertType.Error, Toast.LENGTH_SHORT);
@@ -90,7 +146,7 @@ public class UpdatingActivity extends AppCompatActivity {
                 }
             });
         } catch (Exception e) {
-            AppMonitor.reportBug(e, mClassName, "callGetMenu");
+            AppMonitor.reportBug(e, mClassName, "callGetTerminalInfo");
         }
 
     }
