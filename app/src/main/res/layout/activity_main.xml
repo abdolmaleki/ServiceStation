@@ -4,58 +4,69 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_all_page"
+    android:background="@drawable/bg_main_page"
     android:orientation="vertical"
     tools:context="com.technotapp.servicestation.activity.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="80dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:gravity="center_horizontal|start"
-        android:layoutDirection="rtl">
+        android:layoutDirection="rtl"
+        android:orientation="horizontal">
+
         <ImageButton
             android:id="@+id/activity_main_btnSetting"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:onClick="openSettingMenu"
-            android:layout_marginStart="108dp"
-            android:background="@drawable/ic_technotapp" />
+            android:layout_marginStart="4dp"
+            android:background="@drawable/ic_ansar_logo"
+            android:onClick="openSettingMenu" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:layout_marginStart="8dp"
-            android:layoutDirection="rtl"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
             android:gravity="center_vertical"
+            android:layoutDirection="rtl"
             android:orientation="vertical">
 
             <com.technotapp.servicestation.customView.CustomTextView
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
-                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
                 android:text="@string/ansar_bank"
-                android:textColor="#000000"
+                android:textColor="#b00f20"
                 android:textSize="14sp"
-                app:fontName="irsans_bold"/>
+                app:fontName="irsans_bold" />
+
             <com.technotapp.servicestation.customView.CustomTextView
                 android:layout_width="match_parent"
-                android:layout_height="32dp" />
+                android:layout_height="match_parent"
+                android:maxLength="18"
+                android:gravity="center_vertical"
+                android:lines="1"
+                android:text="فروشگاه افق کوروش"
+                android:textColor="#f8b019"
+                android:textSize="16sp"
+                app:fontName="irsans-Medium" />
+
         </LinearLayout>
+
     </LinearLayout>
 
-
     <android.support.v4.view.ViewPager
-        android:layout_marginTop="16dp"
         android:id="@+id/activity_main_viewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:layout_weight="1"
         android:gravity="center" />
 
@@ -64,10 +75,11 @@
         android:id="@+id/activity_main_pagerIndicator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginBottom="24dp"
+        android:padding="3dp"
+        app:dotGap="8dp"
+        app:dotDiameter="12dp"
         app:currentPageIndicatorColor="#6442a6"
-        app:pageIndicatorColor="#446442a6"
-        android:padding="3dp" />
+        app:pageIndicatorColor="#446442a6" />
 
 </LinearLayout>

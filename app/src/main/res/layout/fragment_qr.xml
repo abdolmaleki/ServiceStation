@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
+    android:paddingTop="@dimen/fragments_padding_top"
     android:gravity="center"
     android:orientation="vertical">
 

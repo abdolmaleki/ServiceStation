@@ -3,17 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingTop="@dimen/fragments_padding_top"
     android:orientation="vertical">
 
+
     <GridView
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="11dp"
         android:id="@+id/fragment_card_services_grdList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
+        android:verticalSpacing="0dp"
+        android:horizontalSpacing="0dp"
         android:gravity="center"
         android:numColumns="2"
-        android:verticalSpacing="92dp"
         tools:listitem="@layout/item_grid_card_service" />
 
 </LinearLayout>

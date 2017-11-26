@@ -4,57 +4,71 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_card_service_deposit_buy"
     android:orientation="vertical"
+    android:paddingTop="@dimen/fragments_padding_top"
     tools:context="com.technotapp.servicestation.fragment.CardServiceDepositAndBuyFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="24dp"
-        android:orientation="vertical">
-        <LinearLayout
-            android:orientation="horizontal"
+        android:orientation="vertical"
+        android:paddingTop="16dp">
+
+        <com.technotapp.servicestation.customView.CustomTextView
             android:layout_width="match_parent"
-            android:layoutDirection="rtl"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/fragment_card_service_deposit_buy_amount"
+            android:textColor="#57567b"
+            android:textSize="14sp"
+            app:fontName="irsans-Medium" />
+
+        <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
             android:layout_marginEnd="24dp"
-            android:layout_height="wrap_content">
-            <com.technotapp.servicestation.customView.CustomTextView
-                android:layout_width="wrap_content"
-                android:text="@string/fragment_card_service_deposit_buy_amount"
-                android:textSize="18sp"
-                android:textColor="@color/white"
-                android:gravity="center"
-                android:layout_height="match_parent" />
+            android:layout_marginStart="24dp">
 
             <com.technotapp.servicestation.customView.CustomTextView
                 android:id="@+id/fragment_card_service_buy_txtAmount"
                 android:layout_width="match_parent"
-                android:layout_marginStart="16dp"
-                android:layout_height="48dp"
-                android:background="@drawable/cs_textview_get_amount"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_txt_amount"
                 android:gravity="center"
                 android:inputType="numberDecimal"
-                android:textSize="32sp"
-                app:fontName="zar"
                 android:lines="1"
-                android:textColor="@color/white"
-                android:maxLength="9" />
+                android:maxLength="9"
+                android:text="250000"
+                android:textColor="#463667"
+                android:textSize="32sp"
+                app:fontName="@string/fragment_card_service_deposit_buy_keypad_font_name" />
 
-        </LinearLayout>
-
+            <com.technotapp.servicestation.customView.CustomTextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="12dp"
+                android:gravity="end|center_vertical"
+                android:text="ریال"
+                android:textColor="#463667"
+                android:textSize="16sp"
+                app:fontName="irsans_bold" />
+        </RelativeLayout>
 
         <LinearLayout
-            android:padding="4dp"
-            android:background="@drawable/bg_lyr_keypad"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginTop="32dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
             android:layout_marginBottom="16dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_weight="1"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="4dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -66,6 +80,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="@drawable/bg_keypad"
                     android:gravity="center"
                     android:text="1"
                     android:textColor="@color/fragment_keypad_button_text"
@@ -77,6 +92,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="@drawable/bg_keypad"
                     android:gravity="center"
                     android:text="2"
                     android:textColor="@color/fragment_keypad_button_text"
@@ -88,6 +104,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="@drawable/bg_keypad"
                     android:gravity="center"
                     android:text="3"
                     android:textColor="@color/fragment_keypad_button_text"
@@ -108,17 +125,19 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="@drawable/bg_keypad"
                     android:gravity="center"
                     android:text="4"
                     android:textColor="@color/fragment_keypad_button_text"
                     android:textSize="@dimen/fragment_keypad_buttontext"
-                    app:fontName="@string/fragment_card_service_deposit_buy_keypad_font_name"/>
+                    app:fontName="@string/fragment_card_service_deposit_buy_keypad_font_name" />
 
                 <com.technotapp.servicestation.customView.CustomButton
                     android:id="@+id/fragment_keypad_five"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="@drawable/bg_keypad"
                     android:gravity="center"
                     android:text="5"
                     android:textColor="@color/fragment_keypad_button_text"
@@ -130,6 +149,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="@drawable/bg_keypad"
                     android:gravity="center"
                     android:text="6"
                     android:textColor="@color/fragment_keypad_button_text"
@@ -150,17 +170,19 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="@drawable/bg_keypad"
                     android:gravity="center"
                     android:text="7"
                     android:textColor="@color/fragment_keypad_button_text"
                     android:textSize="@dimen/fragment_keypad_buttontext"
-                    app:fontName="@string/fragment_card_service_deposit_buy_keypad_font_name"/>
+                    app:fontName="@string/fragment_card_service_deposit_buy_keypad_font_name" />
 
                 <com.technotapp.servicestation.customView.CustomButton
                     android:id="@+id/fragment_keypad_eight"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="@drawable/bg_keypad"
                     android:gravity="center"
                     android:text="8"
                     android:textColor="@color/fragment_keypad_button_text"
@@ -172,6 +194,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="@drawable/bg_keypad"
                     android:gravity="center"
                     android:text="9"
                     android:textColor="@color/fragment_keypad_button_text"
@@ -192,33 +215,34 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="@drawable/bg_keypad"
                     android:gravity="center"
                     android:text="000"
                     android:textColor="@color/fragment_keypad_button_text"
                     android:textSize="@dimen/fragment_keypad_buttontext"
-                    app:fontName="@string/fragment_card_service_deposit_buy_keypad_font_name"/>
+                    app:fontName="@string/fragment_card_service_deposit_buy_keypad_font_name" />
 
                 <com.technotapp.servicestation.customView.CustomButton
                     android:id="@+id/fragment_keypad_zero"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="@drawable/bg_keypad"
                     android:gravity="center"
                     android:text="0"
                     android:textColor="@color/fragment_keypad_button_text"
                     android:textSize="@dimen/fragment_keypad_buttontext"
                     app:fontName="@string/fragment_card_service_deposit_buy_keypad_font_name" />
 
-                <com.technotapp.servicestation.customView.CustomButton
+                <ImageButton
                     android:id="@+id/fragment_keypad_backspace"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="@drawable/bg_keypad"
                     android:gravity="center"
-                    android:text="حذف کردن"
-                    android:textColor="@color/fragment_keypad_button_text"
-                    android:textSize="12sp"
-                    app:fontName="irsans-Medium" />
+                    android:src="@drawable/ic_keypad_remove"
+                    android:text="0" />
 
 
             </LinearLayout>
@@ -229,8 +253,8 @@
             android:id="@+id/fragment_card_service_buy_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:background="#00695C"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_btn_card_service_deposit_buy_confirm"
             android:text="@string/fragment_card_service_deposit_buy_confirm"
             android:textColor="#fff" />
     </LinearLayout>

@@ -64,7 +64,8 @@ public abstract class SubMenuActivity extends AppCompatActivity implements ITool
         super.onResume();
         try {
             LinearLayout ll = findViewById(R.id.toolbar_main);
-            ImageButton img_back = ll.findViewById(R.id.toolbar_img_back);
+            LinearLayout img_back = ll.findViewById(R.id.toolbar_img_back);
+
             img_back.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

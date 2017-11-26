@@ -3,4 +3,5 @@
     <dimen name="ansarLogoW_H">128dp</dimen>
     <dimen name="fragment_keypad_buttontext">24sp</dimen>
     <dimen name="text_margin">16dp</dimen>
+    <dimen name="fragments_padding_top">90dp</dimen>
 </resources>

@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_all_page"
+    android:background="@drawable/bg_main_page"
     android:gravity="center"
     android:orientation="vertical"
     tools:context="com.technotapp.servicestation.activity.PublicServiceActivity">
-
-    <include
-
-        layout="@layout/toolbar" />
 
     <FrameLayout
         android:id="@+id/activity_public_service_frame"
@@ -18,4 +14,8 @@
         android:layout_height="match_parent"
         android:gravity="center" />
 
-</LinearLayout>
+    <include
+
+        layout="@layout/toolbar" />
+
+</FrameLayout>

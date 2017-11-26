@@ -70,8 +70,8 @@ public class CardServiceDepositAndBuyFragment extends SubMenuFragment implements
                 setTitle("خرید");
             }
 
-            btnZero = (Button) v.findViewById(R.id.fragment_keypad_triple_zero);
-            btnTripleZero = (Button) v.findViewById(R.id.fragment_keypad_zero);
+            btnZero =  v.findViewById(R.id.fragment_keypad_triple_zero);
+            btnTripleZero = v.findViewById(R.id.fragment_keypad_zero);
             btnZero.setEnabled(false);
             btnTripleZero.setEnabled(false);
             (v.findViewById(R.id.fragment_card_service_buy_btn)).setOnClickListener(this);

@@ -54,10 +54,10 @@ public class MenuAdapter extends BaseAdapter {
             ViewHolder viewHolder;
 
             if (rowView == null) {
-                rowView = LayoutInflater.from(mContext).inflate(R.layout.item_grid_main_menu, parent, false);
+                rowView = LayoutInflater.from(mContext).inflate(R.layout.item_grid_card_service, parent, false);
                 viewHolder = new ViewHolder();
-                viewHolder.title = rowView.findViewById(R.id.item_grid_main_menu_iv_title);
-                viewHolder.icon = rowView.findViewById(R.id.item_grid_main_menu_iv_icon);
+                viewHolder.title = rowView.findViewById(R.id.item_grid_card_service_iv_title);
+                viewHolder.icon = rowView.findViewById(R.id.item_grid_card_service_iv_icon);
                 rowView.setTag(viewHolder);
             } else {
                 viewHolder = (ViewHolder) rowView.getTag();

@@ -56,9 +56,9 @@
 
     <!--===================================     Fragments      =================================-->
     <!--    *************************  card service deposit buy    *************************    -->
-    <string name="fragment_card_service_deposit_buy_amount">مبلغ:</string>
+    <string name="fragment_card_service_deposit_buy_amount">لطفا مبلغ را وارد کنید</string>
     <string name="fragment_card_service_deposit_buy_confirm">تایید</string>
-    <string name="fragment_card_service_deposit_buy_keypad_font_name">b-titr</string>
+    <string name="fragment_card_service_deposit_buy_keypad_font_name">irsans_number</string>
     <!--    *************************     dialog sweeping card     *************************    -->
     <string name="fragment_dialog_sweepingcard_PleaseSweepCard">لطفا کارت خود را بکشید ...</string>
     <string name="fragment_dialog_sweepingcard_proress_cancell">لغو</string>

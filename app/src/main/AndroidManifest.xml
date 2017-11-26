@@ -17,19 +17,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/FullscreenTheme">
-        <activity android:name=".activity.MainActivity"></activity>
-        <activity android:name=".activity.SplashActivity" />
-        <activity android:name=".activity.CheckNetworkActivity" />
-        <activity android:name=".activity.SigninActivity">
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity.SplashActivity" />
+        <activity android:name=".activity.CheckNetworkActivity" />
+        <activity android:name=".activity.SigninActivity">
+
+        </activity>
         <activity android:name=".activity.PublicServiceActivity" />
         <activity android:name=".activity.CustomServiceActivity" />
         <activity android:name=".activity.SettingActivity" />
-        <activity android:name=".activity.UpdatingActivity" />
     </application>
 
 </manifest>
