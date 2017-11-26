@@ -84,6 +84,10 @@ public class TransactionHelper {
 
     public static void sendRequest(final Context ctx, final int mode, final TransactionDataModel transactionDataModel, String amount) {
         try {
+
+            if (!NetworkHelper.isConnectingToInternet(ctx)) {
+                return;
+            }
             final ProgressDialog transactionWaitingDialog;
 
             transactionWaitingDialog = new ProgressDialog(ctx);
@@ -92,7 +96,7 @@ public class TransactionHelper {
 
             transactionWaitingDialog.show();
 
-            SocketEngine socketEngine = new SocketEngine(Constant.Pax.SERVER_IP, Constant.Pax.SERVER_PORT, transactionDataModel);
+            SocketEngine socketEngine = new SocketEngine(ctx, Constant.Pax.SERVER_IP, Constant.Pax.SERVER_PORT, transactionDataModel);
             socketEngine.sendData(TransactionHelper.getPacker(ctx, transactionDataModel, mode, amount), new ISocketCallback() {
                 @Override
                 public void onFail() {

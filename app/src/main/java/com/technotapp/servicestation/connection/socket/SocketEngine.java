@@ -1,7 +1,10 @@
 package com.technotapp.servicestation.connection.socket;
 
+import android.content.Context;
+
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.Converters;
+import com.technotapp.servicestation.Infrastructure.NetworkHelper;
 import com.technotapp.servicestation.adapter.DataModel.TransactionDataModel;
 import com.technotapp.servicestation.pax.iso8583.ParseISO;
 
@@ -16,17 +19,27 @@ public class SocketEngine {
     private int mPort;
     private String mIp;
     private Socket mSocket;
+    private Context mContext;
     private static final int TIME_OUT = 5000;
     private TransactionDataModel mTransactionDataModel;
 
 
-    public SocketEngine(String ip, int port, TransactionDataModel transactionDataModel) {
+    public SocketEngine(Context ctx, String ip, int port, TransactionDataModel transactionDataModel) {
         this.mPort = port;
         this.mIp = ip;
-        mTransactionDataModel=transactionDataModel;
+        mTransactionDataModel = transactionDataModel;
+        mContext = ctx;
     }
 
     public void sendData(final byte[] request, final ISocketCallback callback) {
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////// Check Network Connection
+        /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        if (!NetworkHelper.isConnectingToInternet(mContext)) {
+            return;
+        }
 
         Runnable runnable = new Runnable() {
             @Override
@@ -64,7 +77,6 @@ public class SocketEngine {
                     callback.onReceiveData(mTransactionDataModel);
 
 
-
                 } catch (Exception e) {
                     closeConnection();
                     callback.onFail();
@@ -77,7 +89,7 @@ public class SocketEngine {
 
     }
 
-    private void closeConnection(){
+    private void closeConnection() {
 
         try {
             mSocket.shutdownInput();

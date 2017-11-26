@@ -44,6 +44,7 @@ public class NetworkHelper {
             }
         } catch (Exception e) {
             AppMonitor.reportBug(e, "NetworkHelper", "isConnectingToInternet");
+            Helper.alert(ctx, "مشکل عدم ارتباط با اینترنت", Constant.AlertType.Error, Toast.LENGTH_SHORT);
             return false;
         }
         Helper.alert(ctx, "مشکل عدم ارتباط با اینترنت", Constant.AlertType.Error, Toast.LENGTH_SHORT);
