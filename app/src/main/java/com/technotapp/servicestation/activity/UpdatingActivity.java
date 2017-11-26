@@ -8,6 +8,7 @@ import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -16,7 +17,6 @@ import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.Encryptor;
 import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.Infrastructure.NetworkHelper;
-import com.technotapp.servicestation.Infrastructure.UpdateHelper;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.connection.restapi.ApiCaller;
@@ -36,11 +36,12 @@ import java.util.TimerTask;
 
 import javax.crypto.SecretKey;
 
-public class UpdatingActivity extends AppCompatActivity {
+public class UpdatingActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Context mContext;
     private final String mClassName = getClass().getSimpleName();
     private Session mSession;
+    private Button mBtnUpdate;
     private ColorfulRingProgressView mProgressView;
     private int progressStatus = 0;
 
@@ -60,7 +61,7 @@ public class UpdatingActivity extends AppCompatActivity {
 
         try {
             if (NetworkHelper.checkNetwork(this)) {
-                Handler handler = new Handler(Looper.getMainLooper());
+                final Handler handler = new Handler(Looper.getMainLooper());
 
                 new Timer().schedule(new TimerTask() {
                     @Override
@@ -95,13 +96,14 @@ public class UpdatingActivity extends AppCompatActivity {
 
 
         } catch (Exception e) {
-            AppMonitor.reportBug(e, mClassName, "playSplash");
+            AppMonitor.reportBug(e, mClassName, "startUpdate");
         }
     }
 
     private void initView() {
         mContext = this;
         mProgressView = findViewById(R.id.activity_updating_progress);
+        mBtnUpdate = findViewById(R.id.activity_updating_btn_update);
         mSession = Session.getInstance(this);
     }
 
@@ -110,7 +112,7 @@ public class UpdatingActivity extends AppCompatActivity {
             TerminalInfoDto terminalInfoDto = createTerminalInfoDto();
             final SecretKey AESsecretKey = Encryptor.generateRandomAESKey();
 
-            new ApiCaller(Constant.Api.Type.TERMINAL_INFO).call(mContext, terminalInfoDto, AESsecretKey, new ApiCaller.ApiCallback() {
+            new ApiCaller(Constant.Api.Type.TERMINAL_INFO).call(mContext, terminalInfoDto, AESsecretKey, "در جال بارگیری اطلاعات", new ApiCaller.ApiCallback() {
                 @Override
                 public void onResponse(int responseCode, String jsonResult) {
                     Gson gson = Helper.getGson();
@@ -121,7 +123,7 @@ public class UpdatingActivity extends AppCompatActivity {
                     if (menuStos != null) {
                         if (menuStos.get(0).messageModel.get(0).errorCode == Constant.Api.ErrorCode.Successfull) {
                             int appVersion = menuStos.get(0).messageModel.get(0).ver;
-                            UpdateHelper.setLastVersion(appVersion);
+                            mSession.setLastVersion(appVersion);
                             mSession.setAppVersion(appVersion);
 
                             if (saveMenu(menuStos) && saveInfo(menuStos)) {
@@ -196,6 +198,15 @@ public class UpdatingActivity extends AppCompatActivity {
         } catch (Exception e) {
             AppMonitor.reportBug(e, mClassName, "saveInfo");
             return false;
+        }
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+        if (id == R.id.activity_updating_btn_update) {
+
         }
 
     }

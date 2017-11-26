@@ -14,7 +14,6 @@ import com.google.gson.reflect.TypeToken;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.Encryptor;
 import com.technotapp.servicestation.Infrastructure.Helper;
-import com.technotapp.servicestation.Infrastructure.UpdateHelper;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.connection.restapi.ApiCaller;
@@ -43,9 +42,8 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
     @BindView(R.id.activity_signin_edtPassword)
     EditText edtPassword;
 
-    private String fakeUsername = "0000";
-    private String fakePassword = "0000";
     private Context mContext;
+    private Session mSession;
 
     private final String mClassName = getClass().getSimpleName();
 
@@ -68,7 +66,6 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void loadData() {
-
     }
 
     //initialize views & variables
@@ -77,6 +74,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
             ButterKnife.bind(this);
             mContext = SigninActivity.this;
             btnSignin.setOnClickListener(this);
+            mSession = Session.getInstance(this);
         } catch (Exception e) {
             AppMonitor.reportBug(e, mClassName, "initView");
         }
@@ -107,10 +105,10 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
             } else if (password.getText().toString().isEmpty()) {
                 Toast.makeText(mContext, getString(R.string.SignInActivity_empty_merchantPassword), Toast.LENGTH_LONG).show();
                 return false;
-            } else if (!username.getText().toString().trim().equals(fakeUsername)) {
+            } else if (username.getText().toString().trim().equals("")) {
                 Toast.makeText(mContext, getString(R.string.SignInActivity_invalid_merchant_username), Toast.LENGTH_SHORT).show();
                 return false;
-            } else if (!password.getText().toString().trim().equals(fakePassword)) {
+            } else if (password.getText().toString().trim().equals("")) {
                 Toast.makeText(mContext, getString(R.string.SignInActivity_invalid_merchant_password), Toast.LENGTH_SHORT).show();
                 return false;
             }
@@ -126,9 +124,8 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
         try {
             MenuDto menuDto = createMenuDto();
             final SecretKey AESsecretKey = Encryptor.generateRandomAESKey();
-            Helper.ProgressBar.showDialog(mContext, getString(R.string.SignInActivity_loading));
 
-            new ApiCaller(Constant.Api.Type.TERMINAL_LOGIN).call(mContext, menuDto, AESsecretKey, new ApiCaller.ApiCallback() {
+            new ApiCaller(Constant.Api.Type.TERMINAL_LOGIN).call(mContext, menuDto, AESsecretKey,"در جال بارگیری اطلاعات", new ApiCaller.ApiCallback() {
                 @Override
                 public void onResponse(int responseCode, String jsonResult) {
                     Gson gson = Helper.getGson();
@@ -138,7 +135,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
 
                     if (menuStos != null) {
                         if (menuStos.get(0).messageModel.get(0).errorCode == Constant.Api.ErrorCode.Successfull) {
-                            UpdateHelper.setLastVersion(menuStos.get(0).messageModel.get(0).ver);
+                            mSession.setLastVersion(menuStos.get(0).messageModel.get(0).ver);
 
                             if (saveMenu(menuStos) && saveInfo(menuStos)) {
                                 startActivity(new Intent(mContext, MainActivity.class));
@@ -162,15 +159,16 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
         } catch (Exception e) {
             AppMonitor.reportBug(e, mClassName, "callGetMenu");
         }
-
     }
 
     private MenuDto createMenuDto() {
 
         MenuDto menuDto = new MenuDto();
 
-        menuDto.userName = "pirouze";
-        menuDto.password = "4240235464";
+//        menuDto.userName = "pirouze";
+//        menuDto.password = "4240235464";
+        menuDto.userName = edtUsername.getText().toString();
+        menuDto.password = edtPassword.getText().toString();
         menuDto.deviceInfo = "My Pos Info";
         menuDto.terminalCode = "R215454D5";
         menuDto.deviceIP = "192.0.0.1";
@@ -192,7 +190,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
         }
 
     }
-    
+
     private boolean saveInfo(ArrayList<MenuSto> menuStos) {
         try {
             Session session = Session.getInstance(mContext);
@@ -212,8 +210,5 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
             AppMonitor.reportBug(e, mClassName, "saveInfo");
             return false;
         }
-
     }
-
-
 }

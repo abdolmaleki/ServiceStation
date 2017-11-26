@@ -19,6 +19,9 @@
     <string name="SignInActivity_serverConnectingError">خطا در ارتباط با سرور مرکزی</string>
     <string name="SignInActivity_loading">در حال بارگیری اطلاعات</string>
 
+    <!--    *************************      splash activity      *************************    -->
+    <string name="splash_btn_retry">تلاش مجدد</string>
+
     <!--=================================     Fragments      =================================-->
 
     <!--    *************************        Pin Fragment        *************************    -->

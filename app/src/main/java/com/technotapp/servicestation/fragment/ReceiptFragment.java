@@ -21,6 +21,8 @@ import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.application.Constant;
+import com.technotapp.servicestation.database.Db;
+import com.technotapp.servicestation.database.model.MenuModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,6 +42,8 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
     private Unbinder unbinder;
     Bundle bundle;
     private final String mClassName = getClass().getSimpleName();
+    private long mMenuId;
+    private MenuModel mCurrenMenu;
 
     public static ReceiptFragment newInstance() {
         ReceiptFragment fragment = new ReceiptFragment();
@@ -51,7 +55,21 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loadData();
+        initDb();
 
+    }
+
+    private void loadData() {
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            mMenuId = bundle.getInt(Constant.Key.MENU_ID, -1);
+            mCurrenMenu = Db.Menu.getMenuById(mMenuId);
+        }
+    }
+
+    private void initDb() {
+        Db.init();
     }
 
     @Nullable
@@ -70,7 +88,7 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
         try {
             setRetainInstance(true);
 
-            setTitle(getString(R.string.ReceiptFragment_billingPay));
+            setTitle(mCurrenMenu.title);
             bundle = new Bundle();
             btnQrReader.setOnClickListener(this);
             btnConfirm.setOnClickListener(this);

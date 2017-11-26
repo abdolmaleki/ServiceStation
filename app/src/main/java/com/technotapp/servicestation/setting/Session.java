@@ -72,6 +72,10 @@ public class Session {
         prefs.edit().putInt(Constant.Session.APP_VERSION, ver).apply();
     }
 
+    public void setLastVersion(int ver) {
+        prefs.edit().putInt(Constant.Session.LAST_VERSION, ver).apply();
+    }
+
     public void setIsFirstRun(boolean isFirstRun) {
         prefs.edit().putBoolean(Constant.Session.IS_FIRST_RUN, isFirstRun).apply();
     }
@@ -114,6 +118,11 @@ public class Session {
 
     public int getAppVersion() {
         int version = prefs.getInt(Constant.Session.APP_VERSION, -1);
+        return version;
+    }
+
+    public int getLastVersion() {
+        int version = prefs.getInt(Constant.Session.LAST_VERSION, -1);
         return version;
     }
 

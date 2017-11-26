@@ -38,12 +38,12 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="16dp"
                 android:hint="@string/activity_signin_merchant_code"
-                android:inputType="numberDecimal"
-                android:maxLength="8"
+                android:maxLength="20"
                 android:paddingRight="8dp"
                 android:textColor="#353333"
                 android:textColorHint="#55ffffff"
                 android:textDirection="rtl"
+                android:text="pirouze"
                 android:typeface="monospace" />
 
         </android.support.design.widget.TextInputLayout>
@@ -58,10 +58,11 @@
                 android:layout_height="match_parent"
                 android:hint="@string/activity_signin_password"
                 android:inputType="numberPassword"
-                android:maxLength="8"
+                android:maxLength="20"
                 android:paddingRight="8dp"
                 android:textAlignment="textEnd"
                 android:textColor="#353333"
+                android:text="4240235464"
                 android:textColorHint="#55ffffff"
                 android:typeface="monospace" />
         </android.support.design.widget.TextInputLayout>

@@ -8,19 +8,14 @@ import com.technotapp.servicestation.setting.Session;
 
 public class UpdateHelper {
 
-    public static int lastVersion = 0;
-
     public static boolean checkNeedingUpdate(Context ctx) {
         int currentVersion = Session.getInstance(ctx).getAppVersion();
+        int lastVersion = Session.getInstance(ctx).getLastVersion();
         if (lastVersion > currentVersion) {
             ctx.startActivity(new Intent(ctx, UpdatingActivity.class));
             return true;
         } else {
             return false;
         }
-    }
-
-    public static void setLastVersion(int version) {
-        lastVersion = version;
     }
 }

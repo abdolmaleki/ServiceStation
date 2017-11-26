@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.pixelcan.inkpageindicator.InkPageIndicator;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
+import com.technotapp.servicestation.Infrastructure.UpdateHelper;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.adapter.DataModel.MenuAdapterModel;
 import com.technotapp.servicestation.adapter.MainMenuPageAdapter;
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadSetting() {
-
+        UpdateHelper.checkNeedingUpdate(this);
     }
 
     private void loadData() {

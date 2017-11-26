@@ -1,27 +1,19 @@
 package com.technotapp.servicestation.connection.restapi;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Base64;
 import android.widget.Toast;
 
-import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.Encryptor;
 import com.technotapp.servicestation.Infrastructure.Helper;
+import com.technotapp.servicestation.Infrastructure.NetworkHelper;
 import com.technotapp.servicestation.Infrastructure.UpdateHelper;
-import com.technotapp.servicestation.activity.MainActivity;
-import com.technotapp.servicestation.activity.SigninActivity;
-import com.technotapp.servicestation.activity.UpdatingActivity;
+import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.connection.restapi.dto.BaseDto;
-import com.technotapp.servicestation.connection.restapi.sto.MenuSto;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import javax.crypto.SecretKey;
@@ -50,8 +42,14 @@ public class ApiCaller {
     //                                             |___/
 
 
-    public void call(final Context ctx, BaseDto dto, final SecretKey AESsecretKey, final ApiCallback apiCallback) {
+    public void call(final Context ctx, BaseDto dto, final SecretKey AESsecretKey, String loadingMessage, final ApiCallback apiCallback) {
         try {
+
+            if (!NetworkHelper.isConnectingToInternet(ctx)) {
+                return;
+            }
+
+
             // Client For Retrofit
             final OkHttpClient okHttpClient = new OkHttpClient.Builder()
                     .readTimeout(60, TimeUnit.SECONDS)
@@ -93,6 +91,13 @@ public class ApiCaller {
                 case Constant.Api.Type.TERMINAL_INFO:
                     token = apiService.getTerminalInfo(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
                     break;
+            }
+
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            ////////// show progressbar if needed ////////////////////
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            if (loadingMessage != null) {
+                Helper.ProgressBar.showDialog(ctx, loadingMessage);
             }
 
             token.enqueue(new Callback<String>() {

@@ -31,6 +31,7 @@ public class CardServiceFragment extends SubMenuFragment implements AdapterView.
     Bundle args;
     Fragment fragment;
     private int mMenuId;
+    private MenuModel mCurrenMenu;
 
     public static CardServiceFragment newInstance() {
         CardServiceFragment fragment = new CardServiceFragment();
@@ -45,6 +46,14 @@ public class CardServiceFragment extends SubMenuFragment implements AdapterView.
         loadData();
         initDb();
 
+    }
+
+    private void loadData() {
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            mMenuId = bundle.getInt(Constant.Key.MENU_ID, -1);
+            mCurrenMenu = Db.Menu.getMenuById(mMenuId);
+        }
     }
 
     private void initDb() {
@@ -68,7 +77,7 @@ public class CardServiceFragment extends SubMenuFragment implements AdapterView.
             gridView = v.findViewById(R.id.fragment_card_services_grdList);
             fragment = CardServiceDepositAndBuyFragment.newInstance();
             setRetainInstance(true);
-            setTitle(getString(R.string.CardServiceFragment_title));
+            setTitle(mCurrenMenu.title);
             gridView.setOnItemClickListener(this);
         } catch (Exception e) {
             AppMonitor.reportBug(e, "CardServiceFragment", "initView");
@@ -91,12 +100,7 @@ public class CardServiceFragment extends SubMenuFragment implements AdapterView.
         }
     }
 
-    private void loadData() {
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            mMenuId = bundle.getInt(Constant.Key.MENU_ID, -1);
-        }
-    }
+
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

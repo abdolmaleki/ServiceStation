@@ -23,6 +23,7 @@ public class Constant {
         public static final String LASTNAME = "lastname";
         public static final String GENDER = "gender";
         public static final String APP_VERSION = "app.version";
+        public static final String LAST_VERSION = "app.version";
         public static final String BIRTHDATE = "birthdate";
         public static final String EMAIL = "email";
         public static final String ADDRESS = "address";

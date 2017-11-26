@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -29,7 +30,7 @@ public class SplashActivity extends AppCompatActivity {
     LinearLayout logoLayout;
 
     private int progressStatus = 0;
-    private Handler handler = new Handler();
+    private Handler handler;
     private final String mClassName = getClass().getSimpleName();
     private Context mContext;
 
@@ -61,6 +62,7 @@ public class SplashActivity extends AppCompatActivity {
                 @Override
                 public void run() {
 
+                    Looper.prepare();
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -81,10 +83,7 @@ public class SplashActivity extends AppCompatActivity {
                             AppMonitor.reportBug(e, mClassName, "playSplash-Timer");
                         }
                     }
-
-                    if (NetworkHelper.checkNetwork(mContext)) {
-                        startActivity(new Intent(mContext, SigninActivity.class));
-                    }
+                    checkNetStatus();
                     finish();
                 }
             }, 2000);
@@ -98,6 +97,7 @@ public class SplashActivity extends AppCompatActivity {
         try {
             ButterKnife.bind(this);
             mContext = SplashActivity.this;
+            handler = new Handler(getMainLooper());
         } catch (Exception e) {
             AppMonitor.reportBug(e, mClassName, "initView");
         }
@@ -109,5 +109,18 @@ public class SplashActivity extends AppCompatActivity {
 
     private void loadSetting() {
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    private void checkNetStatus() {
+        if (NetworkHelper.isConnectingToInternet(mContext)) {
+            startActivity(new Intent(mContext, SigninActivity.class));
+        } else {
+            startActivity(new Intent(mContext, CheckNetworkActivity.class));
+        }
     }
 }

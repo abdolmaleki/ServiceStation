@@ -24,9 +24,9 @@
 
             <ImageView
                 android:id="@+id/imageView2"
-                android:layout_marginTop="4dp"
                 android:layout_width="@dimen/ansarLogoW_H"
                 android:layout_height="@dimen/ansarLogoW_H"
+                android:layout_marginTop="4dp"
                 android:background="@drawable/ic_ansar_logo" />
 
             <com.technotapp.servicestation.customView.CustomTextView
@@ -47,18 +47,40 @@
         android:layout_width="match_parent"
         android:layout_height="16dp" />
 
-    <ProgressBar
-        android:id="@+id/activity_splash_prg"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="256dp"
-        android:layout_height="2dp"
-        android:layout_gravity="center"
-        android:indeterminate="false"
-        android:maxHeight="10dip"
-        android:minHeight="10dip"
-        android:progress="0"
-        android:progressDrawable="@drawable/bg_progressbar_linear"
-        android:visibility="invisible" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <com.technotapp.servicestation.customView.CustomButton
+            android:id="@+id/activity_splash_btn_retry"
+            android:layout_width="128dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="48dp"
+            android:background="@drawable/cs_signin_button"
+            android:gravity="center"
+            android:maxLength="16"
+            android:text="@string/splash_btn_retry"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:visibility="invisible"
+            app:fontName="irsans" />
+
+        <ProgressBar
+            android:id="@+id/activity_splash_prg"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="256dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:indeterminate="false"
+            android:maxHeight="10dip"
+            android:minHeight="10dip"
+            android:progress="0"
+            android:progressDrawable="@drawable/bg_progressbar_linear"
+            android:visibility="invisible" />
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"

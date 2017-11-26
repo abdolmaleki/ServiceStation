@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.widget.Toast;
 
 import com.technotapp.servicestation.activity.CheckNetworkActivity;
+import com.technotapp.servicestation.application.Constant;
 
 public class NetworkHelper {
 
@@ -27,7 +29,7 @@ public class NetworkHelper {
         }
     }
 
-    public boolean isConnectingToInternet(Context ctx) {
+    public static boolean isConnectingToInternet(Context ctx) {
 
         try {
             ConnectivityManager connectivity = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -41,10 +43,10 @@ public class NetworkHelper {
 
             }
         } catch (Exception e) {
-            AppMonitor.reportBug(e, this.getClass().getName(), "isConnectingToInternet");
+            AppMonitor.reportBug(e, "NetworkHelper", "isConnectingToInternet");
             return false;
         }
-
+        Helper.alert(ctx, "مشکل عدم ارتباط با اینترنت", Constant.AlertType.Error, Toast.LENGTH_SHORT);
         return false;
     }
 
