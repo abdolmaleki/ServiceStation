@@ -254,7 +254,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="@drawable/bg_btn_card_service_deposit_buy_confirm"
+            android:background="@drawable/bg_btn_fragment_card_service_deposit_buyconfirm"
             android:text="@string/fragment_card_service_deposit_buy_confirm"
             android:textColor="#fff" />
     </LinearLayout>

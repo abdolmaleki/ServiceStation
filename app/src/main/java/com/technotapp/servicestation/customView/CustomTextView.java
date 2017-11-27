@@ -16,7 +16,7 @@ public class CustomTextView extends android.support.v7.widget.AppCompatTextView 
     }
 
     public CustomTextView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+       super(context, attrs);
         getContext().obtainStyledAttributes(attrs, R.styleable.CustomTextView);
         String fontName = getContext().obtainStyledAttributes(attrs, R.styleable.CustomTextView).getString(R.styleable.CustomTextView_fontName);
         if (TextUtils.isEmpty(fontName))

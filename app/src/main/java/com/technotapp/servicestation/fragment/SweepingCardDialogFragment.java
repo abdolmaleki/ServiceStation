@@ -26,6 +26,7 @@ public class SweepingCardDialogFragment extends DialogFragment implements View.O
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         try {
+            getDialog().getWindow().setBackgroundDrawableResource(R.drawable.bg_btn_swipe_card);
             View view = inflater.inflate(R.layout.fragment_dialog_sweepingcard_progress, container);
             if (getDialog().getWindow() != null) {
                 getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
@@ -44,7 +45,8 @@ public class SweepingCardDialogFragment extends DialogFragment implements View.O
     @SuppressLint("HandlerLeak")
     private void counter(final ProgressBar progressBar) {
         try {
-            mCardSweepTimeoutThread = new Thread(new Runnable() {
+            mCardSweepTimeoutThread = new Thread(new Runnable()  {
+
                 @Override
                 public void run() {
 
@@ -63,7 +65,7 @@ public class SweepingCardDialogFragment extends DialogFragment implements View.O
                     }
                     mISweepDialog.onCancelOrTimeout();
                 }
-            });
+                    });
 
             mCardSweepTimeoutThread.start();
             handler = new Handler() {
@@ -96,12 +98,12 @@ public class SweepingCardDialogFragment extends DialogFragment implements View.O
     public void onResume() {
         super.onResume();
 
-        int width = 600;
-        int height = 300;
+//        int width = 600;
+//        int height = 300;
         try {
-            if (getDialog().getWindow() != null) {
-                getDialog().getWindow().setLayout(width, height);
-            }
+//            if (getDialog().getWindow() != null) {
+//                getDialog().getWindow().setLayout(width, height);
+//            }
 
         } catch (Exception e) {
             AppMonitor.reportBug(e, "SweepingCardDialogFragment", "onResume");

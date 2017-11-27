@@ -3,7 +3,6 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#673AB7</color>
-    <color name="colorBorder">#263238</color>
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
     <color name="fragment_keypad_button_text">#525179</color>
@@ -11,26 +10,11 @@
     <color name="fragment_transaction_response_dialog_failBackgroungColor">#b71c1c</color>
     <color name="fragment_transaction_response_dialog_success_textColor">#00796B</color>
     <color name="fragment_transaction_response_dialog_fail_textColor">#560000</color>
-    <color name="fragment_charge_irancell">#fbc70a</color>
-    <color name="fragment_charge_hamraheAval">#48c2cb</color>
-    <color name="fragment_charge_taliya">#fd0028</color>
-    <color name="fragment_charge_rightel">#982b6b</color>
-    <color name="item_rcl_fragment_charge_irancell_color2">#00678f</color>
-    <color name="fragment_charge_switch_text_color">#727273</color>
+    <color name="fragment_charge_switch_text_color">#ffffff</color>
 
 
-    <color name="color_green">#14808d</color>
-    <color name="color_brown">#343838</color>
-    <color name="color_orange">#f38a32</color>
-    <color name="color_blue">#1479b7</color>
-    <color name="divider_grey">#e4e4e5</color>
+
     <color name="btn_pressed">#e0e0e0</color>
 
-    <array name="rect_color">
-        <item>@color/color_blue</item>
-        <item>@color/color_brown</item>
-        <item>@color/color_green</item>
-        <item>@color/divider_grey</item>
-        <item>@color/color_orange</item>
-    </array>
+
 </resources>

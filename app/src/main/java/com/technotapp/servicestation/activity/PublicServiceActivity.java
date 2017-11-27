@@ -58,7 +58,6 @@ public class PublicServiceActivity extends SubMenuActivity implements IPin {
                 return ReceiptFragment.newInstance();
             case Constant.MenuAction.CHARGE:
                 return ChargeFragment.newInstance();
-
             case Constant.MenuAction.CARDSERVICE:
                 return CardServiceFragment.newInstance();
             case Constant.MenuAction.QR_READER:

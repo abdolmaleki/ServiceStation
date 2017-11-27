@@ -7,6 +7,9 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.LinearLayout;
 
 import com.pax.dal.entity.TrackData;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;

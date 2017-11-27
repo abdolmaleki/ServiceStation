@@ -1,61 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="200dp"
+    android:layout_width="104dp"
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical">
-<RelativeLayout
-    android:layout_width="164dp"
-    android:layout_height="80dp">
-    <View
-        android:id="@+id/item_rcl_fragment_charge_background"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-    <RelativeLayout
+
+    <LinearLayout
         android:id="@+id/item_rcl_fragment_charge_lyr"
-        android:layout_width="164dp"
-        android:layout_height="80dp"
+        android:layout_width="96dp"
+        android:layout_height="60dp"
         android:layout_margin="2dp"
-        android:layout_centerInParent="true"
-        android:background="@drawable/bg_card_charge_hamraheaval"
+        android:background="@drawable/bg_card_charge"
         android:layoutDirection="rtl"
         android:orientation="vertical">
 
-        <View
-            android:id="@+id/item_rcl_fragment_charge_view"
-            android:layout_marginEnd="1dp"
-            android:layout_marginStart="1dp"
-            android:layout_width="match_parent"
-            android:layout_height="16dp"
-            android:layout_marginTop="8dp"
-            android:background="@color/white" />
+
+            <com.technotapp.servicestation.customView.CustomTextView
+                android:id="@+id/item_rcl_fragment_charge_txtAmount"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginTop="2dp"
+                android:gravity="center"
+                android:text="5,000"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:fontName="irsans_number" />
+
 
         <com.technotapp.servicestation.customView.CustomTextView
-            android:id="@+id/item_rcl_fragment_charge_txtType"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="16dp"
-            android:gravity="end|bottom"
-            android:text="هزار تومانی"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:gravity="center"
+            android:text="تومانی"
             android:textColor="@color/white"
-            android:textSize="18sp"
-            app:fontName="farnaz" />
+            android:textSize="14sp"
+            app:fontName="irsans-Medium" />
 
-        <com.technotapp.servicestation.customView.CustomTextView
-            android:id="@+id/item_rcl_fragment_charge_txtAmount"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="8dp"
-            android:gravity="end|top"
-            android:text="2"
-            android:textColor="@color/white"
-            android:textSize="48sp"
-            app:fontName="zar" />
-    </RelativeLayout>
-    </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>

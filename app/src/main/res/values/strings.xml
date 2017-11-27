@@ -28,13 +28,6 @@
     <string name="PinFragment_error_minpinlenght">رمز عبور نمی تواند کمتر از 4 عدد باشد</string>
     <string name="fragment_pin_title">لطفا رمز اول کارت را وارد کنید</string>
 
-    <!--    *************************    CardService Fragment    *************************    -->
-    <string name="CardServiceFragment_Menu_cardToCard">کارت به کارت</string>
-    <string name="CardServiceFragment_Menu_Deposit">واریز به حساب</string>
-    <string name="CardServiceFragment_Menu_Buy">برداشت از حساب</string>
-    <string name="CardServiceFragment_Menu_Balance">موجودی حساب</string>
-    <string name="CardServiceFragment_title">خدمات کارت</string>
-
     <!--    *************************      Charge Fragment      *************************    -->
     <string name="ChargeFragment_charge_service">خدمات شارژ</string>
 
@@ -63,8 +56,8 @@
     <string name="fragment_card_service_deposit_buy_confirm">تایید</string>
     <string name="fragment_card_service_deposit_buy_keypad_font_name">irsans_number</string>
     <!--    *************************     dialog sweeping card     *************************    -->
-    <string name="fragment_dialog_sweepingcard_PleaseSweepCard">لطفا کارت خود را بکشید ...</string>
-    <string name="fragment_dialog_sweepingcard_proress_cancell">لغو</string>
+    <string name="fragment_dialog_sweepingcard_PleaseSweepCard">لطفا کارت خود را بکشید</string>
+    <string name="fragment_dialog_sweepingcard_proress_cancell">انصراف</string>
 
     <!--/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\-->
     <!--/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\-->

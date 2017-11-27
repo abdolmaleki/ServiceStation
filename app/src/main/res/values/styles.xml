@@ -17,11 +17,6 @@
     </style>
 
 
-    <style name="MySwitch" parent="@style/Widget.AppCompat.CompoundButton.Switch">
-        <item name="android:textColorPrimaryDisableOnly">#b71c1c</item>
-        <item name="android:colorForeground">#f57f17</item>
-        <item name="android:textAppearance">@style/TextAppearance.AppCompat</item>
-    </style>
 
 
 

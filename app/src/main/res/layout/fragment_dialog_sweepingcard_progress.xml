@@ -1,32 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layoutDirection="rtl"
-    android:gravity="center">
+    android:gravity="center"
+    android:orientation="vertical">
 
-    <ProgressBar
-        android:id="@+id/fragment_dialog_sweepingcard_progress_progressBar"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="16dp" />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+    <LinearLayout
+        android:layout_width="256dp"
+        android:layout_height="304dp"
+        android:background="@drawable/bg_lyr_swipe_card"
         android:gravity="center"
-        android:text="@string/fragment_dialog_sweepingcard_PleaseSweepCard"
-        android:textSize="16sp" />
+        android:layoutDirection="rtl"
+        android:orientation="vertical">
 
-<Button
-    android:id="@+id/fragment_dialog_sweepingcard_progress_button"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@null"
-    android:layout_gravity="start"
-    android:text="@string/fragment_dialog_sweepingcard_proress_cancell"/>
+        <ImageView
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:src="@drawable/ic_pos" />
 
+        <com.technotapp.servicestation.customView.CustomTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
 
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="@string/fragment_dialog_sweepingcard_PleaseSweepCard"
+            android:textColor="#283542"
+            android:textSize="14sp"
+            app:fontName="irsans-Medium" />
 
+        <com.technotapp.servicestation.customView.CustomButton
+            android:id="@+id/fragment_dialog_sweepingcard_progress_button"
+            android:layout_width="168dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_btn_swipe_card"
+            android:text="@string/fragment_dialog_sweepingcard_proress_cancell"
+            android:textColor="@color/white" />
+
+        <ProgressBar
+            android:id="@+id/fragment_dialog_sweepingcard_progress_progressBar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layoutDirection="ltr"
+            android:progressDrawable="@drawable/bg_progress_swipe_card" />
+    </LinearLayout>
 </LinearLayout>

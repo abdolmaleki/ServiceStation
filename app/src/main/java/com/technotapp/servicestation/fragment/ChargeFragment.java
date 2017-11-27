@@ -3,33 +3,29 @@ package com.technotapp.servicestation.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SnapHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.kyleduo.switchbutton.SwitchButton;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.adapter.CardChargeAdapter;
-import com.technotapp.servicestation.application.Constant;
 import com.yarolegovich.discretescrollview.DiscreteScrollView;
 
 import java.util.ArrayList;
+
 import com.technotapp.servicestation.R;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 
-public class ChargeFragment extends SubMenuFragment implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+public class ChargeFragment extends SubMenuFragment implements View.OnClickListener {
 
     @BindView(R.id.fragment_charge_linDirectCharge)
     LinearLayout linDirectCharge;
@@ -45,29 +41,22 @@ public class ChargeFragment extends SubMenuFragment implements View.OnClickListe
     @BindView(R.id.fragment_charge_btnConfirm)
     Button btnConfirm;
 
-    @BindView(R.id.fragment_charge_txtOperatorType)
-    TextView txtOperatorName;
-    @BindView(R.id.fragment_charge_txtAdi)
-    TextView txtAdi;
-    @BindView(R.id.fragment_charge_txtMostaghim)
-    TextView txtMostaghim;
-    @BindView(R.id.fragment_charge_txtShegeftAngiz)
-    TextView txtShegeftAngiz;
-    @BindView(R.id.fragment_charge_txtCodeCharge)
-    TextView txtCodeCharge;
-
-    @BindView(R.id.fragment_charge_switchTypeCharge1)
-    SwitchButton switchTypeCharge1;
-    @BindView(R.id.fragment_charge_switchTypeCharge2)
-    SwitchButton switchTypeCharge2;
+    @BindView(R.id.fragment_charge_btnAdi)
+    Button btnAdi;
+    @BindView(R.id.fragment_charge_btnMostaghim)
+    Button btnMostaghim;
+    @BindView(R.id.fragment_charge_btnShegeftAngiz)
+    Button btnShegeftAngiz;
+    @BindView(R.id.fragment_charge_btnCodeCharge)
+    Button btnCodeCharge;
+    @BindView(R.id.fragment_charge_edtPhoneNumber)
+    EditText edtPhoneNumber;
 
     @BindView(R.id.fragment_charge_rclCharges)
     DiscreteScrollView rclCardCharge;
 
-    private RecyclerView.LayoutManager layoutManagerCardCharge;
     private RecyclerView.Adapter adapterCardCharge;
     private ArrayList<String> data;
-    private byte currentOperator;
     private Unbinder unbinder;
 
 
@@ -88,15 +77,14 @@ public class ChargeFragment extends SubMenuFragment implements View.OnClickListe
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rooView = inflater.inflate(R.layout.fragment_charge, container, false);
-        ButterKnife.bind(this, rooView);
         unbinder = ButterKnife.bind(this, rooView);
         data = new ArrayList<>();
-        data.add("1");
-        data.add("2");
-        data.add("5");
-        data.add("10");
-        data.add("20");
-        data.add("50");
+        data.add("1,000");
+        data.add("2,000");
+        data.add("5,000");
+        data.add("10,000");
+        data.add("20,000");
+        data.add("50,000");
 
         initView();
 
@@ -113,11 +101,19 @@ public class ChargeFragment extends SubMenuFragment implements View.OnClickListe
             btnIrancell.setOnClickListener(this);
             btnRightel.setOnClickListener(this);
             btnTaliya.setOnClickListener(this);
-            switchTypeCharge1.setOnCheckedChangeListener(this);
-            switchTypeCharge2.setOnCheckedChangeListener(this);
 
-            btnHamraheAval.performClick();
+            btnAdi.setOnClickListener(this);
+            btnMostaghim.setOnClickListener(this);
+            btnShegeftAngiz.setOnClickListener(this);
+            btnCodeCharge.setOnClickListener(this);
 
+            btnIrancell.performClick();
+            btnMostaghim.performClick();
+            btnAdi.performClick();
+
+            adapterCardCharge = new CardChargeAdapter(getContext(), data);
+            rclCardCharge.setAdapter(adapterCardCharge);
+            rclCardCharge.scrollToPosition(data.size()/2);
         } catch (Exception e) {
             AppMonitor.reportBug(e, "ChargeFragment", "bindView");
         }
@@ -125,112 +121,95 @@ public class ChargeFragment extends SubMenuFragment implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+
         switch (v.getId()) {
+
             case R.id.fragment_charge_btnHamraheAval:
-                currentOperator = Constant.Operator.HAMRAHEAVAL;
-                changeView("شارژ همراه اول", getCurrentColor(currentOperator), R.drawable.bg_fragment_charge_back_switch_hamraheaval, R.drawable.bg_fragment_charge_thumb_switch_hamraheaval,R.drawable.bg_fragment_charge_btn_confirm_hamraheaval);
+                resetUi();
+
+                btnHamraheAval.setImageResource(R.drawable.ic_hamrah_aval_selected);
                 break;
 
             case R.id.fragment_charge_btnRightel:
-                currentOperator = Constant.Operator.RIGHTEL;
-                changeView("شارژ رایتل", getCurrentColor(currentOperator), R.drawable.bg_fragment_charge_back_switch_rightel, R.drawable.bg_fragment_charge_thumb_switch_rightel,R.drawable.bg_fragment_charge_btn_confirm_rightel);
+                resetUi();
+
+                btnRightel.setImageResource(R.drawable.ic_rightel_selected);
                 break;
 
             case R.id.fragment_charge_btnTaliya:
-                currentOperator = Constant.Operator.TALIYA;
-                changeView("شارژ تالیا", getCurrentColor(currentOperator), R.drawable.bg_fragment_charge_back_switch_taliya, R.drawable.bg_fragment_charge_thumb_switch_taliya,R.drawable.bg_fragment_charge_btn_confirm_taliya);
+                resetUi();
+
+                btnTaliya.setImageResource(R.drawable.ic_taliya_selected);
                 break;
 
             case R.id.fragment_charge_btnIrancell:
-                currentOperator = Constant.Operator.IRANCELL;
-                changeView("شارژ ایرانسل", getCurrentColor(currentOperator), R.drawable.bg_fragment_charge_back_switch_irancell, R.drawable.bg_fragment_charge_thumb_switch_irancell,R.drawable.bg_fragment_charge_btn_confirm_irancell);
+                resetUi();
 
+                btnIrancell.setImageResource(R.drawable.ic_irancell_selected);
                 break;
 
-        }
 
-        adapterCardCharge = new CardChargeAdapter(data, currentOperator, getContext());
-        rclCardCharge.setAdapter(adapterCardCharge);
-
-    }
-
-    private void changeView(String str, int color, int backSwitch, int thumbSwitch,int btnBackground) {
-        switchTypeCharge1.setChecked(false);
-        switchTypeCharge2.setChecked(false);
-        switchTypeCharge1.setChecked(true);
-        switchTypeCharge2.setChecked(true);
-
-        switchTypeCharge1.setBackDrawable(getResources().getDrawable(backSwitch));
-        switchTypeCharge1.setThumbDrawable(getResources().getDrawable(thumbSwitch));
-        switchTypeCharge2.setBackDrawable(getResources().getDrawable(backSwitch));
-        switchTypeCharge2.setThumbDrawable(getResources().getDrawable(thumbSwitch));
-
-        txtOperatorName.setText(str);
-        txtOperatorName.setBackground(getResources().getDrawable(color));
-
-        btnConfirm.setBackground(getResources().getDrawable(btnBackground));
-    }
+            case R.id.fragment_charge_btnMostaghim:
+                changeTypeChargeUI(btnMostaghim, btnCodeCharge, true);
 
 
-    private int getCurrentColor(byte Operator) {
-        switch (Operator) {
-            case Constant.Operator.HAMRAHEAVAL:
-                return R.color.fragment_charge_hamraheAval;
-            case Constant.Operator.RIGHTEL:
-                return R.color.fragment_charge_rightel;
-            case Constant.Operator.IRANCELL:
-                return R.color.fragment_charge_irancell;
-            case Constant.Operator.TALIYA:
-                return R.color.fragment_charge_taliya;
-        }
-        return 0;
-    }
-
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        switch (buttonView.getId()) {
-            case R.id.fragment_charge_switchTypeCharge1:
-                if (isChecked) {
-                    linDirectCharge.setVisibility(View.VISIBLE);
-
-                    txtMostaghim.setTextSize(16.0f);
-                    txtMostaghim.setTextColor(getResources().getColor(getCurrentColor(currentOperator)));
-
-                    txtCodeCharge.setTextSize(14.0f);
-                    txtCodeCharge.setTextColor(getResources().getColor(R.color.fragment_charge_switch_text_color));
-
-                } else {
-                    linDirectCharge.setVisibility(View.INVISIBLE);
-
-                    txtMostaghim.setTextSize(14.0f);
-                    txtMostaghim.setTextColor(getResources().getColor(R.color.fragment_charge_switch_text_color));
-
-
-                    txtCodeCharge.setTextSize(16.0f);
-                    txtCodeCharge.setTextColor(getResources().getColor(getCurrentColor(currentOperator)));
-                }
                 break;
-            case R.id.fragment_charge_switchTypeCharge2:
-                if (isChecked) {
+            case R.id.fragment_charge_btnCodeCharge:
+                changeTypeChargeUI(btnCodeCharge,btnMostaghim,false);
+                break;
+            case R.id.fragment_charge_btnAdi:
 
-                    txtAdi.setTextSize(16.0f);
-                    txtAdi.setTextColor(getResources().getColor(getCurrentColor(currentOperator)));
+                btnAdi.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_tick, 0);
+                btnAdi.setBackground(getResources().getDrawable(R.drawable.cs_btn_charge_fragment_type_charge_selected));
+                btnShegeftAngiz.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                btnShegeftAngiz.setBackground(getResources().getDrawable(R.drawable.cs_btn_charge_fragment_type_charge));
 
-                    txtShegeftAngiz.setTextSize(14.0f);
-                    txtShegeftAngiz.setTextColor(getResources().getColor(R.color.fragment_charge_switch_text_color));
 
-                } else {
-                    txtAdi.setTextSize(14.0f);
-                    txtAdi.setTextColor(getResources().getColor(R.color.fragment_charge_switch_text_color));
+                break;
+            case R.id.fragment_charge_btnShegeftAngiz:
 
-                    txtShegeftAngiz.setTextSize(16.0f);
-                    txtShegeftAngiz.setTextColor(getResources().getColor(getCurrentColor(currentOperator)));
-                }
-
+                btnShegeftAngiz.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_tick, 0);
+                btnShegeftAngiz.setBackground(getResources().getDrawable(R.drawable.cs_btn_charge_fragment_type_charge_selected));
+                btnAdi.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                btnAdi.setBackground(getResources().getDrawable(R.drawable.cs_btn_charge_fragment_type_charge));
                 break;
         }
 
+
     }
+
+    private void changeTypeChargeUI(Button btnClicked, Button btnsecond, boolean isEnabled) {
+
+        btnClicked.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_tick, 0);
+        btnClicked.setBackground(getResources().getDrawable(R.drawable.cs_btn_charge_fragment_type_charge_selected));
+        btnsecond.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+        btnsecond.setBackground(getResources().getDrawable(R.drawable.cs_btn_charge_fragment_type_charge));
+
+        btnShegeftAngiz.setEnabled(isEnabled);
+        btnAdi.setEnabled(isEnabled);
+        if (!isEnabled) {
+            edtPhoneNumber.setEnabled(false);
+            btnAdi.setBackground(getResources().getDrawable(R.drawable.cs_btn_charge_fragment_type_charge));
+            btnAdi.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+            btnShegeftAngiz.setBackground(getResources().getDrawable(R.drawable.cs_btn_charge_fragment_type_charge));
+            btnShegeftAngiz.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+        } else {
+            btnAdi.setBackground(getResources().getDrawable(R.drawable.cs_btn_charge_fragment_type_charge_selected));
+            btnShegeftAngiz.setBackground(getResources().getDrawable(R.drawable.cs_btn_charge_fragment_type_charge_selected));
+            btnAdi.performClick();
+        }
+    }
+
+    private void resetUi() {
+        btnHamraheAval.setImageResource(R.drawable.ic_hamrah_aval);
+        btnIrancell.setImageResource(R.drawable.ic_irancell);
+        btnTaliya.setImageResource(R.drawable.ic_taliya);
+        btnRightel.setImageResource(R.drawable.ic_rightel);
+        btnMostaghim.performClick();
+        rclCardCharge.scrollToPosition(data.size()/2);
+        btnAdi.performClick();
+    }
+
 
     @Override
     public void onDestroyView() {
