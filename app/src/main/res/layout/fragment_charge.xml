@@ -16,7 +16,7 @@
         android:gravity="center"
         android:scrollbars="horizontal"
         android:text="انتخاب اپراتور"
-        android:textColor="#312a4c"
+        android:textColor="@color/textViewColor"
         android:textSize="12dp"
         app:fontName="irsans_bold" />
 
@@ -79,7 +79,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:background="#cacaca" />
+        android:background="@color/lineColor" />
 
 
     <com.technotapp.servicestation.customView.CustomTextView
@@ -89,7 +89,7 @@
         android:gravity="center"
         android:scrollbars="horizontal"
         android:text="نوع شارژ"
-        android:textColor="#312a4c"
+        android:textColor="@color/textViewColor"
         android:textSize="12sp"
         app:fontName="irsans_bold" />
 
@@ -183,7 +183,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:background="#cacaca" />
+        android:background="@color/lineColor" />
 
 
     <com.technotapp.servicestation.customView.CustomTextView
@@ -193,7 +193,7 @@
         android:gravity="center"
         android:scrollbars="horizontal"
         android:text="مبلغ"
-        android:textColor="#312a4c"
+        android:textColor="@color/textViewColor"
         android:textSize="12sp"
         app:fontName="irsans_bold" />
 
@@ -211,7 +211,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:background="#cacaca" />
+        android:background="@color/lineColor" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -227,7 +227,7 @@
             android:gravity="center"
             android:scrollbars="horizontal"
             android:text="شماره تلفن"
-            android:textColor="#312a4c"
+            android:textColor="@color/textViewColor"
             android:textSize="12sp"
             app:fontName="irsans_bold" />
 
@@ -235,12 +235,12 @@
             android:id="@+id/fragment_charge_edtPhoneNumber"
             android:layout_width="176dp"
             android:layout_height="32dp"
-            android:background="@drawable/bg_fragment_charge_back_edt_phone"
+            android:background="@drawable/bg_default_edittext"
             android:gravity="center"
             android:hint="09350000000"
             android:textColor="@color/button_bar_divider_color_dark"
             android:textSize="16sp"
-            app:fontName="irsans_number" />
+            app:fontName="@string/irsansNumber" />
 
     </LinearLayout>
 
@@ -258,6 +258,6 @@
         android:background="@drawable/bg_btn_confirm"
         android:text="تایید و پرداخت"
         android:textColor="@color/white"
-        app:fontName="irsans-Medium" />
+        app:fontName="@string/irsansMedium" />
 
 </LinearLayout>

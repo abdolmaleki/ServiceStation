@@ -53,7 +53,7 @@
                 android:text="فروشگاه افق کوروش"
                 android:textColor="#f8b019"
                 android:textSize="16sp"
-                app:fontName="irsans-Medium" />
+                app:fontName="@string/irsansMedium" />
 
         </LinearLayout>
 

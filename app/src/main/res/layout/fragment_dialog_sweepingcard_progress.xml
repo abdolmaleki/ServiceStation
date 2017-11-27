@@ -29,7 +29,7 @@
             android:text="@string/fragment_dialog_sweepingcard_PleaseSweepCard"
             android:textColor="#283542"
             android:textSize="14sp"
-            app:fontName="irsans-Medium" />
+            app:fontName="@string/irsansMedium" />
 
         <com.technotapp.servicestation.customView.CustomButton
             android:id="@+id/fragment_dialog_sweepingcard_progress_button"

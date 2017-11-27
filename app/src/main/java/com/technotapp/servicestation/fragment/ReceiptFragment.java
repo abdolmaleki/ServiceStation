@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.pax.dal.IScanner;
@@ -32,7 +31,7 @@ import butterknife.Unbinder;
 public class ReceiptFragment extends SubMenuFragment implements View.OnClickListener {
 
     @BindView(R.id.fragment_receipt_btnQrReader)
-    ImageButton btnQrReader;
+    Button btnQrReader;
     @BindView(R.id.fragment_receipt_edtPaymentCode)
     EditText edtPaymentCode;
     @BindView(R.id.fragment_receipt_edtBillingId)
@@ -104,18 +103,19 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
     }
 
     private NeptuneLiteUser neptuneLiteUser = NeptuneLiteUser.getInstance();
-
+    String str;
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fragment_receipt_btnQrReader:
                 try {
+
                     neptuneLiteUser.getDal(getActivity()).getScanner(EScannerType.RIGHT).open();
                     neptuneLiteUser.getDal(getActivity()).getScanner(EScannerType.RIGHT).start(new IScanner.IScanListener() {
                         @Override
                         public void onRead(String result) {
+                            str = result;
 
-                            checkValidation(result);
 
                         }
 
@@ -123,8 +123,9 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
                         public void onFinish() {
                             try {
                                 neptuneLiteUser.getDal(getActivity()).getScanner(EScannerType.RIGHT).close();
+                                checkValidation(str);
                             } catch (Exception e) {
-                                e.printStackTrace();
+                                AppMonitor.reportBug(e, mClassName, "onFinish");
                             }
                         }
 
@@ -159,14 +160,11 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
         AppMonitor.Log(result);
         if (parseBillDetail(result)) {
             try {
-                Fragment fragment = ReceiptEndFragment.newInstance();
-                fragment.setArguments(bundle);
+                ReceiptDialogFragment dialogFragment = ReceiptDialogFragment.newInstance();
+                dialogFragment.show(getActivity().getFragmentManager(), "");
+                dialogFragment.setCancelable(false);
+                dialogFragment.setArguments(bundle);
                 //todo change this transaction
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-                fragmentTransaction.replace(R.id.activity_public_service_frame, fragment);
-                fragmentTransaction.commitAllowingStateLoss();
             } catch (Exception e) {
                 AppMonitor.reportBug(e, mClassName, "submitFragment");
             }
@@ -188,9 +186,31 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
 
                 switch (organizationCode) {
                     case Constant.PayBill.Organization.WATER:
+                        bundle.putString("organization_name", "" + "قبض آب");
+                        if (isValidBillDetail(billingId, paymentCode)) {
+                            isTrue = true;
+                        } else {
+                            Toast.makeText(mActivity, "بارکد مورد نظر معتبر نمی باشد", Toast.LENGTH_SHORT).show();
+                        }
+                        break;
                     case Constant.PayBill.Organization.ELECTRICAL:
+                        bundle.putString("organization_name", "" + "قبض برق");
+                        if (isValidBillDetail(billingId, paymentCode)) {
+                            isTrue = true;
+                        } else {
+                            Toast.makeText(mActivity, "بارکد مورد نظر معتبر نمی باشد", Toast.LENGTH_SHORT).show();
+                        }
+                        break;
                     case Constant.PayBill.Organization.GAS:
+                        bundle.putString("organization_name", "" + "قبض گاز");
+                        if (isValidBillDetail(billingId, paymentCode)) {
+                            isTrue = true;
+                        } else {
+                            Toast.makeText(mActivity, "بارکد مورد نظر معتبر نمی باشد", Toast.LENGTH_SHORT).show();
+                        }
+                        break;
                     case Constant.PayBill.Organization.PHONE:
+                        bundle.putString("organization_name", "" + "قبض تلفن");
                         if (isValidBillDetail(billingId, paymentCode)) {
                             isTrue = true;
                         } else {

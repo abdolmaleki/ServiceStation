@@ -3,126 +3,128 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_card_service_deposit_buy"
     android:layoutDirection="rtl"
-    android:paddingTop="@dimen/fragments_padding_top"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingEnd="48dp"
+    android:paddingStart="48dp"
+    android:paddingTop="@dimen/fragments_padding_top">
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2" />
+
+    <com.technotapp.servicestation.customView.CustomTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginStart="12dp"
+        android:gravity="center_vertical"
+        android:text="شناسایی دستی"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:fontName="@string/irsansMedium" />
+
+
+    <com.technotapp.servicestation.customView.CustomEditText
+        android:id="@+id/fragment_receipt_edtBillingId"
+        android:layout_width="240dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bg_default_edittext"
+        android:gravity="center_vertical"
+        android:hint="شناسه قبض را وارد کنید"
+        android:imeOptions="actionDone"
+        android:paddingBottom="4dp"
+        android:paddingEnd="0dp"
+        android:paddingStart="8dp"
+        android:paddingTop="4dp"
+        android:textSize="14sp"
+        app:fontName="@string/irsansNumber" />
+
+    <com.technotapp.servicestation.customView.CustomEditText
+        android:id="@+id/fragment_receipt_edtPaymentCode"
+        android:layout_width="240dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="18dp"
+        android:background="@drawable/bg_default_edittext"
+        android:gravity="center_vertical"
+        android:hint="شناسه پرداخت را وارد کنید"
+        android:imeOptions="actionDone"
+        android:paddingBottom="4dp"
+        android:paddingEnd="0dp"
+        android:paddingStart="8dp"
+        android:paddingTop="4dp"
+        android:textSize="14sp"
+        app:fontName="@string/irsansNumber" />
+
+
+    <com.technotapp.servicestation.customView.CustomButton
+        android:id="@+id/fragment_receipt_btnConfirm"
+        android:layout_width="240dp"
+        android:layout_height="56dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/bg_btn_confirm"
+        android:gravity="center"
+        android:text="تایید و بررسی"
+        android:textColor="@color/white"
+        app:fontName="irsans_bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="16dp"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="14dp"
+        android:layout_marginStart="14dp"
+        android:orientation="horizontal">
 
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="192dp"
-            android:layout_margin="8dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:orientation="vertical">
-
-                <com.technotapp.servicestation.customView.CustomTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#673AB7"
-                    android:gravity="center"
-                    android:text="شناسایی با بارکد خوان"
-                    android:textColor="#ffffff"
-                    android:textSize="16sp"
-                    app:fontName="irsans_bold" />
-
-                <ImageButton
-                    android:id="@+id/fragment_receipt_btnQrReader"
-                    android:layout_width="128dp"
-                    android:layout_height="128dp"
-                    android:layout_gravity="center"
-                    android:layout_margin="9dp"
-                    android:background="@drawable/ic_qr_reader" />
-            </LinearLayout>
-
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="192dp"
-            android:layout_margin="8dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="16dp"
-                android:orientation="vertical">
-
-                <com.technotapp.servicestation.customView.CustomTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#673AB7"
-                    android:gravity="center"
-                    android:text="شناسایی دستی"
-                    android:textColor="#ffffff"
-                    android:textSize="16sp"
-                    app:fontName="irsans_bold" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="144dp"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-
-                    <com.technotapp.servicestation.customView.CustomEditText
-                        android:id="@+id/fragment_receipt_edtBillingId"
-                        android:layout_width="192dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:background="@drawable/ed_fragment_receipt"
-                        android:gravity="center"
-                        android:hint="شناسه قبض"
-                        android:imeOptions="actionDone"
-                        android:padding="4dp"
-                        android:textSize="16sp"
-                        app:fontName="zar" />
-
-                    <com.technotapp.servicestation.customView.CustomEditText
-                        android:id="@+id/fragment_receipt_edtPaymentCode"
-                        android:layout_width="192dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="16dp"
-                        android:background="@drawable/ed_fragment_receipt"
-                        android:gravity="center"
-                        android:hint="شناسه پرداخت"
-                        android:imeOptions="actionDone"
-                        android:padding="4dp"
-                        android:textSize="16sp"
-                        app:fontName="zar" />
-
-
-                </LinearLayout>
-
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-        <com.technotapp.servicestation.customView.CustomButton
-            android:id="@+id/fragment_receipt_btnConfirm"
-            android:layout_width="192dp"
-            android:layout_height="48dp"
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="1dp"
             android:layout_gravity="center"
-            android:layout_marginBottom="16dp"
-            android:background="#673AB7"
-            android:gravity="center"
-            android:text="تایید"
-            android:textColor="@color/white"
-            app:fontName="irsans_bold" />
+            android:layout_weight="1"
+            android:background="@color/lineColor" />
 
+        <com.technotapp.servicestation.customView.CustomTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:gravity="center"
+            android:text="یا"
+            android:textColor="@color/textViewColor"
+            android:textSize="16sp"
+            app:fontName="@string/irsansMedium" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@color/lineColor" />
     </LinearLayout>
+
+    <com.technotapp.servicestation.customView.CustomButton
+        android:id="@+id/fragment_receipt_btnQrReader"
+        android:layout_width="240dp"
+        android:layout_height="56dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_card_charge"
+        android:drawableStart="@drawable/ic_qr_reader"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:text="شناسایی با بارکدخوان"
+        android:textColor="@color/white" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3" />
+
 
 </LinearLayout>

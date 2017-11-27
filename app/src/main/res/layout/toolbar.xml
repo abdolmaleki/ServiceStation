@@ -30,7 +30,7 @@
             android:gravity="center"
             android:text="بازگشت"
             android:textColor="#ffffff"
-            app:fontName="irsans-Medium" />
+            app:fontName="@string/irsansMedium" />
     </LinearLayout>
 
     <com.technotapp.servicestation.customView.CustomTextView
@@ -44,7 +44,7 @@
         android:text="خرید"
         android:textColor="#866dec"
         android:textSize="18sp"
-        app:fontName="irsans-Medium" />
+        app:fontName="@string/irsansMedium" />
 
     <ImageView
         android:layout_width="48dp"

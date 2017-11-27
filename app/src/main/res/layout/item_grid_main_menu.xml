@@ -42,7 +42,7 @@
                 android:gravity="center"
                 android:textColor="#fff"
                 android:textSize="12sp"
-                app:fontName="irsans-Medium" />
+                app:fontName="@string/irsansMedium" />
         </LinearLayout>
 
     </LinearLayout>

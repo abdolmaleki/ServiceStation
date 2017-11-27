@@ -5,6 +5,7 @@
     <color name="colorAccent">#673AB7</color>
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
+    <color name="textViewColor">#312a4c</color>
     <color name="fragment_keypad_button_text">#525179</color>
     <color name="fragment_transaction_response_dialog_successBackgroungColor">#00E676</color>
     <color name="fragment_transaction_response_dialog_failBackgroungColor">#b71c1c</color>
@@ -15,6 +16,7 @@
 
 
     <color name="btn_pressed">#e0e0e0</color>
+    <color name="lineColor">#cacaca</color>
 
 
 </resources>
