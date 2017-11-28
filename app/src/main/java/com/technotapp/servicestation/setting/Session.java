@@ -84,6 +84,38 @@ public class Session {
         prefs.edit().putBoolean(Constant.Session.IS_FIRST_RUN, isFirstRun).apply();
     }
 
+    public void setDescription(String description) {
+        prefs.edit().putString(Constant.Session.DESCRIPTION, description).apply();
+    }
+
+    public void setEconomicCode(String economicCode) {
+        prefs.edit().putString(Constant.Session.ECONOMIC_CODE, economicCode).apply();
+    }
+
+    public void setManagerName(String managerName) {
+        prefs.edit().putString(Constant.Session.MANAGERNAME, managerName).apply();
+    }
+
+    public void setRegisterDate(String registerDate) {
+        prefs.edit().putString(Constant.Session.REGISTER_DATE, registerDate).apply();
+    }
+
+    public void setRegisterCode(String registerCode) {
+        prefs.edit().putString(Constant.Session.REGISTER_ID, registerCode).apply();
+    }
+
+    public void setShopCategory(String shopCategory) {
+        prefs.edit().putString(Constant.Session.SHPCATEGORY, shopCategory).apply();
+    }
+
+    public void setTel(String tel) {
+        prefs.edit().putString(Constant.Session.TEL, tel).apply();
+    }
+
+    public void setFax(String fax) {
+        prefs.edit().putString(Constant.Session.FAX, fax).apply();
+    }
+
 
     public boolean IsFirstRun() {
         boolean isFirstRun = prefs.getBoolean(Constant.Session.IS_FIRST_RUN, true);

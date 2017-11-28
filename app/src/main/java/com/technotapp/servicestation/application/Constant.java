@@ -33,6 +33,14 @@ public class Constant {
         public static final String IS_CUSTOMER = "is_customer";
         public static final String TOKEN_ID = "token_id";
         public static final String HASH_ID = "hash_id";
+        public static final String DESCRIPTION = "description";
+        public static final String ECONOMIC_CODE = "economic_code";
+        public static final String REGISTER_ID = "register_id";
+        public static final String REGISTER_DATE = "register_date";
+        public static final String TEL = "tel";
+        public static final String SHPCATEGORY = "shopcategory";
+        public static final String MANAGERNAME = "manager.name";
+        public static final String FAX = "fax";
 
     }
 

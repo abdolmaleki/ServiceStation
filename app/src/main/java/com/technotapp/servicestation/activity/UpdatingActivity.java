@@ -59,7 +59,7 @@ public class UpdatingActivity extends AppCompatActivity implements View.OnClickL
 
 
         try {
-            if (NetworkHelper.checkNetwork(this)) {
+            if (NetworkHelper.isConnectingToInternet(this)) {
                 final Handler handler = new Handler(Looper.getMainLooper());
 
                 new Timer().schedule(new TimerTask() {

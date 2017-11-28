@@ -3,6 +3,7 @@ package com.technotapp.servicestation.application;
 import android.app.Application;
 import android.content.Context;
 import android.os.Environment;
+import android.support.multidex.MultiDex;
 
 import com.pax.dal.IDAL;
 import com.pax.neptunelite.api.NeptuneLiteUser;
@@ -28,9 +29,9 @@ public class AppConfig extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        PaxHelper.disableAllNavigationButton(getApplicationContext());
+        MultiDex.install(this);
+        PaxHelper.enableBackNavigationButton(getApplicationContext());
         init();
-        //copyFonts();
         configDb();
 
     }
