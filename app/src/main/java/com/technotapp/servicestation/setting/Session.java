@@ -136,6 +136,12 @@ public class Session {
         return address;
     }
 
+    public String getShopName() {
+
+        String shopName = prefs.getString(Constant.Session.SHOP_NAME, "");
+        return shopName;
+    }
+
     public String getTerminalId() {
 
         String terminalId = prefs.getString(Constant.Session.TERMINAL_ID, "");
