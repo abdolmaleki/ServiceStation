@@ -68,6 +68,10 @@ public class Session {
         prefs.edit().putString(Constant.Session.TOKEN_ID, tokenId).apply();
     }
 
+    public void setHashId(String hashId) {
+        prefs.edit().putString(Constant.Session.HASH_ID, hashId).apply();
+    }
+
     public void setAppVersion(int ver) {
         prefs.edit().putInt(Constant.Session.APP_VERSION, ver).apply();
     }
@@ -141,6 +145,11 @@ public class Session {
     public String getTokenId() {
         String tokenId = prefs.getString(Constant.Session.TOKEN_ID, "");
         return tokenId;
+    }
+
+    public String getHashId() {
+        String hashId = prefs.getString(Constant.Session.HASH_ID, "");
+        return hashId;
     }
 
     public String getEmail() {

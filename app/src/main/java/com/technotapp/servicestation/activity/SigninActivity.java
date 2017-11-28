@@ -125,7 +125,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
             MenuDto menuDto = createMenuDto();
             final SecretKey AESsecretKey = Encryptor.generateRandomAESKey();
 
-            new ApiCaller(Constant.Api.Type.TERMINAL_LOGIN).call(mContext, menuDto, AESsecretKey,"در جال بارگیری اطلاعات", new ApiCaller.ApiCallback() {
+            new ApiCaller(Constant.Api.Type.TERMINAL_LOGIN).call(mContext, menuDto, AESsecretKey, "در جال بارگیری اطلاعات", new ApiCaller.ApiCallback() {
                 @Override
                 public void onResponse(int responseCode, String jsonResult) {
                     Gson gson = Helper.getGson();
@@ -203,6 +203,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
             session.setAddress(menuStos.get(0).dataModel.get(0).shop.get(0).address);
             session.setGender(menuStos.get(0).dataModel.get(0).info.get(0).gender);
             session.setScore(menuStos.get(0).dataModel.get(0).info.get(0).score);
+            session.setHashId(menuStos.get(0).dataModel.get(0).info.get(0).hashId);
             session.setShopName(menuStos.get(0).dataModel.get(0).shop.get(0).title);
             session.setTerminalId(menuStos.get(0).dataModel.get(0).terminalCode);
             return true;

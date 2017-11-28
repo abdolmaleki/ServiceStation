@@ -32,6 +32,7 @@ public class Constant {
         public static final String SCORE = "score";
         public static final String IS_CUSTOMER = "is_customer";
         public static final String TOKEN_ID = "token_id";
+        public static final String HASH_ID = "hash_id";
 
     }
 
