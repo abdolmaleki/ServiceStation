@@ -60,7 +60,7 @@ public class ReceiptDialogFragment extends DialogFragment implements View.OnClic
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        getDialog().getWindow().setBackgroundDrawableResource(R.drawable.bg_btn_swipe_card);
+        getDialog().getWindow().setBackgroundDrawableResource(R.drawable.bg_transparent);
         View rootView = inflater.inflate(R.layout.fragment_dialog_receipt, container, false);
         unbinder = ButterKnife.bind(this, rootView);
 

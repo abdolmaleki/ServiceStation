@@ -52,8 +52,8 @@ public class ApiCaller {
 
             // Client For Retrofit
             final OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                    .readTimeout(60, TimeUnit.SECONDS)
-                    .connectTimeout(60, TimeUnit.SECONDS)
+                    .readTimeout(10, TimeUnit.SECONDS)
+                    .connectTimeout(10, TimeUnit.SECONDS)
                     .build();
 
             Retrofit retrofit = new Retrofit.Builder()
@@ -106,7 +106,7 @@ public class ApiCaller {
                     Helper.ProgressBar.hideDialog();
                     String EncryptedResponse = response.body();
                     if (EncryptedResponse == null || EncryptedResponse.isEmpty()) {
-                        Helper.alert(ctx, "خطا در دریافت اطلاعات", Constant.AlertType.Error, Toast.LENGTH_SHORT);
+                        Helper.alert(ctx, "خطا در دریافت اطلاعات", Constant.AlertType.Error);
                     } else {
 
                         ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -127,7 +127,7 @@ public class ApiCaller {
                             UpdateHelper.checkNeedingUpdate(ctx);
 
                         } else {
-                            Helper.alert(ctx, "خطا در دریافت اطلاعات", Constant.AlertType.Error, Toast.LENGTH_SHORT);
+                            Helper.alert(ctx, "خطا در دریافت اطلاعات", Constant.AlertType.Error);
                         }
                     }
                 }

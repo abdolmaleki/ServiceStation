@@ -11,7 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.R;
@@ -21,18 +23,21 @@ public class SweepingCardDialogFragment extends DialogFragment implements View.O
     private Handler handler;
     private ISweepDialog mISweepDialog;
     private boolean mIsDialogHide = false;
+    private TextView txtCounter;
+    private Button btnCancel;
+    private ProgressBar progressBar;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         try {
-            getDialog().getWindow().setBackgroundDrawableResource(R.drawable.bg_btn_swipe_card);
             View view = inflater.inflate(R.layout.fragment_dialog_sweepingcard_progress, container);
             if (getDialog().getWindow() != null) {
                 getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+                getDialog().getWindow().setBackgroundDrawableResource(R.drawable.bg_btn_swipe_card);
             }
-            (view.findViewById(R.id.fragment_dialog_sweepingcard_progress_button)).setOnClickListener(this);
-            counter((ProgressBar) view.findViewById(R.id.fragment_dialog_sweepingcard_progress_progressBar));
+            initView(view);
+            counter(progressBar,txtCounter);
             return view;
 
         } catch (Exception e) {
@@ -41,11 +46,19 @@ public class SweepingCardDialogFragment extends DialogFragment implements View.O
         }
     }
 
+    private void initView(View v) {
+        txtCounter = v.findViewById(R.id.fragment_dialog_sweepingcard_txtCounter);
+        btnCancel = v.findViewById(R.id.fragment_dialog_sweepingcard_progress_button);
+        progressBar = v.findViewById(R.id.fragment_dialog_sweepingcard_progress_progressBar);
+
+        btnCancel.setOnClickListener(this);
+    }
+
 
     @SuppressLint("HandlerLeak")
-    private void counter(final ProgressBar progressBar) {
+    private void counter(final ProgressBar progressBar, final TextView txtCounter) {
         try {
-            mCardSweepTimeoutThread = new Thread(new Runnable()  {
+            mCardSweepTimeoutThread = new Thread(new Runnable() {
 
                 @Override
                 public void run() {
@@ -55,6 +68,7 @@ public class SweepingCardDialogFragment extends DialogFragment implements View.O
                             Thread.sleep(10);
                             Message message = Message.obtain();
                             message.arg1 = i / 10;
+                            message.arg2 = i / 100;
                             handler.sendMessage(message);
                         } catch (InterruptedException e) {
                             AppMonitor.reportBug(e, "SweepingCardDialogFragment", "counter:for");
@@ -65,13 +79,14 @@ public class SweepingCardDialogFragment extends DialogFragment implements View.O
                     }
                     mISweepDialog.onCancelOrTimeout();
                 }
-                    });
+            });
 
             mCardSweepTimeoutThread.start();
             handler = new Handler() {
                 @Override
                 public void handleMessage(Message msg) {
                     progressBar.setProgress(msg.arg1);
+                    txtCounter.setText((msg.arg2+1)+"");
 
                 }
             };

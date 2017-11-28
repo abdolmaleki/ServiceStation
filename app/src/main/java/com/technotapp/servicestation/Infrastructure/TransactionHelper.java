@@ -102,7 +102,8 @@ public class TransactionHelper {
                 public void onFail() {
                     transactionWaitingDialog.dismiss();
                     //todo handle fail transaction
-                    AppMonitor.Toast(ctx, "بروز مشکل در سرور", Toast.LENGTH_LONG);
+                    Helper.alert(ctx,"بروز مشکل در سرور",Constant.AlertType.Error);
+
                 }
 
                 @Override

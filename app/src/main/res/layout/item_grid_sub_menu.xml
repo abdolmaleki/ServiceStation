@@ -8,29 +8,32 @@
     android:gravity="center"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="14dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="14dp"
+        android:gravity="center"
+        android:orientation="vertical">
     <ImageView
         android:id="@+id/item_grid_card_service_iv_icon"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:paddingEnd="8dp"
-        android:paddingStart="8dp"
-        android:paddingTop="8dp"
-        android:layout_marginStart="3dp"
-        android:layout_marginTop="24dp" />
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:padding="6dp" />
 
     <com.technotapp.servicestation.customView.CustomTextView
         android:id="@+id/item_grid_card_service_iv_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="13dp"
-        android:layout_marginStart="16dp"
         android:gravity="center"
         android:text="کارت به کارت"
         android:textColor="#fff"
         android:textSize="12sp"
         app:fontName="@string/irsansMedium" />
+    </LinearLayout>
 
 </LinearLayout>
 

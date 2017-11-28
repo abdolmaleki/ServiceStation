@@ -7,18 +7,21 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pixelcan.inkpageindicator.InkPageIndicator;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
+import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.Infrastructure.UpdateHelper;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.adapter.DataModel.MenuAdapterModel;
 import com.technotapp.servicestation.adapter.MainMenuPageAdapter;
+import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.database.Db;
 import com.technotapp.servicestation.database.model.MenuModel;
 import com.technotapp.servicestation.fragment.MainGridFragment;
+import com.technotapp.servicestation.setting.Session;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -30,10 +33,15 @@ import io.realm.RealmResults;
 
 public class MainActivity extends AppCompatActivity {
 
+    @BindView(R.id.activity_main_txt_shop_name)
+    TextView txtShopName;
     @BindView(R.id.activity_main_viewPager)
     ViewPager viewPager;
     @BindView(R.id.activity_main_pagerIndicator)
     InkPageIndicator mIndicator;
+
+
+    private Session mSession;
 
     private MainMenuPageAdapter mPagerAdapter;
     private Toast mToastMessage;
@@ -104,12 +112,13 @@ public class MainActivity extends AppCompatActivity {
         try {
             ButterKnife.bind(this);
             mContext = MainActivity.this;
+            mSession = Session.getInstance(this);
+            txtShopName.setText(mSession.getShopName());
 
         } catch (Exception e) {
             AppMonitor.reportBug(e, mClassName, "initView");
         }
     }
-
     //open settingActivity after 10th click on logo
     public void openSettingMenu(View view) {
         try {
@@ -142,6 +151,5 @@ public class MainActivity extends AppCompatActivity {
             AppMonitor.reportBug(e, mClassName, "openSettingMenu");
         }
     }
-
 
 }

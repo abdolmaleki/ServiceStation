@@ -190,7 +190,7 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
                         if (isValidBillDetail(billingId, paymentCode)) {
                             isTrue = true;
                         } else {
-                            Toast.makeText(mActivity, "بارکد مورد نظر معتبر نمی باشد", Toast.LENGTH_SHORT).show();
+                            Helper.alert(mActivity,"بارکد مورد نظر معتبر نمی باشد",Constant.AlertType.Error);
                         }
                         break;
                     case Constant.PayBill.Organization.ELECTRICAL:
@@ -198,7 +198,7 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
                         if (isValidBillDetail(billingId, paymentCode)) {
                             isTrue = true;
                         } else {
-                            Toast.makeText(mActivity, "بارکد مورد نظر معتبر نمی باشد", Toast.LENGTH_SHORT).show();
+                            Helper.alert(mActivity,"بارکد مورد نظر معتبر نمی باشد",Constant.AlertType.Error);
                         }
                         break;
                     case Constant.PayBill.Organization.GAS:
@@ -206,7 +206,7 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
                         if (isValidBillDetail(billingId, paymentCode)) {
                             isTrue = true;
                         } else {
-                            Toast.makeText(mActivity, "بارکد مورد نظر معتبر نمی باشد", Toast.LENGTH_SHORT).show();
+                            Helper.alert(mActivity,"بارکد مورد نظر معتبر نمی باشد",Constant.AlertType.Error);
                         }
                         break;
                     case Constant.PayBill.Organization.PHONE:
@@ -214,18 +214,18 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
                         if (isValidBillDetail(billingId, paymentCode)) {
                             isTrue = true;
                         } else {
-                            Toast.makeText(mActivity, "بارکد مورد نظر معتبر نمی باشد", Toast.LENGTH_SHORT).show();
+                            Helper.alert(mActivity,"بارکد مورد نظر معتبر نمی باشد",Constant.AlertType.Error);
                         }
                         break;
                     case Constant.PayBill.Organization.MOBILE:
                     case Constant.PayBill.Organization.TAX_OF_MUNICIPALITY:
                     case Constant.PayBill.Organization.TAX:
                     case Constant.PayBill.Organization.TRAFFIC_CRIME:
-                        Toast.makeText(mActivity, "بارکد مورد نظر معتبر نمی باشد", Toast.LENGTH_SHORT).show();
+                        Helper.alert(mActivity,"بارکد مورد نظر معتبر نمی باشد",Constant.AlertType.Error);
                         break;
                 }
             } else {
-                Toast.makeText(mActivity, "بارکد مورد نظر معتبر نمی باشد", Toast.LENGTH_SHORT).show();
+                Helper.alert(mActivity,"بارکد مورد نظر معتبر نمی باشد",Constant.AlertType.Error);
             }
         } else {
             AppMonitor.Log("result null");

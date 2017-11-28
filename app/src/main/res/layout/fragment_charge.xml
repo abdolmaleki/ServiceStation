@@ -237,7 +237,7 @@
             android:layout_height="32dp"
             android:background="@drawable/bg_default_edittext"
             android:gravity="center"
-            android:hint="09350000000"
+            android:hint="09000000000"
             android:textColor="@color/button_bar_divider_color_dark"
             android:textSize="16sp"
             app:fontName="@string/irsansNumber" />
@@ -254,6 +254,9 @@
         android:layout_width="196dp"
         android:layout_height="48dp"
         android:layout_gravity="center"
+        android:imeOptions="actionDone"
+        android:inputType="numberDecimal"
+        android:digits="1234567890"
         android:layout_marginBottom="16dp"
         android:background="@drawable/bg_btn_confirm"
         android:text="تایید و پرداخت"

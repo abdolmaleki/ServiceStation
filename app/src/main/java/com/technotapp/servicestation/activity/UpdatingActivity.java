@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -91,7 +90,7 @@ public class UpdatingActivity extends AppCompatActivity implements View.OnClickL
                     }
                 }, 2000);
             } else {
-                Helper.alert(this, "به دلیل عدم ارتباط با اینترنت بروزرسانی ممکن نمی باشد", Constant.AlertType.Error, Toast.LENGTH_SHORT);
+                Helper.alert(this, "به دلیل عدم ارتباط با اینترنت بروزرسانی ممکن نمی باشد", Constant.AlertType.Error);
             }
 
 
@@ -128,23 +127,23 @@ public class UpdatingActivity extends AppCompatActivity implements View.OnClickL
 
                             if (saveMenu(menuStos) && saveInfo(menuStos)) {
                                 mProgressView.setPercent(100.0f);
-                                Helper.alert(UpdatingActivity.this, "بروزرسانی با موفقیت انجام شد", Constant.AlertType.Done, Toast.LENGTH_SHORT);
+                                Helper.alert(UpdatingActivity.this, "بروزرسانی با موفقیت انجام شد", Constant.AlertType.Success);
                                 startActivity(new Intent(mContext, MainActivity.class));
                             } else {
-                                Helper.alert(mContext, menuStos.get(0).messageModel.get(0).errorString, Constant.AlertType.Error, Toast.LENGTH_SHORT);
+                                Helper.alert(mContext, menuStos.get(0).messageModel.get(0).errorString, Constant.AlertType.Error);
                             }
                         } else {
-                            Helper.alert(mContext, menuStos.get(0).messageModel.get(0).errorString, Constant.AlertType.Error, Toast.LENGTH_SHORT);
+                            Helper.alert(mContext, menuStos.get(0).messageModel.get(0).errorString, Constant.AlertType.Error);
                         }
                     } else {
-                        Helper.alert(mContext, getString(R.string.SignInActivity_data_download_error), Constant.AlertType.Error, Toast.LENGTH_SHORT);
+                        Helper.alert(mContext, getString(R.string.SignInActivity_data_download_error), Constant.AlertType.Error);
                     }
                 }
 
                 @Override
                 public void onFail() {
                     Helper.ProgressBar.hideDialog();
-                    Helper.alert(mContext, getString(R.string.SignInActivity_serverConnectingError), Constant.AlertType.Error, Toast.LENGTH_SHORT);
+                    Helper.alert(mContext, getString(R.string.SignInActivity_serverConnectingError), Constant.AlertType.Error);
                 }
             });
         } catch (Exception e) {

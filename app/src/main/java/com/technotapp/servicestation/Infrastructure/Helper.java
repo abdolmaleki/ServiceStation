@@ -1,17 +1,18 @@
 package com.technotapp.servicestation.Infrastructure;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-
-import com.desai.vatsal.mydynamictoast.MyCustomToast;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.application.Constant;
+import com.technotapp.servicestation.fragment.ErrorDialogFragment;
+import com.technotapp.servicestation.fragment.InformationDialogFragment;
+import com.technotapp.servicestation.fragment.SuccessfulDialogFragment;
 
 import dmax.dialog.SpotsDialog;
 
@@ -43,28 +44,20 @@ public class Helper {
         }
     }
 
-    public static void alert(Context ctx, String message, int alertType, int alertLenght) {
-        MyCustomToast myCustomToast = new MyCustomToast(ctx);
-        myCustomToast.setCustomMessageText(message);
-        myCustomToast.setCustomMessageTextColor(Color.WHITE);
-        myCustomToast.setCustomMessageIconColor(Color.WHITE);
-        myCustomToast.setCustomMessageDuration(alertLenght);
-
+    public static void alert(Context activity, String message, int alertType) {
         if (alertType == Constant.AlertType.Information) {
-            myCustomToast.setCustomMessageIcon(R.drawable.ic_info, MyCustomToast.POSITION_RIGHT);
-            myCustomToast.setCustomMessageBackgroundDrawable(R.drawable.info_message_background);
+            InformationDialogFragment dialogFragment=InformationDialogFragment.newInstance();
+            dialogFragment.show((Activity) activity,message);
         } else if (alertType == Constant.AlertType.Warning) {
-            myCustomToast.setCustomMessageIcon(R.drawable.ic_warning, MyCustomToast.POSITION_RIGHT);
-            myCustomToast.setCustomMessageBackgroundDrawable(R.drawable.warning_message_background);
-        } else if (alertType == Constant.AlertType.Error) {
-            myCustomToast.setCustomMessageIcon(R.drawable.ic_error, MyCustomToast.POSITION_RIGHT);
-            myCustomToast.setCustomMessageBackgroundDrawable(R.drawable.error_message_background);
-        } else if (alertType == Constant.AlertType.Done) {
-            myCustomToast.setCustomMessageIcon(R.drawable.ic_success, MyCustomToast.POSITION_RIGHT);
-            myCustomToast.setCustomMessageBackgroundDrawable(R.drawable.success_message_background);
-        }
 
-        myCustomToast.show();
+        } else if (alertType == Constant.AlertType.Error) {
+            ErrorDialogFragment dialogFragment=ErrorDialogFragment.newInstance();
+            dialogFragment.show((Activity) activity,message);
+        } else if (alertType == Constant.AlertType.Success) {
+            SuccessfulDialogFragment dialogFragment=SuccessfulDialogFragment.newInstance();
+            dialogFragment.show((Activity) activity,message);
+
+        }
     }
 
     public static boolean IsAppUpToDate() {

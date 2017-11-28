@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.R;
+import com.technotapp.servicestation.setting.Session;
+
 import net.glxn.qrgen.android.QRCode;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,6 +22,7 @@ public class QrFragment extends SubMenuFragment {
 
     @BindView(R.id.fragment_imgQr)
     ImageView img;
+    private Session mSession;
 
     Button btnConfirm;
     private Unbinder unbinder;
@@ -47,8 +50,9 @@ public class QrFragment extends SubMenuFragment {
         try {
             setRetainInstance(true);
             setTitle(getString(R.string.QrFragmentTitle));
+            mSession = Session.getInstance(getActivity());
 
-            Bitmap myBitmap = QRCode.from("www.technotapp.com").bitmap();
+            Bitmap myBitmap = QRCode.from(mSession.getHashId()).bitmap();
             img.setImageBitmap(myBitmap);
 
         } catch (Exception e) {

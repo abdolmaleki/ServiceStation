@@ -60,7 +60,7 @@ public class Constant {
     public static class AlertType {
         public static int Warning = 1;
         public static int Error = 2;
-        public static int Done = 3;
+        public static int Success = 3;
         public static int Information = 0;
 
     }

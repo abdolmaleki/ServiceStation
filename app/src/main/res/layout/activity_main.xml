@@ -45,6 +45,7 @@
                 app:fontName="irsans_bold" />
 
             <com.technotapp.servicestation.customView.CustomTextView
+                android:id="@+id/activity_main_txt_shop_name"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:maxLength="18"

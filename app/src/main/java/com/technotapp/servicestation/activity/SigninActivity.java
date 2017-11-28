@@ -100,16 +100,16 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
     private boolean checkInputValidation(EditText username, EditText password) {
         try {
             if (username.getText().toString().isEmpty()) {
-                Toast.makeText(mContext, getString(R.string.SignInActivity_empty_merchantID), Toast.LENGTH_LONG).show();
+                Helper.alert(mContext,getString(R.string.SignInActivity_empty_merchantID),Constant.AlertType.Information);
                 return false;
             } else if (password.getText().toString().isEmpty()) {
-                Toast.makeText(mContext, getString(R.string.SignInActivity_empty_merchantPassword), Toast.LENGTH_LONG).show();
+                Helper.alert(mContext, getString(R.string.SignInActivity_empty_merchantPassword),Constant.AlertType.Information);
                 return false;
-            } else if (username.getText().toString().trim().equals("")) {
-                Toast.makeText(mContext, getString(R.string.SignInActivity_invalid_merchant_username), Toast.LENGTH_SHORT).show();
+            } else if (!username.getText().toString().trim().equals(username.getText().toString())) {
+                Helper.alert(mContext,getString(R.string.SignInActivity_invalid_merchant_username),Constant.AlertType.Error);
                 return false;
             } else if (password.getText().toString().trim().equals("")) {
-                Toast.makeText(mContext, getString(R.string.SignInActivity_invalid_merchant_password), Toast.LENGTH_SHORT).show();
+                Helper.alert(mContext,getString(R.string.SignInActivity_invalid_merchant_password),Constant.AlertType.Error);
                 return false;
             }
             return true;
@@ -140,20 +140,20 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
                             if (saveMenu(menuStos) && saveInfo(menuStos)) {
                                 startActivity(new Intent(mContext, MainActivity.class));
                             } else {
-                                Helper.alert(mContext, menuStos.get(0).messageModel.get(0).errorString, Constant.AlertType.Error, Toast.LENGTH_SHORT);
+                                Helper.alert(mContext, menuStos.get(0).messageModel.get(0).errorString, Constant.AlertType.Error);
                             }
                         } else {
-                            Helper.alert(mContext, menuStos.get(0).messageModel.get(0).errorString, Constant.AlertType.Error, Toast.LENGTH_SHORT);
+                            Helper.alert(mContext, menuStos.get(0).messageModel.get(0).errorString, Constant.AlertType.Error);
                         }
                     } else {
-                        Helper.alert(mContext, getString(R.string.SignInActivity_data_download_error), Constant.AlertType.Error, Toast.LENGTH_SHORT);
+                        Helper.alert(mContext, getString(R.string.SignInActivity_data_download_error), Constant.AlertType.Error);
                     }
                 }
 
                 @Override
                 public void onFail() {
                     Helper.ProgressBar.hideDialog();
-                    Helper.alert(mContext, getString(R.string.SignInActivity_serverConnectingError), Constant.AlertType.Error, Toast.LENGTH_SHORT);
+                    Helper.alert(mContext, getString(R.string.SignInActivity_serverConnectingError), Constant.AlertType.Error);
                 }
             });
         } catch (Exception e) {

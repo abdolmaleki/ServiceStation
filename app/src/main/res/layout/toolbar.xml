@@ -17,19 +17,22 @@
         android:layout_height="match_parent">
 
         <ImageButton
-            android:layout_width="wrap_content"
+            android:clickable="false"
+            android:layout_width="16dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_marginEnd="8dp"
+            android:scaleType="fitCenter"
             android:background="@null"
             android:src="@drawable/ic_back" />
 
         <com.technotapp.servicestation.customView.CustomTextView
+            android:clickable="false"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="بازگشت"
-            android:textColor="#ffffff"
+            android:textColor="@color/black"
             app:fontName="@string/irsansMedium" />
     </LinearLayout>
 
@@ -42,7 +45,7 @@
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:text="خرید"
-        android:textColor="#866dec"
+        android:textColor="#b00f20"
         android:textSize="18sp"
         app:fontName="@string/irsansMedium" />
 

@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="256dp"
         android:layout_height="304dp"
-        android:background="@drawable/bg_lyr_swipe_card"
+        android:background="@drawable/bg_lyr_dialog_swipe_card"
         android:gravity="center"
         android:layoutDirection="rtl"
         android:orientation="vertical">
@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             android:gravity="center"
             android:text="@string/fragment_dialog_sweepingcard_PleaseSweepCard"
@@ -36,8 +36,9 @@
             android:layout_width="168dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="12dp"
             android:background="@drawable/bg_btn_swipe_card"
+            app:fontName="@string/irsansMedium"
             android:text="@string/fragment_dialog_sweepingcard_proress_cancell"
             android:textColor="@color/white" />
 
@@ -48,5 +49,16 @@
             android:layout_height="5dp"
             android:layoutDirection="ltr"
             android:progressDrawable="@drawable/bg_progress_swipe_card" />
+        <com.technotapp.servicestation.customView.CustomTextView
+            android:id="@+id/fragment_dialog_sweepingcard_txtCounter"
+            android:layout_width="32dp"
+            android:background="@drawable/bg_circle_counter"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:text="10"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp"
+            app:fontName="@string/irsansNumber"
+            android:layout_height="32dp" />
     </LinearLayout>
 </LinearLayout>

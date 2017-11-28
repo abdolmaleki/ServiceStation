@@ -39,12 +39,15 @@
                 android:layout_marginBottom="16dp"
                 android:hint="@string/activity_signin_merchant_code"
                 android:maxLength="20"
+                android:imeOptions="actionNext"
+                android:inputType="textNoSuggestions"
                 android:paddingRight="8dp"
+                android:paddingLeft="8dp"
+                android:text="pirouze"
                 android:textColor="#353333"
                 android:textColorHint="#55ffffff"
                 android:textDirection="rtl"
-                android:text="pirouze"
-                android:typeface="monospace" />
+                app:fontName="@string/irsansNumber" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -57,29 +60,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/activity_signin_password"
-                android:inputType="numberPassword"
+                android:inputType="textPassword"
+                android:imeOptions="actionGo"
                 android:maxLength="20"
                 android:paddingRight="8dp"
+                android:paddingLeft="8dp"
+                android:text="4240235464"
                 android:textAlignment="textEnd"
                 android:textColor="#353333"
-                android:text="4240235464"
                 android:textColorHint="#55ffffff"
-                android:typeface="monospace" />
+                android:typeface="monospace"
+                app:fontName="@string/irsansNumber" />
         </android.support.design.widget.TextInputLayout>
 
-            <com.technotapp.servicestation.customView.CustomButton
-                android:id="@+id/activity_signin_btnSignin"
-                android:layout_marginTop="48dp"
-                android:layout_marginBottom="8dp"
-                android:layout_width="128dp"
-                android:layout_height="48dp"
-                android:background="@drawable/cs_signin_button"
-                android:gravity="center"
-                android:maxLength="16"
-                android:text="@string/activity_signin_signin"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                app:fontName="irsans" />
+        <com.technotapp.servicestation.customView.CustomButton
+            android:id="@+id/activity_signin_btnSignin"
+            android:layout_width="128dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="48dp"
+            android:background="@drawable/cs_signin_button"
+            android:gravity="center"
+            android:maxLength="16"
+            android:text="@string/activity_signin_signin"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:fontName="irsans" />
     </LinearLayout>
 
     <TextView

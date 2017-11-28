@@ -12,8 +12,10 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
+import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.activity.IPin;
+import com.technotapp.servicestation.application.Constant;
 
 import in.arjsna.passcodeview.PassCodeView;
 
@@ -90,7 +92,7 @@ public class PinFragment extends DialogFragment implements View.OnClickListener 
                 mPinController.onPinEntered(mPassCodeView.getPassCodeText());
                 getDialog().cancel();
             } else {
-                AppMonitor.Toast(getActivity(), getString(R.string.PinFragment_error_minpinlenght), Toast.LENGTH_SHORT);
+                Helper.alert(getActivity(), getString(R.string.PinFragment_error_minpinlenght), Constant.AlertType.Information);
             }
 
         } else if (id == R.id.fragment_pin_btn_reset) {
