@@ -10,13 +10,13 @@ import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.Infrastructure.NetworkHelper;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.adapter.WifiAdapter;
 import com.technotapp.servicestation.application.Constant;
+import com.technotapp.servicestation.fragment.InputDialogFragment;
 import com.thanosfisherman.wifiutils.WifiUtils;
 import com.thanosfisherman.wifiutils.wifiConnect.ConnectionSuccessListener;
 import com.thanosfisherman.wifiutils.wifiScan.ScanResultsListener;
@@ -29,6 +29,7 @@ public class CheckNetworkActivity extends AppCompatActivity implements CompoundB
 
     private SwitchCompat mNetworkType;
     private SwitchCompat mWifiState;
+    private SwitchCompat mDataState;
     private LinearLayout mDataPanel;
     private LinearLayout mWifiPanel;
     private ListView mListWifi;
@@ -55,9 +56,11 @@ public class CheckNetworkActivity extends AppCompatActivity implements CompoundB
 
     private void initView() {
         mNetworkType = findViewById(R.id.activity_checknetwork_switch_nettype);
-        mWifiState = findViewById(R.id.activity_checknetwork_switch_wifi_state);
         mNetworkType.setOnCheckedChangeListener(this);
+        mWifiState = findViewById(R.id.activity_checknetwork_switch_wifi_state);
         mWifiState.setOnCheckedChangeListener(this);
+        mDataState = findViewById(R.id.activity_checknetwork_switch_data_state);
+        mDataState.setOnCheckedChangeListener(this);
         mDataPanel = findViewById(R.id.activity_checknetwork_panel_data);
         mWifiPanel = findViewById(R.id.activity_checknetwork_panel_wifi);
         mListWifi = findViewById(R.id.activity_checknetwork_list_wifi);
@@ -96,11 +99,29 @@ public class CheckNetworkActivity extends AppCompatActivity implements CompoundB
                         }
                     });
 
-                    initAdapter();
-
                 } else {
                     NetworkHelper.disableWifi(this);
                 }
+                break;
+
+            case R.id.activity_checknetwork_switch_data_state:
+                if (isChecked) {
+                    NetworkHelper.setMobileDataEnabled(this, true, new NetworkHelper.DataEnableListener() {
+                        @Override
+                        public void onDataChangeState(boolean isOnSuccessfully) {
+                            if (isOnSuccessfully) {
+                                Helper.alert(CheckNetworkActivity.this, "اینترنت دیتا فعال شد", Constant.AlertType.Success);
+                            } else {
+                                Helper.alert(CheckNetworkActivity.this, "متاسفانه امکان فعالسازی اینترنت دیتا وجود ندارد", Constant.AlertType.Error);
+                                mDataState.setChecked(false);
+
+                            }
+                        }
+                    });
+                } else {
+                }
+                break;
+
         }
 
     }
@@ -109,10 +130,32 @@ public class CheckNetworkActivity extends AppCompatActivity implements CompoundB
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         ScanResult result = (ScanResult) adapterView.getItemAtPosition(i);
         if (NetworkHelper.isProtectedWifi(result)) { // wifi need password
+            InputDialogFragment inputDialogFragment = InputDialogFragment.newInstance();
+            inputDialogFragment.show(getFragmentManager(), "inputDialog");
+            inputDialogFragment.setOnInputDialogClickListener(new InputDialogFragment.OnInputDialogClick() {
+                @Override
+                public void onAccept(String password) {
+                    Helper.ProgressBar.showDialog(CheckNetworkActivity.this, "در حال اتصال به " + result.SSID);
+                    NetworkHelper.connectToWifi(CheckNetworkActivity.this, result.SSID, password, new ConnectionSuccessListener() {
+                        @Override
+                        public void isSuccessful(boolean isSuccess) {
+                            Helper.ProgressBar.hideDialog();
+                            if (isSuccess) {
+                                Helper.alert(CheckNetworkActivity.this, "اتصال با موفقیت انجام شد", Constant.AlertType.Success);
+                            } else {
+                                Helper.alert(CheckNetworkActivity.this, "متصفانه اتصال برقرار نشد", Constant.AlertType.Error);
 
+                            }
+
+                        }
+                    });
+
+
+                }
+            });
         } else {
             Helper.ProgressBar.showDialog(this, "در حال اتصال به " + result.SSID);
-            NetworkHelper.connectToWifi(this, result.SSID, new ConnectionSuccessListener() {
+            NetworkHelper.connectToWifi(this, result.SSID, "", new ConnectionSuccessListener() {
                 @Override
                 public void isSuccessful(boolean isSuccess) {
                     Helper.ProgressBar.hideDialog();

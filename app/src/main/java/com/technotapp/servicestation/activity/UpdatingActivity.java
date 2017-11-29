@@ -52,46 +52,51 @@ public class UpdatingActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_updating);
 
         initView();
-        startUpdate();
+        NetworkHelper.isConnectingToInternet(this, new NetworkHelper.CheckNetworkStateListener() {
+            @Override
+            public void onNetworkChecked(boolean isSuccess, String message) {
+                if (isSuccess) {
+                    startUpdate();
+                } else {
+                    Helper.alert(UpdatingActivity.this, "به دلیل عدم ارتباط با اینترنت بروزرسانی ممکن نمی باشد", Constant.AlertType.Error);
+                }
+            }
+        });
     }
 
     private void startUpdate() {
 
 
         try {
-            if (NetworkHelper.isConnectingToInternet(this)) {
-                final Handler handler = new Handler(Looper.getMainLooper());
+            final Handler handler = new Handler(Looper.getMainLooper());
 
-                new Timer().schedule(new TimerTask() {
-                    @Override
-                    public void run() {
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
 
-                        runOnUiThread(new Runnable() {
-                            @Override
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mProgressView.setVisibility(View.VISIBLE);
+
+                        }
+                    });
+                    while (progressStatus < 90) {
+                        progressStatus += 1;
+                        handler.post(new Runnable() {
                             public void run() {
-                                mProgressView.setVisibility(View.VISIBLE);
-
+                                mProgressView.setPercent(progressStatus + 0.f);
                             }
                         });
-                        while (progressStatus < 90) {
-                            progressStatus += 1;
-                            handler.post(new Runnable() {
-                                public void run() {
-                                    mProgressView.setPercent(progressStatus + 0.f);
-                                }
-                            });
-                            try {
-                                Thread.sleep(50);
-                            } catch (InterruptedException e) {
-                                AppMonitor.reportBug(e, mClassName, "startUpdate");
-                            }
+                        try {
+                            Thread.sleep(50);
+                        } catch (InterruptedException e) {
+                            AppMonitor.reportBug(e, mClassName, "startUpdate");
                         }
-                        callGetTerminalInfo();
                     }
-                }, 2000);
-            } else {
-                Helper.alert(this, "به دلیل عدم ارتباط با اینترنت بروزرسانی ممکن نمی باشد", Constant.AlertType.Error);
-            }
+                    callGetTerminalInfo();
+                }
+            }, 2000);
 
 
         } catch (Exception e) {

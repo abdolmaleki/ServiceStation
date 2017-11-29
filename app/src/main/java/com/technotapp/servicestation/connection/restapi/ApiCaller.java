@@ -1,6 +1,9 @@
 package com.technotapp.servicestation.connection.restapi;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Base64;
 import android.widget.Toast;
 
@@ -28,9 +31,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiCaller {
 
     private int mApiType;
+    private Handler apiHandler;
 
     public ApiCaller(int apiType) {
         this.mApiType = apiType;
+
     }
 
     //
@@ -43,103 +48,131 @@ public class ApiCaller {
 
 
     public void call(final Context ctx, BaseDto dto, final SecretKey AESsecretKey, String loadingMessage, final ApiCallback apiCallback) {
-        try {
 
-            if (!NetworkHelper.isConnectingToInternet(ctx)) {
-                return;
+        NetworkHelper.isConnectingToInternet(ctx, new NetworkHelper.CheckNetworkStateListener() {
+            @Override
+            public void onNetworkChecked(boolean isSuccess, String message) {
+                if (isSuccess) {
+                    Message.obtain(apiHandler, 0, message).sendToTarget();
+                } else {
+                    Message.obtain(apiHandler, 1, message).sendToTarget();
+                }
             }
+        });
+
+        apiHandler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(Message msg) {
 
 
-            // Client For Retrofit
-            final OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                    .readTimeout(10, TimeUnit.SECONDS)
-                    .connectTimeout(10, TimeUnit.SECONDS)
-                    .build();
+                if (msg.what == 0) {
 
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(Constant.Pax.API_BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .client(okHttpClient)
-                    .build();
+                    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    ////////// Network and Internet are ok
+                    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-            ServiceStationApi apiService = retrofit.create(ServiceStationApi.class);
+                    // Client For Retrofit
+                    final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                            .readTimeout(10, TimeUnit.SECONDS)
+                            .connectTimeout(10, TimeUnit.SECONDS)
+                            .build();
 
-            Gson gson = new Gson();
-            String value = gson.toJson(dto);
+                    Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl(Constant.Pax.API_BASE_URL)
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .client(okHttpClient)
+                            .build();
 
-            final String AesEncryptedValue = Encryptor.encriptAES(value, AESsecretKey);
+                    ServiceStationApi apiService = retrofit.create(ServiceStationApi.class);
 
-            String AESKeyString = Base64.encodeToString(AESsecretKey.getEncoded(), Base64.DEFAULT);
-            String RsaEncryptedkey = Encryptor.encriptRSA(AESKeyString);
+                    Gson gson = new Gson();
+                    String value = gson.toJson(dto);
 
-            Call<String> token = null;
+                    final String AesEncryptedValue = Encryptor.encriptAES(value, AESsecretKey);
+
+                    String AESKeyString = Base64.encodeToString(AESsecretKey.getEncoded(), Base64.DEFAULT);
+                    String RsaEncryptedkey = Encryptor.encriptRSA(AESKeyString);
+
+                    Call<String> token = null;
 
 
-            //
-            //     _    ____ ___   _____                   _   _                 _      _
-            //    / \  |  _ \_ _| |_   _|   _ _ __   ___  | | | | __ _ _ __   __| | ___| |
-            //   / _ \ | |_) | |    | || | | | '_ \ / _ \ | |_| |/ _` | '_ \ / _` |/ _ \ |
-            //  / ___ \|  __/| |    | || |_| | |_) |  __/ |  _  | (_| | | | | (_| |  __/ |
-            // /_/   \_\_|  |___|   |_| \__, | .__/ \___| |_| |_|\__,_|_| |_|\__,_|\___|_|
-            //                          |___/|_|
+                    //
+                    //     _    ____ ___   _____                   _   _                 _      _
+                    //    / \  |  _ \_ _| |_   _|   _ _ __   ___  | | | | __ _ _ __   __| | ___| |
+                    //   / _ \ | |_) | |    | || | | | '_ \ / _ \ | |_| |/ _` | '_ \ / _` |/ _ \ |
+                    //  / ___ \|  __/| |    | || |_| | |_) |  __/ |  _  | (_| | | | | (_| |  __/ |
+                    // /_/   \_\_|  |___|   |_| \__, | .__/ \___| |_| |_|\__,_|_| |_|\__,_|\___|_|
+                    //                          |___/|_|
 
-            switch (mApiType) {
-                case Constant.Api.Type.TERMINAL_LOGIN:
-                    token = apiService.terminalLoginModel(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
-                    break;
+                    switch (mApiType) {
+                        case Constant.Api.Type.TERMINAL_LOGIN:
+                            token = apiService.terminalLoginModel(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
+                            break;
 
-                case Constant.Api.Type.TERMINAL_INFO:
-                    token = apiService.getTerminalInfo(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
-                    break;
-            }
-
-            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            ////////// show progressbar if needed ////////////////////
-            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            if (loadingMessage != null) {
-                Helper.ProgressBar.showDialog(ctx, loadingMessage);
-            }
-
-            token.enqueue(new Callback<String>() {
-                @Override
-                public void onResponse(Call<String> call, Response<String> response) {
-                    Helper.ProgressBar.hideDialog();
-                    String EncryptedResponse = response.body();
-                    if (EncryptedResponse == null || EncryptedResponse.isEmpty()) {
-                        Helper.alert(ctx, "خطا در دریافت اطلاعات", Constant.AlertType.Error);
-                    } else {
-
-                        ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                        //////// Decrypt Response Message and convert To Json and Format it
-                        ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-                        Gson gson = Helper.getGson();
-                        String AESsecretKeyString = Base64.encodeToString(AESsecretKey.getEncoded(), Base64.DEFAULT);
-                        String decryptedResponseString = Encryptor.decriptAES(AESsecretKeyString, EncryptedResponse);
-                        String formattedJsonString = gson.fromJson(decryptedResponseString, String.class);
-                        if (formattedJsonString != null && !formattedJsonString.equals("")) {
-                            apiCallback.onResponse(response.code(), formattedJsonString);
-
-                            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                            //////// Check if menu needing update do it
-                            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-                            UpdateHelper.checkNeedingUpdate(ctx);
-
-                        } else {
-                            Helper.alert(ctx, "خطا در دریافت اطلاعات", Constant.AlertType.Error);
-                        }
+                        case Constant.Api.Type.TERMINAL_INFO:
+                            token = apiService.getTerminalInfo(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
+                            break;
                     }
+
+                    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    ////////// show progressbar if needed ////////////////////
+                    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    if (loadingMessage != null) {
+                        Helper.ProgressBar.showDialog(ctx, loadingMessage);
+                    }
+
+                    token.enqueue(new retrofit2.Callback<String>() {
+                        @Override
+                        public void onResponse(Call<String> call, Response<String> response) {
+                            Helper.ProgressBar.hideDialog();
+                            String EncryptedResponse = response.body();
+                            if (EncryptedResponse == null || EncryptedResponse.isEmpty()) {
+                                Helper.alert(ctx, "خطا در دریافت اطلاعات", Constant.AlertType.Error);
+                            } else {
+
+                                ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                //////// Decrypt Response Message and convert To Json and Format it
+                                ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                                Gson gson = Helper.getGson();
+                                String AESsecretKeyString = Base64.encodeToString(AESsecretKey.getEncoded(), Base64.DEFAULT);
+                                String decryptedResponseString = Encryptor.decriptAES(AESsecretKeyString, EncryptedResponse);
+                                String formattedJsonString = gson.fromJson(decryptedResponseString, String.class);
+                                if (formattedJsonString != null && !formattedJsonString.equals("")) {
+                                    apiCallback.onResponse(response.code(), formattedJsonString);
+
+                                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                    //////// Check if menu needing update do it
+                                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                                    UpdateHelper.checkNeedingUpdate(ctx);
+
+                                } else {
+                                    Helper.alert(ctx, "خطا در دریافت اطلاعات", Constant.AlertType.Error);
+                                }
+                            }
+                        }
+
+
+                        @Override
+                        public void onFailure(Call<String> call, Throwable t) {
+                            Helper.ProgressBar.hideDialog();
+                            apiCallback.onFail();
+                        }
+                    });
+
+                    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    ////////// Network Problem
+                    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                } else { // NetworkProblem
+
                 }
+            }
+        };
 
 
-                @Override
-                public void onFailure(Call<String> call, Throwable t) {
-                    Helper.ProgressBar.hideDialog();
-                    apiCallback.onFail();
-                }
-            });
-
+        try {
 
         } catch (Exception e) {
             AppMonitor.reportBug(e, "ApiCaller", "call");

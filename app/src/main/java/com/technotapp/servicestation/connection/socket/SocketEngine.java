@@ -37,10 +37,6 @@ public class SocketEngine {
         /////////// Check Network Connection
         /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        if (!NetworkHelper.isConnectingToInternet(mContext)) {
-            return;
-        }
-
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -85,7 +81,17 @@ public class SocketEngine {
             }
         };
 
-        new Thread(runnable).start();
+        NetworkHelper.isConnectingToInternet(mContext, new NetworkHelper.CheckNetworkStateListener() {
+            @Override
+            public void onNetworkChecked(boolean isSuccess, String message) {
+                if (isSuccess) {
+                    new Thread(runnable).start();
+                } else {
+                    //Todo create alert
+                }
+            }
+        });
+
 
     }
 

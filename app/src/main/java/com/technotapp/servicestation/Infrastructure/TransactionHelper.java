@@ -85,82 +85,89 @@ public class TransactionHelper {
 
     public static void sendRequest(final Context ctx, final int mode, final TransactionDataModel transactionDataModel, String amount) {
         try {
-            if (!NetworkHelper.isConnectingToInternet(ctx)) {
-                return;
-            }
-            mSession=new Session();
-            final ProgressDialog transactionWaitingDialog;
-
-            transactionWaitingDialog = new ProgressDialog(ctx);
-            transactionWaitingDialog.setMessage(ctx.getString(R.string.TransactionHelper_pleaseWait));
-            transactionWaitingDialog.setCancelable(false);
-
-            transactionWaitingDialog.show();
-
-            SocketEngine socketEngine = new SocketEngine(ctx, Constant.Pax.SERVER_IP, Constant.Pax.SERVER_PORT, transactionDataModel);
-            socketEngine.sendData(TransactionHelper.getPacker(ctx, transactionDataModel, mode, amount), new ISocketCallback() {
+            NetworkHelper.isConnectingToInternet(ctx, new NetworkHelper.CheckNetworkStateListener() {
                 @Override
-                public void onFail() {
-                    transactionWaitingDialog.dismiss();
-                    //todo handle fail transaction
-                    Helper.alert(ctx,"بروز مشکل در سرور",Constant.AlertType.Error);
+                public void onNetworkChecked(boolean isSuccess, String message) {
+                    if (isSuccess) {
+                        mSession = new Session();
+                        final ProgressDialog transactionWaitingDialog;
 
-                }
+                        transactionWaitingDialog = new ProgressDialog(ctx);
+                        transactionWaitingDialog.setMessage(ctx.getString(R.string.TransactionHelper_pleaseWait));
+                        transactionWaitingDialog.setCancelable(false);
 
-                @Override
-                public void onReceiveData(TransactionDataModel dataModel) {
-                    transactionWaitingDialog.dismiss();
-                    AppMonitor.Log(dataModel.getPanNumber());
-                    //todo handle fail transaction
+                        transactionWaitingDialog.show();
 
-                    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    /////// Failed transaction
-                    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    if (!(dataModel.getResponseCode().equals(Constant.ResponseCode.SUCCESS))) {
-                        transactionDialog(ctx, dataModel, mode, false);
+                        SocketEngine socketEngine = new SocketEngine(ctx, Constant.Pax.SERVER_IP, Constant.Pax.SERVER_PORT, transactionDataModel);
+                        socketEngine.sendData(TransactionHelper.getPacker(ctx, transactionDataModel, mode, amount), new ISocketCallback() {
+                            @Override
+                            public void onFail() {
+                                transactionWaitingDialog.dismiss();
+                                //todo handle fail transaction
+                                Helper.alert(ctx, "بروز مشکل در سرور", Constant.AlertType.Error);
+
+                            }
+
+                            @Override
+                            public void onReceiveData(TransactionDataModel dataModel) {
+                                transactionWaitingDialog.dismiss();
+                                AppMonitor.Log(dataModel.getPanNumber());
+                                //todo handle fail transaction
+
+                                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                /////// Failed transaction
+                                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                if (!(dataModel.getResponseCode().equals(Constant.ResponseCode.SUCCESS))) {
+                                    transactionDialog(ctx, dataModel, mode, false);
 
 
-                        return;
-                    }
+                                    return;
+                                }
 
-                    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    /////// Successful  transaction
-                    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                /////// Successful  transaction
+                                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-                    transactionDialog(ctx, dataModel, mode, true);
-                    switch (mode) {
+                                transactionDialog(ctx, dataModel, mode, true);
+                                switch (mode) {
 
-                        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                        /////// DEPOSIT
-                        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                    /////// DEPOSIT
+                                    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-                        case Constant.RequestMode.DEPOSIT:
-                            printable = PrintFactory.getPrintContent(Printable.DEPOSIT);
-                            break;
+                                    case Constant.RequestMode.DEPOSIT:
+                                        printable = PrintFactory.getPrintContent(Printable.DEPOSIT);
+                                        break;
 
-                        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                        /////// BUY
-                        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                    /////// BUY
+                                    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-                        case Constant.RequestMode.BUY:
-                            printable = PrintFactory.getPrintContent(Printable.BUY_CUSTOMER);
-                            break;
+                                    case Constant.RequestMode.BUY:
+                                        printable = PrintFactory.getPrintContent(Printable.BUY_CUSTOMER);
+                                        break;
 
-                        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                        /////// BALANCE
-                        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                    /////// BALANCE
+                                    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-                        case Constant.RequestMode.BALANCE:
-                            printable = PrintFactory.getPrintContent(Printable.BALANCE);
-                            break;
+                                    case Constant.RequestMode.BALANCE:
+                                        printable = PrintFactory.getPrintContent(Printable.BALANCE);
+                                        break;
 
-                    }
-                    // Todo change print static content
-                    if (printable != null) {
-                        PrinterHelper.getInstance().startPrint(printable.getContent(ctx, mSession.getShopName(),mSession.getTelephone(), "1475478589", DateHelper.getGregorianDateTime("HH:mm:ss"), DateHelper.getShamsiDate(), dataModel.getBackTransactionID(), dataModel.getTerminalID(), dataModel.getPanNumber(), dataModel.getAmount()));
+                                }
+                                // Todo change print static content
+                                if (printable != null) {
+                                    PrinterHelper.getInstance().startPrint(printable.getContent(ctx, mSession.getShopName(), mSession.getTelephone(), "1475478589", DateHelper.getGregorianDateTime("HH:mm:ss"), DateHelper.getShamsiDate(), dataModel.getBackTransactionID(), dataModel.getTerminalID(), dataModel.getPanNumber(), dataModel.getAmount()));
+                                }
+                            }
+                        });
+                    } else {
+                        //Todo create alert
                     }
                 }
             });
+
 
         } catch (Exception e) {
             AppMonitor.reportBug(e, "TransactionHelper", "sendRequest");

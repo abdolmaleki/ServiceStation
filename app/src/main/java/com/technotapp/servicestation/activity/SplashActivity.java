@@ -117,10 +117,17 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void checkNetStatus() {
-        if (NetworkHelper.isConnectingToInternet(mContext)) {
-            startActivity(new Intent(mContext, SigninActivity.class));
-        } else {
-            startActivity(new Intent(mContext, CheckNetworkActivity.class));
-        }
+
+        NetworkHelper.isConnectingToInternet(mContext, new NetworkHelper.CheckNetworkStateListener() {
+            @Override
+            public void onNetworkChecked(boolean isSuccess, String message) {
+                if (isSuccess) {
+                    startActivity(new Intent(mContext, SigninActivity.class));
+                } else {
+                    startActivity(new Intent(mContext, CheckNetworkActivity.class));
+                }
+            }
+        });
+
     }
 }
