@@ -175,7 +175,6 @@ public class CardServiceDepositAndBuyFragment extends SubMenuFragment implements
             //TODO setTerminalID
             //TODO setPanNumber
             transactionDataModel.setTerminalID("23801101741");
-            transactionDataModel.setPanNumber("6037997293714508");
         } catch (Exception e) {
             AppMonitor.reportBug(e, "CardServiceDepositAndBuyFragment", "initTransactionModel");
         }
@@ -193,7 +192,6 @@ public class CardServiceDepositAndBuyFragment extends SubMenuFragment implements
         } catch (Exception e) {
             AppMonitor.reportBug(e, "CardServiceDepositAndBuyFragment", "onPinEnteredSuccessfully");
         }
-
 
     }
 

@@ -25,24 +25,25 @@ public class NetworkHelper {
     public static boolean isDataEnable;
 
     public static boolean isConnectingToInternet(Context ctx) {
-        if (isNetworkAvailable(ctx)) {
-            try {
-                HttpURLConnection urlc = (HttpURLConnection) (new URL("http://clients3.google.com/generate_204").openConnection());
-                urlc.setRequestProperty("User-Agent", "Android");
-                urlc.setRequestProperty("Connection", "close");
-                urlc.setConnectTimeout(2000);
-                urlc.connect();
-                return (urlc.getResponseCode() == 204 && urlc.getContentLength() == 0);
-            } catch (Exception e) {
-                AppMonitor.reportBug(e, "NetworkHelper", "isConnectingToInternet");
-                Helper.alert(ctx, "مشکل عدم ارتباط با اینترنت", Constant.AlertType.Error);
-                return false;
-            }
-        } else {
-            Helper.alert(ctx, "لطفا اینترنت وای فای یا سیم کارت خود را فعال کنید", Constant.AlertType.Error);
-            AppMonitor.Log("لطفا اینترنت وای فای یا سیم کارت خود را فعال کنید");
-        }
-        return false;
+        return true;
+//        if (isNetworkAvailable(ctx)) {
+//            try {
+//                HttpURLConnection urlc = (HttpURLConnection) (new URL("http://clients3.google.com/generate_204").openConnection());
+//                urlc.setRequestProperty("User-Agent", "Android");
+//                urlc.setRequestProperty("Connection", "close");
+//                urlc.setConnectTimeout(2000);
+//                urlc.connect();
+//                return (urlc.getResponseCode() == 204 && urlc.getContentLength() == 0);
+//            } catch (Exception e) {
+//                AppMonitor.reportBug(e, "NetworkHelper", "isConnectingToInternet");
+//                Helper.alert(ctx, "مشکل عدم ارتباط با اینترنت", Constant.AlertType.Error);
+//                return false;
+//            }
+//        } else {
+//            Helper.alert(ctx, "لطفا اینترنت وای فای یا سیم کارت خود را فعال کنید", Constant.AlertType.Error);
+//            AppMonitor.Log("لطفا اینترنت وای فای یا سیم کارت خود را فعال کنید");
+//        }
+//        return false;
 
     }
 

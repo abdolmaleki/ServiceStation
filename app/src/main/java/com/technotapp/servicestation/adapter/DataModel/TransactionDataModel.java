@@ -13,7 +13,7 @@ public class TransactionDataModel {
     private  String MAC;
 
     public TransactionDataModel() {
-        setDateTimeShaparak(DateHelper.getGregorianDateTime("MMddhhmmss"));
+        setDateTimeShaparak(DateHelper.getGregorianDateTime("MMddHHmmss"));
     }
 
     public  void setPanNumber(String panNumber1) {

@@ -30,6 +30,7 @@
         android:textColor="@color/fragment_transaction_response_dialog_success_textColor"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
+        android:layoutDirection="ltr"
         android:layout_marginTop="16dp"
         android:text="تراکنش موفق"
         android:textSize="18sp" />

@@ -93,7 +93,7 @@ public class TransactionResponseDialogFragment extends DialogFragment {
         try {
             Bundle bundle = getArguments();
             isSuccess = bundle.getBoolean("isSuccess", false);
-            hasSellerReceipt = bundle.getBoolean("hasReceipt", false);
+            hasSellerReceipt = bundle.getBoolean("hasSellerReceipt", false);
             extraMessage = bundle.getString("extraMessage", null);
         } catch (Exception e) {
             AppMonitor.reportBug(e, "TransactionResponseDialogFragment", "initVariable");

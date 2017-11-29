@@ -183,7 +183,7 @@ public class CardServiceFragment extends SubMenuFragment implements AdapterView.
         //TODO setTerminalID
         //TODO setPanNumber
         transactionDataModel.setTerminalID("23801101741");
-        transactionDataModel.setPanNumber("6037997293714508");
+//        transactionDataModel.setPanNumber("6037997293714508");
     }
 
 }

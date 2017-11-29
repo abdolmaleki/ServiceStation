@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center|top"
+    android:layoutDirection="ltr"
     android:orientation="vertical"
     android:paddingTop="50dp"
     tools:context="com.technotapp.servicestation.activity.CheckNetworkActivity">

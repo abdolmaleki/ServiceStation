@@ -18,12 +18,15 @@ import com.technotapp.servicestation.fragment.TransactionResponseDialogFragment;
 import com.technotapp.servicestation.pax.printer.PrintFactory;
 import com.technotapp.servicestation.pax.printer.Printable;
 import com.technotapp.servicestation.pax.printer.PrinterHelper;
+import com.technotapp.servicestation.setting.Session;
 
+import java.util.Locale;
 import java.util.Random;
 
 public class TransactionHelper {
 
     private static Printable printable;
+    private static Session mSession;
 
     private static byte[] getPacker(Context mContext, TransactionDataModel transactionDataModel, int mode, String amount) {
         //TODO remove fakes
@@ -32,7 +35,7 @@ public class TransactionHelper {
         String fakeTransactionCode = number + "";
         String fakeMAC = "12345678";
         String fakeMerchantID = "23801101741";
-        String fakePan = "6037997293714508";
+        String panNumber = transactionDataModel.getPanNumber();
 
 
         String transactionType = null;
@@ -59,7 +62,7 @@ public class TransactionHelper {
             pa.getIso8583().getEntity().loadTemplate("packer200.xml");
             pa.getIso8583().getEntity().setFieldValue("h", "008360000480B5");
             pa.getIso8583().getEntity().setFieldValue("m", "0200");
-            pa.getIso8583().getEntity().setFieldValue("2", fakePan);
+            pa.getIso8583().getEntity().setFieldValue("2", panNumber);
             pa.getIso8583().getEntity().setFieldValue("3", "500000");
             pa.getIso8583().getEntity().setFieldValue("4", amount);
 //            pa.getIso8583().getEntity().setFieldValue("7", transactionDataModel.getDateTimeShaparak());
@@ -84,10 +87,10 @@ public class TransactionHelper {
 
     public static void sendRequest(final Context ctx, final int mode, final TransactionDataModel transactionDataModel, String amount) {
         try {
-
             if (!NetworkHelper.isConnectingToInternet(ctx)) {
                 return;
             }
+            mSession=new Session();
             final ProgressDialog transactionWaitingDialog;
 
             transactionWaitingDialog = new ProgressDialog(ctx);
@@ -156,7 +159,7 @@ public class TransactionHelper {
                     }
                     // Todo change print static content
                     if (printable != null) {
-                        PrinterHelper.getInstance().startPrint(printable.getContent(ctx, "فروشگاه اکبر فرهادی", "77695885", "1475478589", "12:22:15", "1396/08/02", dataModel.getBackTransactionID(), dataModel.getTerminalID(), dataModel.getPanNumber(), dataModel.getAmount()));
+                        PrinterHelper.getInstance().startPrint(printable.getContent(ctx, mSession.getShopName(),mSession.getMobileNumber(), "1475478589", DateHelper.getGregorianDateTime("HH:mm:ss"), DateHelper.getShamsiDate(), dataModel.getBackTransactionID(), dataModel.getTerminalID(), dataModel.getPanNumber(), dataModel.getAmount()));
                     }
                 }
             });
@@ -278,4 +281,5 @@ public class TransactionHelper {
         }
 
     }
+
 }

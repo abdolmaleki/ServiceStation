@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_card_service_deposit_buy"
+    android:layoutDirection="ltr"
     android:orientation="vertical"
     android:paddingTop="@dimen/fragments_padding_top"
     tools:context="com.technotapp.servicestation.fragment.CardServiceDepositAndBuyFragment">

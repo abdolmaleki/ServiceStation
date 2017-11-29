@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/item_grid_card_service_lyr"
     android:layout_width="164dp"
+    android:layoutDirection="ltr"
     android:layout_height="134dp"
     android:background="@drawable/bg_card_service_grid_item"
     android:gravity="center"

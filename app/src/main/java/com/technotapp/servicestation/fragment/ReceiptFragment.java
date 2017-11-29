@@ -142,6 +142,13 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
             case R.id.fragment_receipt_btnConfirm:
                 String strBill = edtBillingId.getText().toString();
                 String strpayment = edtPaymentCode.getText().toString();
+                if (strBill.isEmpty()||strpayment.isEmpty()){
+                    Helper.alert(mActivity,"لطفا ",Constant.AlertType.Information);
+                    break;
+                }else if (strBill.length()<8||strpayment.length()<8){
+                    Helper.alert(mActivity,"بارکد مورد نظر معتبر نمی باشد",Constant.AlertType.Error);
+                    break;
+                }
                 int lenghtBill = (13 - strBill.length());
                 int lenghtPayment = (13 - strpayment.length());
                 for (int i = 0; i < lenghtBill; i++) {
@@ -157,7 +164,6 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
     }
 
     private void checkValidation(String result) {
-        AppMonitor.Log(result);
         if (parseBillDetail(result)) {
             try {
                 ReceiptDialogFragment dialogFragment = ReceiptDialogFragment.newInstance();
@@ -228,8 +234,7 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
                 Helper.alert(mActivity,"بارکد مورد نظر معتبر نمی باشد",Constant.AlertType.Error);
             }
         } else {
-            AppMonitor.Log("result null");
-
+            Helper.alert(mActivity,"بارکد مورد نظر معتبر نمی باشد",Constant.AlertType.Error);
         }
 
         return isTrue;

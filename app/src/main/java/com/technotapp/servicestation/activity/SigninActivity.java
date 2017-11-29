@@ -125,7 +125,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
             MenuDto menuDto = createMenuDto();
             final SecretKey AESsecretKey = Encryptor.generateRandomAESKey();
 
-            new ApiCaller(Constant.Api.Type.TERMINAL_LOGIN).call(mContext, menuDto, AESsecretKey, "در جال بارگیری اطلاعات", new ApiCaller.ApiCallback() {
+            new ApiCaller(Constant.Api.Type.TERMINAL_LOGIN).call(mContext, menuDto, AESsecretKey, "در حال بارگیری اطلاعات", new ApiCaller.ApiCallback() {
                 @Override
                 public void onResponse(int responseCode, String jsonResult) {
                     Gson gson = Helper.getGson();

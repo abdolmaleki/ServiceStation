@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layoutDirection="ltr"
     android:background="@drawable/bg_splash"
     android:orientation="vertical"
     tools:context="com.technotapp.servicestation.activity.SplashActivity">
@@ -52,22 +53,6 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical">
-
-        <com.technotapp.servicestation.customView.CustomButton
-            android:id="@+id/activity_splash_btn_retry"
-            android:layout_width="128dp"
-            android:layout_height="48dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="48dp"
-            android:background="@drawable/cs_signin_button"
-            android:gravity="center"
-            android:maxLength="16"
-            android:text="@string/splash_btn_retry"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:visibility="invisible"
-            app:fontName="irsans" />
-
         <ProgressBar
             android:id="@+id/activity_splash_prg"
             style="?android:attr/progressBarStyleHorizontal"

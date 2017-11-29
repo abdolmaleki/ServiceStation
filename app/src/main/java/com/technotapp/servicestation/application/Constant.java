@@ -3,7 +3,7 @@ package com.technotapp.servicestation.application;
 public class Constant {
 
     public static class Pax {
-        public static final String SERVER_IP = "87.236.214.176 ";
+        public static final String SERVER_IP = "87.236.214.176";
         public static final int SERVER_PORT = 8887;
         public static final String API_BASE_URL = "http://87.236.214.176:3400/";
         public static final String PICTURE_BASE_URL = "http://87.236.214.176:8000/POS/";

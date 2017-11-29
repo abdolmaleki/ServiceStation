@@ -37,6 +37,11 @@ public class Converters {
         return str;
     }
 
+    public static String panNumbrToStar(String str) {
+        return str.substring(12) + "-**-" + str.substring(0, 7);
+    }
+
+
     public static Bitmap ConvertTextToHighlitedText(String text, float size) {
 
         Paint paint = new Paint(ANTI_ALIAS_FLAG);
