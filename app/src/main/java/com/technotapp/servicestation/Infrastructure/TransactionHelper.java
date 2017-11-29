@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
-import android.widget.Toast;
 
 import com.pax.gl.pack.impl.PaxGLPacker;
 import com.technotapp.servicestation.R;
@@ -20,7 +19,6 @@ import com.technotapp.servicestation.pax.printer.Printable;
 import com.technotapp.servicestation.pax.printer.PrinterHelper;
 import com.technotapp.servicestation.setting.Session;
 
-import java.util.Locale;
 import java.util.Random;
 
 public class TransactionHelper {
@@ -159,7 +157,7 @@ public class TransactionHelper {
                     }
                     // Todo change print static content
                     if (printable != null) {
-                        PrinterHelper.getInstance().startPrint(printable.getContent(ctx, mSession.getShopName(),mSession.getMobileNumber(), "1475478589", DateHelper.getGregorianDateTime("HH:mm:ss"), DateHelper.getShamsiDate(), dataModel.getBackTransactionID(), dataModel.getTerminalID(), dataModel.getPanNumber(), dataModel.getAmount()));
+                        PrinterHelper.getInstance().startPrint(printable.getContent(ctx, mSession.getShopName(),mSession.getTelephone(), "1475478589", DateHelper.getGregorianDateTime("HH:mm:ss"), DateHelper.getShamsiDate(), dataModel.getBackTransactionID(), dataModel.getTerminalID(), dataModel.getPanNumber(), dataModel.getAmount()));
                     }
                 }
             });

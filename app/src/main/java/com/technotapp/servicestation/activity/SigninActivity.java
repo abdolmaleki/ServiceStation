@@ -201,6 +201,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
             session.setLastName(menuStos.get(0).dataModel.get(0).info.get(0).lastName);
             session.setEmail(menuStos.get(0).dataModel.get(0).info.get(0).email);
             session.setAddress(menuStos.get(0).dataModel.get(0).shop.get(0).address);
+            session.setTel(menuStos.get(0).dataModel.get(0).shop.get(0).tel);
             session.setGender(menuStos.get(0).dataModel.get(0).info.get(0).gender);
             session.setScore(menuStos.get(0).dataModel.get(0).info.get(0).score);
             session.setHashId(menuStos.get(0).dataModel.get(0).info.get(0).hashId);

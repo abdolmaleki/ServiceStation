@@ -122,10 +122,16 @@ public class Session {
         return isFirstRun;
     }
 
-    public String getMobileNumber() {
+    public String getTelephone() {
+        String tel = prefs.getString(Constant.Session.TEL, "");
+        return tel;
+    }
+
+    public String getMobile() {
         String mobile = prefs.getString(Constant.Session.MOBILE, "");
         return mobile;
     }
+
 
     public String getFirstName() {
         String firstName = prefs.getString(Constant.Session.FIRST_NAME, "");

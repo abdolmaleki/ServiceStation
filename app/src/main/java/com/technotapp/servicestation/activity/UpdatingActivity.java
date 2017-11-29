@@ -192,6 +192,7 @@ public class UpdatingActivity extends AppCompatActivity implements View.OnClickL
             session.setGender(menuStos.get(0).dataModel.get(0).info.get(0).gender);
             session.setScore(menuStos.get(0).dataModel.get(0).info.get(0).score);
             session.setShopName(menuStos.get(0).dataModel.get(0).shop.get(0).title);
+            session.setTel(menuStos.get(0).dataModel.get(0).shop.get(0).tel);
             session.setHashId(menuStos.get(0).dataModel.get(0).info.get(0).hashId);
             session.setTerminalId(menuStos.get(0).dataModel.get(0).terminalCode);
             return true;
