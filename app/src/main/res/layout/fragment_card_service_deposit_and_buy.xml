@@ -42,7 +42,6 @@
                 android:inputType="numberDecimal"
                 android:lines="1"
                 android:maxLength="9"
-                android:text="250000"
                 android:textColor="#463667"
                 android:textSize="32sp"
                 app:fontName="@string/irsansNumber" />

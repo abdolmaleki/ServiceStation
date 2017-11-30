@@ -13,6 +13,7 @@ import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.fragment.ErrorDialogFragment;
 import com.technotapp.servicestation.fragment.InformationDialogFragment;
+import com.technotapp.servicestation.fragment.LoadingDialogFragment;
 import com.technotapp.servicestation.fragment.SuccessfulDialogFragment;
 
 import dmax.dialog.SpotsDialog;
@@ -20,44 +21,56 @@ import dmax.dialog.SpotsDialog;
 public class Helper {
 
 
+    private static InformationDialogFragment informationDialogFragment;
+    private static ErrorDialogFragment errorDialogFragment = ErrorDialogFragment.newInstance();
+    private static SuccessfulDialogFragment successfulDialogFragment = SuccessfulDialogFragment.newInstance();
+    private static LoadingDialogFragment loadingDialogFragment = LoadingDialogFragment.newInstance();
+
     public static String getDeviceInfo() {
 
         return android.os.Build.MODEL;
 
     }
 
-    public static class ProgressBar {
-
-        private static SpotsDialog dialog;
-
-        public static void showDialog(Context ctx, String message) {
-
-            dialog = new SpotsDialog(ctx, message);
-            dialog.setCanceledOnTouchOutside(false);
-            dialog.setCancelable(false);
-            dialog.show();
-        }
-
-        public static void hideDialog() {
-            if (dialog != null && dialog.isShowing()) {
-                dialog.dismiss();
-            }
-        }
-    }
-
     public static void alert(Context activity, String message, int alertType) {
         if (alertType == Constant.AlertType.Information) {
-            InformationDialogFragment dialogFragment = InformationDialogFragment.newInstance();
-            dialogFragment.show((Activity) activity, message);
+            informationDialogFragment = InformationDialogFragment.newInstance();
+            informationDialogFragment.show((Activity) activity, message);
         } else if (alertType == Constant.AlertType.Warning) {
 
         } else if (alertType == Constant.AlertType.Error) {
-            ErrorDialogFragment dialogFragment = ErrorDialogFragment.newInstance();
-            dialogFragment.show((Activity) activity, message);
+            errorDialogFragment = ErrorDialogFragment.newInstance();
+            errorDialogFragment.show((Activity) activity, message);
         } else if (alertType == Constant.AlertType.Success) {
-            SuccessfulDialogFragment dialogFragment = SuccessfulDialogFragment.newInstance();
-            dialogFragment.show((Activity) activity, message);
+            successfulDialogFragment = SuccessfulDialogFragment.newInstance();
+            successfulDialogFragment.show((Activity) activity, message);
+        } else if (alertType == Constant.AlertType.Loading) {
+            loadingDialogFragment = LoadingDialogFragment.newInstance();
+            loadingDialogFragment.show((Activity) activity,message);
+        }
+    }
 
+    public static void dismiss(int alertType) {
+
+        if (alertType == Constant.AlertType.Information) {
+
+            if (informationDialogFragment != null && informationDialogFragment.isVisible()) {
+                informationDialogFragment.dismiss();
+            }
+        } else if (alertType == Constant.AlertType.Warning) {
+
+        } else if (alertType == Constant.AlertType.Error) {
+            if (errorDialogFragment != null && errorDialogFragment.isVisible()) {
+                errorDialogFragment.dismiss();
+            }
+        } else if (alertType == Constant.AlertType.Success) {
+            if (successfulDialogFragment != null && successfulDialogFragment.isVisible()) {
+                successfulDialogFragment.dismiss();
+            }
+        } else if (alertType == Constant.AlertType.Loading) {
+            if (loadingDialogFragment != null && loadingDialogFragment.isVisible()) {
+                loadingDialogFragment.dismiss();
+            }
         }
     }
 
@@ -197,8 +210,8 @@ public class Helper {
                 return "موسسه اعتباری توسعه";
             case "505801":
                 return "موسسه اعتباری کوثر";
-                default:
-                    return "نام بانک ثبت نشده";
+            default:
+                return "نام بانک ثبت نشده";
 
         }
 

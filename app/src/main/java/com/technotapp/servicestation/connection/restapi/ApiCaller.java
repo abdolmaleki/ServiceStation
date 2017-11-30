@@ -118,13 +118,13 @@ public class ApiCaller {
                     ////////// show progressbar if needed ////////////////////
                     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                     if (loadingMessage != null) {
-                        Helper.ProgressBar.showDialog(ctx, loadingMessage);
+                        Helper.alert(ctx, loadingMessage,Constant.AlertType.Loading);
                     }
 
                     token.enqueue(new retrofit2.Callback<String>() {
                         @Override
                         public void onResponse(Call<String> call, Response<String> response) {
-                            Helper.ProgressBar.hideDialog();
+                            Helper.dismiss(Constant.AlertType.Loading);
                             String EncryptedResponse = response.body();
                             if (EncryptedResponse == null || EncryptedResponse.isEmpty()) {
                                 Helper.alert(ctx, "خطا در دریافت اطلاعات", Constant.AlertType.Error);
@@ -156,7 +156,7 @@ public class ApiCaller {
 
                         @Override
                         public void onFailure(Call<String> call, Throwable t) {
-                            Helper.ProgressBar.hideDialog();
+                            Helper.dismiss(Constant.AlertType.Loading);
                             apiCallback.onFail();
                         }
                     });

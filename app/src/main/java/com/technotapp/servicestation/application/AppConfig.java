@@ -30,7 +30,7 @@ public class AppConfig extends Application {
     public void onCreate() {
         super.onCreate();
         MultiDex.install(this);
-        PaxHelper.enableBackNavigationButton(getApplicationContext());
+        PaxHelper.disableAllNavigationButton(getApplicationContext());
         init();
         configDb();
 

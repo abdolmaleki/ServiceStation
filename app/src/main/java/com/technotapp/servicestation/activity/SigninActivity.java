@@ -14,6 +14,7 @@ import com.google.gson.reflect.TypeToken;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.Encryptor;
 import com.technotapp.servicestation.Infrastructure.Helper;
+import com.technotapp.servicestation.Infrastructure.PaxHelper;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.connection.restapi.ApiCaller;
@@ -85,6 +86,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
         switch (v.getId()) {
             case R.id.activity_signin_btnSignin:
                 if (checkInputValidation(edtUsername, edtPassword)) {
+                    PaxHelper.disableAllNavigationButton(mContext);
                     if (!Helper.IsAppUpToDate()) {
                         callGetMenu();
                     } else {
@@ -152,7 +154,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
 
                 @Override
                 public void onFail() {
-                    Helper.ProgressBar.hideDialog();
+                    Helper.dismiss(Constant.AlertType.Loading);
                     Helper.alert(mContext, getString(R.string.SignInActivity_serverConnectingError), Constant.AlertType.Error);
                 }
             });

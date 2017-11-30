@@ -141,23 +141,23 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
                 break;
             case R.id.fragment_receipt_btnConfirm:
                 String strBill = edtBillingId.getText().toString();
-                String strpayment = edtPaymentCode.getText().toString();
-                if (strBill.isEmpty()||strpayment.isEmpty()){
-                    Helper.alert(mActivity,"لطفا ",Constant.AlertType.Information);
+                String strPayment = edtPaymentCode.getText().toString();
+                if (strBill.isEmpty()||strPayment.isEmpty()){
+                    Helper.alert(mActivity,"شناسه قبض یا شناسه پرداخت وارد نشده است ",Constant.AlertType.Information);
                     break;
-                }else if (strBill.length()<8||strpayment.length()<8){
+                }else if (strBill.length()<8||strPayment.length()<8){
                     Helper.alert(mActivity,"بارکد مورد نظر معتبر نمی باشد",Constant.AlertType.Error);
                     break;
                 }
-                int lenghtBill = (13 - strBill.length());
-                int lenghtPayment = (13 - strpayment.length());
-                for (int i = 0; i < lenghtBill; i++) {
+                int lengthBill = (13 - strBill.length());
+                int lengthPayment = (13 - strPayment.length());
+                for (int i = 0; i < lengthBill; i++) {
                     strBill = "0" + strBill;
                 }
-                for (int i = 0; i < lenghtPayment; i++) {
-                    strpayment = "0" + strpayment;
+                for (int i = 0; i < lengthPayment; i++) {
+                    strPayment = "0" + strPayment;
                 }
-                checkValidation(strBill + strpayment);
+                checkValidation(strBill + strPayment);
                 break;
         }
 
@@ -188,7 +188,7 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
 
                 byte organizationCode = Byte.parseByte(billingId.substring(11, 12));
                 bundle.putInt("organization_image", Helper.getImageOrganization(organizationCode));
-                bundle.putString("amount", "" + Integer.parseInt(paymentCode.substring(0, 8)) * 10000);
+                bundle.putString("amount", "" + Integer.parseInt(paymentCode.substring(0, 8)) * 1000);
 
                 switch (organizationCode) {
                     case Constant.PayBill.Organization.WATER:

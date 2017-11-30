@@ -14,6 +14,7 @@ import com.fujiyuu75.sequent.Animation;
 import com.fujiyuu75.sequent.Sequent;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.NetworkHelper;
+import com.technotapp.servicestation.Infrastructure.PaxHelper;
 import com.technotapp.servicestation.R;
 
 import java.util.Timer;
@@ -114,6 +115,7 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        PaxHelper.disableAllNavigationButton(mContext);
     }
 
     private void checkNetStatus() {

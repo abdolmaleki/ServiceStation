@@ -147,7 +147,7 @@ public class UpdatingActivity extends AppCompatActivity implements View.OnClickL
 
                 @Override
                 public void onFail() {
-                    Helper.ProgressBar.hideDialog();
+                    Helper.dismiss(Constant.AlertType.Loading);
                     Helper.alert(mContext, getString(R.string.SignInActivity_serverConnectingError), Constant.AlertType.Error);
                 }
             });
