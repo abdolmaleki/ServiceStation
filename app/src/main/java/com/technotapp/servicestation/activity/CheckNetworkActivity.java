@@ -13,6 +13,7 @@ import android.widget.ListView;
 
 import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.Infrastructure.NetworkHelper;
+import com.technotapp.servicestation.Infrastructure.PaxHelper;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.adapter.WifiAdapter;
 import com.technotapp.servicestation.application.Constant;
@@ -55,6 +56,7 @@ public class CheckNetworkActivity extends AppCompatActivity implements CompoundB
     }
 
     private void initView() {
+        PaxHelper.enableBackNavigationButton(this);
         mNetworkType = findViewById(R.id.activity_checknetwork_switch_nettype);
         mNetworkType.setOnCheckedChangeListener(this);
         mWifiState = findViewById(R.id.activity_checknetwork_switch_wifi_state);

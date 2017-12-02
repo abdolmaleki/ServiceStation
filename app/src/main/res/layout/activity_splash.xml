@@ -64,7 +64,7 @@
             android:minHeight="10dip"
             android:progress="0"
             android:progressDrawable="@drawable/bg_progressbar_linear"
-            android:visibility="invisible" />
+            android:visibility="visible" />
     </LinearLayout>
 
     <View

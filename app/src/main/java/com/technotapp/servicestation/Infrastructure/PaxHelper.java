@@ -11,10 +11,10 @@ public class PaxHelper {
 
     public static void disableAllNavigationButton(Context ctx) {
         try {
-            neptuneLiteUser.getDal(ctx).getSys().enableNavigationBar(false);
-            neptuneLiteUser.getDal(ctx).getSys().showNavigationBar(false);
+            neptuneLiteUser.getDal(ctx).getSys().enableNavigationBar(true);
+            neptuneLiteUser.getDal(ctx).getSys().showNavigationBar(true);
             neptuneLiteUser.getDal(ctx).getSys().enableStatusBar(true);
-            neptuneLiteUser.getDal(ctx).getSys().showStatusBar(false);
+            neptuneLiteUser.getDal(ctx).getSys().showStatusBar(true);
         } catch (Exception e) {
             AppMonitor.reportBug(e,"PaxHelper","disableAllNavigationButton");
         }
@@ -23,8 +23,6 @@ public class PaxHelper {
         try {
             neptuneLiteUser.getDal(ctx).getSys().showNavigationBar(true);
             neptuneLiteUser.getDal(ctx).getSys().enableNavigationBar(true);
-            neptuneLiteUser.getDal(ctx).getSys().enableNavigationKey(ENavigationKey.HOME, false);
-            neptuneLiteUser.getDal(ctx).getSys().enableNavigationKey(ENavigationKey.RECENT, false);
         } catch (Exception e) {
             AppMonitor.reportBug(e,"PaxHelper","disableBackNavigationButton");
         }

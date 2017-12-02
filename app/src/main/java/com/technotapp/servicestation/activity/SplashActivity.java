@@ -31,7 +31,6 @@ public class SplashActivity extends AppCompatActivity {
     LinearLayout logoLayout;
 
     private int progressStatus = 0;
-    private Handler handler;
     private final String mClassName = getClass().getSimpleName();
     private Context mContext;
 
@@ -46,8 +45,6 @@ public class SplashActivity extends AppCompatActivity {
 
         initView();
 
-        checkNetStatus();
-
 
     }
 
@@ -56,25 +53,13 @@ public class SplashActivity extends AppCompatActivity {
         try {
 
 
-            new Timer().schedule(new TimerTask() {
+            Runnable runnable = new Runnable() {
                 @Override
                 public void run() {
 
-                    Looper.prepare();
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            progressBar.setVisibility(View.VISIBLE);
-
-                        }
-                    });
                     while (progressStatus < 200) {
                         progressStatus += 1;
-                        handler.post(new Runnable() {
-                            public void run() {
-                                progressBar.setProgress(progressStatus);
-                            }
-                        });
+                        progressBar.setProgress(progressStatus);
                         try {
                             Thread.sleep(10);
                         } catch (InterruptedException e) {
@@ -84,10 +69,14 @@ public class SplashActivity extends AppCompatActivity {
                     startActivity(new Intent(mContext, SigninActivity.class));
                     finish();
                 }
-            }, 2000);
+            };
+
+            new Handler(getMainLooper()).postDelayed(runnable, 2000);
+
         } catch (Exception e) {
             AppMonitor.reportBug(e, mClassName, "playSplash");
         }
+
     }
 
     //initialize views & variables
@@ -95,11 +84,12 @@ public class SplashActivity extends AppCompatActivity {
         try {
             ButterKnife.bind(this);
             mContext = SplashActivity.this;
-            handler = new Handler(getMainLooper());
             Sequent.origin(logoLayout).
                     duration(1000).
                     anim(mContext, Animation.FADE_IN_UP).
                     start();
+
+
         } catch (Exception e) {
             AppMonitor.reportBug(e, mClassName, "initView");
         }
@@ -117,6 +107,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         PaxHelper.disableAllNavigationButton(mContext);
+        checkNetStatus();
     }
 
     private void checkNetStatus() {

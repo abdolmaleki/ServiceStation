@@ -3,32 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layoutDirection="ltr"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/item_list_wifi_txt_ssid"
         android:layout_width="match_parent"
-        android:layout_height="64dp">
+        android:layout_height="32dp"
+        android:layout_marginBottom="2dp"
+        android:gravity="right"
+        android:paddingEnd="0dp"
+        android:paddingStart="8dp"
+        android:text="ssid"
+        android:textStyle="bold"
+        android:textColor="@color/fragment_transaction_response_dialog_success_textColor"
+        android:textDirection="rtl" />
 
-        <TextView
-            android:paddingTop="2dp"
-            android:paddingLeft="8dp"
-            android:id="@+id/item_list_wifi_txt_ssid"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Android ap" />
+    <com.technotapp.servicestation.customView.CustomTextView
+        android:id="@+id/item_list_wifi_txt_signal_state"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:gravity="right"
+        android:text="level"
+        android:paddingEnd="0dp"
+        android:paddingStart="8dp"
+        android:textColor="@color/fragment_transaction_response_dialog_success_textColor"
+        android:textDirection="rtl"
+        app:fontName="@string/irsansMedium" />
 
-        <com.technotapp.servicestation.customView.CustomTextView
-            android:id="@+id/item_list_wifi_txt_signal_state"
-            android:layout_width="match_parent"
-            android:layout_height="32dp"
-            android:layout_alignParentBottom="true"
-            android:paddingStart="8dp"
-            android:textColor="@color/fragment_transaction_response_dialog_success_textColor"
-            android:paddingEnd="0dp"
-            app:fontName="@string/irsansMedium"
-            android:gravity="center_vertical"
-            android:textDirection="rtl" />
-
-    </RelativeLayout>
 </LinearLayout>
