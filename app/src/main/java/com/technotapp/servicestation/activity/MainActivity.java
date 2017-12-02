@@ -10,22 +10,34 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.pixelcan.inkpageindicator.InkPageIndicator;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
+import com.technotapp.servicestation.Infrastructure.DateHelper;
+import com.technotapp.servicestation.Infrastructure.Encryptor;
 import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.Infrastructure.UpdateHelper;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.adapter.DataModel.MenuAdapterModel;
 import com.technotapp.servicestation.adapter.MainMenuPageAdapter;
 import com.technotapp.servicestation.application.Constant;
+import com.technotapp.servicestation.connection.restapi.ApiCaller;
+import com.technotapp.servicestation.connection.restapi.dto.LogDto;
+import com.technotapp.servicestation.connection.restapi.dto.MenuDto;
+import com.technotapp.servicestation.connection.restapi.sto.BaseSto;
+import com.technotapp.servicestation.connection.restapi.sto.MenuSto;
 import com.technotapp.servicestation.database.Db;
 import com.technotapp.servicestation.database.model.MenuModel;
 import com.technotapp.servicestation.fragment.MainGridFragment;
 import com.technotapp.servicestation.setting.Session;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.crypto.SecretKey;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
     private boolean mIsFirst = true;
     private final String mClassName = getClass().getSimpleName();
     private Context mContext;
-
     public static final int NUMBER_OF_ITEMS = 9;
 
 
@@ -119,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
             AppMonitor.reportBug(e, mClassName, "initView");
         }
     }
+
     //open settingActivity after 10th click on logo
     public void openSettingMenu(View view) {
         try {
@@ -152,4 +164,41 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void callSendLog() {
+        try {
+            LogDto logDto = createLogDto();
+            final SecretKey AESsecretKey = Encryptor.generateRandomAESKey();
+            new ApiCaller(Constant.Api.Type.LOG_INFO).call(mContext, logDto, AESsecretKey, null, new ApiCaller.ApiCallback() {
+                @Override
+                public void onResponse(int responseCode, String jsonResult) {
+                }
+
+                @Override
+                public void onFail() {
+                }
+            });
+        } catch (Exception e) {
+            AppMonitor.reportBug(e, mClassName, "callSendLog");
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        callSendLog();
+    }
+
+    private LogDto createLogDto() {
+
+        LogDto dto = new LogDto();
+        dto.Description = DateHelper.getShamsiDate();
+        dto.terminalCode = "R215454D5";
+        dto.deviceIp = "192.0.0.1";
+        dto.Title = "";
+        dto.UserDeviceInfo = "My Pos Info";
+        dto.LogTypeId = 1;
+        dto.tokenId = mSession.getTokenId();
+        dto.terminalCode = mSession.getTerminalId();
+        return dto;
+    }
 }

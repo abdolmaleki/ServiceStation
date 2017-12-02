@@ -112,6 +112,10 @@ public class ApiCaller {
                         case Constant.Api.Type.TERMINAL_INFO:
                             token = apiService.getTerminalInfo(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
                             break;
+
+                        case Constant.Api.Type.LOG_INFO:
+                            token = apiService.sendLogInfo(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
+                            break;
                     }
 
                     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////

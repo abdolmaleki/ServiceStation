@@ -46,7 +46,8 @@ public class SplashActivity extends AppCompatActivity {
 
         initView();
 
-        playSplash();
+        checkNetStatus();
+
 
     }
 
@@ -84,7 +85,7 @@ public class SplashActivity extends AppCompatActivity {
                             AppMonitor.reportBug(e, mClassName, "playSplash-Timer");
                         }
                     }
-                    checkNetStatus();
+                    startActivity(new Intent(mContext, SigninActivity.class));
                     finish();
                 }
             }, 2000);
@@ -124,7 +125,7 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onNetworkChecked(boolean isSuccess, String message) {
                 if (isSuccess) {
-                    startActivity(new Intent(mContext, SigninActivity.class));
+                    playSplash();
                 } else {
                     startActivity(new Intent(mContext, CheckNetworkActivity.class));
                 }

@@ -4,21 +4,21 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Looper;
-import android.support.annotation.NonNull;
 import android.telephony.TelephonyManager;
 
 import com.thanosfisherman.wifiutils.WifiUtils;
 import com.thanosfisherman.wifiutils.wifiConnect.ConnectionSuccessListener;
-import com.thanosfisherman.wifiutils.wifiScan.ScanResultsListener;
 import com.thanosfisherman.wifiutils.wifiState.WifiStateListener;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+
+import static android.content.Context.WIFI_SERVICE;
 
 public class NetworkHelper {
 
@@ -77,6 +77,14 @@ public class NetworkHelper {
         }
     }
 
+    //
+    // __        _____ _____ ___    __  __                                              _
+    // \ \      / /_ _|  ___|_ _|  |  \/  | __ _ _ __   __ _  __ _ _ __ ___   ___ _ __ | |_
+    //  \ \ /\ / / | || |_   | |   | |\/| |/ _` | '_ \ / _` |/ _` | '_ ` _ \ / _ \ '_ \| __|
+    //   \ V  V /  | ||  _|  | |   | |  | | (_| | | | | (_| | (_| | | | | | |  __/ | | | |_
+    //    \_/\_/  |___|_|   |___|  |_|  |_|\__,_|_| |_|\__,_|\__, |_| |_| |_|\___|_| |_|\__|
+    //                                                       |___/
+
     public static void enableWifi(Context ctx, WifiStateListener wifiStateListener) {
         WifiUtils.withContext(ctx.getApplicationContext()).enableWifi(wifiStateListener);
     }
@@ -85,7 +93,6 @@ public class NetworkHelper {
         WifiUtils.withContext(ctx.getApplicationContext()).disableWifi();
         NetworkHelper.isWifiEnable = false;
     }
-
 
     public static boolean isProtectedWifi(ScanResult scanResult) {
         final String cap = scanResult.capabilities;
@@ -123,6 +130,36 @@ public class NetworkHelper {
         void onNetworkChecked(boolean isSuccess, String message);
     }
 
+    public static boolean isWifiAutoLogined(Context context) {
+        try {
+            ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+            return mWifi.isConnected();
+
+        } catch (Exception e) {
+            AppMonitor.reportBug(e, "NetworkHelper", "isWifiAutoLogined");
+            return false;
+        }
+    }
+
+    public static WifiInfo getCurrentWifiInfo(Context context) {
+        try {
+            WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(WIFI_SERVICE);
+            return wifiManager.getConnectionInfo();
+        } catch (Exception e) {
+            AppMonitor.reportBug(e, "NetworkHelper", "getCurrentWifiInfo");
+            return null;
+        }
+    }
+
+    //
+    //  ____        _           __  __                                              _
+    // |  _ \  __ _| |_ __ _   |  \/  | __ _ _ __   __ _  __ _ _ __ ___   ___ _ __ | |_
+    // | | | |/ _` | __/ _` |  | |\/| |/ _` | '_ \ / _` |/ _` | '_ ` _ \ / _ \ '_ \| __|
+    // | |_| | (_| | || (_| |  | |  | | (_| | | | | (_| | (_| | | | | | |  __/ | | | |_
+    // |____/ \__,_|\__\__,_|  |_|  |_|\__,_|_| |_|\__,_|\__, |_| |_| |_|\___|_| |_|\__|
+    //                                                   |___/
+
     public static void setMobileDataEnabled(Context context, boolean enabled, DataEnableListener dataEnableListener) {
         try {
             if (!isSimcardAvalaible(context)) {
@@ -155,7 +192,7 @@ public class NetworkHelper {
         void onDataChangeState(boolean isOnSuccessfully);
     }
 
-    public static boolean isSimcardAvalaible(Context context) {
+    private static boolean isSimcardAvalaible(Context context) {
         try {
             TelephonyManager telMgr = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
             int simState = telMgr.getSimState();
@@ -174,6 +211,7 @@ public class NetworkHelper {
         }
 
     }
+
 
 
 }

@@ -26,9 +26,12 @@ public interface ServiceStationApi {
 //    })
 
     @POST("api/Applications/LoginTerminal")
-    Call<String> terminalLoginModel(@Query("key") String key, @Query("value") String value, @Query("deviceInfo") String apiType);
+    Call<String> terminalLoginModel(@Query("key") String key, @Query("value") String value, @Query("deviceInfo") String deviceInfo);
 
     @POST("api/Applications/GetTerminalInfo")
-    Call<String> getTerminalInfo(@Query("key") String key, @Query("value") String value, @Query("deviceInfo") String apiType);
+    Call<String> getTerminalInfo(@Query("key") String key, @Query("value") String value, @Query("deviceInfo") String deviceInfo);
+
+    @POST("api/Logs/InsertLogItem")
+    Call<String> sendLogInfo(@Query("key") String key, @Query("value") String value, @Query("deviceInfo") String deviceInfo);
 
 }
