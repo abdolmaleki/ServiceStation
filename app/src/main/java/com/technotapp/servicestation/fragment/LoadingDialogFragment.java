@@ -49,8 +49,8 @@ public class LoadingDialogFragment extends DialogFragment{
     private void initView(View v) {
         textView = v.findViewById(R.id.fragment_dialog_loading_textView);
         imageView = v.findViewById(R.id.fragment_dialog_loading_imgLoading);
-        textView.setText(message);
         Glide.with(getActivity()).load(R.drawable.loading).into(new DrawableImageViewTarget(imageView));
+        textView.setText(message);
     }
 
 

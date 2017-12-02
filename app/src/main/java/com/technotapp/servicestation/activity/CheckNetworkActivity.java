@@ -135,11 +135,11 @@ public class CheckNetworkActivity extends AppCompatActivity implements CompoundB
             inputDialogFragment.setOnInputDialogClickListener(new InputDialogFragment.OnInputDialogClick() {
                 @Override
                 public void onAccept(String password) {
-                    Helper.alert(CheckNetworkActivity.this, "در حال اتصال به " + result.SSID,Constant.AlertType.Loading);
+                    Helper.progressBar.showDialog(CheckNetworkActivity.this,"در حال اتصال به " + result.SSID);
                     NetworkHelper.connectToWifi(CheckNetworkActivity.this, result.SSID, password, new ConnectionSuccessListener() {
                         @Override
                         public void isSuccessful(boolean isSuccess) {
-                            Helper.dismiss(Constant.AlertType.Loading);
+                            Helper.progressBar.hideDialog();
                             if (isSuccess) {
                                 Helper.alert(CheckNetworkActivity.this, "اتصال با موفقیت انجام شد", Constant.AlertType.Success);
                             } else {
@@ -154,11 +154,11 @@ public class CheckNetworkActivity extends AppCompatActivity implements CompoundB
                 }
             });
         } else {
-            Helper.alert(CheckNetworkActivity.this, "در حال اتصال به " + result.SSID,Constant.AlertType.Loading);
+            Helper.progressBar.showDialog(CheckNetworkActivity.this,"در حال اتصال به " + result.SSID);
             NetworkHelper.connectToWifi(this, result.SSID, "", new ConnectionSuccessListener() {
                 @Override
                 public void isSuccessful(boolean isSuccess) {
-                    Helper.dismiss(Constant.AlertType.Loading);
+                    Helper.progressBar.hideDialog();
                     if (isSuccess) {
                         Helper.alert(CheckNetworkActivity.this, "اتصال با موفقیت انجام شد", Constant.AlertType.Success);
                     } else {

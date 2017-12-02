@@ -8,39 +8,37 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/fragment_dialog_alert_layout"
         android:layout_width="256dp"
         android:layout_height="256dp"
-        android:background="@drawable/bg_lyr_dialog_info"
         android:gravity="center"
         android:layoutDirection="rtl"
         android:orientation="vertical">
 
         <ImageView
+            android:id="@+id/fragment_dialog_alert_image"
             android:layout_width="104dp"
             android:layout_height="104dp"
-            android:layout_marginTop="8dp"
-            android:src="@drawable/ic_information" />
+            android:layout_marginTop="8dp"/>
 
         <com.technotapp.servicestation.customView.CustomTextView
-            android:id="@+id/fragment_dialog_info_text"
+            android:id="@+id/fragment_dialog_alert_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:layout_marginTop="8dp"
             android:gravity="center"
-            android:textColor="#2d2d2d"
+            android:textColor="@color/white"
             android:textSize="14sp"
             app:fontName="@string/irsansMedium" />
 
         <com.technotapp.servicestation.customView.CustomButton
-            android:id="@+id/fragment_dialog_info_button"
+            android:id="@+id/fragment_dialog_alert_button"
             android:layout_width="168dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="12dp"
-            android:background="@drawable/bg_btn_info"
-            android:text="تایید"
-            android:textColor="@color/white"
+            android:text="بازگشت"
             app:fontName="@string/irsansMedium" />
 
     </LinearLayout>

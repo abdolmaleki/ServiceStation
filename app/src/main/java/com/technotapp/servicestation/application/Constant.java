@@ -70,7 +70,6 @@ public class Constant {
         public static int Warning = 1;
         public static int Error = 2;
         public static int Success = 3;
-        public static int Loading = 4;
 
     }
 

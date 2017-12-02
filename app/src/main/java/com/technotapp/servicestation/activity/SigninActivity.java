@@ -154,7 +154,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
 
                 @Override
                 public void onFail() {
-                    Helper.dismiss(Constant.AlertType.Loading);
+                    Helper.progressBar.hideDialog();
                     Helper.alert(mContext, getString(R.string.SignInActivity_serverConnectingError), Constant.AlertType.Error);
                 }
             });

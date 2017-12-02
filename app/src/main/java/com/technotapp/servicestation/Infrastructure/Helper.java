@@ -5,74 +5,54 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.application.Constant;
-import com.technotapp.servicestation.fragment.ErrorDialogFragment;
-import com.technotapp.servicestation.fragment.InformationDialogFragment;
 import com.technotapp.servicestation.fragment.LoadingDialogFragment;
-import com.technotapp.servicestation.fragment.SuccessfulDialogFragment;
-
-import dmax.dialog.SpotsDialog;
+import com.technotapp.servicestation.fragment.AlertDialogFragment;
 
 public class Helper {
 
 
-    private static InformationDialogFragment informationDialogFragment;
-    private static ErrorDialogFragment errorDialogFragment = ErrorDialogFragment.newInstance();
-    private static SuccessfulDialogFragment successfulDialogFragment = SuccessfulDialogFragment.newInstance();
+    private static AlertDialogFragment dialogFragment = AlertDialogFragment.newInstance();
     private static LoadingDialogFragment loadingDialogFragment = LoadingDialogFragment.newInstance();
 
     public static String getDeviceInfo() {
-
         return android.os.Build.MODEL;
-
     }
 
-    public static void alert(Context activity, String message, int alertType) {
-        if (alertType == Constant.AlertType.Information) {
-            informationDialogFragment = InformationDialogFragment.newInstance();
-            informationDialogFragment.show((Activity) activity, message);
-        } else if (alertType == Constant.AlertType.Warning) {
+    public static class progressBar {
 
-        } else if (alertType == Constant.AlertType.Error) {
-            errorDialogFragment = ErrorDialogFragment.newInstance();
-            errorDialogFragment.show((Activity) activity, message);
-        } else if (alertType == Constant.AlertType.Success) {
-            successfulDialogFragment = SuccessfulDialogFragment.newInstance();
-            successfulDialogFragment.show((Activity) activity, message);
-        } else if (alertType == Constant.AlertType.Loading) {
-            loadingDialogFragment = LoadingDialogFragment.newInstance();
-            loadingDialogFragment.show((Activity) activity,message);
+        public static void showDialog(Context activity, String message) {
+
+            if (loadingDialogFragment == null) {
+                loadingDialogFragment = LoadingDialogFragment.newInstance();
+            }
+            loadingDialogFragment.show((Activity) activity, message);
+
         }
-    }
 
-    public static void dismiss(int alertType) {
+        public static void hideDialog() {
 
-        if (alertType == Constant.AlertType.Information) {
-
-            if (informationDialogFragment != null && informationDialogFragment.isVisible()) {
-                informationDialogFragment.dismiss();
-            }
-        } else if (alertType == Constant.AlertType.Warning) {
-
-        } else if (alertType == Constant.AlertType.Error) {
-            if (errorDialogFragment != null && errorDialogFragment.isVisible()) {
-                errorDialogFragment.dismiss();
-            }
-        } else if (alertType == Constant.AlertType.Success) {
-            if (successfulDialogFragment != null && successfulDialogFragment.isVisible()) {
-                successfulDialogFragment.dismiss();
-            }
-        } else if (alertType == Constant.AlertType.Loading) {
             if (loadingDialogFragment != null && loadingDialogFragment.isVisible()) {
                 loadingDialogFragment.dismiss();
             }
         }
     }
+
+    public static void alert(Context activity, String message, int alertType) {
+        dialogFragment = AlertDialogFragment.newInstance();
+        Bundle bundle =dialogFragment.getArguments();
+        bundle.putInt("alertType", alertType);
+        bundle.putString("alertMessage", message);
+        dialogFragment.setArguments(bundle);
+        dialogFragment.show((Activity) activity);
+    }
+
 
     public static boolean IsAppUpToDate() {
         boolean isUptodate = false;
