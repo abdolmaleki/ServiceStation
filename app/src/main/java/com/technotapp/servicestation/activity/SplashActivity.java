@@ -55,10 +55,6 @@ public class SplashActivity extends AppCompatActivity {
     private void playSplash() {
         try {
 
-            Sequent.origin(logoLayout).
-                    duration(1000).
-                    anim(mContext, Animation.FADE_IN_UP).
-                    start();
 
             new Timer().schedule(new TimerTask() {
                 @Override
@@ -100,6 +96,10 @@ public class SplashActivity extends AppCompatActivity {
             ButterKnife.bind(this);
             mContext = SplashActivity.this;
             handler = new Handler(getMainLooper());
+            Sequent.origin(logoLayout).
+                    duration(1000).
+                    anim(mContext, Animation.FADE_IN_UP).
+                    start();
         } catch (Exception e) {
             AppMonitor.reportBug(e, mClassName, "initView");
         }
