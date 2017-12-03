@@ -19,6 +19,8 @@
     <color name="lineColor">#cacaca</color>
     <color name="error_dialog_color">#9a0026</color>
     <color name="success_dialog_color">#3eb401</color>
+    <color name="gray">#6d6d6d</color>
+
 
 
 </resources>

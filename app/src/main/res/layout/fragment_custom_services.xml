@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="ltr"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/fragments_padding_top">
+
+    <SearchView
+        android:id="@+id/fragment_custom_service_searchView"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layoutDirection="rtl" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <GridView
+            android:id="@+id/fragment_custom_service_gridView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:numColumns="2"
+            android:verticalSpacing="8dp"
+            tools:listitem="@layout/item_grid_custom_service" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/bg_custom_fragment_bottom"
+            android:orientation="horizontal">
+
+            <com.technotapp.servicestation.customView.CustomButton
+                android:id="@+id/fragment_custom_service_btnConfirm"
+                android:layout_width="128dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_btn_error_success"
+                android:text="تایید نهایی"
+                android:textColor="#6d57c0"
+                app:fontName="@string/irsansMedium" />
+
+            <LinearLayout
+                android:layout_width="192dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical">
+
+                <com.technotapp.servicestation.customView.CustomTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp"
+                    android:gravity="center"
+                    android:text="مجموع قیمت خرید:"
+                    android:textColor="@color/white" />
+
+                <com.technotapp.servicestation.customView.CustomTextView
+                    android:id="@+id/fragment_custom_service_txtAmount"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="950,000 ریال"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    app:fontName="@string/irsansNumber" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -45,8 +45,7 @@
         android:layout_marginEnd="8dp"
         android:layout_weight="1"
         android:gravity="center_vertical"
-        android:text="خرید"
-        android:textColor="#b00f20"
+        android:textColor="#5f5f5f"
         android:textSize="18sp"
         app:fontName="@string/irsansMedium" />
 

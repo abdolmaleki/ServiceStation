@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:layoutDirection="ltr"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_lyr_dialog_swipe_card"
+        android:gravity="center"
+        android:layoutDirection="rtl"
+        android:orientation="vertical">
+
+        <com.technotapp.servicestation.customView.CustomTextView
+            android:id="@+id/fragment_dialog_product_management_add_edit_txtHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="افزودن کالا"
+            android:textColor="#283542"
+            android:textSize="14sp"
+            app:fontName="@string/irsansMedium" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp">
+
+            <com.technotapp.servicestation.customView.CustomEditText
+                android:id="@+id/fragment_dialog_product_management_add_edit_edtName"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="4dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginStart="18dp"
+                android:hint="نام کالا"
+                android:imeOptions="actionNext"
+                android:inputType="textNoSuggestions"
+                android:textSize="14sp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:textColor="#353333"
+                android:textColorHint="#55ffffff"
+                android:textDirection="rtl"
+                app:fontName="@string/irsansNumber" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.technotapp.servicestation.customView.CustomEditText
+                android:id="@+id/fragment_dialog_product_management_add_edit_edtUnit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="4dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginStart="18dp"
+                android:textSize="14sp"
+                android:hint="واحد"
+                android:imeOptions="actionNext"
+                android:inputType="textNoSuggestions"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:textColor="#353333"
+                android:textColorHint="#55ffffff"
+                android:textDirection="rtl"
+                app:fontName="@string/irsansNumber" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.technotapp.servicestation.customView.CustomEditText
+                android:id="@+id/fragment_dialog_product_management_add_edit_edtAmount"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="4dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginStart="18dp"
+                android:hint="قیمت"
+                android:imeOptions="actionNext"
+                android:inputType="textNoSuggestions"
+                android:textSize="14sp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:textColor="#353333"
+                android:textColorHint="#55ffffff"
+                android:textDirection="rtl"
+                app:fontName="@string/irsansNumber" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.technotapp.servicestation.customView.CustomEditText
+                android:id="@+id/fragment_dialog_product_management_add_edit_edtDescription"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginStart="18dp"
+                android:hint="توضیحات"
+                android:imeOptions="actionDone"
+                android:inputType="textNoSuggestions"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:textColor="#353333"
+                android:textSize="14sp"
+                android:textColorHint="#55ffffff"
+                android:textDirection="rtl"
+                app:fontName="@string/irsansNumber" />
+        </android.support.design.widget.TextInputLayout>
+
+
+        <com.technotapp.servicestation.customView.CustomButton
+            android:id="@+id/fragment_dialog_product_management_add_edit_btnConfirm"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_btn_confirm_fragment_dialog_product_management_add_edit"
+            android:text="افزودن"
+            android:textColor="@color/white"
+            app:fontName="@string/irsansMedium" />
+
+    </LinearLayout>
+</LinearLayout>

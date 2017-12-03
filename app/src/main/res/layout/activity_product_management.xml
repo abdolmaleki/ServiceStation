@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_card_service_deposit_buy"
+    android:layoutDirection="ltr"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <android.support.v7.widget.SearchView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:layout_marginStart="12dp"
+        android:imeOptions="actionDone"
+        android:layout_marginBottom="4dp"
+        android:layoutDirection="rtl" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/bg_product_management_fragment_header_list"
+        android:layoutDirection="rtl"
+        android:orientation="horizontal"
+        android:paddingEnd="4dp"
+        android:paddingStart="8dp">
+
+        <com.technotapp.servicestation.customView.CustomTextView
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="ردیف"
+            android:textColor="@color/gray"
+            android:textSize="12sp"
+            app:fontName="@string/irsansMedium" />
+
+        <com.technotapp.servicestation.customView.CustomTextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="نام کالا"
+            android:textColor="@color/gray"
+            android:textSize="12sp"
+            app:fontName="@string/irsansMedium" />
+
+        <com.technotapp.servicestation.customView.CustomTextView
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="واحد"
+            android:textColor="@color/gray"
+            android:textSize="12sp"
+            app:fontName="@string/irsansMedium" />
+
+        <com.technotapp.servicestation.customView.CustomTextView
+            android:layout_width="88dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="قیمت (ریال)"
+            android:textColor="@color/gray"
+            android:textSize="12sp"
+            app:fontName="@string/irsansMedium" />
+
+        <com.technotapp.servicestation.customView.CustomTextView
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="ویرایش"
+            android:textColor="@color/gray"
+            android:textSize="12sp"
+
+            app:fontName="@string/irsansMedium" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/activity_product_management_listView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_weight="1"
+        android:background="@drawable/bg_product_management_fragment_list"
+        android:paddingBottom="2dp"
+        android:paddingTop="2dp"
+        tools:listitem="@layout/item_list_product_management" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/activity_product_management_fab"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:layout_margin="16dp"
+        android:scaleType="center"
+        android:src="@drawable/ic_plus" />
+
+
+</LinearLayout>

@@ -25,17 +25,17 @@
         <activity android:name=".activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".activity.CheckNetworkActivity" />
-        <activity android:name=".activity.SigninActivity">
-
-        </activity>
+        <activity android:name=".activity.SigninActivity"></activity>
         <activity android:name=".activity.PublicServiceActivity" />
         <activity android:name=".activity.CustomServiceActivity" />
         <activity android:name=".activity.SettingActivity" />
         <activity android:name=".activity.UpdatingActivity" />
+        <activity android:name=".activity.ProductManagementActivity"></activity>
     </application>
 
 </manifest>
