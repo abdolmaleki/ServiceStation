@@ -1,4 +1,4 @@
-package com.technotapp.servicestation.adapter.DataModel;
+package com.technotapp.servicestation.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.R;
+import com.technotapp.servicestation.adapter.DataModel.ProductManagementAdapterModel;
 
 import java.util.ArrayList;
 

@@ -4,14 +4,13 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.R;
-import com.technotapp.servicestation.adapter.DataModel.ProductManagementAdapter;
+import com.technotapp.servicestation.adapter.ProductManagementAdapter;
 import com.technotapp.servicestation.adapter.DataModel.ProductManagementAdapterModel;
 import com.technotapp.servicestation.database.Db;
 import com.technotapp.servicestation.fragment.ProductManagementAddEditDialogFragment;

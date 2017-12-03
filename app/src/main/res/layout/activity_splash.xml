@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layoutDirection="ltr"
     android:background="@drawable/bg_splash"
+    android:layoutDirection="ltr"
     android:orientation="vertical"
     tools:context="com.technotapp.servicestation.activity.SplashActivity">
 
@@ -53,6 +53,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical">
+
         <ProgressBar
             android:id="@+id/activity_splash_prg"
             style="?android:attr/progressBarStyleHorizontal"
@@ -64,7 +65,7 @@
             android:minHeight="10dip"
             android:progress="0"
             android:progressDrawable="@drawable/bg_progressbar_linear"
-            android:visibility="visible" />
+            android:visibility="invisible" />
     </LinearLayout>
 
     <View

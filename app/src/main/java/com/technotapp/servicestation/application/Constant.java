@@ -110,6 +110,8 @@ public class Constant {
             public static final int CheckTokenValidation = 1;
             public static final int TERMINAL_INFO = 2;
             public static final int LOG_INFO = 3;
+            public static final int ADD_PRODUCT = 4;
+            public static final int SEARCH_PRODUCT = 5;
 
         }
 

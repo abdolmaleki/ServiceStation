@@ -29,10 +29,11 @@ public class SplashActivity extends AppCompatActivity {
     ProgressBar progressBar;
     @BindView(R.id.activity_splash_logoLayout)
     LinearLayout logoLayout;
-
+    private Handler handler;
     private int progressStatus = 0;
     private final String mClassName = getClass().getSimpleName();
     private Context mContext;
+    private boolean mIsProgressfinished = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,10 @@ public class SplashActivity extends AppCompatActivity {
 
         initView();
 
+        playSplash();
+
+        checkNetStatus();
+
 
     }
 
@@ -52,27 +57,39 @@ public class SplashActivity extends AppCompatActivity {
     private void playSplash() {
         try {
 
+            Sequent.origin(logoLayout).
+                    duration(1000).
+                    anim(mContext, Animation.FADE_IN_UP).
+                    start();
 
-            Runnable runnable = new Runnable() {
+            new Timer().schedule(new TimerTask() {
                 @Override
                 public void run() {
 
+                    Looper.prepare();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar.setVisibility(View.VISIBLE);
+                        }
+                    });
                     while (progressStatus < 200) {
                         progressStatus += 1;
-                        progressBar.setProgress(progressStatus);
+                        handler.post(new Runnable() {
+                            public void run() {
+                                progressBar.setProgress(progressStatus);
+                            }
+                        });
                         try {
-                            Thread.sleep(10);
+                            Thread.sleep(20);
                         } catch (InterruptedException e) {
                             AppMonitor.reportBug(e, mClassName, "playSplash-Timer");
                         }
                     }
-                    startActivity(new Intent(mContext, SigninActivity.class));
-                    finish();
+
+                    mIsProgressfinished = true;
                 }
-            };
-
-            new Handler(getMainLooper()).postDelayed(runnable, 2000);
-
+            }, 2000);
         } catch (Exception e) {
             AppMonitor.reportBug(e, mClassName, "playSplash");
         }
@@ -84,12 +101,7 @@ public class SplashActivity extends AppCompatActivity {
         try {
             ButterKnife.bind(this);
             mContext = SplashActivity.this;
-            Sequent.origin(logoLayout).
-                    duration(1000).
-                    anim(mContext, Animation.FADE_IN_UP).
-                    start();
-
-
+            handler = new Handler(getMainLooper());
         } catch (Exception e) {
             AppMonitor.reportBug(e, mClassName, "initView");
         }
@@ -107,7 +119,6 @@ public class SplashActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         PaxHelper.disableAllNavigationButton(mContext);
-        checkNetStatus();
     }
 
     private void checkNetStatus() {
@@ -115,8 +126,13 @@ public class SplashActivity extends AppCompatActivity {
         NetworkHelper.isConnectingToInternet(mContext, new NetworkHelper.CheckNetworkStateListener() {
             @Override
             public void onNetworkChecked(boolean isSuccess, String message) {
+
+                while (!mIsProgressfinished) {
+
+                }
                 if (isSuccess) {
-                    playSplash();
+                    startActivity(new Intent(mContext, SigninActivity.class));
+                    finish();
                 } else {
                     startActivity(new Intent(mContext, CheckNetworkActivity.class));
                 }
