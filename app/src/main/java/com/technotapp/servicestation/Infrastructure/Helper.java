@@ -18,7 +18,6 @@ import com.technotapp.servicestation.fragment.AlertDialogFragment;
 public class Helper {
 
 
-    private static AlertDialogFragment dialogFragment = AlertDialogFragment.newInstance();
     private static LoadingDialogFragment loadingDialogFragment = LoadingDialogFragment.newInstance();
 
     public static String getDeviceInfo() {
@@ -45,11 +44,7 @@ public class Helper {
     }
 
     public static void alert(Context activity, String message, int alertType) {
-        dialogFragment = AlertDialogFragment.newInstance();
-        Bundle bundle =dialogFragment.getArguments();
-        bundle.putInt("alertType", alertType);
-        bundle.putString("alertMessage", message);
-        dialogFragment.setArguments(bundle);
+        AlertDialogFragment dialogFragment = AlertDialogFragment.newInstance(alertType, message);
         dialogFragment.show((Activity) activity);
     }
 

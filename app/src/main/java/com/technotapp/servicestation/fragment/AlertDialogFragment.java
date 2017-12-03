@@ -37,9 +37,11 @@ public class AlertDialogFragment extends DialogFragment implements View.OnClickL
     private int mAlertType;
     private String mMessage;
 
-    public static AlertDialogFragment newInstance() {
+    public static AlertDialogFragment newInstance(int alertType, String message) {
         AlertDialogFragment fragment = new AlertDialogFragment();
         Bundle args = new Bundle();
+        args.putInt("alertType", alertType);
+        args.putString("alertMessage", message);
         fragment.setArguments(args);
         return fragment;
     }

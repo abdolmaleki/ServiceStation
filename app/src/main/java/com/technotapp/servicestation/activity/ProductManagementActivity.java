@@ -13,7 +13,7 @@ import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.adapter.ProductManagementAdapter;
 import com.technotapp.servicestation.adapter.DataModel.ProductManagementAdapterModel;
 import com.technotapp.servicestation.database.Db;
-import com.technotapp.servicestation.fragment.ProductManagementAddEditDialogFragment;
+import com.technotapp.servicestation.fragment.ProductAddEditDialogFragment;
 
 import java.util.ArrayList;
 
@@ -138,7 +138,7 @@ public class ProductManagementActivity extends AppCompatActivity implements View
                 finish();
                 break;
             case R.id.activity_product_management_fab:
-                ProductManagementAddEditDialogFragment dialogFragment =new ProductManagementAddEditDialogFragment();
+                ProductAddEditDialogFragment dialogFragment =new ProductAddEditDialogFragment();
                 dialogFragment.show(this);
                 break;
 

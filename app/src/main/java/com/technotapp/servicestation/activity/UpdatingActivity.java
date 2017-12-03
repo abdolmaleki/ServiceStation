@@ -141,7 +141,7 @@ public class UpdatingActivity extends AppCompatActivity implements View.OnClickL
                             Helper.alert(mContext, menuStos.get(0).messageModel.get(0).errorString, Constant.AlertType.Error);
                         }
                     } else {
-                        Helper.alert(mContext, getString(R.string.SignInActivity_data_download_error), Constant.AlertType.Error);
+                        Helper.alert(mContext, getString(R.string.api_data_download_error), Constant.AlertType.Error);
                     }
                 }
 

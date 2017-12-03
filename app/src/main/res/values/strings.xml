@@ -15,7 +15,7 @@
     <string name="SignInActivity_invalid_merchant_password">اطلاعات وارد شده اشتباه است"</string>
     <string name="SignInActivity_empty_merchantID">کد فروشگاه وارد نشده است.</string>
     <string name="SignInActivity_empty_merchantPassword">رمزعبور وارد نشده است.</string>
-    <string name="SignInActivity_data_download_error">خطا در دریافت اطلاعات</string>
+    <string name="api_data_download_error">خطا در دریافت اطلاعات</string>
     <string name="SignInActivity_serverConnectingError">خطا در ارتباط با سرور مرکزی</string>
     <string name="SignInActivity_loading">در حال بارگیری اطلاعات</string>
 

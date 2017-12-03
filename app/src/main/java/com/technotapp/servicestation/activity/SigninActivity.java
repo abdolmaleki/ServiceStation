@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -148,7 +147,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
                             Helper.alert(mContext, menuStos.get(0).messageModel.get(0).errorString, Constant.AlertType.Error);
                         }
                     } else {
-                        Helper.alert(mContext, getString(R.string.SignInActivity_data_download_error), Constant.AlertType.Error);
+                        Helper.alert(mContext, getString(R.string.api_data_download_error), Constant.AlertType.Error);
                     }
                 }
 
