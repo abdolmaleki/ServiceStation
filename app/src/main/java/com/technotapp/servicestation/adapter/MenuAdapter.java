@@ -15,6 +15,7 @@ import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.adapter.DataModel.MenuAdapterModel;
 import com.technotapp.servicestation.application.Constant;
+import com.technotapp.servicestation.setting.Session;
 
 import java.util.ArrayList;
 
@@ -22,6 +23,8 @@ import java.util.ArrayList;
 public class MenuAdapter extends BaseAdapter {
     private Context mContext;
     private ArrayList<MenuAdapterModel> dataSet;
+    private boolean mIsNewUpdate;
+    private Session mSession;
 
     private static class ViewHolder {
         TextView title;
@@ -31,6 +34,8 @@ public class MenuAdapter extends BaseAdapter {
     public MenuAdapter(Context mContext, ArrayList<MenuAdapterModel> dataModels) {
         this.dataSet = dataModels;
         this.mContext = mContext;
+        mSession = Session.getInstance(mContext);
+        mIsNewUpdate = mSession.IsNewMenu();
     }
 
     @Override
@@ -52,8 +57,6 @@ public class MenuAdapter extends BaseAdapter {
     public View getView(int position, View rowView, ViewGroup parent) {
         try {
             ViewHolder viewHolder;
-
-
             if (rowView == null) {
 
                 viewHolder = new ViewHolder();
@@ -74,14 +77,22 @@ public class MenuAdapter extends BaseAdapter {
 
             MenuAdapterModel dataModel = dataSet.get(position);
             viewHolder.title.setText(dataModel.title);
-            Glide.with(mContext)
-                    .load(Constant.Pax.PICTURE_BASE_URL + dataModel.icon + ".png")
-                    .apply(new RequestOptions().skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE))
-                    .into(viewHolder.icon);
+            if (mIsNewUpdate) {
+                Glide.with(mContext)
+                        .load(Constant.Pax.PICTURE_BASE_URL + dataModel.icon + ".png")
+                        .apply(new RequestOptions().skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE))
+                        .into(viewHolder.icon);
+            } else {
+                Glide.with(mContext)
+                        .load(Constant.Pax.PICTURE_BASE_URL + dataModel.icon + ".png")
+                        .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL))
+                        .into(viewHolder.icon);
+            }
 
-            //Bitmap bitmap = BitmapFactory.decodeResource(
-            //mContext.getResources(), resource);
-            //viewHolder.icon.setImageBitmap(bitmap);
+            if (position == dataSet.size() - 1) {
+                mSession.setIsNewMenu(false);
+            }
+
 
             return rowView;
         } catch (Exception e) {

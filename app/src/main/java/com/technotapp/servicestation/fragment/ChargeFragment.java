@@ -132,26 +132,21 @@ public class ChargeFragment extends SubMenuFragment implements View.OnClickListe
 
             case R.id.fragment_charge_btnRightel:
                 resetUi();
-
                 btnRightel.setImageResource(R.drawable.ic_rightel_selected);
                 break;
 
             case R.id.fragment_charge_btnTaliya:
                 resetUi();
-
                 btnTaliya.setImageResource(R.drawable.ic_taliya_selected);
                 break;
 
             case R.id.fragment_charge_btnIrancell:
                 resetUi();
-
                 btnIrancell.setImageResource(R.drawable.ic_irancell_selected);
                 break;
 
-
             case R.id.fragment_charge_btnMostaghim:
                 changeTypeChargeUI(btnMostaghim, btnCodeCharge, true);
-
 
                 break;
             case R.id.fragment_charge_btnCodeCharge:
@@ -163,7 +158,6 @@ public class ChargeFragment extends SubMenuFragment implements View.OnClickListe
                 btnAdi.setBackground(getResources().getDrawable(R.drawable.cs_btn_charge_fragment_type_charge_selected));
                 btnShegeftAngiz.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                 btnShegeftAngiz.setBackground(getResources().getDrawable(R.drawable.cs_btn_charge_fragment_type_charge));
-
 
                 break;
             case R.id.fragment_charge_btnShegeftAngiz:

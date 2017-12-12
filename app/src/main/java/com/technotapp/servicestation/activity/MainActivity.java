@@ -86,11 +86,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadSetting() {
-        UpdateHelper.checkNeedingUpdate(this);
     }
 
     private void loadData() {
-
     }
 
     //create gridViewPager
@@ -171,6 +169,27 @@ public class MainActivity extends AppCompatActivity {
             new ApiCaller(Constant.Api.Type.LOG_INFO).call(mContext, logDto, AESsecretKey, null, new ApiCaller.ApiCallback() {
                 @Override
                 public void onResponse(int responseCode, String jsonResult) {
+                    try {
+                        Gson gson = Helper.getGson();
+                        Type listType = new TypeToken<ArrayList<BaseSto>>() {
+                        }.getType();
+                        List<BaseSto> sto = gson.fromJson(jsonResult, listType);
+
+                        if (sto != null) {
+                            if (sto.get(0).messageModel.get(0).errorCode == Constant.Api.ErrorCode.Successfull) {
+                                mSession.setLastVersion(sto.get(0).messageModel.get(0).ver);
+                                UpdateHelper.checkNeedingUpdate(MainActivity.this);
+                            } else {
+                                Helper.alert(MainActivity.this, sto.get(0).messageModel.get(0).errorString, Constant.AlertType.Error);
+                            }
+                        } else {
+                            Helper.alert(MainActivity.this, getString(R.string.api_data_download_error), Constant.AlertType.Error);
+                        }
+                    } catch (Exception e) {
+                        AppMonitor.reportBug(e, "MainActivity", "callSendLog-onResponse");
+                        Helper.alert(MainActivity.this, getString(R.string.api_data_download_error), Constant.AlertType.Error);
+
+                    }
                 }
 
                 @Override

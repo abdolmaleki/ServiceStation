@@ -5,20 +5,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="ltr"
-    android:orientation="vertical"
-    android:paddingTop="@dimen/fragments_padding_top">
+    android:orientation="vertical">
 
-    <SearchView
-        android:id="@+id/fragment_custom_service_searchView"
+    <android.support.v7.widget.SearchView
+        android:id="@+id/fragment_custom_service_sv_product"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layoutDirection="rtl" />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginStart="12dp"
+        android:imeOptions="actionDone"
+        android:layoutDirection="rtl"
+        android:paddingLeft="40dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center">
+
 
         <GridView
             android:id="@+id/fragment_custom_service_gridView"
@@ -29,12 +34,14 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:numColumns="2"
+            android:paddingBottom="90dp"
             android:verticalSpacing="8dp"
             tools:listitem="@layout/item_grid_custom_service" />
 
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="72dp"
+            android:layout_height="85dp"
             android:layout_alignParentBottom="true"
             android:background="@drawable/bg_custom_fragment_bottom"
             android:orientation="horizontal">
@@ -69,11 +76,11 @@
                     android:textColor="@color/white" />
 
                 <com.technotapp.servicestation.customView.CustomTextView
-                    android:id="@+id/fragment_custom_service_txtAmount"
+                    android:id="@+id/fragment_custom_service_txt_totalPrice"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="950,000 ریال"
+                    android:text="0 ریال"
                     android:textColor="@color/white"
                     android:textSize="24sp"
                     app:fontName="@string/irsansNumber" />

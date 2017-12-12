@@ -101,16 +101,16 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
     private boolean checkInputValidation(EditText username, EditText password) {
         try {
             if (username.getText().toString().isEmpty()) {
-                Helper.alert(mContext,getString(R.string.SignInActivity_empty_merchantID),Constant.AlertType.Information);
+                Helper.alert(mContext, getString(R.string.SignInActivity_empty_merchantID), Constant.AlertType.Information);
                 return false;
             } else if (password.getText().toString().isEmpty()) {
-                Helper.alert(mContext, getString(R.string.SignInActivity_empty_merchantPassword),Constant.AlertType.Information);
+                Helper.alert(mContext, getString(R.string.SignInActivity_empty_merchantPassword), Constant.AlertType.Information);
                 return false;
             } else if (!username.getText().toString().trim().equals(username.getText().toString())) {
-                Helper.alert(mContext,getString(R.string.SignInActivity_invalid_merchant_username),Constant.AlertType.Error);
+                Helper.alert(mContext, getString(R.string.SignInActivity_invalid_merchant_username), Constant.AlertType.Error);
                 return false;
             } else if (password.getText().toString().trim().equals("")) {
-                Helper.alert(mContext,getString(R.string.SignInActivity_invalid_merchant_password),Constant.AlertType.Error);
+                Helper.alert(mContext, getString(R.string.SignInActivity_invalid_merchant_password), Constant.AlertType.Error);
                 return false;
             }
             return true;
@@ -129,32 +129,36 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
             new ApiCaller(Constant.Api.Type.TERMINAL_LOGIN).call(mContext, menuDto, AESsecretKey, "در حال بارگیری اطلاعات", new ApiCaller.ApiCallback() {
                 @Override
                 public void onResponse(int responseCode, String jsonResult) {
-                    Gson gson = Helper.getGson();
-                    Type listType = new TypeToken<ArrayList<MenuSto>>() {
-                    }.getType();
-                    ArrayList<MenuSto> menuStos = gson.fromJson(jsonResult, listType);
+                    try {
+                        Gson gson = Helper.getGson();
+                        Type listType = new TypeToken<ArrayList<MenuSto>>() {
+                        }.getType();
+                        ArrayList<MenuSto> menuStos = gson.fromJson(jsonResult, listType);
 
-                    if (menuStos != null) {
-                        if (menuStos.get(0).messageModel.get(0).errorCode == Constant.Api.ErrorCode.Successfull) {
-                            mSession.setLastVersion(menuStos.get(0).messageModel.get(0).ver);
+                        if (menuStos != null) {
+                            if (menuStos.get(0).messageModel.get(0).errorCode == Constant.Api.ErrorCode.Successfull) {
+                                mSession.setLastVersion(menuStos.get(0).messageModel.get(0).ver);
 
-                            if (saveMenu(menuStos) && saveInfo(menuStos)) {
-                                startActivity(new Intent(mContext, MainActivity.class));
+                                if (saveMenu(menuStos) && saveInfo(menuStos)) {
+                                    startActivity(new Intent(mContext, MainActivity.class));
+                                } else {
+                                    Helper.alert(mContext, menuStos.get(0).messageModel.get(0).errorString, Constant.AlertType.Error);
+                                }
                             } else {
                                 Helper.alert(mContext, menuStos.get(0).messageModel.get(0).errorString, Constant.AlertType.Error);
                             }
                         } else {
-                            Helper.alert(mContext, menuStos.get(0).messageModel.get(0).errorString, Constant.AlertType.Error);
+                            Helper.alert(mContext, getString(R.string.api_data_download_error), Constant.AlertType.Error);
                         }
-                    } else {
-                        Helper.alert(mContext, getString(R.string.api_data_download_error), Constant.AlertType.Error);
+                    } catch (Exception e) {
+                        AppMonitor.reportBug(e, mClassName, "callGetMenu-OnResponse");
                     }
                 }
 
                 @Override
                 public void onFail() {
                     Helper.progressBar.hideDialog();
-                    Helper.alert(mContext, getString(R.string.SignInActivity_serverConnectingError), Constant.AlertType.Error);
+                    Helper.alert(mContext, getString(R.string.serverConnectingError), Constant.AlertType.Error);
                 }
             });
         } catch (Exception e) {

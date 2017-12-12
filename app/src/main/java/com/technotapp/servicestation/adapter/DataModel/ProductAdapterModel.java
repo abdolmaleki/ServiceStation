@@ -1,17 +1,17 @@
 package com.technotapp.servicestation.adapter.DataModel;
 
-public class ProductManagementAdapterModel {
-    private String id;
+public class ProductAdapterModel {
+    private int id;
     private String price;
     private String unit;
     private String name;
     private String description;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

@@ -8,10 +8,14 @@ import com.technotapp.servicestation.setting.Session;
 
 public class UpdateHelper {
 
+    private static Session mSession;
+
     public static boolean checkNeedingUpdate(Context ctx) {
-        int currentVersion = Session.getInstance(ctx).getAppVersion();
-        int lastVersion = Session.getInstance(ctx).getLastVersion();
+        mSession = Session.getInstance(ctx);
+        int currentVersion = mSession.getAppVersion();
+        int lastVersion = mSession.getLastVersion();
         if (lastVersion > currentVersion) {
+            mSession.setIsNewMenu(true);
             ctx.startActivity(new Intent(ctx, UpdatingActivity.class));
             return true;
         } else {

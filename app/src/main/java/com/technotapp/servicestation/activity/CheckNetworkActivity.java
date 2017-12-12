@@ -1,16 +1,26 @@
 package com.technotapp.servicestation.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
+import android.net.wifi.WifiManager;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.Infrastructure.NetworkHelper;
 import com.technotapp.servicestation.Infrastructure.PaxHelper;
@@ -25,15 +35,22 @@ import com.thanosfisherman.wifiutils.wifiState.WifiStateListener;
 
 import java.util.List;
 
+import io.ghyeok.stickyswitch.widget.StickySwitch;
 
-public class CheckNetworkActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener, AdapterView.OnItemClickListener {
+
+public class CheckNetworkActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, StickySwitch.OnSelectedChangeListener {
 
     private SwitchCompat mNetworkType;
-    private SwitchCompat mWifiState;
-    private SwitchCompat mDataState;
     private LinearLayout mDataPanel;
     private LinearLayout mWifiPanel;
+    StickySwitch mNetworkTypeSwitch;
     private ListView mListWifi;
+    private WifiReceiver mWifiReceiver;
+    private List<ScanResult> mLastScanResults;
+    public static Handler mHandler;
+
+    //    private SwitchCompat mWifiState;
+//    private SwitchCompat mDataState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,91 +59,86 @@ public class CheckNetworkActivity extends AppCompatActivity implements CompoundB
 
         loadData();
         initView();
+        initHandler();
+    }
+
+    private void initHandler() {
+        mHandler = new Handler(getMainLooper()) {
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+
+                    case 0: // no wifi connection
+                        reDrawWifiList(null);
+                        break;
+                    case 1: // new wifi connected
+                        reDrawWifiList(msg.obj.toString());
+                        break;
+                }
+            }
+        };
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (NetworkHelper.isWifiEnable) {
+            onSelectedChange(StickySwitch.Direction.LEFT, "");
+        } else if (NetworkHelper.isDataEnable) {
+            onSelectedChange(StickySwitch.Direction.RIGHT, "");
+        } else {
+            onSelectedChange(mNetworkTypeSwitch.getDirection(), "");
+        }
+
+        registerReceiver(mWifiReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(mWifiReceiver);
     }
 
     private void initAdapter() {
 
+        Helper.progressBar.showDialog(this, "در حال جستجو");
         WifiUtils.withContext(getApplicationContext()).scanWifi(new ScanResultsListener() {
             @Override
             public void onScanResults(@NonNull List<ScanResult> scanResults) {
-                WifiAdapter wifiAdapter = new WifiAdapter(CheckNetworkActivity.this, scanResults);
+                Helper.progressBar.hideDialog();
+                mLastScanResults = scanResults;
+                String currentSSID = NetworkHelper.getCurrentWifiSSID(CheckNetworkActivity.this);
+                WifiAdapter wifiAdapter = new WifiAdapter(CheckNetworkActivity.this, scanResults, currentSSID);
                 mListWifi.setAdapter(wifiAdapter);
+
             }
         }).start();
     }
 
+    private void reDrawWifiList(String currentSSID) {
+        if (mLastScanResults != null && mListWifi != null && mLastScanResults.size() > 0) {
+            WifiAdapter wifiAdapter = new WifiAdapter(CheckNetworkActivity.this, mLastScanResults, currentSSID);
+            mListWifi.setAdapter(wifiAdapter);
+        }
+
+
+    }
+
     private void initView() {
         PaxHelper.enableBackNavigationButton(this);
-        mNetworkType = findViewById(R.id.activity_checknetwork_switch_nettype);
-        mNetworkType.setOnCheckedChangeListener(this);
-        mWifiState = findViewById(R.id.activity_checknetwork_switch_wifi_state);
-        mWifiState.setOnCheckedChangeListener(this);
-        mDataState = findViewById(R.id.activity_checknetwork_switch_data_state);
-        mDataState.setOnCheckedChangeListener(this);
         mDataPanel = findViewById(R.id.activity_checknetwork_panel_data);
         mWifiPanel = findViewById(R.id.activity_checknetwork_panel_wifi);
         mListWifi = findViewById(R.id.activity_checknetwork_list_wifi);
+        mNetworkTypeSwitch = findViewById(R.id.activity_checknetwork_switch_network_type);
+        mNetworkTypeSwitch.setOnSelectedChangeListener(this);
         mListWifi.setOnItemClickListener(this);
+        mWifiReceiver = new WifiReceiver();
 
     }
 
     private void loadData() {
-
     }
 
-    @Override
-    public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-        int id = compoundButton.getId();
-
-        switch (id) {
-            case R.id.activity_checknetwork_switch_nettype:
-                if (isChecked) {
-                    mWifiPanel.setVisibility(View.INVISIBLE);
-                    mDataPanel.setVisibility(View.VISIBLE);
-                } else {
-                    mWifiPanel.setVisibility(View.VISIBLE);
-                    mDataPanel.setVisibility(View.INVISIBLE);
-                }
-                break;
-
-            case R.id.activity_checknetwork_switch_wifi_state:
-                if (isChecked) {
-                    NetworkHelper.enableWifi(this, new WifiStateListener() {
-                        @Override
-                        public void isSuccess(boolean isSuccess) {
-                            NetworkHelper.isWifiEnable = isSuccess;
-                            if (isSuccess) {
-                                initAdapter();
-                            }
-                        }
-                    });
-
-                } else {
-                    NetworkHelper.disableWifi(this);
-                }
-                break;
-
-            case R.id.activity_checknetwork_switch_data_state:
-                if (isChecked) {
-                    NetworkHelper.setMobileDataEnabled(this, true, new NetworkHelper.DataEnableListener() {
-                        @Override
-                        public void onDataChangeState(boolean isOnSuccessfully) {
-                            if (isOnSuccessfully) {
-                                Helper.alert(CheckNetworkActivity.this, "اینترنت دیتا فعال شد", Constant.AlertType.Success);
-                            } else {
-                                Helper.alert(CheckNetworkActivity.this, "متاسفانه امکان فعالسازی اینترنت دیتا وجود ندارد", Constant.AlertType.Error);
-                                mDataState.setChecked(false);
-
-                            }
-                        }
-                    });
-                } else {
-                }
-                break;
-
-        }
-
-    }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -137,13 +149,14 @@ public class CheckNetworkActivity extends AppCompatActivity implements CompoundB
             inputDialogFragment.setOnInputDialogClickListener(new InputDialogFragment.OnInputDialogClick() {
                 @Override
                 public void onAccept(String password) {
-                    Helper.progressBar.showDialog(CheckNetworkActivity.this,"در حال اتصال به " + result.SSID);
+                    Helper.progressBar.showDialog(CheckNetworkActivity.this, "در حال اتصال به " + result.SSID);
                     NetworkHelper.connectToWifi(CheckNetworkActivity.this, result.SSID, password, new ConnectionSuccessListener() {
                         @Override
                         public void isSuccessful(boolean isSuccess) {
                             Helper.progressBar.hideDialog();
+
                             if (isSuccess) {
-                                Helper.alert(CheckNetworkActivity.this, "اتصال با موفقیت انجام شد", Constant.AlertType.Success);
+                                Helper.progressBar.showDialog(CheckNetworkActivity.this, getString(R.string.updating));
                             } else {
                                 Helper.alert(CheckNetworkActivity.this, "متصفانه اتصال برقرار نشد", Constant.AlertType.Error);
 
@@ -155,14 +168,15 @@ public class CheckNetworkActivity extends AppCompatActivity implements CompoundB
 
                 }
             });
-        } else {
-            Helper.progressBar.showDialog(CheckNetworkActivity.this,"در حال اتصال به " + result.SSID);
+        } else { // no need password
+            Helper.progressBar.showDialog(CheckNetworkActivity.this, "در حال اتصال به " + result.SSID);
             NetworkHelper.connectToWifi(this, result.SSID, "", new ConnectionSuccessListener() {
                 @Override
                 public void isSuccessful(boolean isSuccess) {
                     Helper.progressBar.hideDialog();
+
                     if (isSuccess) {
-                        Helper.alert(CheckNetworkActivity.this, "اتصال با موفقیت انجام شد", Constant.AlertType.Success);
+                        Helper.progressBar.showDialog(CheckNetworkActivity.this, getString(R.string.updating));
                     } else {
                         Helper.alert(CheckNetworkActivity.this, "متصفانه اتصال برقرار نشد", Constant.AlertType.Error);
 
@@ -174,4 +188,77 @@ public class CheckNetworkActivity extends AppCompatActivity implements CompoundB
 
 
     }
+
+    @Override
+    public void onSelectedChange(StickySwitch.Direction direction, String s) {
+        switch (direction) {
+            case LEFT: //
+                try {
+                    mWifiPanel.setVisibility(View.VISIBLE);
+                    mDataPanel.setVisibility(View.INVISIBLE);
+                    NetworkHelper.enableWifi(CheckNetworkActivity.this, new WifiStateListener() {
+                        @Override
+                        public void isSuccess(boolean isSuccess) {
+                            if (isSuccess) {
+                                NetworkHelper.setMobileDataDisable(CheckNetworkActivity.this);
+                                initAdapter();
+                            }
+                        }
+                    });
+                } catch (Exception e) {
+                    AppMonitor.reportBug(e, "CheckNetworkActivity", "onSelectedChange");
+                }
+
+                break;
+            case RIGHT: //data
+                try {
+
+                    mWifiPanel.setVisibility(View.INVISIBLE);
+                    mDataPanel.setVisibility(View.VISIBLE);
+                    NetworkHelper.setMobileDataEnabled(this, new NetworkHelper.DataEnableListener() {
+                        @Override
+                        public void onDataChangeState(boolean isOnSuccessfully) {
+                            if (isOnSuccessfully) {
+                                Helper.alert(CheckNetworkActivity.this, "اینترنت دیتا فعال شد", Constant.AlertType.Success);
+                                NetworkHelper.disableWifi(CheckNetworkActivity.this);
+                            } else {
+                                //Todo
+                            }
+                        }
+                    });
+                } catch (Exception e) {
+                    AppMonitor.reportBug(e, "CheckNetworkActivity", "onSelectedChange");
+                }
+                break;
+        }
+    }
+
+    public static class WifiReceiver extends BroadcastReceiver {
+
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Helper.progressBar.hideDialog();
+            ConnectivityManager conMan = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo netInfo = conMan.getActiveNetworkInfo();
+            Message message = new Message();
+
+            if (netInfo != null && netInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+                Helper.alert(context, "اتصال با موفقیت انجام شد", Constant.AlertType.Success);
+                String ssid = NetworkHelper.getCurrentWifiSSID(context);
+                message.what = 1;
+                message.obj = ssid;
+                Log.e("WifiReceiver", "ssid: " + ssid);
+
+            } else {
+                message.what = 0;
+                Log.e("WifiReceiver", "Don't have Wifi Connection");
+            }
+
+            mHandler.handleMessage(message);
+
+        }
+    }
+
+
 }

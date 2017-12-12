@@ -16,7 +16,7 @@
     <string name="SignInActivity_empty_merchantID">کد فروشگاه وارد نشده است.</string>
     <string name="SignInActivity_empty_merchantPassword">رمزعبور وارد نشده است.</string>
     <string name="api_data_download_error">خطا در دریافت اطلاعات</string>
-    <string name="SignInActivity_serverConnectingError">خطا در ارتباط با سرور مرکزی</string>
+    <string name="serverConnectingError">خطا در ارتباط با سرور مرکزی</string>
     <string name="SignInActivity_loading">در حال بارگیری اطلاعات</string>
 
     <!--    *************************      splash activity      *************************    -->
@@ -71,6 +71,12 @@
     <string name="MagCard_error_SweepCard">خطا در کشیدن کارت</string>
     <string name="irsansMedium">irsans-Medium</string>
     <string name="irsansNumber">irsans_number</string>
+
+    <!--==================================================================== -->
+    <!-- public message -->
+    <!--==================================================================== -->
+
+    <string name="updating">در حال بروزرسانی</string>
 
 
 </resources>

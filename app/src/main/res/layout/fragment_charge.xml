@@ -101,42 +101,6 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="38dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <com.technotapp.servicestation.customView.CustomButton
-                android:id="@+id/fragment_charge_btnMostaghim"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_weight="1"
-                android:background="@drawable/cs_btn_charge_fragment_type_charge_selected"
-                android:drawableStart="@drawable/ic_tick"
-                android:gravity="center"
-                android:paddingEnd="8dp"
-                android:paddingStart="8dp"
-                android:text="شارژ مستقیم"
-                android:textColor="@color/fragment_charge_switch_text_color"
-                android:textSize="14sp" />
-
-            <com.technotapp.servicestation.customView.CustomButton
-                android:id="@+id/fragment_charge_btnCodeCharge"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/cs_btn_charge_fragment_type_charge"
-                android:gravity="center"
-                android:paddingEnd="8dp"
-                android:paddingStart="8dp"
-                android:text="دریافت کد شارژ"
-                android:textColor="@color/fragment_charge_switch_text_color"
-                android:textSize="14sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
             android:id="@+id/fragment_charge_linDirectCharge"
             android:layout_width="match_parent"
             android:layout_height="38dp"
@@ -262,5 +226,41 @@
         android:text="تایید و پرداخت"
         android:textColor="@color/white"
         app:fontName="@string/irsansMedium" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.technotapp.servicestation.customView.CustomButton
+            android:id="@+id/fragment_charge_btnMostaghim"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/cs_btn_charge_fragment_type_charge_selected"
+            android:drawableStart="@drawable/ic_tick"
+            android:gravity="center"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
+            android:text="شارژ مستقیم"
+            android:textColor="@color/fragment_charge_switch_text_color"
+            android:textSize="14sp" />
+
+        <com.technotapp.servicestation.customView.CustomButton
+            android:id="@+id/fragment_charge_btnCodeCharge"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/cs_btn_charge_fragment_type_charge"
+            android:gravity="center"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
+            android:text="دریافت کد شارژ"
+            android:textColor="@color/fragment_charge_switch_text_color"
+            android:textSize="14sp" />
+
+    </LinearLayout>
 
 </LinearLayout>

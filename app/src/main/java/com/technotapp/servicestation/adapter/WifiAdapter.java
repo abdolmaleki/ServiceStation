@@ -19,15 +19,17 @@ public class WifiAdapter extends BaseAdapter {
 
     private Context mContext;
     private List<ScanResult> dataSet;
+    private String mCurrentSSID;
 
     private static class ViewHolder {
         TextView ssid;
         TextView signalState;
     }
 
-    public WifiAdapter(Context mContext, List<ScanResult> dataModels) {
+    public WifiAdapter(Context mContext, List<ScanResult> dataModels, String currentSSID) {
         this.dataSet = dataModels;
         this.mContext = mContext;
+        mCurrentSSID = currentSSID;
     }
 
 
@@ -55,7 +57,13 @@ public class WifiAdapter extends BaseAdapter {
             if (rowView == null) {
 
                 viewHolder = new WifiAdapter.ViewHolder();
-                rowView = LayoutInflater.from(mContext).inflate(R.layout.item_list_wifi, parent, false);
+                if (mCurrentSSID != null && dataSet.get(position).SSID.equals(mCurrentSSID)) {
+                    rowView = LayoutInflater.from(mContext).inflate(R.layout.item_list_wifi_connected, parent, false);
+
+                } else {
+                    rowView = LayoutInflater.from(mContext).inflate(R.layout.item_list_wifi, parent, false);
+
+                }
                 viewHolder.ssid = rowView.findViewById(R.id.item_list_wifi_txt_ssid);
                 viewHolder.signalState = rowView.findViewById(R.id.item_list_wifi_txt_signal_state);
 

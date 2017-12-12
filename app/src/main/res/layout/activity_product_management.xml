@@ -10,13 +10,15 @@
 
     <include layout="@layout/toolbar" />
 
+
     <android.support.v7.widget.SearchView
+        android:id="@+id/activity_product_management_sv_product"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
         android:layout_marginEnd="12dp"
         android:layout_marginStart="12dp"
         android:imeOptions="actionDone"
-        android:layout_marginBottom="4dp"
         android:layoutDirection="rtl" />
 
     <LinearLayout

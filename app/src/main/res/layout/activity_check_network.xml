@@ -4,91 +4,84 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_card_service_deposit_buy"
     android:gravity="center|top"
     android:layoutDirection="ltr"
     android:orientation="vertical"
     android:paddingTop="50dp"
-    android:background="@drawable/bg_main_page"
     tools:context="com.technotapp.servicestation.activity.CheckNetworkActivity">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:text="نوع اتصال به اینترنت" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="50dp"
         android:gravity="center"
         android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Wifi" />
-
-        <android.support.v7.widget.SwitchCompat
-            android:id="@+id/activity_checknetwork_switch_nettype"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:checked="true"
-            app:switchMinWidth="100dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Data" />
-
+        <io.ghyeok.stickyswitch.widget.StickySwitch
+            android:id="@+id/activity_checknetwork_switch_network_type"
+            android:layout_width="150dp"
+            android:layout_height="70dp"
+            android:layout_centerInParent="true"
+            app:ss_animationDuration="600"
+            app:ss_animationType="line"
+            app:ss_iconPadding="18dp"
+            app:ss_iconSize="17dp"
+            app:ss_leftIcon="@drawable/ic_wifi"
+            app:ss_leftText="Wifi"
+            app:ss_rightIcon="@drawable/ic_mobile_data"
+            app:ss_rightText="Data"
+            app:ss_selectedTextSize="12sp"
+            app:ss_switchColor="@color/colorAccent"
+            app:ss_textColor="@color/black"
+            app:ss_textSize="12sp" />
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/activity_checknetwork_panel_wifi"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="360dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:background="@drawable/bg_wifi_panel"
         android:orientation="vertical"
-        android:visibility="invisible">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="خاموش" />
-
-
-            <android.support.v7.widget.SwitchCompat
-                android:id="@+id/activity_checknetwork_switch_wifi_state"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                app:switchMinWidth="100dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="روشن" />
-
-
-        </LinearLayout>
+        android:visibility="visible">
 
         <ListView
             android:id="@+id/activity_checknetwork_list_wifi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-        </ListView>
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="center"-->
+        <!--android:orientation="horizontal">-->
 
+
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="خاموش" />-->
+
+
+        <!--<android.support.v7.widget.SwitchCompat-->
+        <!--android:id="@+id/activity_checknetwork_switch_wifi_state"-->
+        <!--android:layout_width="100dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="5dp"-->
+        <!--android:layout_marginRight="5dp"-->
+        <!--app:switchMinWidth="100dp" />-->
+
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="روشن" />-->
+
+        <!--</LinearLayout>-->
 
     </LinearLayout>
 
@@ -97,29 +90,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:orientation="horizontal">
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="خاموش" />
-
-
-        <android.support.v7.widget.SwitchCompat
-            android:id="@+id/activity_checknetwork_switch_data_state"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:checked="false"
-            app:switchMinWidth="100dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="روشن" />
-
+        android:orientation="horizontal"
+        android:visibility="invisible">
 
     </LinearLayout>
 

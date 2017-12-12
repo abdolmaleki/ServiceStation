@@ -5,15 +5,12 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Base64;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.Encryptor;
 import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.Infrastructure.NetworkHelper;
-import com.technotapp.servicestation.Infrastructure.UpdateHelper;
-import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.connection.restapi.dto.BaseDto;
 
@@ -23,7 +20,6 @@ import javax.crypto.SecretKey;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -118,7 +114,7 @@ public class ApiCaller {
                                 token = apiService.sendLogInfo(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
                                 break;
 
-                            case Constant.Api.Type.ADD_PRODUCT:
+                            case Constant.Api.Type.ADD_UPDATE_PRODUCT:
                                 token = apiService.addProduct(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
                                 break;
 
@@ -158,7 +154,7 @@ public class ApiCaller {
                                         //////// Check if menu needing update do it
                                         ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-                                        UpdateHelper.checkNeedingUpdate(ctx);
+                                        //UpdateHelper.checkNeedingUpdate(ctx);
 
                                     } else {
                                         Helper.alert(ctx, "خطا در دریافت اطلاعات", Constant.AlertType.Error);

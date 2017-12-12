@@ -76,6 +76,10 @@ public class Session {
         prefs.edit().putInt(Constant.Session.APP_VERSION, ver).apply();
     }
 
+    public void setIsNewMenu(boolean isNewMenu) {
+        prefs.edit().putBoolean(Constant.Session.IS_NEW_MENU, isNewMenu).apply();
+    }
+
     public void setLastVersion(int ver) {
         prefs.edit().putInt(Constant.Session.LAST_VERSION, ver).apply();
     }
@@ -166,6 +170,11 @@ public class Session {
     public int getLastVersion() {
         int version = prefs.getInt(Constant.Session.LAST_VERSION, -1);
         return version;
+    }
+
+    public boolean IsNewMenu() {
+        boolean isNewMenu = prefs.getBoolean(Constant.Session.IS_NEW_MENU, false);
+        return isNewMenu;
     }
 
     public String getAddress() {

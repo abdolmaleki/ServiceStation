@@ -87,6 +87,8 @@ public class SplashActivity extends AppCompatActivity {
                         }
                     }
 
+                    startActivity(new Intent(mContext, SigninActivity.class));
+                    finish();
                     mIsProgressfinished = true;
                 }
             }, 2000);

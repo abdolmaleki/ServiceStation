@@ -107,7 +107,6 @@ public class UpdatingActivity extends AppCompatActivity implements View.OnClickL
     private void initView() {
         mContext = this;
         mProgressView = findViewById(R.id.activity_updating_progress);
-        mBtnUpdate = findViewById(R.id.activity_updating_btn_update);
         mSession = Session.getInstance(this);
     }
 
@@ -148,7 +147,7 @@ public class UpdatingActivity extends AppCompatActivity implements View.OnClickL
                 @Override
                 public void onFail() {
                     Helper.progressBar.hideDialog();
-                    Helper.alert(mContext, getString(R.string.SignInActivity_serverConnectingError), Constant.AlertType.Error);
+                    Helper.alert(mContext, getString(R.string.serverConnectingError), Constant.AlertType.Error);
                 }
             });
         } catch (Exception e) {
@@ -160,8 +159,7 @@ public class UpdatingActivity extends AppCompatActivity implements View.OnClickL
     private TerminalInfoDto createTerminalInfoDto() {
 
         TerminalInfoDto terminalInfoDto = new TerminalInfoDto();
-
-        terminalInfoDto.terminalCode = "R215454D5";
+        terminalInfoDto.terminalCode = mSession.getTerminalId();
         terminalInfoDto.deviceIP = "192.0.0.1";
         terminalInfoDto.tokenId = mSession.getTokenId();
 
@@ -211,9 +209,6 @@ public class UpdatingActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        if (id == R.id.activity_updating_btn_update) {
-
-        }
 
     }
 }

@@ -17,6 +17,7 @@ import com.pax.dal.entity.EFontTypeExtCode;
 import com.pax.dal.exceptions.PrinterDevException;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.GetObj;
+import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.Infrastructure.TestLog;
 
 import java.io.File;
@@ -134,13 +135,13 @@ public class PrinterHelper extends TestLog {
 
     }
 
-    public void startPrint(final Bitmap bmpPrint) {
+    public void startPrint(Context context, final Bitmap bmpPrint) {
         try {
 
 
             String printStatus;
 
-            new NewPrint(bmpPrint).execute();
+            new NewPrint(context, bmpPrint).execute();
         } catch (Exception e) {
             AppMonitor.reportBug(e, "PrinterHelper", "startPrint");
         }
@@ -349,57 +350,73 @@ public class PrinterHelper extends TestLog {
     private class NewPrint extends AsyncTask<Void, Void, String> {
 
         Bitmap printBitmap;
+        Context context;
 
-        public NewPrint(Bitmap printBitmap) {
+        public NewPrint(Context context, Bitmap printBitmap) {
             this.printBitmap = printBitmap;
+            this.context = context;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Helper.progressBar.showDialog(context, "در حال چاپ تراکنش");
         }
 
         @Override
         protected String doInBackground(Void... params) {
-            getInstance().init();
 
-            ////////////////////////////////////////////////////////////////////////////////////////
-            /// set Font //
-            ////////////////////////////////////////////////////////////////////////////////////////
-            getInstance().fontSet(EFontTypeAscii.FONT_16_16,
-                    EFontTypeExtCode.FONT_16_16);
+            try {
+                getInstance().init();
 
-            ////////////////////////////////////////////////////////////////////////////////////////
-            /// Print picture //
-            ////////////////////////////////////////////////////////////////////////////////////////
+                ////////////////////////////////////////////////////////////////////////////////////////
+                /// set Font //
+                ////////////////////////////////////////////////////////////////////////////////////////
+                getInstance().fontSet(EFontTypeAscii.FONT_16_16,
+                        EFontTypeExtCode.FONT_16_16);
 
-            //  PrinterTester.getInstance().printBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_shaparak));
+                ////////////////////////////////////////////////////////////////////////////////////////
+                /// Print picture //
+                ////////////////////////////////////////////////////////////////////////////////////////
 
-            getInstance().printBitmap(printBitmap);
+                //  PrinterTester.getInstance().printBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_shaparak));
 
-            ////////////////////////////////////////////////////////////////////////////////////////
-            /// Text Styles //
-            ////////////////////////////////////////////////////////////////////////////////////////
+                getInstance().printBitmap(printBitmap);
 
-            getInstance().spaceSet(Byte.parseByte("0"), // word space
-                    Byte.parseByte("0")); // line space
-            getInstance().leftIndents(Short.parseShort("0")); // left masrgin
-            getInstance().setGray(Integer.parseInt("0")); // gray
+                ////////////////////////////////////////////////////////////////////////////////////////
+                /// Text Styles //
+                ////////////////////////////////////////////////////////////////////////////////////////
+
+                getInstance().spaceSet(Byte.parseByte("0"), // word space
+                        Byte.parseByte("0")); // line space
+                getInstance().leftIndents(Short.parseShort("0")); // left masrgin
+                getInstance().setGray(Integer.parseInt("0")); // gray
 
 
-            ////////////////////////////////////////////////////////////////////////////////////////
-            /// Page Size //
-            ////////////////////////////////////////////////////////////////////////////////////////
+                ////////////////////////////////////////////////////////////////////////////////////////
+                /// Page Size //
+                ////////////////////////////////////////////////////////////////////////////////////////
 
-            getInstance().step(Integer.parseInt("135")); // page height
+                getInstance().step(Integer.parseInt("135")); // page height
 
-            ////////////////////////////////////////////////////////////////////////////////////////
-            /// start print and show status //
-            ////////////////////////////////////////////////////////////////////////////////////////
+                ////////////////////////////////////////////////////////////////////////////////////////
+                /// start print and show status //
+                ////////////////////////////////////////////////////////////////////////////////////////
 
-            final String status = getInstance().start();
-            return status;
+                final String status = getInstance().start();
+                return status;
+            } catch (Exception e) {
+                AppMonitor.reportBug(e, "NewPrint", "doInBackground");
+                Helper.progressBar.hideDialog();
+                return null;
+            }
         }
 
         @Override
         protected void onPostExecute(String printStatus) {
             super.onPostExecute(printStatus);
             AppMonitor.Log(printStatus);
+            Helper.progressBar.hideDialog();
 
         }
     }

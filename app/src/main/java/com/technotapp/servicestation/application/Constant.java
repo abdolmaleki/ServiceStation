@@ -7,6 +7,7 @@ public class Constant {
         public static final int SERVER_PORT = 8887;
         public static final String API_BASE_URL = "http://87.236.214.176:3400/";
         public static final String PICTURE_BASE_URL = "http://87.236.214.176:8000/POS/";
+        public static final String DEFUALT_URL_ACTION_PAGE = "http://www.google.com";
 
 
         public static class Printer {
@@ -23,7 +24,8 @@ public class Constant {
         public static final String LASTNAME = "lastname";
         public static final String GENDER = "gender";
         public static final String APP_VERSION = "app.version";
-        public static final String LAST_VERSION = "app.version";
+        public static final String LAST_VERSION = "last.version";
+        public static final String IS_NEW_MENU = "is.new.menu";
         public static final String BIRTHDATE = "birthdate";
         public static final String EMAIL = "email";
         public static final String ADDRESS = "address";
@@ -77,6 +79,8 @@ public class Constant {
         public static final String CURRENT_FRAGMENT = "current_fragment";
         public static final String MENU_PACKAGE = "menu.package";
         public static final String MENU_ID = "menu.id";
+        public static final String ACTION_URL = "action.url";
+        public static final String PRODUCT_ID = "product.id";
     }
 
     public static class MenuAction {
@@ -110,7 +114,7 @@ public class Constant {
             public static final int CheckTokenValidation = 1;
             public static final int TERMINAL_INFO = 2;
             public static final int LOG_INFO = 3;
-            public static final int ADD_PRODUCT = 4;
+            public static final int ADD_UPDATE_PRODUCT = 4;
             public static final int SEARCH_PRODUCT = 5;
 
         }

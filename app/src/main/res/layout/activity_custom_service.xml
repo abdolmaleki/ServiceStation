@@ -10,7 +10,6 @@
     tools:context="com.technotapp.servicestation.activity.PublicServiceActivity">
 
     <include
-
         layout="@layout/toolbar" />
 
     <FrameLayout

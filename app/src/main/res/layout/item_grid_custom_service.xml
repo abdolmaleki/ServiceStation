@@ -8,6 +8,7 @@
     <LinearLayout
         android:layout_width="144dp"
         android:layout_height="128dp"
+        android:layout_gravity="center"
         android:background="@drawable/bg_custom_fragment_item"
         android:orientation="vertical">
 
@@ -33,7 +34,7 @@
             app:fontName="@string/irsansMedium" />
 
         <com.technotapp.servicestation.customView.CustomTextView
-            android:id="@+id/item_grid_custom_service_txtAmount"
+            android:id="@+id/item_grid_custom_service_txt_price"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -49,7 +50,7 @@
             android:orientation="horizontal">
 
             <ImageButton
-                android:id="@+id/item_grid_custom_service_imgMinus"
+                android:id="@+id/item_grid_custom_service_btn_minus"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:background="@drawable/bg_custom_fragment_item_bottom_minus_button"
@@ -70,7 +71,7 @@
                 app:fontName="@string/irsansNumber" />
 
             <ImageButton
-                android:id="@+id/item_grid_custom_service_imgPlus"
+                android:id="@+id/item_grid_custom_service_btn_plus"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:background="@drawable/bg_custom_fragment_item_bottom_plus_button"

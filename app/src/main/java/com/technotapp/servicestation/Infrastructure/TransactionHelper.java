@@ -158,7 +158,7 @@ public class TransactionHelper {
                                 }
                                 // Todo change print static content
                                 if (printable != null) {
-                                    PrinterHelper.getInstance().startPrint(printable.getContent(ctx, mSession.getShopName(), mSession.getTelephone(), "1475478589", DateHelper.getGregorianDateTime("HH:mm:ss"), DateHelper.getShamsiDate(), dataModel.getBackTransactionID(), dataModel.getTerminalID(), dataModel.getPanNumber(), dataModel.getAmount()));
+                                    PrinterHelper.getInstance().startPrint(ctx,printable.getContent(ctx, mSession.getShopName(), mSession.getTelephone(), "1475478589", DateHelper.getGregorianDateTime("HH:mm:ss"), DateHelper.getShamsiDate(), dataModel.getBackTransactionID(), dataModel.getTerminalID(), dataModel.getPanNumber(), dataModel.getAmount()));
                                 }
                             }
                         });
@@ -242,7 +242,7 @@ public class TransactionHelper {
                                         Printable printable = PrintFactory.getPrintContent(Printable.BUY_SELLER);
                                         PrinterHelper printerHelper = PrinterHelper.getInstance();
                                         if (printable != null) {
-                                            printerHelper.startPrint(printable.getContent(ctx, "فروشگاه اکبر فرهادی", "77695885", "1475478589", "12:22:15", "1396/08/02", dataModel.getBackTransactionID(), dataModel.getTerminalID(), dataModel.getPanNumber(), dataModel.getAmount()));
+                                            printerHelper.startPrint(ctx,printable.getContent(ctx, "فروشگاه اکبر فرهادی", "77695885", "1475478589", "12:22:15", "1396/08/02", dataModel.getBackTransactionID(), dataModel.getTerminalID(), dataModel.getPanNumber(), dataModel.getAmount()));
 
                                         }
                                         dialog.dismiss();

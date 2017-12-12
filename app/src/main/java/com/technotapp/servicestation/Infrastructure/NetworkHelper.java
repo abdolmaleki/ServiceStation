@@ -8,6 +8,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Looper;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 
 import com.thanosfisherman.wifiutils.WifiUtils;
 import com.thanosfisherman.wifiutils.wifiConnect.ConnectionSuccessListener;
@@ -36,12 +37,12 @@ public class NetworkHelper {
 
                 if (isNetworkAvailable(ctx)) {
                     try {
-                        HttpURLConnection urlc = (HttpURLConnection) (new URL("http://clients3.google.com/generate_204").openConnection());
+                        HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.google.com/").openConnection());
                         urlc.setRequestProperty("User-Agent", "Android");
                         urlc.setRequestProperty("Connection", "close");
                         urlc.setConnectTimeout(2000);
                         urlc.connect();
-                        if ((urlc.getResponseCode() == 204 && urlc.getContentLength() == 0)) {
+                        if ((urlc.getResponseCode() == 200)) {
                             checkNetworkStateListener.onNetworkChecked(true, "اتصال موفقیت آمیز به اینترنت");
 
                         } else {
@@ -68,6 +69,8 @@ public class NetworkHelper {
                     cm = (ConnectivityManager) context.getApplicationContext()
                     .getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+
+
             return activeNetwork != null
                     && activeNetwork.isConnectedOrConnecting();
 
@@ -86,12 +89,36 @@ public class NetworkHelper {
     //                                                       |___/
 
     public static void enableWifi(Context ctx, WifiStateListener wifiStateListener) {
-        WifiUtils.withContext(ctx.getApplicationContext()).enableWifi(wifiStateListener);
+        try {
+            WifiUtils.withContext(ctx.getApplicationContext()).enableWifi(wifiStateListener);
+            NetworkHelper.isWifiEnable = true;
+        } catch (Exception e) {
+            NetworkHelper.isWifiEnable = false;
+            AppMonitor.reportBug(e, "NetworkHlper", "enableWifi");
+
+        }
+
     }
 
     public static void disableWifi(Context ctx) {
         WifiUtils.withContext(ctx.getApplicationContext()).disableWifi();
         NetworkHelper.isWifiEnable = false;
+    }
+
+    public static String getCurrentWifiSSID(Context context) {
+        String ssid = null;
+        ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        if (networkInfo.isConnected()) {
+            final WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+            final WifiInfo connectionInfo = wifiManager.getConnectionInfo();
+            if (connectionInfo != null && !TextUtils.isEmpty(connectionInfo.getSSID())) {
+                ssid = connectionInfo.getSSID();
+                return ssid.substring(1, ssid.length() - 1);
+
+            }
+        }
+        return null;
     }
 
     public static boolean isProtectedWifi(ScanResult scanResult) {
@@ -160,7 +187,7 @@ public class NetworkHelper {
     // |____/ \__,_|\__\__,_|  |_|  |_|\__,_|_| |_|\__,_|\__, |_| |_| |_|\___|_| |_|\__|
     //                                                   |___/
 
-    public static void setMobileDataEnabled(Context context, boolean enabled, DataEnableListener dataEnableListener) {
+    public static void setMobileDataEnabled(Context context, DataEnableListener dataEnableListener) {
         try {
             if (!isSimcardAvalaible(context)) {
                 dataEnableListener.onDataChangeState(false);
@@ -173,18 +200,36 @@ public class NetworkHelper {
                 final Class iConnectivityManagerClass = Class.forName(iConnectivityManager.getClass().getName());
                 final Method setMobileDataEnabledMethod = iConnectivityManagerClass.getDeclaredMethod("setMobileDataEnabled", Boolean.TYPE);
                 setMobileDataEnabledMethod.setAccessible(true);
-                setMobileDataEnabledMethod.invoke(iConnectivityManager, enabled);
+                setMobileDataEnabledMethod.invoke(iConnectivityManager, true);
                 dataEnableListener.onDataChangeState(true);
-                if (enabled) {
-                    NetworkHelper.isDataEnable = true;
-                } else {
-                    NetworkHelper.isDataEnable = false;
-                }
+                NetworkHelper.isDataEnable = true;
 
             }
         } catch (Exception e) {
             AppMonitor.reportBug(e, "NetworkHelper", "setMobileDataEnabled");
             dataEnableListener.onDataChangeState(false);
+            NetworkHelper.isDataEnable = false;
+
+        }
+    }
+
+    public static void setMobileDataDisable(Context context) {
+        try {
+            if (isSimcardAvalaible(context)) {
+                final ConnectivityManager conman = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                final Class conmanClass = Class.forName(conman.getClass().getName());
+                final Field iConnectivityManagerField = conmanClass.getDeclaredField("mService");
+                iConnectivityManagerField.setAccessible(true);
+                final Object iConnectivityManager = iConnectivityManagerField.get(conman);
+                final Class iConnectivityManagerClass = Class.forName(iConnectivityManager.getClass().getName());
+                final Method setMobileDataEnabledMethod = iConnectivityManagerClass.getDeclaredMethod("setMobileDataEnabled", Boolean.TYPE);
+                setMobileDataEnabledMethod.setAccessible(true);
+                setMobileDataEnabledMethod.invoke(iConnectivityManager, false);
+                NetworkHelper.isDataEnable = false;
+            }
+        } catch (Exception e) {
+            NetworkHelper.isDataEnable = false;
+            AppMonitor.reportBug(e, "NetworkHelper", "setMobileDataDisable");
         }
     }
 
@@ -211,7 +256,6 @@ public class NetworkHelper {
         }
 
     }
-
 
 
 }

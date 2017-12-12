@@ -51,28 +51,38 @@
                 app:fontName="@string/irsansNumber" />
         </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
-            <com.technotapp.servicestation.customView.CustomEditText
-                android:id="@+id/fragment_dialog_product_management_add_edit_edtUnit"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="4dp"
-                android:layout_marginEnd="18dp"
-                android:layout_marginStart="18dp"
-                android:hint="واحد"
-                android:imeOptions="actionNext"
-                android:inputType="number"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:textColor="#353333"
-                android:textColorHint="#55ffffff"
-                android:textDirection="rtl"
-                android:textSize="14sp"
-                app:fontName="@string/irsansNumber" />
-        </android.support.design.widget.TextInputLayout>
+        <!--<com.technotapp.servicestation.customView.CustomEditText-->
+        <!--android:id="@+id/fragment_dialog_product_management_add_edit_edtUnit"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_marginBottom="4dp"-->
+        <!--android:layout_marginEnd="18dp"-->
+        <!--android:layout_marginStart="18dp"-->
+        <!--android:hint="واحد"-->
+        <!--android:imeOptions="actionNext"-->
+        <!--android:inputType="number"-->
+        <!--android:paddingLeft="8dp"-->
+        <!--android:paddingRight="8dp"-->
+        <!--android:textColor="#353333"-->
+        <!--android:textColorHint="#55ffffff"-->
+        <!--android:textDirection="rtl"-->
+        <!--android:textSize="14sp"-->
+        <!--app:fontName="@string/irsansNumber" />-->
+
+        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+            android:id="@+id/fragment_dialog_product_management_add_edit_edtUnit"
+            android:hint="واحد کالا"
+            android:textColorHint="@color/colorAccent"
+            android:textSize="14sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="18dp"
+            android:layout_marginStart="18dp"
+            android:textDirection="rtl"
+            android:layoutDirection="rtl"
+ />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"

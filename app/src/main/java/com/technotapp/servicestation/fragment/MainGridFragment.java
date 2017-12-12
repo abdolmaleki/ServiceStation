@@ -3,9 +3,11 @@ package com.technotapp.servicestation.fragment;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +17,10 @@ import android.widget.GridView;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.R;
+import com.technotapp.servicestation.activity.UrlActivity;
 import com.technotapp.servicestation.adapter.DataModel.MenuAdapterModel;
 import com.technotapp.servicestation.adapter.MenuAdapter;
+import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.database.Db;
 import com.technotapp.servicestation.database.model.MenuModel;
 
@@ -34,7 +38,7 @@ public class MainGridFragment extends Fragment {
 
 
     @SuppressLint("ValidFragment")
-    public MainGridFragment( Context mContext,ArrayList<MenuAdapterModel> dataSet) {
+    public MainGridFragment(Context mContext, ArrayList<MenuAdapterModel> dataSet) {
         this.dataSet = dataSet;
         this.mContext = mContext;
     }
@@ -70,7 +74,16 @@ public class MainGridFragment extends Fragment {
     public void onGridItemClick(GridView g, View v, int pos, long id) {
         try {
             MenuModel selectedMenuItem = Db.Menu.getMenuById(id);
-            Helper.lunchActivity(mContext, selectedMenuItem.controller, (int) id);
+            String url_action = selectedMenuItem.url;
+            if (url_action != null && !TextUtils.isEmpty(url_action)) {
+                Intent urlIntent = new Intent(mContext, UrlActivity.class);
+                urlIntent.putExtra(Constant.Key.ACTION_URL, url_action);
+                mContext.startActivity(urlIntent);
+            } else if (selectedMenuItem.controller != null && !TextUtils.isEmpty(selectedMenuItem.controller)) {
+                Helper.lunchActivity(mContext, selectedMenuItem.controller, (int) id);
+            } else {
+                Helper.alert(mContext, "محتوایی برای نمایش وجود ندارد", Constant.AlertType.Information);
+            }
         } catch (Exception e) {
             AppMonitor.reportBug(e, mClassName, "onGridItemClick");
         }

@@ -59,12 +59,12 @@
             app:fontName="@string/irsansNumber" />
 
         <Button
-            android:id="@+id/item_list_product_management_btnEdit"
+            android:id="@+id/item_list_product_management_btn_Edit"
             android:layout_width="32dp"
             android:layout_height="24dp"
             android:layout_gravity="center"
-            android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             android:background="@drawable/ic_edit"
             android:gravity="center" />
     </LinearLayout>
