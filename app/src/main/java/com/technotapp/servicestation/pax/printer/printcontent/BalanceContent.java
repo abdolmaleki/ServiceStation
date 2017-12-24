@@ -32,7 +32,9 @@ public class BalanceContent extends Printable {
         IImgProcessing img = gl.getImgProcessing();
         IImgProcessing.IPage page = img.createPage();
 
-        page.addLine().addUnit(BitmapFactory.decodeResource(ctx.getResources(), R.drawable.ic_technotapp), IImgProcessing.IPage.EAlign.CENTER);
+        page.addLine().addUnit(BitmapFactory.decodeResource(ctx.getResources(), R.drawable.ic_technotapp_print), IImgProcessing.IPage.EAlign.CENTER);
+        page.addLine();
+        page.addLine().addUnit(" ", FONT_NORMAL, IImgProcessing.IPage.EAlign.CENTER);
         page.addLine();
         page.addLine().addUnit((contents[0]), FONT_NORMAL, IImgProcessing.IPage.EAlign.CENTER); //seller
         page.addLine();
@@ -44,7 +46,7 @@ public class BalanceContent extends Printable {
         page.addLine().addUnit(Converters.ConvertTextToHighlitedText("موجودی حساب", 24.0f), IImgProcessing.IPage.EAlign.CENTER);
         page.addLine();
         page.addLine().addUnit(Converters.convertEnDigitToPersian(contents[6]), FONT_SMALL, IImgProcessing.IPage.EAlign.LEFT).addUnit(textToBitmap("پذیرنده/پایانه"), IImgProcessing.IPage.EAlign.RIGHT); // terminal no
-        page.addLine().addUnit(Converters.panNumbrToStar(Converters.convertEnDigitToPersian(contents[7])), FONT_SMALL, IImgProcessing.IPage.EAlign.LEFT).addUnit(textToBitmap(Helper.getBankName(contents[7].substring(0,6))), IImgProcessing.IPage.EAlign.RIGHT); // card no
+        page.addLine().addUnit(Converters.panNumbrToStar(Converters.convertEnDigitToPersian(contents[7])), FONT_SMALL, IImgProcessing.IPage.EAlign.LEFT).addUnit(textToBitmap(Helper.getBankName(contents[7].substring(0, 6))), IImgProcessing.IPage.EAlign.RIGHT); // card no
         page.addLine().addUnit(Converters.convertEnDigitToPersian(contents[3]), FONT_SMALL, IImgProcessing.IPage.EAlign.LEFT).addUnit(Converters.convertEnDigitToPersian(contents[4]), FONT_SMALL, IImgProcessing.IPage.EAlign.RIGHT); // time - date
         page.addLine().addUnit(Converters.convertEnDigitToPersian(contents[5]), FONT_SMALL, IImgProcessing.IPage.EAlign.LEFT).addUnit(textToBitmap("پیگیری/ارجاع"), IImgProcessing.IPage.EAlign.RIGHT); // ref no
         page.addLine();

@@ -69,7 +69,7 @@
 
 
         <!--<android.support.v7.widget.SwitchCompat-->
-        <!--android:id="@+id/activity_checknetwork_switch_wifi_state"-->
+        <!--andrnidProductd:idnidProduct@+id/activity_checknetwork_switch_wifi_state"-->
         <!--android:layout_width="100dp"-->
         <!--android:layout_height="wrap_content"-->
         <!--android:layout_marginLeft="5dp"-->

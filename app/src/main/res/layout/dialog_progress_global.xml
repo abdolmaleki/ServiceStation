@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:layoutDirection="ltr"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="256dp"
+        android:layout_height="200dp"
+        android:background="@drawable/bg_lyr_dialog_swipe_card"
+        android:gravity="center"
+        android:layoutDirection="rtl"
+        android:orientation="vertical">
+
+        <com.github.ybq.android.spinkit.SpinKitView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/dialog_progress_loading_progress"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            style="@style/SpinKitView.Large.MultiplePulse"
+            android:layout_gravity="center"
+            app:SpinKit_Color="@color/colorAccent" />
+
+        <com.technotapp.servicestation.customView.CustomTextView
+            android:id="@+id/dialog_progress_loading_txt_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:textColor="#283542"
+            android:textSize="14sp"
+            app:fontName="@string/irsansMedium" />
+
+    </LinearLayout>
+</LinearLayout>

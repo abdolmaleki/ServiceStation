@@ -3,6 +3,7 @@ package com.technotapp.servicestation.pax.printer;
 import com.technotapp.servicestation.pax.printer.printcontent.BalanceContent;
 import com.technotapp.servicestation.pax.printer.printcontent.BuyCustomerContent;
 import com.technotapp.servicestation.pax.printer.printcontent.BuySellerContent;
+import com.technotapp.servicestation.pax.printer.printcontent.CashContent;
 import com.technotapp.servicestation.pax.printer.printcontent.DepositContent;
 
 public class PrintFactory {
@@ -23,6 +24,9 @@ public class PrintFactory {
 
             case Printable.DEPOSIT:
                 return new DepositContent();
+
+            case Printable.CASH:
+                return new CashContent();
 
             default:
                 return null;

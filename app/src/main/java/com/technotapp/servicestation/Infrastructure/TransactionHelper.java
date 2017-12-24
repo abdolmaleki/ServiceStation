@@ -1,6 +1,5 @@
 package com.technotapp.servicestation.Infrastructure;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -32,7 +31,8 @@ public class TransactionHelper {
         long number = 10000000 + ((long) (fakeRandom.nextDouble() * (99999999 - 10000000)));
         String fakeTransactionCode = number + "";
         String fakeMAC = "12345678";
-        String fakeMerchantID = "23801101741";
+        //String fakeMerchantID = "23801101741";
+        String fakeMerchantID = mSession.getMerchantId();
         String panNumber = transactionDataModel.getPanNumber();
 
 
@@ -83,44 +83,67 @@ public class TransactionHelper {
         return result;
     }
 
-    public static void sendRequest(final Context ctx, final int mode, final TransactionDataModel transactionDataModel, String amount) {
+    public static String getResponseMessage(String code) {
+        switch (code) {
+            case "-1":
+                return "ERROR_MESSAGE()";
+            case "00":
+                return "عملیات با موفقیت انجام شد";
+            case "03":
+                return "ترمینال وجود ندارد یا فعال نیست";
+            case "12":
+                return "این تراکنش قبلا ثبت شده است";
+            case "14":
+                return "شماره کارت وجود ندارد";
+            case "39":
+                return "حساب وجود ندارد یا غیر فعال است";
+            case "51":
+                return "مبلغ درخواستی از حداقل موجودی حساب بیشتر است";
+            default:
+
+                return null;
+
+        }
+    }
+
+
+    public static void sendRequest(final Context ctx, final int mode, final TransactionDataModel transactionDataModel, String amount, TransactionResultListener transactionResultListener) {
         try {
             NetworkHelper.isConnectingToInternet(ctx, new NetworkHelper.CheckNetworkStateListener() {
                 @Override
                 public void onNetworkChecked(boolean isSuccess, String message) {
                     if (isSuccess) {
                         mSession = new Session();
-                        final ProgressDialog transactionWaitingDialog;
-
-                        transactionWaitingDialog = new ProgressDialog(ctx);
-                        transactionWaitingDialog.setMessage(ctx.getString(R.string.TransactionHelper_pleaseWait));
-                        transactionWaitingDialog.setCancelable(false);
-
-                        transactionWaitingDialog.show();
 
                         SocketEngine socketEngine = new SocketEngine(ctx, Constant.Pax.SERVER_IP, Constant.Pax.SERVER_PORT, transactionDataModel);
                         socketEngine.sendData(TransactionHelper.getPacker(ctx, transactionDataModel, mode, amount), new ISocketCallback() {
+
+                            //
+                            //   ____  _                     _____                               _   _               ____                 _ _     ____  _       _
+                            //  / ___|| |__   _____      __ |_   _| __ __ _ _ __  ___  __ _  ___| |_(_) ___  _ __   |  _ \ ___  ___ _   _| | |_  |  _ \(_) __ _| | ___   __ _
+                            //  \___ \| '_ \ / _ \ \ /\ / /   | || '__/ _` | '_ \/ __|/ _` |/ __| __| |/ _ \| '_ \  | |_) / _ \/ __| | | | | __| | | | | |/ _` | |/ _ \ / _` |
+                            //   ___) | | | | (_) \ V  V /    | || | | (_| | | | \__ \ (_| | (__| |_| | (_) | | | | |  _ <  __/\__ \ |_| | | |_  | |_| | | (_| | | (_) | (_| |
+                            //  |____/|_| |_|\___/ \_/\_/     |_||_|  \__,_|_| |_|___/\__,_|\___|\__|_|\___/|_| |_| |_| \_\___||___/\__,_|_|\__| |____/|_|\__,_|_|\___/ \__, |
+                            //                                                                                                                                          |___/
                             @Override
                             public void onFail() {
-                                transactionWaitingDialog.dismiss();
                                 //todo handle fail transaction
-                                Helper.alert(ctx, "بروز مشکل در سرور", Constant.AlertType.Error);
+                                Helper.alert(ctx, "مشکل ارتباط با سوییچ بانکی", Constant.AlertType.Error);
+                                transactionResultListener.onFail();
 
                             }
 
                             @Override
                             public void onReceiveData(TransactionDataModel dataModel) {
-                                transactionWaitingDialog.dismiss();
                                 AppMonitor.Log(dataModel.getPanNumber());
                                 //todo handle fail transaction
 
                                 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                                 /////// Failed transaction
                                 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                                if (!(dataModel.getResponseCode().equals(Constant.ResponseCode.SUCCESS))) {
+                                if (!(dataModel.getResponseCode().equals(Constant.TransactionResponseCode.SUCCESS))) {
                                     transactionDialog(ctx, dataModel, mode, false);
-
-
+                                    transactionResultListener.onFail();
                                     return;
                                 }
 
@@ -129,6 +152,16 @@ public class TransactionHelper {
                                 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
                                 transactionDialog(ctx, dataModel, mode, true);
+                                transactionResultListener.onSuccessfull();
+
+                                //
+                                //   ____       _       _     _____                               _   _               ____                 _ _     ____        _
+                                //  |  _ \ _ __(_)_ __ | |_  |_   _| __ __ _ _ __  ___  __ _  ___| |_(_) ___  _ __   |  _ \ ___  ___ _   _| | |_  |  _ \  __ _| |_ __ _
+                                //  | |_) | '__| | '_ \| __|   | || '__/ _` | '_ \/ __|/ _` |/ __| __| |/ _ \| '_ \  | |_) / _ \/ __| | | | | __| | | | |/ _` | __/ _` |
+                                //  |  __/| |  | | | | | |_    | || | | (_| | | | \__ \ (_| | (__| |_| | (_) | | | | |  _ <  __/\__ \ |_| | | |_  | |_| | (_| | || (_| |
+                                //  |_|   |_|  |_|_| |_|\__|   |_||_|  \__,_|_| |_|___/\__,_|\___|\__|_|\___/|_| |_| |_| \_\___||___/\__,_|_|\__| |____/ \__,_|\__\__,_|
+                                //
+
                                 switch (mode) {
 
                                     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -158,7 +191,7 @@ public class TransactionHelper {
                                 }
                                 // Todo change print static content
                                 if (printable != null) {
-                                    PrinterHelper.getInstance().startPrint(ctx,printable.getContent(ctx, mSession.getShopName(), mSession.getTelephone(), "1475478589", DateHelper.getGregorianDateTime("HH:mm:ss"), DateHelper.getShamsiDate(), dataModel.getBackTransactionID(), dataModel.getTerminalID(), dataModel.getPanNumber(), dataModel.getAmount()));
+                                    PrinterHelper.getInstance().startPrint(ctx, printable.getContent(ctx, mSession.getShopName(), mSession.getTelephone(), "1475478589", DateHelper.getGregorianDateTime("HH:mm:ss"), DateHelper.getShamsiDate(), dataModel.getBackTransactionID(), dataModel.getTerminalID(), dataModel.getPanNumber(), dataModel.getAmount()));
                                 }
                             }
                         });
@@ -171,29 +204,6 @@ public class TransactionHelper {
 
         } catch (Exception e) {
             AppMonitor.reportBug(e, "TransactionHelper", "sendRequest");
-        }
-    }
-
-    public static String getResponseMessage(String code) {
-        switch (code) {
-            case "-1":
-                return "ERROR_MESSAGE()";
-            case "00":
-                return "عملیات با موفقیت انجام شد";
-            case "03":
-                return "ترمینال وجود ندارد یا فعال نیست";
-            case "12":
-                return "این تراکنش قبلا ثبت شده است";
-            case "14":
-                return "شماره کارت وجود ندارد";
-            case "39":
-                return "حساب وجود ندارد یا غیر فعال است";
-            case "51":
-                return "مبلغ درخواستی از حداقل موجودی حساب بیشتر است";
-            default:
-
-                return null;
-
         }
     }
 
@@ -220,14 +230,11 @@ public class TransactionHelper {
                                     case R.id.fragment_dialog_transaction_response_btnPositive:
                                         dialog.dismiss();
                                         break;
-
-
                                 }
 
                             }
                         });
                         break;
-
 
                     case Constant.RequestMode.BUY:
                         bundle.putBoolean("hasSellerReceipt", true);
@@ -242,7 +249,7 @@ public class TransactionHelper {
                                         Printable printable = PrintFactory.getPrintContent(Printable.BUY_SELLER);
                                         PrinterHelper printerHelper = PrinterHelper.getInstance();
                                         if (printable != null) {
-                                            printerHelper.startPrint(ctx,printable.getContent(ctx, "فروشگاه اکبر فرهادی", "77695885", "1475478589", "12:22:15", "1396/08/02", dataModel.getBackTransactionID(), dataModel.getTerminalID(), dataModel.getPanNumber(), dataModel.getAmount()));
+                                            printerHelper.startPrint(ctx, printable.getContent(ctx, "فروشگاه اکبر فرهادی", "77695885", "1475478589", "12:22:15", "1396/08/02", dataModel.getBackTransactionID(), dataModel.getTerminalID(), dataModel.getPanNumber(), dataModel.getAmount()));
 
                                         }
                                         dialog.dismiss();
@@ -250,14 +257,11 @@ public class TransactionHelper {
                                     case R.id.fragment_dialog_transaction_response_btnNegative:
                                         dialog.dismiss();
                                         break;
-
                                 }
-
                             }
                         });
 
                         break;
-
                 }
             } else {
                 bundle.putBoolean("isSuccess", false);
@@ -285,6 +289,12 @@ public class TransactionHelper {
             AppMonitor.reportBug(e, "TransactionHelper", "transactionDialog");
         }
 
+    }
+
+    public interface TransactionResultListener {
+        void onSuccessfull();
+
+        void onFail();
     }
 
 }

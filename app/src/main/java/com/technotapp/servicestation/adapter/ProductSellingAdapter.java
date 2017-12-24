@@ -18,7 +18,7 @@ import com.technotapp.servicestation.enums.ProductUnitCode;
 
 import java.util.ArrayList;
 
-public class ProductFactorAdapter extends BaseAdapter implements Filterable {
+public class ProductSellingAdapter extends BaseAdapter implements Filterable {
 
     private Context mContext;
     private ArrayList<ProductFactorAdapterModel> dataSet;
@@ -41,7 +41,7 @@ public class ProductFactorAdapter extends BaseAdapter implements Filterable {
         }
     }
 
-    public ProductFactorAdapter(Context mContext, ArrayList<ProductFactorAdapterModel> dataModels, OnFactorChangeListener onFactorChangeListener) {
+    public ProductSellingAdapter(Context mContext, ArrayList<ProductFactorAdapterModel> dataModels, OnFactorChangeListener onFactorChangeListener) {
         this.dataSet = dataModels;
         this.mContext = mContext;
         this.onFactorChangeListener = onFactorChangeListener;
@@ -96,20 +96,20 @@ public class ProductFactorAdapter extends BaseAdapter implements Filterable {
 
     @Override
     public long getItemId(int position) {
-        return dataSet.get(position).getId();
+        return dataSet.get(position).getNidProduct();
     }
 
     @SuppressLint("SetTextI18n")
     @Override
     public View getView(int position, View rowView, ViewGroup parent) {
         try {
-            ProductFactorAdapter.ViewHolder viewHolder;
+            ProductSellingAdapter.ViewHolder viewHolder;
             if (rowView == null) {
                 rowView = LayoutInflater.from(mContext).inflate(R.layout.item_grid_custom_service, parent, false);
-                viewHolder = new ProductFactorAdapter.ViewHolder(rowView);
+                viewHolder = new ProductSellingAdapter.ViewHolder(rowView);
                 rowView.setTag(viewHolder);
             } else {
-                viewHolder = (ProductFactorAdapter.ViewHolder) rowView.getTag();
+                viewHolder = (ProductSellingAdapter.ViewHolder) rowView.getTag();
             }
 
 
@@ -142,7 +142,7 @@ public class ProductFactorAdapter extends BaseAdapter implements Filterable {
             });
             return rowView;
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "ProductFactorAdapter", "getView");
+            AppMonitor.reportBug(e, "ProductSellingAdapter", "getView");
             return null;
         }
     }

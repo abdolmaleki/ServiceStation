@@ -30,6 +30,8 @@ public class Constant {
         public static final String EMAIL = "email";
         public static final String ADDRESS = "address";
         public static final String TERMINAL_ID = "terminal.id";
+        public static final String MENU_CATEGORY = "menu.category";
+        public static final String ENID_MERCHANT = "nid.merchant";
         public static final String SHOP_NAME = "shop.name";
         public static final String SCORE = "score";
         public static final String IS_CUSTOMER = "is_customer";
@@ -54,7 +56,7 @@ public class Constant {
     }
 
 
-    public static class ResponseCode {
+    public static class TransactionResponseCode {
         public static final String SUCCESS = "00";
     }
 
@@ -81,6 +83,8 @@ public class Constant {
         public static final String MENU_ID = "menu.id";
         public static final String ACTION_URL = "action.url";
         public static final String PRODUCT_ID = "product.id";
+        public static final String FACTOR_ID = "factor.id";
+        public static final String FACTOR_TOTAL_PRICE = "factor.total.price";
     }
 
     public static class MenuAction {
@@ -96,6 +100,7 @@ public class Constant {
         public static final String DEPOSIT = "deposit_service";
         public static final String BUY = "buy_service";
         public static final String BALANCE = "balance_service";
+        public static final String KHALAFI = "khalafi_service";
 
         public static final String QR_READER = "merchant_qr_code";
     }
@@ -116,6 +121,8 @@ public class Constant {
             public static final int LOG_INFO = 3;
             public static final int ADD_UPDATE_PRODUCT = 4;
             public static final int SEARCH_PRODUCT = 5;
+            public static final int SUBMIT_FACTOR = 6;
+            public static final int BYE_CHARGE = 7;
 
         }
 

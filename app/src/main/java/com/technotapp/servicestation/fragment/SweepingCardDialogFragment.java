@@ -21,7 +21,7 @@ import com.technotapp.servicestation.R;
 public class SweepingCardDialogFragment extends DialogFragment implements View.OnClickListener {
     private Thread mCardSweepTimeoutThread;
     private Handler handler;
-    private ISweepDialog mISweepDialog;
+    private OnSweepDialogListener mISweepDialog;
     private boolean mIsDialogHide = false;
     private TextView txtCounter;
     private Button btnCancel;
@@ -98,7 +98,7 @@ public class SweepingCardDialogFragment extends DialogFragment implements View.O
 
     }
 
-    public void show(Activity activity, ISweepDialog iSweepDialog) {
+    public void show(Activity activity, OnSweepDialogListener iSweepDialog) {
         try {
 
             mISweepDialog = iSweepDialog;
@@ -144,7 +144,7 @@ public class SweepingCardDialogFragment extends DialogFragment implements View.O
         mCardSweepTimeoutThread = null;
     }
 
-    public interface ISweepDialog {
+    public interface OnSweepDialogListener {
         void onCancelOrTimeout();
     }
 }

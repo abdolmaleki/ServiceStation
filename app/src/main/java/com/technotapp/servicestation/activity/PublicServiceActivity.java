@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
+import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.database.Db;
@@ -13,6 +14,8 @@ import com.technotapp.servicestation.database.model.MenuModel;
 import com.technotapp.servicestation.fragment.AnsarServiceFragment;
 import com.technotapp.servicestation.fragment.CardServiceFragment;
 import com.technotapp.servicestation.fragment.ChargeFragment;
+import com.technotapp.servicestation.fragment.IMagCard;
+import com.technotapp.servicestation.fragment.KhalafiFragment;
 import com.technotapp.servicestation.fragment.QrFragment;
 import com.technotapp.servicestation.fragment.ReceiptFragment;
 import com.technotapp.servicestation.fragment.SubMenuFragment;
@@ -65,6 +68,10 @@ public class PublicServiceActivity extends SubMenuActivity implements IPin {
                 return QrFragment.newInstance();
             case Constant.MenuAction.ANSAR:
                 return AnsarServiceFragment.newInstance();
+            case Constant.MenuAction.KHALAFI:
+                return KhalafiFragment.newInstance();
+            default:
+                Helper.alert(this, "برای این گزینه محتوایی تعریف نشده است", Constant.AlertType.Error);
         }
         return null;
     }
@@ -88,6 +95,9 @@ public class PublicServiceActivity extends SubMenuActivity implements IPin {
         if (mSubmenuController != null) {
             mSubmenuController.onPinEnteredSuccessfully();
         }
+        if (mMagCardController != null) {
+            mMagCardController.onPinEnteredSuccessfully();
+        }
     }
 
     @Override
@@ -95,6 +105,8 @@ public class PublicServiceActivity extends SubMenuActivity implements IPin {
         super.onAttachFragment(fragment);
         if (fragment instanceof SubMenuFragment) {
             mSubmenuController = (SubMenuFragment) fragment;
+        } else if (fragment instanceof IMagCard) {
+            mMagCardController = (IMagCard) fragment;
         }
     }
 

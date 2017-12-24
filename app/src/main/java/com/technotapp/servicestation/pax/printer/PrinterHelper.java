@@ -137,10 +137,7 @@ public class PrinterHelper extends TestLog {
 
     public void startPrint(Context context, final Bitmap bmpPrint) {
         try {
-
-
             String printStatus;
-
             new NewPrint(context, bmpPrint).execute();
         } catch (Exception e) {
             AppMonitor.reportBug(e, "PrinterHelper", "startPrint");

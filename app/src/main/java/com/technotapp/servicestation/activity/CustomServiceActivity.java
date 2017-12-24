@@ -7,12 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.R;
-import com.technotapp.servicestation.application.Constant;
-import com.technotapp.servicestation.fragment.CardServiceFragment;
-import com.technotapp.servicestation.fragment.ChargeFragment;
-import com.technotapp.servicestation.fragment.CustomServiceFragment;
-import com.technotapp.servicestation.fragment.QrFragment;
-import com.technotapp.servicestation.fragment.ReceiptFragment;
+import com.technotapp.servicestation.fragment.ProductSellingFragment;
 import com.technotapp.servicestation.fragment.SubMenuFragment;
 
 public class CustomServiceActivity extends SubMenuActivity implements IPin {
@@ -27,12 +22,11 @@ public class CustomServiceActivity extends SubMenuActivity implements IPin {
         loadData();
 
         submitFragment();
-
     }
 
     private void submitFragment() {
         try {
-            Fragment fragment = CustomServiceFragment.newInstance();
+            Fragment fragment = ProductSellingFragment.newInstance();
             if (fragment != null) {
                 String backStateName = fragment.getClass().getName();
                 FragmentManager fragmentManager = getSupportFragmentManager();

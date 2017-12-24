@@ -5,20 +5,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.application.Constant;
-import com.technotapp.servicestation.fragment.LoadingDialogFragment;
+import com.technotapp.servicestation.entity.MyProgressDialog;
 import com.technotapp.servicestation.fragment.AlertDialogFragment;
 
 public class Helper {
 
 
-    private static LoadingDialogFragment loadingDialogFragment = LoadingDialogFragment.newInstance();
+    private static MyProgressDialog progressDialog;
 
     public static String getDeviceInfo() {
         return android.os.Build.MODEL;
@@ -28,17 +26,15 @@ public class Helper {
 
         public static void showDialog(Context activity, String message) {
 
-            if (loadingDialogFragment == null) {
-                loadingDialogFragment = LoadingDialogFragment.newInstance();
-            }
-            loadingDialogFragment.show((Activity) activity, message);
-
+            progressDialog = new MyProgressDialog(activity);
+            progressDialog.show();
+            progressDialog.setMessageText(message);
         }
 
         public static void hideDialog() {
 
-            if (loadingDialogFragment != null && loadingDialogFragment.isVisible()) {
-                loadingDialogFragment.dismiss();
+            if (progressDialog != null && progressDialog.isShowing()) {
+                progressDialog.dismiss();
             }
         }
     }

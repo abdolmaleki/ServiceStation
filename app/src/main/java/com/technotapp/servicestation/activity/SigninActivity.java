@@ -137,12 +137,17 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
 
                         if (menuStos != null) {
                             if (menuStos.get(0).messageModel.get(0).errorCode == Constant.Api.ErrorCode.Successfull) {
-                                mSession.setLastVersion(menuStos.get(0).messageModel.get(0).ver);
+                                Helper.progressBar.showDialog(SigninActivity.this, "در حال انجام تنظیمات اولیه");
+                                if (menuStos.get(0).dataModel != null && menuStos.get(0).dataModel.size() > 0) { // have active  menu
+                                    mSession.setLastVersion(menuStos.get(0).messageModel.get(0).ver);
+                                    if (saveMenu(menuStos) && saveInfo(menuStos)) {
+                                        startActivity(new Intent(mContext, MainActivity.class));
+                                    } else {
+                                        Helper.alert(mContext, menuStos.get(0).messageModel.get(0).errorString, Constant.AlertType.Error);
+                                    }
+                                } else {  // have not active  menu
+                                    Helper.alert(mContext, "هیچ منوی فعالی برای این دستگاه وجود ندارد", Constant.AlertType.Error);
 
-                                if (saveMenu(menuStos) && saveInfo(menuStos)) {
-                                    startActivity(new Intent(mContext, MainActivity.class));
-                                } else {
-                                    Helper.alert(mContext, menuStos.get(0).messageModel.get(0).errorString, Constant.AlertType.Error);
                                 }
                             } else {
                                 Helper.alert(mContext, menuStos.get(0).messageModel.get(0).errorString, Constant.AlertType.Error);
@@ -176,8 +181,6 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
         menuDto.password = edtPassword.getText().toString();
         menuDto.deviceInfo = "My Pos Info";
         menuDto.terminalCode = "R215454D5";
-        menuDto.deviceIP = "192.0.0.1";
-
         return menuDto;
     }
 
@@ -212,10 +215,18 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
             session.setHashId(menuStos.get(0).dataModel.get(0).info.get(0).hashId);
             session.setShopName(menuStos.get(0).dataModel.get(0).shop.get(0).title);
             session.setTerminalId(menuStos.get(0).dataModel.get(0).terminalCode);
+            session.setMerchantId(menuStos.get(0).dataModel.get(0).idSeller);
+            session.setMenuCategory(menuStos.get(0).dataModel.get(0).menuCategory);
             return true;
         } catch (Exception e) {
             AppMonitor.reportBug(e, mClassName, "saveInfo");
             return false;
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Helper.progressBar.hideDialog();
     }
 }

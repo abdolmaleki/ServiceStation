@@ -101,7 +101,6 @@ public class CardServiceFragment extends SubMenuFragment implements AdapterView.
     }
 
 
-
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -144,7 +143,17 @@ public class CardServiceFragment extends SubMenuFragment implements AdapterView.
     public void onPinEnteredSuccessfully() {
         super.onPinEnteredSuccessfully();
         try {
-            TransactionHelper.sendRequest(getActivity(), Constant.RequestMode.BALANCE, transactionDataModel, "0");
+            TransactionHelper.sendRequest(getActivity(), Constant.RequestMode.BALANCE, transactionDataModel, "0", new TransactionHelper.TransactionResultListener() {
+                @Override
+                public void onSuccessfull() {
+
+                }
+
+                @Override
+                public void onFail() {
+
+                }
+            });
         } catch (Exception e) {
             AppMonitor.reportBug(e, "CardServiceFragment", "onPinEnteredSuccessfully");
         }

@@ -12,11 +12,13 @@ import android.widget.TextView;
 
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.R;
+import com.technotapp.servicestation.fragment.IMagCard;
 import com.technotapp.servicestation.fragment.SubMenuFragment;
 
 public abstract class SubMenuActivity extends AppCompatActivity implements IToolBar {
 
     public SubMenuFragment mSubmenuController;
+    public IMagCard mMagCardController;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

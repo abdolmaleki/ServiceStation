@@ -23,6 +23,7 @@ import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.connection.restapi.ApiCaller;
 import com.technotapp.servicestation.connection.restapi.dto.AddProductDto;
 import com.technotapp.servicestation.connection.restapi.sto.BaseSto;
+import com.technotapp.servicestation.connection.restapi.sto.ProductSto;
 import com.technotapp.servicestation.database.Db;
 import com.technotapp.servicestation.database.model.ProductModel;
 import com.technotapp.servicestation.enums.ProductUnitCode;
@@ -52,10 +53,10 @@ public class ProductAddEditDialogFragment extends DialogFragment implements View
     private ChangeProductsListener mChangeProductsListener;
 
 
-    public static ProductAddEditDialogFragment newInstance(int productId) {
+    public static ProductAddEditDialogFragment newInstance(long productId) {
         ProductAddEditDialogFragment fragment = new ProductAddEditDialogFragment();
         Bundle args = new Bundle();
-        args.putInt(Constant.Key.PRODUCT_ID, productId);
+        args.putLong(Constant.Key.PRODUCT_ID, productId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -74,7 +75,7 @@ public class ProductAddEditDialogFragment extends DialogFragment implements View
     private void loadData() {
         Bundle bundle = getArguments();
         if (bundle != null) {
-            int productId = bundle.getInt(Constant.Key.PRODUCT_ID, -1);
+            long productId = bundle.getLong(Constant.Key.PRODUCT_ID, -1);
             if (productId > 0) {
                 mProductModel = Db.Product.getProductById(productId);
             }
@@ -163,15 +164,15 @@ public class ProductAddEditDialogFragment extends DialogFragment implements View
                 public void onResponse(int responseCode, String jsonResult) {
                     try {
                         Gson gson = Helper.getGson();
-                        Type listType = new TypeToken<ArrayList<BaseSto>>() {
+                        Type listType = new TypeToken<ArrayList<ProductSto>>() {
                         }.getType();
-                        List<BaseSto> sto = gson.fromJson(jsonResult, listType);
+                        List<ProductSto> sto = gson.fromJson(jsonResult, listType);
 
                         if (sto != null) {
                             if (sto.get(0).messageModel.get(0).errorCode == Constant.Api.ErrorCode.Successfull) {
                                 mSession.setLastVersion(sto.get(0).messageModel.get(0).ver);
                                 Helper.alert(mActivity, "کالای شما با موفقیت ثبت شد", Constant.AlertType.Success);
-                                onSuccessfulAddProduct(addProductDto);
+                                onSuccessfulAddProduct(addProductDto, sto.get(0).dataModel.get(0).nidProduct);
 
                             } else {
                                 Helper.alert(mActivity, sto.get(0).messageModel.get(0).errorString, Constant.AlertType.Error);
@@ -243,10 +244,10 @@ public class ProductAddEditDialogFragment extends DialogFragment implements View
 
     }
 
-    public void onSuccessfulAddProduct(AddProductDto addProductDto) {
+    public void onSuccessfulAddProduct(AddProductDto addProductDto, long nidProduct) {
         try {
             ProductModel productModel = ProductMapper.convertDtoToModel(addProductDto);
-            if (Db.Product.insert(productModel)) {
+            if (Db.Product.insert(productModel, nidProduct)) {
                 mChangeProductsListener.onAddNewProduct();
             }
             dismiss();
@@ -259,7 +260,7 @@ public class ProductAddEditDialogFragment extends DialogFragment implements View
     public void onSuccessfulUpdateProduct(AddProductDto addProductDto) {
         try {
             ProductModel productModel = ProductMapper.convertDtoToModel(addProductDto);
-            if (Db.Product.update(productModel, mProductModel.id)) {
+            if (Db.Product.update(productModel, mProductModel.nidProduct)) {
                 mChangeProductsListener.onAddNewProduct();
             }
             dismiss();
@@ -317,7 +318,7 @@ public class ProductAddEditDialogFragment extends DialogFragment implements View
     public interface ChangeProductsListener {
         void onAddNewProduct();
 
-        void onUpdateRequest(int productId);
+        void onUpdateRequest(long productId);
     }
 
 }

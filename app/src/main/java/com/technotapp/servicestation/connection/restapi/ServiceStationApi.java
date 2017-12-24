@@ -40,4 +40,10 @@ public interface ServiceStationApi {
     @POST("api/shop/SearchProductModel")
     Call<String> serachProduct(@Query("key") String key, @Query("value") String value, @Query("deviceInfo") String deviceInfo);
 
+    @POST("api/shop/InsertFactor")
+    Call<String> insertFactor(@Query("key") String key, @Query("value") String value, @Query("deviceInfo") String deviceInfo);
+
+    @POST("api/InternalCharge/Rechagre")
+    Call<String> buyCharge(@Query("key") String key, @Query("value") String value, @Query("deviceInfo") String deviceInfo);
+
 }

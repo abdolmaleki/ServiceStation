@@ -27,7 +27,7 @@ public class BuyCustomerContent extends Printable {
         IImgProcessing img = gl.getImgProcessing();
         IImgProcessing.IPage page = img.createPage();
 
-        page.addLine().addUnit(BitmapFactory.decodeResource(ctx.getResources(), R.drawable.ic_technotapp), IImgProcessing.IPage.EAlign.CENTER);
+        page.addLine().addUnit(BitmapFactory.decodeResource(ctx.getResources(), R.drawable.ic_technotapp_print), IImgProcessing.IPage.EAlign.CENTER);
         page.addLine();
         page.addLine().addUnit((contents[0]), FONT_NORMAL, IImgProcessing.IPage.EAlign.CENTER); //seller
         page.addLine();

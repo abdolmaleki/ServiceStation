@@ -30,7 +30,7 @@ public class ProductMapper {
         try {
             ProductAdapterModel adapterModel = new ProductAdapterModel();
             adapterModel.setDescription(model.description);
-            adapterModel.setId(model.id);
+            adapterModel.setId(model.nidProduct);
             adapterModel.setName(model.title);
             adapterModel.setPrice(model.price);
             adapterModel.setUnit(String.valueOf(model.unitCode));
@@ -46,7 +46,7 @@ public class ProductMapper {
         try {
             ProductFactorAdapterModel adapterModel = new ProductFactorAdapterModel();
             adapterModel.setDescription(model.description);
-            adapterModel.setId(model.id);
+            adapterModel.setnidProduct(model.nidProduct);
             adapterModel.setName(model.title);
             adapterModel.setUnitPrice(model.price);
             adapterModel.setUnit(String.valueOf(model.unitCode));

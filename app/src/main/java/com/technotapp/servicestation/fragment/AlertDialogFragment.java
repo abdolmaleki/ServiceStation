@@ -82,13 +82,13 @@ public class AlertDialogFragment extends DialogFragment implements View.OnClickL
                 linearLayout.setBackgroundResource(R.drawable.bg_lyr_dialog_error);
                 imageView.setBackgroundResource(R.drawable.ic_error_message);
                 button.setTextColor(getResources().getColor(R.color.error_color));
-                button.setBackgroundResource(R.drawable.bg_btn_error_success);
+                button.setBackgroundResource(R.drawable.bg_btn_white_raduce);
 
             } else if (mAlertType == Constant.AlertType.Success) {
                 linearLayout.setBackgroundResource(R.drawable.bg_lyr_dialog_success);
                 imageView.setBackgroundResource(R.drawable.ic_successfull);
                 button.setTextColor(getResources().getColor(R.color.success_dialog_color));
-                button.setBackgroundResource(R.drawable.bg_btn_error_success);
+                button.setBackgroundResource(R.drawable.bg_btn_white_raduce);
             }
             textView.setText(mMessage);
         } catch (Exception e) {

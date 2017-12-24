@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:layoutDirection="ltr"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="256dp"
+        android:layout_height="304dp"
+        android:background="@drawable/bg_custom_fragment_bottom"
+        android:layoutDirection="rtl"
+        android:orientation="vertical">
+
+        <com.technotapp.servicestation.customView.CustomTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:scrollbars="horizontal"
+            android:text="نوع پرداخت"
+            android:textColor="@color/textViewColor"
+            android:textSize="14sp"
+            app:fontName="irsans_bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <com.technotapp.servicestation.customView.CustomButton
+                android:id="@+id/fragment_dialog_payment_menu_btn_ewallet"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="7dp"
+                android:background="@drawable/bg_btn_white_raduce"
+                android:textColor="@color/purple"
+                android:text="کیف پول" />
+
+            <com.technotapp.servicestation.customView.CustomButton
+                android:id="@+id/fragment_dialog_payment_menu_btn_cash"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="7dp"
+                android:background="@drawable/bg_btn_white_raduce"
+                android:textColor="@color/purple"
+                android:text="نقدی" />
+
+            <com.technotapp.servicestation.customView.CustomButton
+                android:id="@+id/fragment_dialog_payment_menu_btn_shetabi"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_btn_white_raduce"
+                android:enabled="false"
+                android:focusable="false"
+                android:text="شتابی (بدون کارت)" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+</LinearLayout>

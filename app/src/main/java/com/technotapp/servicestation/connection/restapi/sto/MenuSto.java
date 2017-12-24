@@ -42,6 +42,8 @@ public class MenuSto extends BaseSto implements Parcelable {
         public String tokenId;
         public String terminalCode;
         public String url;
+        public String idSeller;
+        public String menuCategory;
         public List<Info> info;
         public List<Menu> menu;
         public List<Shop> shop;
@@ -51,6 +53,8 @@ public class MenuSto extends BaseSto implements Parcelable {
             tokenId = in.readString();
             terminalCode = in.readString();
             url = in.readString();
+            idSeller = in.readString();
+            menuCategory = in.readString();
             info = in.createTypedArrayList(Info.CREATOR);
             menu = in.createTypedArrayList(Menu.CREATOR);
             shop = in.createTypedArrayList(Shop.CREATOR);
@@ -78,6 +82,8 @@ public class MenuSto extends BaseSto implements Parcelable {
             parcel.writeString(tokenId);
             parcel.writeString(terminalCode);
             parcel.writeString(url);
+            parcel.writeString(idSeller);
+            parcel.writeString(menuCategory);
             parcel.writeTypedList(info);
             parcel.writeTypedList(menu);
             parcel.writeTypedList(shop);
@@ -284,8 +290,6 @@ public class MenuSto extends BaseSto implements Parcelable {
             }
         }
     }
-
-
 
 
 }

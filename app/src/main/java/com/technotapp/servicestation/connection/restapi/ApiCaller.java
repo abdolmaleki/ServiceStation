@@ -121,6 +121,14 @@ public class ApiCaller {
                             case Constant.Api.Type.SEARCH_PRODUCT:
                                 token = apiService.serachProduct(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
                                 break;
+
+                            case Constant.Api.Type.SUBMIT_FACTOR:
+                                token = apiService.insertFactor(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
+                                break;
+
+                            case Constant.Api.Type.BYE_CHARGE:
+                                token = apiService.buyCharge(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
+                                break;
                         }
 
                         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////

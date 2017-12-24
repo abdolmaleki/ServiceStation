@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:layoutDirection="ltr"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="250dp"
+        android:layout_height="200dp"
+        android:background="@drawable/bg_lyr_dialog_input"
+        android:layoutDirection="rtl"
+        android:orientation="vertical">
+
+        <com.technotapp.servicestation.customView.CustomTextView
+            android:id="@+id/fragment_dialog_cashpayment_confirm_tv_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:text="رمز ورود را وارد کنید"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:gravity="center">
+
+            <com.technotapp.servicestation.customView.CustomButton
+                android:id="@+id/fragment_dialog_cashpayment_confirm_btn_accept"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/bg_btn_white_raduce"
+                android:text="تایید"
+                android:textColor="#3eb401"
+                app:fontName="@string/irsansMedium" />
+
+            <com.technotapp.servicestation.customView.CustomButton
+                android:id="@+id/fragment_dialog_cashpayment_confirm_btn_cancel"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/bg_btn_white_raduce"
+                android:text="بیخیال"
+                android:textColor="#3eb401"
+                app:fontName="@string/irsansMedium" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

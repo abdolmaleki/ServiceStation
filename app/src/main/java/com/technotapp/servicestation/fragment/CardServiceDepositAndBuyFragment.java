@@ -70,7 +70,7 @@ public class CardServiceDepositAndBuyFragment extends SubMenuFragment implements
                 setTitle("خرید");
             }
 
-            btnZero =  v.findViewById(R.id.fragment_keypad_triple_zero);
+            btnZero = v.findViewById(R.id.fragment_keypad_triple_zero);
             btnTripleZero = v.findViewById(R.id.fragment_keypad_zero);
             btnZero.setEnabled(false);
             btnTripleZero.setEnabled(false);
@@ -135,9 +135,6 @@ public class CardServiceDepositAndBuyFragment extends SubMenuFragment implements
         });
 
 
-
-
-
     }
 
 
@@ -184,9 +181,29 @@ public class CardServiceDepositAndBuyFragment extends SubMenuFragment implements
         super.onPinEnteredSuccessfully();
         try {
             if (isDeposit) {
-                TransactionHelper.sendRequest(getActivity(), Constant.RequestMode.DEPOSIT, transactionDataModel, tvAmount.getText().toString().replaceAll(",", ""));
+                TransactionHelper.sendRequest(getActivity(), Constant.RequestMode.DEPOSIT, transactionDataModel, tvAmount.getText().toString().replaceAll(",", ""), new TransactionHelper.TransactionResultListener() {
+                    @Override
+                    public void onSuccessfull() {
+
+                    }
+
+                    @Override
+                    public void onFail() {
+
+                    }
+                });
             } else {
-                TransactionHelper.sendRequest(getActivity(), Constant.RequestMode.BUY, transactionDataModel, tvAmount.getText().toString().replaceAll(",", ""));
+                TransactionHelper.sendRequest(getActivity(), Constant.RequestMode.BUY, transactionDataModel, tvAmount.getText().toString().replaceAll(",", ""), new TransactionHelper.TransactionResultListener() {
+                    @Override
+                    public void onSuccessfull() {
+
+                    }
+
+                    @Override
+                    public void onFail() {
+
+                    }
+                });
             }
         } catch (Exception e) {
             AppMonitor.reportBug(e, "CardServiceDepositAndBuyFragment", "onPinEnteredSuccessfully");

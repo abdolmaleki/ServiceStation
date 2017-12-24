@@ -59,6 +59,14 @@ public class Session {
         prefs.edit().putString(Constant.Session.TERMINAL_ID, terminalId).apply();
     }
 
+    public void setMenuCategory(String menuCategory) {
+        prefs.edit().putString(Constant.Session.MENU_CATEGORY, menuCategory).apply();
+    }
+
+    public void setMerchantId(String merchantId) {
+        prefs.edit().putString(Constant.Session.ENID_MERCHANT, merchantId).apply();
+    }
+
 
     public void setShopName(String shopName) {
         prefs.edit().putString(Constant.Session.SHOP_NAME, shopName).apply();
@@ -193,6 +201,18 @@ public class Session {
 
         String terminalId = prefs.getString(Constant.Session.TERMINAL_ID, "");
         return terminalId;
+    }
+
+    public String getMerchantId() {
+
+        String merchantId = prefs.getString(Constant.Session.ENID_MERCHANT, "");
+        return merchantId;
+    }
+
+    public String getMenuCategory() {
+
+        String menuCategory = prefs.getString(Constant.Session.MENU_CATEGORY, "");
+        return menuCategory;
     }
 
     public String getTokenId() {

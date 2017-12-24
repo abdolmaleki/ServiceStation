@@ -160,7 +160,6 @@ public class UpdatingActivity extends AppCompatActivity implements View.OnClickL
 
         TerminalInfoDto terminalInfoDto = new TerminalInfoDto();
         terminalInfoDto.terminalCode = mSession.getTerminalId();
-        terminalInfoDto.deviceIP = "192.0.0.1";
         terminalInfoDto.tokenId = mSession.getTokenId();
 
 
@@ -198,12 +197,13 @@ public class UpdatingActivity extends AppCompatActivity implements View.OnClickL
             session.setTel(menuStos.get(0).dataModel.get(0).shop.get(0).tel);
             session.setHashId(menuStos.get(0).dataModel.get(0).info.get(0).hashId);
             session.setTerminalId(menuStos.get(0).dataModel.get(0).terminalCode);
+            session.setMerchantId(menuStos.get(0).dataModel.get(0).idSeller);
+            session.setMenuCategory(menuStos.get(0).dataModel.get(0).menuCategory);
             return true;
         } catch (Exception e) {
             AppMonitor.reportBug(e, mClassName, "saveInfo");
             return false;
         }
-
     }
 
     @Override

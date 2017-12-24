@@ -112,7 +112,7 @@ public class ProductManagementActivity extends AppCompatActivity implements View
     }
 
     @Override
-    public void onUpdateRequest(int productId) {
+    public void onUpdateRequest(long productId) {
         ProductAddEditDialogFragment dialogFragment = ProductAddEditDialogFragment.newInstance(productId); // -1 means this is a new product
         dialogFragment.show(this);
     }

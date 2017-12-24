@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_card_service_deposit_buy"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="50dp"
+        android:gravity="center">
+
+        <com.technotapp.servicestation.customView.CustomEditText
+            android:id="@+id/activity_payment_gateway_et_card_number_p1"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:maxLength="4" />
+
+        <com.technotapp.servicestation.customView.CustomEditText
+            android:id="@+id/activity_payment_gateway_et_card_number_p2"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:maxLength="4" />
+
+        <com.technotapp.servicestation.customView.CustomEditText
+            android:id="@+id/activity_payment_gateway_et_card_number_p3"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:maxLength="4" />
+
+        <com.technotapp.servicestation.customView.CustomEditText
+            android:id="@+id/activity_payment_gateway_et_card_number_p4"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:maxLength="4" />
+
+    </LinearLayout>
+
+    <com.technotapp.servicestation.customView.CustomEditText
+        android:id="@+id/activity_payment_gateway_et_second_password"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp" />
+
+    <com.technotapp.servicestation.customView.CustomEditText
+        android:id="@+id/activity_payment_gateway_et_cvv2"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:inputType="number"
+        android:maxLength="4" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.technotapp.servicestation.customView.CustomEditText
+            android:id="@+id/activity_payment_gateway_et_expire_month"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:inputType="number"
+            android:maxLength="2" />
+
+        <com.technotapp.servicestation.customView.CustomEditText
+            android:id="@+id/activity_payment_gateway_et_expire_year"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:inputType="number"
+            android:maxLength="2" />
+
+    </LinearLayout>
+
+    <com.technotapp.servicestation.customView.CustomEditText
+        android:id="@+id/activity_payment_gateway_et_mobile"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.technotapp.servicestation.customView.CustomButton
+            android:id="@+id/activity_payment_gateway_btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/bg_button_red"
+            android:text="انصراف" />
+
+        <com.technotapp.servicestation.customView.CustomButton
+            android:id="@+id/activity_payment_gateway_btn_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/bg_button_green"
+            android:text="پرداخت" />
+
+    </LinearLayout>
+</LinearLayout>

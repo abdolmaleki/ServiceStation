@@ -9,7 +9,7 @@ import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.activity.IToolBar;
 
-public class SubMenuFragment extends Fragment {
+public class SubMenuFragment extends Fragment implements IMagCard {
 
     protected Context mActivity;
     protected IToolBar mToolbarController;
@@ -49,7 +49,10 @@ public class SubMenuFragment extends Fragment {
         mToolbarController.setTitle(title);
     }
 
+
+    @Override
     public void onPinEnteredSuccessfully() {
+
     }
 }
 

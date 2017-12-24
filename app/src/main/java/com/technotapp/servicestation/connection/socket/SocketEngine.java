@@ -1,11 +1,14 @@
 package com.technotapp.servicestation.connection.socket;
 
 import android.content.Context;
+import android.os.Looper;
 
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.Converters;
+import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.Infrastructure.NetworkHelper;
 import com.technotapp.servicestation.adapter.DataModel.TransactionDataModel;
+import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.pax.iso8583.ParseISO;
 
 import java.io.DataInputStream;
@@ -20,8 +23,8 @@ public class SocketEngine {
     private String mIp;
     private Socket mSocket;
     private Context mContext;
-    private static final int CONNECTION_TIME_OUT = 5000;
-    private static final int READ_TIME_OUT = 5000;
+    private static final int CONNECTION_TIME_OUT = 10000;
+    private static final int READ_TIME_OUT = 10000;
     private TransactionDataModel mTransactionDataModel;
 
 
@@ -34,6 +37,7 @@ public class SocketEngine {
 
     public void sendData(final byte[] request, final ISocketCallback callback) {
 
+        Helper.progressBar.showDialog(mContext, "در حال ارتباط با بانک");
         /////////////////////////////////////////////////////////////////////////////////////////////////////
         /////////// Check Network Connection
         /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -42,15 +46,24 @@ public class SocketEngine {
             @Override
             public void run() {
                 try {
+
+                    Looper.prepare();
+
                     mSocket = new Socket();
                     mSocket.connect(new InetSocketAddress(mIp, mPort), CONNECTION_TIME_OUT);
                     mSocket.setSoTimeout(READ_TIME_OUT);
                 } catch (IOException e) {
+
                     AppMonitor.reportBug(e, "SocketEngine", "connect");
                     callback.onFail();
+                    Helper.progressBar.hideDialog();
+
                 }
 
                 try {
+                    Helper.progressBar.hideDialog();
+                    Helper.progressBar.showDialog(mContext, "در حال دریافت اطلاعات از بانک");
+
 
                     ///////////////////////////////////////////////////////////////////
                     ////////////// Send Data
@@ -73,9 +86,11 @@ public class SocketEngine {
                     //mTransactionDataModel= parseISO.parseDataItem(tx);
                     parseISO.parseDataItem(tx);
                     callback.onReceiveData(mTransactionDataModel);
+                    Helper.progressBar.hideDialog();
 
 
                 } catch (Exception e) {
+                    Helper.progressBar.hideDialog();
                     closeConnection();
                     callback.onFail();
                     AppMonitor.reportBug(e, "SocketEngine", "sendData");

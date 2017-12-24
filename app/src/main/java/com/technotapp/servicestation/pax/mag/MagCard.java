@@ -7,9 +7,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.LinearLayout;
 
 import com.pax.dal.entity.TrackData;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
@@ -97,8 +94,6 @@ public class MagCard {
                     case 0:
                         callback.onFail();
                         hideDialog();
-
-
                         break;
 
                     case 1:
@@ -164,7 +159,7 @@ public class MagCard {
 
         try {
             mSweepingCardDialogFragment = new SweepingCardDialogFragment();
-            mSweepingCardDialogFragment.show((Activity) ctx, new SweepingCardDialogFragment.ISweepDialog() {
+            mSweepingCardDialogFragment.show((Activity) ctx, new SweepingCardDialogFragment.OnSweepDialogListener() {
                 @Override
                 public void onCancelOrTimeout() {
                     Message.obtain(mMagHandler, 6, "").sendToTarget();

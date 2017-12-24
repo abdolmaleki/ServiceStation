@@ -47,14 +47,14 @@
             android:orientation="horizontal">
 
             <com.technotapp.servicestation.customView.CustomButton
-                android:id="@+id/fragment_custom_service_btnConfirm"
+                android:id="@+id/fragment_selling_product_btn_Confirm"
                 android:layout_width="128dp"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/bg_btn_error_success"
+                android:background="@drawable/bg_btn_white_raduce"
                 android:text="تایید نهایی"
                 android:textColor="#6d57c0"
                 app:fontName="@string/irsansMedium" />

@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginEnd="5dp"
-                android:background="@drawable/bg_btn_error_success"
+                android:background="@drawable/bg_btn_white_raduce"
                 android:text="تایید"
                 android:textColor="#3eb401"
                 app:fontName="@string/irsansMedium" />
@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="5dp"
-                android:background="@drawable/bg_btn_error_success"
+                android:background="@drawable/bg_btn_white_raduce"
                 android:text="بیخیال"
                 android:textColor="#3eb401"
                 app:fontName="@string/irsansMedium" />

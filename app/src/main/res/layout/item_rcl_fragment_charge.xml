@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
             android:gravity="center"
-            android:text="تومانی"
+            android:text="ریالی"
             android:textColor="@color/white"
             android:textSize="14sp"
             app:fontName="@string/irsansMedium" />

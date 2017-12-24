@@ -1,20 +1,23 @@
 package com.technotapp.servicestation.adapter.DataModel;
 
-public class ProductFactorAdapterModel {
-    private int id;
+import io.realm.Realm;
+import io.realm.RealmObject;
+
+public class ProductFactorAdapterModel extends RealmObject {
+    private long nidProduct;
     private String unitPrice;
     private String unit;
     private String name;
     private String description;
-    private String totalPrice;
+    private String sumPrice;
     public int amount = 0;
 
-    public int getId() {
-        return id;
+    public long getNidProduct() {
+        return nidProduct;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setnidProduct(long id) {
+        this.nidProduct = id;
     }
 
     public String getUnitPrice() {
@@ -37,12 +40,17 @@ public class ProductFactorAdapterModel {
         return amount;
     }
 
-    public void setTotalPrice(String totalPrice) {
-        this.totalPrice = totalPrice;
-    }
+    public String getSumPrice() {
 
-    public String getTotalPrice() {
-        return totalPrice;
+        Realm realm = getRealm();
+
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                sumPrice = String.valueOf(amount * Long.parseLong(unitPrice));
+            }
+        });
+        return sumPrice;
     }
 
     public void setUnit(String unit) {

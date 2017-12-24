@@ -75,6 +75,7 @@ public class MainGridFragment extends Fragment {
         try {
             MenuModel selectedMenuItem = Db.Menu.getMenuById(id);
             String url_action = selectedMenuItem.url;
+
             if (url_action != null && !TextUtils.isEmpty(url_action)) {
                 Intent urlIntent = new Intent(mContext, UrlActivity.class);
                 urlIntent.putExtra(Constant.Key.ACTION_URL, url_action);

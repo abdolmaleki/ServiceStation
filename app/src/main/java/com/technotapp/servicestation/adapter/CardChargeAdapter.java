@@ -21,7 +21,7 @@ public class CardChargeAdapter extends RecyclerView.Adapter<CardChargeAdapter.Vi
     ArrayList<String> data;
     Context mContext;
 
-    public CardChargeAdapter(Context ctx,ArrayList<String> data) {
+    public CardChargeAdapter(Context ctx, ArrayList<String> data) {
         this.data = data;
         mContext = ctx;
     }
@@ -37,10 +37,7 @@ public class CardChargeAdapter extends RecyclerView.Adapter<CardChargeAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.amount.setText(data.get(position));
-
     }
-
-
 
     @Override
     public int getItemCount() {

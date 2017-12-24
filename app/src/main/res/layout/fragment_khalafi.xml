@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_card_service_deposit_buy"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <ImageView
+        android:layout_width="350dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+
+        android:src="@drawable/img_car_card" />
+
+    <com.technotapp.servicestation.customView.CustomEditText
+        android:id="@+id/fragment_charge_edtPhoneNumber"
+        android:layout_width="176dp"
+        android:layout_height="32dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_default_edittext"
+        android:gravity="center"
+        android:hint="شماره 8 رقمی بارکد پشت کارت"
+        android:inputType="number"
+        android:maxLength="11"
+        android:textColor="@color/button_bar_divider_color_dark"
+        android:textSize="13sp"
+        app:fontName="@string/irsansNumber" />
+
+    <com.technotapp.servicestation.customView.CustomButton
+        android:id="@+id/fragment_charge_btn_submit"
+        android:layout_width="196dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_btn_confirm"
+        android:digits="1234567890"
+        android:imeOptions="actionDone"
+        android:inputType="numberDecimal"
+        android:text="استعلام خلافی خودرو"
+        android:textColor="@color/white"
+        app:fontName="@string/irsansMedium" />
+
+
+</LinearLayout>
