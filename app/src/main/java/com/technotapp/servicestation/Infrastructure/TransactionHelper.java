@@ -22,8 +22,44 @@ import java.util.Random;
 
 public class TransactionHelper {
 
-    private static Printable printable;
     private static Session mSession;
+
+    public static void sendRequest(final Context ctx, final int mode, final TransactionDataModel transactionDataModel, String amount, TransactionResultListener transactionResultListener) throws Exception {
+        Helper.progressBar.showDialog(ctx, "در حال ارتباط با بانک");
+        mSession = new Session();
+        SocketEngine socketEngine = new SocketEngine(ctx, Constant.Pax.SERVER_IP, Constant.Pax.SERVER_PORT, transactionDataModel);
+        socketEngine.sendData(TransactionHelper.getPacker(ctx, transactionDataModel, mode, amount), new ISocketCallback() {
+
+            @Override
+            public void onFail() {
+                Helper.progressBar.hideDialog();
+                //todo handle fail transaction
+                transactionResultListener.onFailTransaction("مشکل ارتباط با سوییچ بانکی");
+
+            }
+
+            @Override
+            public void onReceiveData(TransactionDataModel dataModel) {
+                Helper.progressBar.hideDialog();
+                AppMonitor.Log(dataModel.getPanNumber());
+                //todo handle fail transaction
+
+                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                /////// Failed transaction
+                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                if (!(dataModel.getResponseCode().equals(Constant.TransactionResponseCode.SUCCESS))) {
+                    transactionResultListener.onFailTransaction(getResponseMessage(dataModel.getResponseCode()));
+                    return;
+                }
+
+                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                /////// Successful  transaction
+                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                transactionResultListener.onSuccessfullTransaction(dataModel);
+
+            }
+        });
+    }
 
     private static byte[] getPacker(Context mContext, TransactionDataModel transactionDataModel, int mode, String amount) {
         //TODO remove fakes
@@ -75,6 +111,7 @@ public class TransactionHelper {
             pa.getIso8583().getEntity().setFieldValue("49", "001");
             pa.getIso8583().getEntity().setFieldValue("62", transactionType + fakeTransactionCode);
             pa.getIso8583().getEntity().setFieldValue("64", fakeMAC);
+
             result = pa.getIso8583().pack();
         } catch (Exception e) {
             AppMonitor.reportBug(e, "TransactionHelper", "getPacker");
@@ -95,206 +132,24 @@ public class TransactionHelper {
                 return "این تراکنش قبلا ثبت شده است";
             case "14":
                 return "شماره کارت وجود ندارد";
+            case "30":
+                return "خطای سرور";
             case "39":
                 return "حساب وجود ندارد یا غیر فعال است";
             case "51":
                 return "مبلغ درخواستی از حداقل موجودی حساب بیشتر است";
+
             default:
 
-                return null;
+                return "خطای نامشخص";
 
         }
-    }
-
-
-    public static void sendRequest(final Context ctx, final int mode, final TransactionDataModel transactionDataModel, String amount, TransactionResultListener transactionResultListener) {
-        try {
-            NetworkHelper.isConnectingToInternet(ctx, new NetworkHelper.CheckNetworkStateListener() {
-                @Override
-                public void onNetworkChecked(boolean isSuccess, String message) {
-                    if (isSuccess) {
-                        mSession = new Session();
-
-                        SocketEngine socketEngine = new SocketEngine(ctx, Constant.Pax.SERVER_IP, Constant.Pax.SERVER_PORT, transactionDataModel);
-                        socketEngine.sendData(TransactionHelper.getPacker(ctx, transactionDataModel, mode, amount), new ISocketCallback() {
-
-                            //
-                            //   ____  _                     _____                               _   _               ____                 _ _     ____  _       _
-                            //  / ___|| |__   _____      __ |_   _| __ __ _ _ __  ___  __ _  ___| |_(_) ___  _ __   |  _ \ ___  ___ _   _| | |_  |  _ \(_) __ _| | ___   __ _
-                            //  \___ \| '_ \ / _ \ \ /\ / /   | || '__/ _` | '_ \/ __|/ _` |/ __| __| |/ _ \| '_ \  | |_) / _ \/ __| | | | | __| | | | | |/ _` | |/ _ \ / _` |
-                            //   ___) | | | | (_) \ V  V /    | || | | (_| | | | \__ \ (_| | (__| |_| | (_) | | | | |  _ <  __/\__ \ |_| | | |_  | |_| | | (_| | | (_) | (_| |
-                            //  |____/|_| |_|\___/ \_/\_/     |_||_|  \__,_|_| |_|___/\__,_|\___|\__|_|\___/|_| |_| |_| \_\___||___/\__,_|_|\__| |____/|_|\__,_|_|\___/ \__, |
-                            //                                                                                                                                          |___/
-                            @Override
-                            public void onFail() {
-                                //todo handle fail transaction
-                                Helper.alert(ctx, "مشکل ارتباط با سوییچ بانکی", Constant.AlertType.Error);
-                                transactionResultListener.onFail();
-
-                            }
-
-                            @Override
-                            public void onReceiveData(TransactionDataModel dataModel) {
-                                AppMonitor.Log(dataModel.getPanNumber());
-                                //todo handle fail transaction
-
-                                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                                /////// Failed transaction
-                                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                                if (!(dataModel.getResponseCode().equals(Constant.TransactionResponseCode.SUCCESS))) {
-                                    transactionDialog(ctx, dataModel, mode, false);
-                                    transactionResultListener.onFail();
-                                    return;
-                                }
-
-                                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                                /////// Successful  transaction
-                                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-                                transactionDialog(ctx, dataModel, mode, true);
-                                transactionResultListener.onSuccessfull();
-
-                                //
-                                //   ____       _       _     _____                               _   _               ____                 _ _     ____        _
-                                //  |  _ \ _ __(_)_ __ | |_  |_   _| __ __ _ _ __  ___  __ _  ___| |_(_) ___  _ __   |  _ \ ___  ___ _   _| | |_  |  _ \  __ _| |_ __ _
-                                //  | |_) | '__| | '_ \| __|   | || '__/ _` | '_ \/ __|/ _` |/ __| __| |/ _ \| '_ \  | |_) / _ \/ __| | | | | __| | | | |/ _` | __/ _` |
-                                //  |  __/| |  | | | | | |_    | || | | (_| | | | \__ \ (_| | (__| |_| | (_) | | | | |  _ <  __/\__ \ |_| | | |_  | |_| | (_| | || (_| |
-                                //  |_|   |_|  |_|_| |_|\__|   |_||_|  \__,_|_| |_|___/\__,_|\___|\__|_|\___/|_| |_| |_| \_\___||___/\__,_|_|\__| |____/ \__,_|\__\__,_|
-                                //
-
-                                switch (mode) {
-
-                                    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                                    /////// DEPOSIT
-                                    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-                                    case Constant.RequestMode.DEPOSIT:
-                                        printable = PrintFactory.getPrintContent(Printable.DEPOSIT);
-                                        break;
-
-                                    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                                    /////// BUY
-                                    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-                                    case Constant.RequestMode.BUY:
-                                        printable = PrintFactory.getPrintContent(Printable.BUY_CUSTOMER);
-                                        break;
-
-                                    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                                    /////// BALANCE
-                                    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-                                    case Constant.RequestMode.BALANCE:
-                                        printable = PrintFactory.getPrintContent(Printable.BALANCE);
-                                        break;
-
-                                }
-                                // Todo change print static content
-                                if (printable != null) {
-                                    PrinterHelper.getInstance().startPrint(ctx, printable.getContent(ctx, mSession.getShopName(), mSession.getTelephone(), "1475478589", DateHelper.getGregorianDateTime("HH:mm:ss"), DateHelper.getShamsiDate(), dataModel.getBackTransactionID(), dataModel.getTerminalID(), dataModel.getPanNumber(), dataModel.getAmount()));
-                                }
-                            }
-                        });
-                    } else {
-                        //Todo create alert
-                    }
-                }
-            });
-
-
-        } catch (Exception e) {
-            AppMonitor.reportBug(e, "TransactionHelper", "sendRequest");
-        }
-    }
-
-    private static void transactionDialog(final Context ctx, final TransactionDataModel dataModel, int transactionMode, boolean isSuccess) {
-        try {
-
-            FragmentManager manager = ((FragmentActivity) ctx).getSupportFragmentManager();
-            final TransactionResponseDialogFragment dialog = new TransactionResponseDialogFragment();
-            dialog.setCancelable(false);
-            Bundle bundle = new Bundle();
-            if (isSuccess) {
-                switch (transactionMode) {
-                    case Constant.RequestMode.BALANCE:
-                    case Constant.RequestMode.DEPOSIT:
-
-                        bundle.putBoolean("isSuccess", true);
-                        bundle.putBoolean("hasSellerReceipt", false);
-
-                        dialog.onClickListener(new TransactionResponseDialogFragment.MyOnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-
-                                switch (v.getId()) {
-                                    case R.id.fragment_dialog_transaction_response_btnPositive:
-                                        dialog.dismiss();
-                                        break;
-                                }
-
-                            }
-                        });
-                        break;
-
-                    case Constant.RequestMode.BUY:
-                        bundle.putBoolean("hasSellerReceipt", true);
-                        bundle.putBoolean("isSuccess", true);
-                        bundle.putString("extraMessage", "آیا نیاز به رسید فروشنده دارید؟");
-                        dialog.onClickListener(new TransactionResponseDialogFragment.MyOnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-
-                                switch (v.getId()) {
-                                    case R.id.fragment_dialog_transaction_response_btnPositive:
-                                        Printable printable = PrintFactory.getPrintContent(Printable.BUY_SELLER);
-                                        PrinterHelper printerHelper = PrinterHelper.getInstance();
-                                        if (printable != null) {
-                                            printerHelper.startPrint(ctx, printable.getContent(ctx, "فروشگاه اکبر فرهادی", "77695885", "1475478589", "12:22:15", "1396/08/02", dataModel.getBackTransactionID(), dataModel.getTerminalID(), dataModel.getPanNumber(), dataModel.getAmount()));
-
-                                        }
-                                        dialog.dismiss();
-                                        break;
-                                    case R.id.fragment_dialog_transaction_response_btnNegative:
-                                        dialog.dismiss();
-                                        break;
-                                }
-                            }
-                        });
-
-                        break;
-                }
-            } else {
-                bundle.putBoolean("isSuccess", false);
-                bundle.putString("extraMessage", getResponseMessage(dataModel.getResponseCode()));
-
-                dialog.onClickListener(new TransactionResponseDialogFragment.MyOnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        switch (v.getId()) {
-                            case R.id.fragment_dialog_transaction_response_btnPositive:
-                                dialog.dismiss();
-                                break;
-
-                        }
-
-                    }
-                });
-
-            }
-            dialog.setArguments(bundle);
-            dialog.show(manager, "");
-
-        } catch (Exception e) {
-            AppMonitor.reportBug(e, "TransactionHelper", "transactionDialog");
-        }
-
     }
 
     public interface TransactionResultListener {
-        void onSuccessfull();
+        void onSuccessfullTransaction(TransactionDataModel transactionDataModel);
 
-        void onFail();
+        void onFailTransaction(String message);
     }
 
 }

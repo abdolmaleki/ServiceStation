@@ -129,6 +129,10 @@ public class ApiCaller {
                             case Constant.Api.Type.BYE_CHARGE:
                                 token = apiService.buyCharge(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
                                 break;
+
+                            case Constant.Api.Type.GET_VERSION:
+                                token = apiService.getVersion(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
+                                break;
                         }
 
                         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////

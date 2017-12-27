@@ -10,7 +10,9 @@ import android.os.SystemClock;
 
 import com.pax.dal.entity.TrackData;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
+import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.R;
+import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.fragment.PinFragment;
 import com.technotapp.servicestation.fragment.SweepingCardDialogFragment;
 
@@ -115,6 +117,7 @@ public class MagCard {
                         break;
 
                     case 5:// crash for bad read card
+                        Helper.alert(ctx, "خطا در کشیدن کارت", Constant.AlertType.Error);
                         hideDialog();
                         break;
 

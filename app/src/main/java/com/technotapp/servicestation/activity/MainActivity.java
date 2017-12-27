@@ -23,6 +23,7 @@ import com.technotapp.servicestation.adapter.DataModel.MenuAdapterModel;
 import com.technotapp.servicestation.adapter.MainMenuPageAdapter;
 import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.connection.restapi.ApiCaller;
+import com.technotapp.servicestation.connection.restapi.dto.GetVersionDto;
 import com.technotapp.servicestation.connection.restapi.dto.LogDto;
 import com.technotapp.servicestation.connection.restapi.dto.MenuDto;
 import com.technotapp.servicestation.connection.restapi.sto.BaseSto;
@@ -201,21 +202,66 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void callGetVersion() {
+        try {
+            GetVersionDto getVersionDto = createVersionDto();
+            final SecretKey AESsecretKey = Encryptor.generateRandomAESKey();
+            new ApiCaller(Constant.Api.Type.GET_VERSION).call(mContext, getVersionDto, AESsecretKey, null, new ApiCaller.ApiCallback() {
+                @Override
+                public void onResponse(int responseCode, String jsonResult) {
+                    try {
+                        Gson gson = Helper.getGson();
+                        Type listType = new TypeToken<ArrayList<BaseSto>>() {
+                        }.getType();
+                        List<BaseSto> sto = gson.fromJson(jsonResult, listType);
+
+                        if (sto != null) {
+                            if (sto.get(0).messageModel.get(0).errorCode == Constant.Api.ErrorCode.Successfull) {
+                                mSession.setLastVersion(sto.get(0).messageModel.get(0).ver);
+                                UpdateHelper.checkNeedingUpdate(MainActivity.this);
+                            } else {
+                                Helper.alert(MainActivity.this, sto.get(0).messageModel.get(0).errorString, Constant.AlertType.Error);
+                            }
+                        } else {
+                            Helper.alert(MainActivity.this, getString(R.string.api_data_download_error), Constant.AlertType.Error);
+                        }
+                    } catch (Exception e) {
+                        AppMonitor.reportBug(e, "MainActivity", "callGetVersion-onResponse");
+                        Helper.alert(MainActivity.this, getString(R.string.api_data_download_error), Constant.AlertType.Error);
+
+                    }
+                }
+
+                @Override
+                public void onFail() {
+                }
+            });
+        } catch (Exception e) {
+            AppMonitor.reportBug(e, mClassName, "callGetVersion");
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
-        callSendLog();
+        callGetVersion();
     }
 
     private LogDto createLogDto() {
 
         LogDto dto = new LogDto();
         dto.Description = DateHelper.getShamsiDate();
-        dto.terminalCode = "R215454D5";
         dto.deviceIp = "192.0.0.1";
         dto.Title = "";
         dto.UserDeviceInfo = "My Pos Info";
         dto.LogTypeId = 1;
+        dto.tokenId = mSession.getTokenId();
+        dto.terminalCode = mSession.getTerminalId();
+        return dto;
+    }
+
+    private GetVersionDto createVersionDto() {
+        GetVersionDto dto = new GetVersionDto();
         dto.tokenId = mSession.getTokenId();
         dto.terminalCode = mSession.getTerminalId();
         return dto;

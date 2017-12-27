@@ -11,12 +11,14 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
+import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.Infrastructure.TransactionHelper;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.adapter.DataModel.TransactionDataModel;
 import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.pax.mag.IMagCardCallback;
 import com.technotapp.servicestation.pax.mag.MagCard;
+import com.technotapp.servicestation.pax.printer.PrintMaker;
 
 import java.util.Locale;
 
@@ -182,25 +184,31 @@ public class CardServiceDepositAndBuyFragment extends SubMenuFragment implements
         try {
             if (isDeposit) {
                 TransactionHelper.sendRequest(getActivity(), Constant.RequestMode.DEPOSIT, transactionDataModel, tvAmount.getText().toString().replaceAll(",", ""), new TransactionHelper.TransactionResultListener() {
-                    @Override
-                    public void onSuccessfull() {
 
+                    @Override
+                    public void onSuccessfullTransaction(TransactionDataModel transactionDataModel) {
+                        Helper.alert(getActivity(), getString(R.string.successfull_transaction), Constant.AlertType.Success);
+                        PrintMaker.startPrint(getActivity(), Constant.RequestMode.DEPOSIT, transactionDataModel);
                     }
 
                     @Override
-                    public void onFail() {
+                    public void onFailTransaction(String message) {
+                        Helper.alert(getActivity(), message, Constant.AlertType.Error);
 
                     }
                 });
             } else {
                 TransactionHelper.sendRequest(getActivity(), Constant.RequestMode.BUY, transactionDataModel, tvAmount.getText().toString().replaceAll(",", ""), new TransactionHelper.TransactionResultListener() {
-                    @Override
-                    public void onSuccessfull() {
 
+                    @Override
+                    public void onSuccessfullTransaction(TransactionDataModel transactionDataModel) {
+                        Helper.alert(getActivity(), getString(R.string.successfull_transaction), Constant.AlertType.Success);
+                        PrintMaker.startPrint(getActivity(), Constant.RequestMode.DEPOSIT, transactionDataModel);
                     }
 
                     @Override
-                    public void onFail() {
+                    public void onFailTransaction(String message) {
+                        Helper.alert(getActivity(), message, Constant.AlertType.Error);
 
                     }
                 });

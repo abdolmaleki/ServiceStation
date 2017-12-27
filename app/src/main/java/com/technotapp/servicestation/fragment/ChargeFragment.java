@@ -16,9 +16,9 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
+import com.technotapp.servicestation.Infrastructure.Converters;
 import com.technotapp.servicestation.Infrastructure.Encryptor;
 import com.technotapp.servicestation.Infrastructure.Helper;
-import com.technotapp.servicestation.Infrastructure.TransactionHelper;
 import com.technotapp.servicestation.adapter.CardChargeAdapter;
 import com.technotapp.servicestation.adapter.DataModel.TransactionDataModel;
 import com.technotapp.servicestation.application.Constant;
@@ -29,6 +29,7 @@ import com.technotapp.servicestation.database.Db;
 import com.technotapp.servicestation.database.model.FactorModel;
 import com.technotapp.servicestation.enums.ChargeType;
 import com.technotapp.servicestation.enums.OperatorType;
+import com.technotapp.servicestation.enums.PaymentType;
 import com.technotapp.servicestation.setting.Session;
 import com.yarolegovich.discretescrollview.DiscreteScrollView;
 
@@ -164,7 +165,7 @@ public class ChargeFragment extends SubMenuFragment implements View.OnClickListe
             @Override
             public void onScrollEnd(@NonNull RecyclerView.ViewHolder currentItemHolder, int adapterPosition) {
                 String chargeAmount = mChargeAmountArray.get(adapterPosition);
-                tvChargeAmount.setText("مبلغ شارژ: " + chargeAmount + " ریال");
+                tvChargeAmount.setText("مبلغ شارژ: " + Converters.convertEnDigitToPersian(chargeAmount) + " ریال");
                 mChargeAmount = Long.parseLong(chargeAmount.replace(",", ""));
             }
 
@@ -173,13 +174,16 @@ public class ChargeFragment extends SubMenuFragment implements View.OnClickListe
             }
         });
 
+        ////////////////////////////////////
         // for first run intialize
+        ///////////////////////////////////
+
         resetOperatorTypeUi();
         btnIrancell.setImageResource(R.drawable.ic_irancell_selected);
         mOperatorType = OperatorType.IRANCELL;
         mShChargeType = ChargeType.IrancellCharge.MOSTAGHIM;
         String chargeAmount = mChargeAmountArray.get(rclCardCharge.getCurrentItem());
-        tvChargeAmount.setText("مبلغ شارژ: " + chargeAmount + " ریال");
+        tvChargeAmount.setText("مبلغ شارژ: " + Converters.convertEnDigitToPersian(chargeAmount) + " ریال");
         mChargeAmount = Long.parseLong(chargeAmount.replace(",", ""));
 
     }
@@ -250,44 +254,7 @@ public class ChargeFragment extends SubMenuFragment implements View.OnClickListe
 
             case R.id.fragment_charge_btn_submit:
                 if (validation()) {
-                    FactorModel factorModel = creatFactor();
-                    PaymentMenuDialog paymentMenuDialog = new PaymentMenuDialog();
-                    Bundle bundle = new Bundle();
-                    bundle.putLong(Constant.Key.FACTOR_ID, factorModel.getId());
-                    paymentMenuDialog.setArguments(bundle);
-                    paymentMenuDialog.show(getActivity().getSupportFragmentManager(), "payment.menu");
-                    paymentMenuDialog.setOnPaymentResultListener(new PaymentMenuDialog.PaymentResultListener() {
-
-
-                        @Override
-                        public void onDone(TransactionDataModel transactionDataModel) {
-                            if (transactionDataModel != null) {
-                                TransactionHelper.sendRequest(getActivity(), Constant.RequestMode.BUY, transactionDataModel, (mChargeAmount + ""), new TransactionHelper.TransactionResultListener() {
-                                    @Override
-                                    public void onSuccessfull() {
-                                        callByeCharge();
-                                    }
-
-                                    @Override
-                                    public void onFail() {
-                                        Helper.alert(getActivity(), "خطا", Constant.AlertType.Error);
-                                    }
-                                });
-                            } else {
-                                callByeCharge();
-                            }
-                        }
-
-                        @Override
-                        public void onFail() {
-
-                        }
-
-                        @Override
-                        public void onCancel() {
-
-                        }
-                    });
+                    goPaymentDialog();
                 }
 
                 break;
@@ -295,7 +262,38 @@ public class ChargeFragment extends SubMenuFragment implements View.OnClickListe
         }
     }
 
-    private FactorModel creatFactor() {
+    private void goPaymentDialog() {
+        FactorModel factorModel = createFactor();
+        PaymentMenuDialog paymentMenuDialog = new PaymentMenuDialog();
+        Bundle bundle = new Bundle();
+        bundle.putLong(Constant.Key.FACTOR_ID, factorModel.getId());
+        bundle.putStringArrayList(Constant.Key.PAYMENT_TYPE_LIST, new ArrayList<String>() {{
+            add(PaymentType.EWALLET);
+        }});
+        paymentMenuDialog.setArguments(bundle);
+        paymentMenuDialog.show(getActivity().getSupportFragmentManager(), "payment.menu");
+        paymentMenuDialog.setOnPaymentResultListener(new PaymentMenuDialog.PaymentResultListener() {
+
+            @Override
+            public void onSuccessfullPayment(String paymentType, TransactionDataModel transactionDataModel) {
+                callByeCharge();
+
+            }
+
+            @Override
+            public void onFailedPayment(String message) {
+                Helper.alert(getActivity(), message, Constant.AlertType.Error);
+
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
+    }
+
+    private FactorModel createFactor() {
         FactorModel factorModel = new FactorModel();
         factorModel.setTotalPrice(mChargeAmount);
         Db.Factor.insert(factorModel);

@@ -33,7 +33,7 @@
             app:fontName="@string/irsansMedium" />
 
         <com.technotapp.servicestation.customView.CustomButton
-            android:id="@+id/fragment_dialog_sweepingcard_progress_button"
+            android:id="@+id/fragment_dialog_sweepingcard_progress_btn_cancel"
             android:layout_width="168dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

@@ -104,6 +104,9 @@ public class UpdatingActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+
+
+
     private void initView() {
         mContext = this;
         mProgressView = findViewById(R.id.activity_updating_progress);

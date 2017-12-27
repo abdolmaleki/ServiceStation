@@ -52,6 +52,7 @@ public class Constant {
         public static final int BALANCE = 0;
         public static final int DEPOSIT = 1;
         public static final int BUY = 2;
+        public static final int CASH_PAYMENT = 3;
 
     }
 
@@ -84,6 +85,7 @@ public class Constant {
         public static final String ACTION_URL = "action.url";
         public static final String PRODUCT_ID = "product.id";
         public static final String FACTOR_ID = "factor.id";
+        public static final String PAYMENT_TYPE_LIST = "payment.type.list";
         public static final String FACTOR_TOTAL_PRICE = "factor.total.price";
     }
 
@@ -123,6 +125,7 @@ public class Constant {
             public static final int SEARCH_PRODUCT = 5;
             public static final int SUBMIT_FACTOR = 6;
             public static final int BYE_CHARGE = 7;
+            public static final int GET_VERSION = 8;
 
         }
 

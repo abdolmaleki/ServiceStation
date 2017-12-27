@@ -8,6 +8,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import com.pax.dal.IDAL;
@@ -343,7 +345,6 @@ public class PrinterHelper extends TestLog {
         }
     }
 
-
     private class NewPrint extends AsyncTask<Void, Void, String> {
 
         Bitmap printBitmap;
@@ -357,7 +358,12 @@ public class PrinterHelper extends TestLog {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            Helper.progressBar.showDialog(context, "در حال چاپ تراکنش");
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    Helper.progressBar.showDialog(context, "در حال چاپ تراکنش");
+                }
+            });
         }
 
         @Override

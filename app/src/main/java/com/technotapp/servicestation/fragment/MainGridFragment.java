@@ -71,17 +71,18 @@ public class MainGridFragment extends Fragment {
         }
     }
 
-    public void onGridItemClick(GridView g, View v, int pos, long id) {
+    public void onGridItemClick(GridView g, View v, int pos, long menuId) {
         try {
-            MenuModel selectedMenuItem = Db.Menu.getMenuById(id);
+            MenuModel selectedMenuItem = Db.Menu.getMenuById(menuId);
             String url_action = selectedMenuItem.url;
 
             if (url_action != null && !TextUtils.isEmpty(url_action)) {
                 Intent urlIntent = new Intent(mContext, UrlActivity.class);
                 urlIntent.putExtra(Constant.Key.ACTION_URL, url_action);
+                urlIntent.putExtra(Constant.Key.MENU_ID, menuId);
                 mContext.startActivity(urlIntent);
             } else if (selectedMenuItem.controller != null && !TextUtils.isEmpty(selectedMenuItem.controller)) {
-                Helper.lunchActivity(mContext, selectedMenuItem.controller, (int) id);
+                Helper.lunchActivity(mContext, selectedMenuItem.controller, (int) menuId);
             } else {
                 Helper.alert(mContext, "محتوایی برای نمایش وجود ندارد", Constant.AlertType.Information);
             }

@@ -1,24 +1,25 @@
 package com.technotapp.servicestation.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.pax.dal.IScanner;
-import com.pax.dal.entity.EScannerType;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.pax.neptunelite.api.NeptuneLiteUser;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.R;
+import com.technotapp.servicestation.activity.CustomScannerActivity;
 import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.database.Db;
 import com.technotapp.servicestation.database.model.MenuModel;
@@ -104,36 +105,58 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
 
     private NeptuneLiteUser neptuneLiteUser = NeptuneLiteUser.getInstance();
     String str;
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fragment_receipt_btnQrReader:
                 try {
 
-                    neptuneLiteUser.getDal(getActivity()).getScanner(EScannerType.RIGHT).open();
-                    neptuneLiteUser.getDal(getActivity()).getScanner(EScannerType.RIGHT).start(new IScanner.IScanListener() {
-                        @Override
-                        public void onRead(String result) {
-                            str = result;
+                    IntentIntegrator integrator = IntentIntegrator.forSupportFragment(this);
+                    integrator.setCaptureActivity(CustomScannerActivity.class);
+                    integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
+                    integrator.setPrompt("بارکد قبض را اسکن کنید");
+                    integrator.setCameraId(0);  // Use a specific camera of the device
+                    integrator.setBeepEnabled(true);
+                    integrator.setBarcodeImageEnabled(true);
+                    integrator.initiateScan();
+
+//                    ScannerFragment scanFragment = new ScannerFragment();
+//                    scanFragment.setOnScanListener(new ScannerFragment.OnScanListener() {
+//                        @Override
+//                        public void onSuccess(String codeContent, String codeFormat) {
+//                            checkValidation(codeContent);
+//                        }
+//
+//                        @Override
+//                        public void onFailed() {
+//
+//                        }
+//                    });
 
 
-                        }
-
-                        @Override
-                        public void onFinish() {
-                            try {
-                                neptuneLiteUser.getDal(getActivity()).getScanner(EScannerType.RIGHT).close();
-                                checkValidation(str);
-                            } catch (Exception e) {
-                                AppMonitor.reportBug(e, mClassName, "onFinish");
-                            }
-                        }
-
-                        @Override
-                        public void onCancel() {
-
-                        }
-                    });
+//                    neptuneLiteUser.getDal(getActivity()).getScanner(EScannerType.RIGHT).open();
+//                    neptuneLiteUser.getDal(getActivity()).getScanner(EScannerType.RIGHT).start(new IScanner.IScanListener() {
+//                        @Override
+//                        public void onRead(String result) {
+//                            str = result;
+//                        }
+//
+//                        @Override
+//                        public void onFinish() {
+//                            try {
+//                                neptuneLiteUser.getDal(getActivity()).getScanner(EScannerType.RIGHT).close();
+//                                checkValidation(str);
+//                            } catch (Exception e) {
+//                                AppMonitor.reportBug(e, mClassName, "onFinish");
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onCancel() {
+//
+//                        }
+//                    });
 
                 } catch (Exception e) {
                     AppMonitor.reportBug(e, mClassName, "submitFragment");
@@ -142,11 +165,11 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
             case R.id.fragment_receipt_btnConfirm:
                 String strBill = edtBillingId.getText().toString();
                 String strPayment = edtPaymentCode.getText().toString();
-                if (strBill.isEmpty()||strPayment.isEmpty()){
-                    Helper.alert(mActivity,"شناسه قبض یا شناسه پرداخت وارد نشده است ",Constant.AlertType.Information);
+                if (strBill.isEmpty() || strPayment.isEmpty()) {
+                    Helper.alert(mActivity, "شناسه قبض یا شناسه پرداخت وارد نشده است ", Constant.AlertType.Information);
                     break;
-                }else if (strBill.length()<8||strPayment.length()<8){
-                    Helper.alert(mActivity,"بارکد مورد نظر معتبر نمی باشد",Constant.AlertType.Error);
+                } else if (strBill.length() < 8 || strPayment.length() < 8) {
+                    Helper.alert(mActivity, "بارکد مورد نظر معتبر نمی باشد", Constant.AlertType.Error);
                     break;
                 }
                 int lengthBill = (13 - strBill.length());
@@ -161,6 +184,17 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
                 break;
         }
 
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        //retrieve scan result
+        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        String codeContent = scanningResult.getContents();
+        String codeFormat = scanningResult.getFormatName();
+        if (codeContent != null && codeFormat != null && !TextUtils.isEmpty(codeContent) && !TextUtils.isEmpty(codeFormat)) {
+            checkValidation(codeContent);
+        } else {
+        }
     }
 
     private void checkValidation(String result) {
@@ -196,7 +230,7 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
                         if (isValidBillDetail(billingId, paymentCode)) {
                             isTrue = true;
                         } else {
-                            Helper.alert(mActivity,"بارکد مورد نظر معتبر نمی باشد",Constant.AlertType.Error);
+                            Helper.alert(mActivity, "بارکد مورد نظر معتبر نمی باشد", Constant.AlertType.Error);
                         }
                         break;
                     case Constant.PayBill.Organization.ELECTRICAL:
@@ -204,7 +238,7 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
                         if (isValidBillDetail(billingId, paymentCode)) {
                             isTrue = true;
                         } else {
-                            Helper.alert(mActivity,"بارکد مورد نظر معتبر نمی باشد",Constant.AlertType.Error);
+                            Helper.alert(mActivity, "بارکد مورد نظر معتبر نمی باشد", Constant.AlertType.Error);
                         }
                         break;
                     case Constant.PayBill.Organization.GAS:
@@ -212,7 +246,7 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
                         if (isValidBillDetail(billingId, paymentCode)) {
                             isTrue = true;
                         } else {
-                            Helper.alert(mActivity,"بارکد مورد نظر معتبر نمی باشد",Constant.AlertType.Error);
+                            Helper.alert(mActivity, "بارکد مورد نظر معتبر نمی باشد", Constant.AlertType.Error);
                         }
                         break;
                     case Constant.PayBill.Organization.PHONE:
@@ -220,21 +254,21 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
                         if (isValidBillDetail(billingId, paymentCode)) {
                             isTrue = true;
                         } else {
-                            Helper.alert(mActivity,"بارکد مورد نظر معتبر نمی باشد",Constant.AlertType.Error);
+                            Helper.alert(mActivity, "بارکد مورد نظر معتبر نمی باشد", Constant.AlertType.Error);
                         }
                         break;
                     case Constant.PayBill.Organization.MOBILE:
                     case Constant.PayBill.Organization.TAX_OF_MUNICIPALITY:
                     case Constant.PayBill.Organization.TAX:
                     case Constant.PayBill.Organization.TRAFFIC_CRIME:
-                        Helper.alert(mActivity,"بارکد مورد نظر معتبر نمی باشد",Constant.AlertType.Error);
+                        Helper.alert(mActivity, "بارکد مورد نظر معتبر نمی باشد", Constant.AlertType.Error);
                         break;
                 }
             } else {
-                Helper.alert(mActivity,"بارکد مورد نظر معتبر نمی باشد",Constant.AlertType.Error);
+                Helper.alert(mActivity, "بارکد مورد نظر معتبر نمی باشد", Constant.AlertType.Error);
             }
         } else {
-            Helper.alert(mActivity,"بارکد مورد نظر معتبر نمی باشد",Constant.AlertType.Error);
+            Helper.alert(mActivity, "بارکد مورد نظر معتبر نمی باشد", Constant.AlertType.Error);
         }
 
         return isTrue;

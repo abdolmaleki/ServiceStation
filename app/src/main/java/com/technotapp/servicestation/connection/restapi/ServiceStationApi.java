@@ -46,4 +46,8 @@ public interface ServiceStationApi {
     @POST("api/InternalCharge/Rechagre")
     Call<String> buyCharge(@Query("key") String key, @Query("value") String value, @Query("deviceInfo") String deviceInfo);
 
+    @POST("api/Applications/GetTerminalVersionMenu")
+    Call<String> getVersion(@Query("key") String key, @Query("value") String value, @Query("deviceInfo") String deviceInfo);
+
+
 }

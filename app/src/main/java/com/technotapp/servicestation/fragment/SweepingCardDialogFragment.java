@@ -37,7 +37,7 @@ public class SweepingCardDialogFragment extends DialogFragment implements View.O
                 getDialog().getWindow().setBackgroundDrawableResource(R.drawable.bg_btn_swipe_card);
             }
             initView(view);
-            counter(progressBar,txtCounter);
+            counter(progressBar, txtCounter);
             return view;
 
         } catch (Exception e) {
@@ -48,7 +48,7 @@ public class SweepingCardDialogFragment extends DialogFragment implements View.O
 
     private void initView(View v) {
         txtCounter = v.findViewById(R.id.fragment_dialog_sweepingcard_txtCounter);
-        btnCancel = v.findViewById(R.id.fragment_dialog_sweepingcard_progress_button);
+        btnCancel = v.findViewById(R.id.fragment_dialog_sweepingcard_progress_btn_cancel);
         progressBar = v.findViewById(R.id.fragment_dialog_sweepingcard_progress_progressBar);
 
         btnCancel.setOnClickListener(this);
@@ -86,7 +86,7 @@ public class SweepingCardDialogFragment extends DialogFragment implements View.O
                 @Override
                 public void handleMessage(Message msg) {
                     progressBar.setProgress(msg.arg1);
-                    txtCounter.setText((msg.arg2+1)+"");
+                    txtCounter.setText((msg.arg2 + 1) + "");
 
                 }
             };
@@ -127,9 +127,8 @@ public class SweepingCardDialogFragment extends DialogFragment implements View.O
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.fragment_dialog_sweepingcard_progress_button) {
+        if (v.getId() == R.id.fragment_dialog_sweepingcard_progress_btn_cancel) {
             try {
-
                 mIsDialogHide = true;
                 mISweepDialog.onCancelOrTimeout();
             } catch (Exception e) {

@@ -72,6 +72,7 @@ public class PublicServiceActivity extends SubMenuActivity implements IPin {
                 return KhalafiFragment.newInstance();
             default:
                 Helper.alert(this, "برای این گزینه محتوایی تعریف نشده است", Constant.AlertType.Error);
+                finish();
         }
         return null;
     }

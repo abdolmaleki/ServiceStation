@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
+import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.Infrastructure.TransactionHelper;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.adapter.DataModel.MenuAdapterModel;
@@ -20,6 +21,8 @@ import com.technotapp.servicestation.database.Db;
 import com.technotapp.servicestation.database.model.MenuModel;
 import com.technotapp.servicestation.pax.mag.IMagCardCallback;
 import com.technotapp.servicestation.pax.mag.MagCard;
+import com.technotapp.servicestation.pax.printer.PrintMaker;
+import com.technotapp.servicestation.setting.Session;
 
 import java.util.ArrayList;
 
@@ -32,6 +35,7 @@ public class CardServiceFragment extends SubMenuFragment implements AdapterView.
     Fragment fragment;
     private int mMenuId;
     private MenuModel mCurrenMenu;
+    private Session mSession;
 
     public static CardServiceFragment newInstance() {
         CardServiceFragment fragment = new CardServiceFragment();
@@ -60,7 +64,6 @@ public class CardServiceFragment extends SubMenuFragment implements AdapterView.
         Db.init();
     }
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -79,6 +82,7 @@ public class CardServiceFragment extends SubMenuFragment implements AdapterView.
             setRetainInstance(true);
             setTitle(mCurrenMenu.title);
             gridView.setOnItemClickListener(this);
+            mSession = Session.getInstance(getActivity());
         } catch (Exception e) {
             AppMonitor.reportBug(e, "CardServiceFragment", "initView");
         }
@@ -144,13 +148,16 @@ public class CardServiceFragment extends SubMenuFragment implements AdapterView.
         super.onPinEnteredSuccessfully();
         try {
             TransactionHelper.sendRequest(getActivity(), Constant.RequestMode.BALANCE, transactionDataModel, "0", new TransactionHelper.TransactionResultListener() {
-                @Override
-                public void onSuccessfull() {
 
+                @Override
+                public void onSuccessfullTransaction(TransactionDataModel transactionDataModel) {
+                    Helper.alert(getActivity(), getString(R.string.successfull_transaction), Constant.AlertType.Success);
+                    PrintMaker.startPrint(getActivity(), Constant.RequestMode.BALANCE, transactionDataModel);
                 }
 
                 @Override
-                public void onFail() {
+                public void onFailTransaction(String message) {
+                    Helper.alert(getActivity(), message, Constant.AlertType.Error);
 
                 }
             });

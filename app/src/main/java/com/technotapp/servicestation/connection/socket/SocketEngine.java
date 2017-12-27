@@ -37,7 +37,6 @@ public class SocketEngine {
 
     public void sendData(final byte[] request, final ISocketCallback callback) {
 
-        Helper.progressBar.showDialog(mContext, "در حال ارتباط با بانک");
         /////////////////////////////////////////////////////////////////////////////////////////////////////
         /////////// Check Network Connection
         /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,14 +55,10 @@ public class SocketEngine {
 
                     AppMonitor.reportBug(e, "SocketEngine", "connect");
                     callback.onFail();
-                    Helper.progressBar.hideDialog();
 
                 }
 
                 try {
-                    Helper.progressBar.hideDialog();
-                    Helper.progressBar.showDialog(mContext, "در حال دریافت اطلاعات از بانک");
-
 
                     ///////////////////////////////////////////////////////////////////
                     ////////////// Send Data
@@ -86,11 +81,9 @@ public class SocketEngine {
                     //mTransactionDataModel= parseISO.parseDataItem(tx);
                     parseISO.parseDataItem(tx);
                     callback.onReceiveData(mTransactionDataModel);
-                    Helper.progressBar.hideDialog();
 
 
                 } catch (Exception e) {
-                    Helper.progressBar.hideDialog();
                     closeConnection();
                     callback.onFail();
                     AppMonitor.reportBug(e, "SocketEngine", "sendData");
@@ -108,8 +101,6 @@ public class SocketEngine {
                 }
             }
         });
-
-
     }
 
     private void closeConnection() {

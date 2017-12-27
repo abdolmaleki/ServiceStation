@@ -78,6 +78,8 @@ dependencies {
         exclude group: 'com.android.support', module: 'appcompat-v7'
     }
     compile 'com.github.ybq:Android-SpinKit:1.1.0'
+    compile 'com.journeyapps:zxing-android-embedded:3.5.0'
+
 
 
 }

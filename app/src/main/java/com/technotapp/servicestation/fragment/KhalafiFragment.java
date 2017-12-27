@@ -5,20 +5,12 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.technotapp.servicestation.R;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class KhalafiFragment extends SubMenuFragment implements View.OnClickListener {
-
-    @BindView(R.id.toolbar_img_back)
-    LinearLayout back;
-    @BindView(R.id.toolbar_tv_title)
-    TextView txtTitle;
 
     public static KhalafiFragment newInstance() {
         KhalafiFragment fragment = new KhalafiFragment();
@@ -43,7 +35,7 @@ public class KhalafiFragment extends SubMenuFragment implements View.OnClickList
 
     private void initView(View rooView) {
         ButterKnife.bind(rooView);
-        txtTitle.setText("استعلام خلافی خودرو");
+        setTitle("خلافی خودرو");
     }
 
     @Override
