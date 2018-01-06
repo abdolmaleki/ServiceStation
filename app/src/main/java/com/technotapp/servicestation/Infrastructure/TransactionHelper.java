@@ -114,7 +114,7 @@ public class TransactionHelper {
 
             result = pa.getIso8583().pack();
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "TransactionHelper", "getPacker");
+            AppMonitor.reportBug(mContext, e, "TransactionHelper", "getPacker");
         }
 
         return result;

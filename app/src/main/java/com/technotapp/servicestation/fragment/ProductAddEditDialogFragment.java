@@ -69,7 +69,7 @@ public class ProductAddEditDialogFragment extends DialogFragment implements View
     }
 
     private void initDb() {
-        Db.init();
+        Db.init(getActivity());
     }
 
     private void loadData() {
@@ -95,7 +95,7 @@ public class ProductAddEditDialogFragment extends DialogFragment implements View
             return view;
 
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "ProductAddEditDialogFragment", "onCreateView");
+            AppMonitor.reportBug(getActivity(), e, "ProductAddEditDialogFragment", "onCreateView");
             return null;
         }
     }
@@ -141,7 +141,7 @@ public class ProductAddEditDialogFragment extends DialogFragment implements View
             this.setCancelable(true);
             this.show(activity.getFragmentManager(), "ProductManagementAddEdit");
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "ProductAddEditDialogFragment", "show");
+            AppMonitor.reportBug(getActivity(), e, "ProductAddEditDialogFragment", "show");
         }
     }
 
@@ -181,7 +181,7 @@ public class ProductAddEditDialogFragment extends DialogFragment implements View
                             Helper.alert(mActivity, getString(R.string.api_data_download_error), Constant.AlertType.Error);
                         }
                     } catch (Exception e) {
-                        AppMonitor.reportBug(e, "ProductAddEditDialogFragment", "callAddProduct-onResponse");
+                        AppMonitor.reportBug(getActivity(), e, "ProductAddEditDialogFragment", "callAddProduct-onResponse");
                         Helper.alert(mActivity, getString(R.string.api_data_download_error), Constant.AlertType.Error);
 
                     }
@@ -194,7 +194,7 @@ public class ProductAddEditDialogFragment extends DialogFragment implements View
                 }
             });
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "ProductAddEditDialogFragment", "callAddProduct");
+            AppMonitor.reportBug(getActivity(), e, "ProductAddEditDialogFragment", "callAddProduct");
         }
 
     }
@@ -226,7 +226,7 @@ public class ProductAddEditDialogFragment extends DialogFragment implements View
                             Helper.alert(mActivity, getString(R.string.api_data_download_error), Constant.AlertType.Error);
                         }
                     } catch (Exception e) {
-                        AppMonitor.reportBug(e, "ProductAddEditDialogFragment", "callAddProduct-onResponse");
+                        AppMonitor.reportBug(getActivity(), e, "ProductAddEditDialogFragment", "callAddProduct-onResponse");
                         Helper.alert(mActivity, getString(R.string.api_data_download_error), Constant.AlertType.Error);
 
                     }
@@ -239,7 +239,7 @@ public class ProductAddEditDialogFragment extends DialogFragment implements View
                 }
             });
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "ProductAddEditDialogFragment", "callAddProduct");
+            AppMonitor.reportBug(getActivity(), e, "ProductAddEditDialogFragment", "callAddProduct");
         }
 
     }
@@ -253,7 +253,7 @@ public class ProductAddEditDialogFragment extends DialogFragment implements View
             dismiss();
 
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "ProductAddEditDialogFragment", "onSuccessfulAddProduct");
+            AppMonitor.reportBug(getActivity(), e, "ProductAddEditDialogFragment", "onSuccessfulAddProduct");
         }
     }
 
@@ -266,7 +266,7 @@ public class ProductAddEditDialogFragment extends DialogFragment implements View
             dismiss();
 
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "ProductAddEditDialogFragment", "onSuccessfulUpdateProduct");
+            AppMonitor.reportBug(getActivity(), e, "ProductAddEditDialogFragment", "onSuccessfulUpdateProduct");
         }
     }
 

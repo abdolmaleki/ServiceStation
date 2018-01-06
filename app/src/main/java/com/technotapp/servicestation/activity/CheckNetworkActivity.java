@@ -38,7 +38,7 @@ import java.util.List;
 import io.ghyeok.stickyswitch.widget.StickySwitch;
 
 
-public class CheckNetworkActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, StickySwitch.OnSelectedChangeListener {
+public class CheckNetworkActivity extends BaseActivity implements AdapterView.OnItemClickListener, StickySwitch.OnSelectedChangeListener {
 
     private SwitchCompat mNetworkType;
     private LinearLayout mDataPanel;
@@ -125,7 +125,6 @@ public class CheckNetworkActivity extends AppCompatActivity implements AdapterVi
     }
 
     private void initView() {
-        PaxHelper.enableBackNavigationButton(this);
         mDataPanel = findViewById(R.id.activity_checknetwork_panel_data);
         mWifiPanel = findViewById(R.id.activity_checknetwork_panel_wifi);
         mListWifi = findViewById(R.id.activity_checknetwork_list_wifi);
@@ -206,7 +205,7 @@ public class CheckNetworkActivity extends AppCompatActivity implements AdapterVi
                         }
                     });
                 } catch (Exception e) {
-                    AppMonitor.reportBug(e, "CheckNetworkActivity", "onSelectedChange");
+                    AppMonitor.reportBug(this, e, "CheckNetworkActivity", "onSelectedChange");
                 }
 
                 break;
@@ -227,7 +226,7 @@ public class CheckNetworkActivity extends AppCompatActivity implements AdapterVi
                         }
                     });
                 } catch (Exception e) {
-                    AppMonitor.reportBug(e, "CheckNetworkActivity", "onSelectedChange");
+                    AppMonitor.reportBug(this, e, "CheckNetworkActivity", "onSelectedChange");
                 }
                 break;
         }

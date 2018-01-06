@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.Converters;
+import com.technotapp.servicestation.Infrastructure.DontObfuscate;
 import com.technotapp.servicestation.Infrastructure.Encryptor;
 import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.adapter.CardChargeAdapter;
@@ -43,7 +44,6 @@ import javax.crypto.SecretKey;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-
 
 public class ChargeFragment extends SubMenuFragment implements View.OnClickListener {
 
@@ -139,7 +139,7 @@ public class ChargeFragment extends SubMenuFragment implements View.OnClickListe
 
 
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "ChargeFragment", "bindView");
+            AppMonitor.reportBug(getActivity(),e, "ChargeFragment", "bindView");
         }
     }
 
@@ -364,7 +364,7 @@ public class ChargeFragment extends SubMenuFragment implements View.OnClickListe
                             Helper.alert(getActivity(), getString(R.string.api_data_download_error), Constant.AlertType.Error);
                         }
                     } catch (Exception e) {
-                        AppMonitor.reportBug(e, "ChargeFragment", "callByeCharge-OnResponse");
+                        AppMonitor.reportBug(getActivity(),e, "ChargeFragment", "callByeCharge-OnResponse");
                     }
                 }
 
@@ -375,7 +375,7 @@ public class ChargeFragment extends SubMenuFragment implements View.OnClickListe
                 }
             });
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "ChargeFragment", "callByeCharge");
+            AppMonitor.reportBug(getActivity(),e, "ChargeFragment", "callByeCharge");
         }
     }
 

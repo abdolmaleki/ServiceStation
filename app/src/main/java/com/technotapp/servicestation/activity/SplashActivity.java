@@ -83,7 +83,7 @@ public class SplashActivity extends AppCompatActivity {
                         try {
                             Thread.sleep(20);
                         } catch (InterruptedException e) {
-                            AppMonitor.reportBug(e, mClassName, "playSplash-Timer");
+                            AppMonitor.reportBug(SplashActivity.this,e, mClassName, "playSplash-Timer");
                         }
                     }
 
@@ -93,7 +93,7 @@ public class SplashActivity extends AppCompatActivity {
                 }
             }, 2000);
         } catch (Exception e) {
-            AppMonitor.reportBug(e, mClassName, "playSplash");
+            AppMonitor.reportBug(SplashActivity.this,e, mClassName, "playSplash");
         }
 
     }
@@ -105,7 +105,7 @@ public class SplashActivity extends AppCompatActivity {
             mContext = SplashActivity.this;
             handler = new Handler(getMainLooper());
         } catch (Exception e) {
-            AppMonitor.reportBug(e, mClassName, "initView");
+            AppMonitor.reportBug(SplashActivity.this,e, mClassName, "initView");
         }
     }
 
@@ -120,7 +120,6 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        PaxHelper.disableAllNavigationButton(mContext);
     }
 
     private void checkNetStatus() {

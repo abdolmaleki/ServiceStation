@@ -88,7 +88,7 @@ public class ReceiptDialogFragment extends DialogFragment implements View.OnClic
             btnBack.setOnClickListener(this);
 
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "ReceiptFragment", "initView");
+            AppMonitor.reportBug(getActivity(),e, "ReceiptFragment", "initView");
         }
     }
 

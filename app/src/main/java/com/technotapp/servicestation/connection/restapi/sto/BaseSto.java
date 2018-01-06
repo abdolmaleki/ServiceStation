@@ -3,10 +3,12 @@ package com.technotapp.servicestation.connection.restapi.sto;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.technotapp.servicestation.Infrastructure.DontObfuscate;
+
 import java.io.Serializable;
 import java.util.List;
 
-
+@DontObfuscate
 public class BaseSto implements Serializable, Parcelable {
     public List<MenuSto.MessageModel> messageModel;
 
@@ -41,6 +43,7 @@ public class BaseSto implements Serializable, Parcelable {
         parcel.writeTypedList(messageModel);
     }
 
+    @DontObfuscate
     public static class MessageModel implements Serializable, Parcelable {
 
         public int errorCode;

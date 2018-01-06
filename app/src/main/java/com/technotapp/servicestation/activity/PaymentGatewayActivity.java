@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.technotapp.servicestation.R;
 
-public class PaymentGatewayActivity extends AppCompatActivity {
+public class PaymentGatewayActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

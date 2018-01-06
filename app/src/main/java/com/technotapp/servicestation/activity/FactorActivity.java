@@ -40,7 +40,7 @@ import javax.crypto.SecretKey;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class FactorActivity extends AppCompatActivity implements View.OnClickListener, IPin {
+public class FactorActivity extends BaseActivity implements View.OnClickListener, IPin {
 
 
     private FactorModel mFactorModel;
@@ -73,21 +73,21 @@ public class FactorActivity extends AppCompatActivity implements View.OnClickLis
             FactorAdapter adapter = new FactorAdapter(this, productModels);
             list_product.setAdapter(adapter);
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "FactorActivity", "initAdapter");
+            AppMonitor.reportBug(this,e, "FactorActivity", "initAdapter");
         }
     }
 
     private void initView() {
         ButterKnife.bind(this);
         txtTitle.setText("فاکتور فروش");
-        tv_totalPrice.setText(mFactorModel.getTotalPrice() + "");
+        tv_totalPrice.setText(mFactorModel.getTotalPrice() + " ریال");
         back.setOnClickListener(this);
         findViewById(R.id.activity_factor_btn_pay).setOnClickListener(this);
         mSession = Session.getInstance(this);
     }
 
     private void initDb() {
-        Db.init();
+        Db.init(this);
     }
 
     private void loadData() {
@@ -145,7 +145,7 @@ public class FactorActivity extends AppCompatActivity implements View.OnClickLis
             }
 
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "FactorActivity", "goPaymentMenu");
+            AppMonitor.reportBug(this,e, "FactorActivity", "goPaymentMenu");
         }
 
     }
@@ -183,7 +183,7 @@ public class FactorActivity extends AppCompatActivity implements View.OnClickLis
                             Helper.alert(FactorActivity.this, getString(R.string.api_data_download_error), Constant.AlertType.Error);
                         }
                     } catch (Exception e) {
-                        AppMonitor.reportBug(e, "FactorActivity", "callSubmitFactor");
+                        AppMonitor.reportBug(FactorActivity.this,e, "FactorActivity", "callSubmitFactor");
                         Helper.alert(FactorActivity.this, getString(R.string.api_data_download_error), Constant.AlertType.Error);
 
                     }
@@ -195,7 +195,7 @@ public class FactorActivity extends AppCompatActivity implements View.OnClickLis
                 }
             });
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "FactorActivity", "callSubmitFactor");
+            AppMonitor.reportBug(FactorActivity.this,e, "FactorActivity", "callSubmitFactor");
         }
     }
 

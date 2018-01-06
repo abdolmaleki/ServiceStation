@@ -1,5 +1,7 @@
 package com.technotapp.servicestation.database;
 
+import android.content.Context;
+
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.database.model.FactorModel;
 import com.technotapp.servicestation.database.model.MenuModel;
@@ -13,10 +15,13 @@ import io.realm.RealmResults;
 public class Db {
 
     private static Realm realm;
+    private static Context mContext;
 
-    public static void init() {
+
+    public static void init(Context context) {
         if (realm == null) {
             realm = Realm.getDefaultInstance();
+            mContext = context;
         }
     }
 
@@ -41,7 +46,7 @@ public class Db {
                 return true;
 
             } catch (Exception e) {
-                AppMonitor.reportBug(e, "Db", "insert");
+                AppMonitor.reportBug(mContext, e, "Db", "insert");
                 return false;
             }
         }
@@ -75,7 +80,7 @@ public class Db {
                 });
                 return true;
             } catch (Exception e) {
-                AppMonitor.reportBug(e, "Product", "insert");
+                AppMonitor.reportBug(mContext, e, "Product", "insert");
                 return false;
             }
         }
@@ -92,7 +97,7 @@ public class Db {
                 realm.commitTransaction();
                 return true;
             } catch (Exception e) {
-                AppMonitor.reportBug(e, "Product", "update");
+                AppMonitor.reportBug(mContext, e, "Product", "update");
                 return false;
             }
         }
@@ -127,7 +132,7 @@ public class Db {
                 });
                 return factorModel.getId();
             } catch (Exception e) {
-                AppMonitor.reportBug(e, "Factor", "insert");
+                AppMonitor.reportBug(mContext, e, "Factor", "insert");
                 return -1;
             }
         }
@@ -141,7 +146,7 @@ public class Db {
                 realm.commitTransaction();
                 return true;
             } catch (Exception e) {
-                AppMonitor.reportBug(e, "Factor", "update");
+                AppMonitor.reportBug(mContext, e, "Factor", "update");
                 return false;
             }
         }

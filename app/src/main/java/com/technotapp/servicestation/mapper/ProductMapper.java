@@ -1,9 +1,12 @@
 package com.technotapp.servicestation.mapper;
 
+import android.util.Log;
+
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.adapter.DataModel.ProductAdapterModel;
 import com.technotapp.servicestation.adapter.DataModel.ProductFactorAdapterModel;
 import com.technotapp.servicestation.connection.restapi.dto.AddProductDto;
+import com.technotapp.servicestation.connection.restapi.sto.SearchProductSto;
 import com.technotapp.servicestation.database.model.ProductModel;
 
 import java.util.ArrayList;
@@ -21,7 +24,7 @@ public class ProductMapper {
             model.nidProduct = (dto.nidProduct != null) ? dto.nidProduct : -1;
             return model;
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "ProductMapper", "convertDtoToModel");
+            Log.e("ProductMapper", "convertDtoToModel");
             return null;
         }
     }
@@ -36,7 +39,7 @@ public class ProductMapper {
             adapterModel.setUnit(String.valueOf(model.unitCode));
             return adapterModel;
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "ProductMapper", "convertModelToAdapterModel");
+            Log.e("ProductMapper", "convertModelToAdapterModel");
             return null;
 
         }
@@ -52,7 +55,7 @@ public class ProductMapper {
             adapterModel.setUnit(String.valueOf(model.unitCode));
             return adapterModel;
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "ProductMapper", "convertModelToFactorAdapterModel");
+            Log.e("ProductMapper", "convertModelToFactorAdapterModel");
             return null;
 
         }
@@ -66,7 +69,7 @@ public class ProductMapper {
             }
             return adapterModels;
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "ProductMapper", "convertModelToAdapterModel");
+            Log.e("ProductMapper", "convertModelToAdapterModel");
             return null;
         }
     }
@@ -79,8 +82,26 @@ public class ProductMapper {
             }
             return adapterModels;
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "ProductMapper", "convertModelToFactorAdapterModel");
+            Log.e("ProductMapper", "convertModelToFactorAdapterModel");
             return null;
         }
     }
+
+    public static ProductModel convertSearchResultToProductModel(SearchProductSto.DataModel.Result result) {
+        try {
+            ProductModel model = new ProductModel();
+            model.nidProduct = result.nidProduct;
+            model.description = result.description;
+            model.unitCode = result.unitCode;
+            model.price = String.valueOf(result.price);
+            model.title = result.title;
+            return model;
+        } catch (Exception e) {
+            Log.e( "ProductMapper", "convertSearchResultToProductModel");
+            return null;
+
+        }
+    }
+
+
 }

@@ -80,7 +80,7 @@ public class WifiAdapter extends BaseAdapter {
 
             return rowView;
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "WifiAdapter", "getView");
+            AppMonitor.reportBug(mContext,e, "WifiAdapter", "getView");
             return null;
         }
     }

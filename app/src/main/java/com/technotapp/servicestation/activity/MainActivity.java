@@ -44,7 +44,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.RealmResults;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     @BindView(R.id.activity_main_txt_shop_name)
     TextView txtShopName;
@@ -83,13 +83,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initDb() {
-        Db.init();
+        Db.init(this);
     }
 
     private void loadSetting() {
     }
 
     private void loadData() {
+
     }
 
     //create gridViewPager
@@ -114,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
             viewPager.setAdapter(mPagerAdapter);
             mIndicator.setViewPager(viewPager);
         } catch (Exception e) {
-            AppMonitor.reportBug(e, mClassName, "initAdapter");
+            AppMonitor.reportBug(this, e, mClassName, "initAdapter");
         }
     }
 
@@ -126,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
             txtShopName.setText(mSession.getShopName());
 
         } catch (Exception e) {
-            AppMonitor.reportBug(e, mClassName, "initView");
+            AppMonitor.reportBug(this, e, mClassName, "initView");
         }
     }
 
@@ -140,7 +141,6 @@ public class MainActivity extends AppCompatActivity {
             if (mCounter == 9) {
                 mCounter = 0;
                 startActivity(new Intent(mContext, SettingActivity.class));
-                finish();
                 return;
             } else if (mCounter > 3) {
                 mToastMessage = Toast.makeText(mContext, "شما " + (9 - mCounter) + " قدمی دسترسی به تنظیمات هستید.", Toast.LENGTH_SHORT);
@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         } catch (Exception e) {
-            AppMonitor.reportBug(e, mClassName, "openSettingMenu");
+            AppMonitor.reportBug(this, e, mClassName, "openSettingMenu");
         }
     }
 
@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
                             Helper.alert(MainActivity.this, getString(R.string.api_data_download_error), Constant.AlertType.Error);
                         }
                     } catch (Exception e) {
-                        AppMonitor.reportBug(e, "MainActivity", "callSendLog-onResponse");
+                        AppMonitor.reportBug(MainActivity.this, e, "MainActivity", "callSendLog-onResponse");
                         Helper.alert(MainActivity.this, getString(R.string.api_data_download_error), Constant.AlertType.Error);
 
                     }
@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         } catch (Exception e) {
-            AppMonitor.reportBug(e, mClassName, "callSendLog");
+            AppMonitor.reportBug(MainActivity.this, e, mClassName, "callSendLog");
         }
     }
 
@@ -226,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
                             Helper.alert(MainActivity.this, getString(R.string.api_data_download_error), Constant.AlertType.Error);
                         }
                     } catch (Exception e) {
-                        AppMonitor.reportBug(e, "MainActivity", "callGetVersion-onResponse");
+                        AppMonitor.reportBug(MainActivity.this, e, "MainActivity", "callGetVersion-onResponse");
                         Helper.alert(MainActivity.this, getString(R.string.api_data_download_error), Constant.AlertType.Error);
 
                     }
@@ -237,7 +237,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         } catch (Exception e) {
-            AppMonitor.reportBug(e, mClassName, "callGetVersion");
+            AppMonitor.reportBug(MainActivity.this, e, mClassName, "callGetVersion");
         }
     }
 
@@ -245,13 +245,25 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         callGetVersion();
+
+
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (intent != null) {
+            boolean isMustExit = intent.getBooleanExtra(Constant.Key.EXIT, false);
+            if (isMustExit) {
+                finish();
+            }
+        }
     }
 
     private LogDto createLogDto() {
 
         LogDto dto = new LogDto();
         dto.Description = DateHelper.getShamsiDate();
-        dto.deviceIp = "192.0.0.1";
         dto.Title = "";
         dto.UserDeviceInfo = "My Pos Info";
         dto.LogTypeId = 1;

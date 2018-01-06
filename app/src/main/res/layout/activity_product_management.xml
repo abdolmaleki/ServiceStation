@@ -10,16 +10,36 @@
 
     <include layout="@layout/toolbar" />
 
-
-    <android.support.v7.widget.SearchView
-        android:id="@+id/activity_product_management_sv_product"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginStart="12dp"
-        android:imeOptions="actionDone"
-        android:layoutDirection="rtl" />
+        android:orientation="horizontal">
+
+        <com.technotapp.servicestation.customView.CustomButton
+            android:id="@+id/activity_product_management_btn_refresh"
+            android:layout_width="100dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/cs_btn_charge_fragment_type_charge_selected"
+            android:drawableRight="@drawable/ic_refresh"
+            android:paddingRight="10dp"
+            android:text="بروزرسانی"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            app:fontName="irsans" />
+
+        <android.support.v7.widget.SearchView
+            android:id="@+id/activity_product_management_sv_product"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginStart="12dp"
+            android:imeOptions="actionDone"
+            android:layoutDirection="rtl" />
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"

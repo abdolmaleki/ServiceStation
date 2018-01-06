@@ -14,21 +14,32 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
+import com.technotapp.servicestation.Infrastructure.Encryptor;
 import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.activity.FactorActivity;
+import com.technotapp.servicestation.activity.ProductManagementActivity;
 import com.technotapp.servicestation.adapter.DataModel.ProductFactorAdapterModel;
 import com.technotapp.servicestation.adapter.ProductSellingAdapter;
 import com.technotapp.servicestation.application.Constant;
+import com.technotapp.servicestation.connection.restapi.ApiCaller;
+import com.technotapp.servicestation.connection.restapi.dto.SearchProductDto;
+import com.technotapp.servicestation.connection.restapi.sto.SearchProductSto;
 import com.technotapp.servicestation.database.Db;
 import com.technotapp.servicestation.database.model.FactorModel;
 import com.technotapp.servicestation.database.model.ProductModel;
 import com.technotapp.servicestation.entity.FactorMaker;
 import com.technotapp.servicestation.mapper.ProductMapper;
+import com.technotapp.servicestation.setting.Session;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.crypto.SecretKey;
 
 public class ProductSellingFragment extends Fragment implements SearchView.OnQueryTextListener, ProductSellingAdapter.OnFactorChangeListener, View.OnClickListener {
 
@@ -38,6 +49,7 @@ public class ProductSellingFragment extends Fragment implements SearchView.OnQue
     private TextView mTV_totalPrice;
     private FactorMaker mFactorMaker;
     private Button mBTN_confirm;
+    private Session mSession;
 
     public static ProductSellingFragment newInstance() {
         ProductSellingFragment fragment = new ProductSellingFragment();
@@ -72,8 +84,9 @@ public class ProductSellingFragment extends Fragment implements SearchView.OnQue
         return rooView;
     }
 
+
     private void initDb() {
-        Db.init();
+        Db.init(getActivity());
     }
 
     private void initView(View rootView) {
@@ -87,9 +100,12 @@ public class ProductSellingFragment extends Fragment implements SearchView.OnQue
             mFactorMaker = new FactorMaker();
             mBTN_confirm = rootView.findViewById(R.id.fragment_selling_product_btn_Confirm);
             mBTN_confirm.setOnClickListener(this);
+            rootView.findViewById(R.id.fragment_custom_service_btn_refresh).setOnClickListener(this);
+
+            mSession = Session.getInstance(getActivity());
             setRetainInstance(true);
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "ProductSellingFragment", "initView");
+            AppMonitor.reportBug(getActivity(), e, "ProductSellingFragment", "initView");
         }
     }
 
@@ -102,7 +118,7 @@ public class ProductSellingFragment extends Fragment implements SearchView.OnQue
             mGVProduct.setTextFilterEnabled(true);
 
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "ProductManagementFragment", "initAdapter");
+            AppMonitor.reportBug(getActivity(), e, "ProductManagementFragment", "initAdapter");
         }
     }
 
@@ -145,5 +161,85 @@ public class ProductSellingFragment extends Fragment implements SearchView.OnQue
                 Helper.alert(mActivity, "خطا در ذخیره سازی اطلاعات", Constant.AlertType.Error);
             }
         }
+
+        if (id == R.id.fragment_custom_service_btn_refresh) {
+            callSearchProduct();
+        }
+    }
+
+    private void callSearchProduct() {
+
+        try {
+            SearchProductDto searchProductDto = createSearchProductDto();
+            final SecretKey AESsecretKey = Encryptor.generateRandomAESKey();
+
+            new ApiCaller(Constant.Api.Type.SEARCH_PRODUCT).call(mActivity, searchProductDto, AESsecretKey, "در حال بروزرسانی کالاها", new ApiCaller.ApiCallback() {
+                @Override
+                public void onResponse(int responseCode, String jsonResult) {
+                    try {
+                        Gson gson = Helper.getGson();
+                        Type listType = new TypeToken<ArrayList<SearchProductSto>>() {
+                        }.getType();
+                        ArrayList<SearchProductSto> searchProductStos = gson.fromJson(jsonResult, listType);
+
+                        if (searchProductStos != null) {
+                            if (searchProductStos.get(0).messageModel.get(0).errorCode == Constant.Api.ErrorCode.Successfull) {
+                                mSession.setLastVersion(searchProductStos.get(0).messageModel.get(0).ver);
+                                if (searchProductStos.get(0).dataModel.get(0).result != null && searchProductStos.get(0).dataModel.get(0).result.size() > 0) { // have registered product
+                                    if (saveProduct(searchProductStos.get(0).dataModel.get(0).result)) {//db persisant have done
+                                        initAdapter();
+                                        Helper.alert(mActivity, "بروزرسانی کالاها و خدمات انجام شد", Constant.AlertType.Success);
+                                    } else // db persisant have error
+                                    {
+                                        Helper.alert(mActivity, "بروزرسانی کالاها و خدمات با مشکل مواجه شد", Constant.AlertType.Error);
+                                    }
+
+                                } else {  // have not registered product
+
+                                }
+                            } else {
+                                Helper.alert(mActivity, searchProductStos.get(0).messageModel.get(0).errorString, Constant.AlertType.Error);
+                            }
+                        } else {
+                            Helper.alert(mActivity, getString(R.string.api_data_download_error), Constant.AlertType.Error);
+                        }
+                    } catch (Exception e) {
+                        AppMonitor.reportBug(getActivity(), e, "ProductSellingFragment", "callSearchProduct-OnResponse");
+                    }
+                }
+
+                @Override
+                public void onFail() {
+                    Helper.progressBar.hideDialog();
+                    Helper.alert(mActivity, getString(R.string.serverConnectingError), Constant.AlertType.Error);
+                }
+            });
+        } catch (Exception e) {
+            AppMonitor.reportBug(getActivity(), e, "ProductSellingFragment", "callSearchProduct");
+        }
+    }
+
+    private SearchProductDto createSearchProductDto() {
+
+        SearchProductDto dto = new SearchProductDto();
+        dto.terminalCode = mSession.getTerminalId();
+        dto.tokenId = mSession.getTokenId();
+        dto.skipRows = 0;
+        dto.takeRows = Constant.Valuse.MAX_ROW_PRODUCT;
+        return dto;
+    }
+
+    private boolean saveProduct(List<SearchProductSto.DataModel.Result> results) {
+        try {
+            for (SearchProductSto.DataModel.Result result : results) {
+                ProductModel productModel = ProductMapper.convertSearchResultToProductModel(result);
+                Db.Product.insert(productModel, result.nidProduct);
+            }
+            return true;
+        } catch (Exception e) {
+            AppMonitor.reportBug(getActivity(), e, "ProductManagementActivity", "saveProduct");
+            return true;
+        }
+
     }
 }

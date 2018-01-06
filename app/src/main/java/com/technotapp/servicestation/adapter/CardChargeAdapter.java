@@ -5,15 +5,10 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.technotapp.servicestation.R;
-import com.technotapp.servicestation.application.Constant;
 
 import java.util.ArrayList;
 

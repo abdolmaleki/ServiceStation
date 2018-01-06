@@ -1,10 +1,12 @@
 package com.technotapp.servicestation.database.model;
 
+import com.technotapp.servicestation.Infrastructure.DontObfuscate;
 import com.technotapp.servicestation.adapter.DataModel.ProductFactorAdapterModel;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
 
+@DontObfuscate
 public class FactorModel extends RealmObject {
 
     private long id;

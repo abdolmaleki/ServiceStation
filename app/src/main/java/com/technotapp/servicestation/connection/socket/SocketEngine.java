@@ -53,7 +53,7 @@ public class SocketEngine {
                     mSocket.setSoTimeout(READ_TIME_OUT);
                 } catch (IOException e) {
 
-                    AppMonitor.reportBug(e, "SocketEngine", "connect");
+                    AppMonitor.reportBug(mContext, e, "SocketEngine", "connect");
                     callback.onFail();
 
                 }
@@ -86,7 +86,7 @@ public class SocketEngine {
                 } catch (Exception e) {
                     closeConnection();
                     callback.onFail();
-                    AppMonitor.reportBug(e, "SocketEngine", "sendData");
+                    AppMonitor.reportBug(mContext, e, "SocketEngine", "sendData");
                 }
             }
         };
@@ -110,7 +110,7 @@ public class SocketEngine {
             mSocket.shutdownOutput();
             mSocket.close();
         } catch (IOException e) {
-            AppMonitor.reportBug(e, "SocketEngine", "closeConnection");
+            AppMonitor.reportBug(mContext, e, "SocketEngine", "closeConnection");
         }
     }
 

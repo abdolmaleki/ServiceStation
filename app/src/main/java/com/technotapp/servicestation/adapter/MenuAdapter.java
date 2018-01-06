@@ -96,7 +96,7 @@ public class MenuAdapter extends BaseAdapter {
 
             return rowView;
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "MenuAdapter", "getView");
+            AppMonitor.reportBug(mContext, e, "MenuAdapter", "getView");
             return null;
         }
 

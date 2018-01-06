@@ -3,10 +3,59 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layoutDirection="ltr"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_card_service_deposit_buy"
+    android:layoutDirection="ltr"
     android:orientation="vertical"
     tools:context=".activity.SettingActivity">
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/toolbar" />
+
+
+    <com.technotapp.servicestation.customView.CustomButton
+        android:id="@+id/activity_setting_btn_net"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/bg_button_purple_raduce"
+        android:drawableRight="@drawable/ic_internet_setting"
+        android:paddingRight="10dp"
+        android:text="اینترنت"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:fontName="b-titr" />
+
+    <com.technotapp.servicestation.customView.CustomButton
+        android:id="@+id/activity_setting_btn_product"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_button_purple_raduce"
+        android:drawableRight="@drawable/ic_product_setting"
+        android:paddingRight="10dp"
+        android:text="مدیریت کالاها"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:fontName="b-titr" />
+
+    <ng.max.slideview.SlideView
+        android:id="@+id/activity_setting_lock_slideView"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center|bottom"
+        android:layout_marginTop="110dp"
+        app:sv_animateSlideText="true"
+        app:sv_buttonBackgroundColor="@android:color/holo_red_light"
+        app:sv_buttonImage="@drawable/ic_locked"
+        app:sv_slideBackgroundColor="@color/colorAccent"
+        app:sv_slideTextColor="@color/white"
+        app:sv_slideTextSize="16sp"
+
+        />
 
 
 </LinearLayout>

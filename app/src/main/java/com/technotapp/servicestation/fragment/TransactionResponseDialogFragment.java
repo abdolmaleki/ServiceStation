@@ -43,7 +43,7 @@ public class TransactionResponseDialogFragment extends DialogFragment {
 
             return rootView;
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "TransactionResponseDialogFragment", "onCreateView");
+            AppMonitor.reportBug(getActivity(),e, "TransactionResponseDialogFragment", "onCreateView");
             return null;
         }
 
@@ -85,7 +85,7 @@ public class TransactionResponseDialogFragment extends DialogFragment {
                 btnPositive.setText("تایید");
             }
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "TransactionResponseDialogFragment", "initLayout");
+            AppMonitor.reportBug(getActivity(),e, "TransactionResponseDialogFragment", "initLayout");
         }
     }
 
@@ -96,7 +96,7 @@ public class TransactionResponseDialogFragment extends DialogFragment {
             hasSellerReceipt = bundle.getBoolean("hasSellerReceipt", false);
             extraMessage = bundle.getString("extraMessage", null);
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "TransactionResponseDialogFragment", "initVariable");
+            AppMonitor.reportBug(getActivity(),e, "TransactionResponseDialogFragment", "initVariable");
         }
 
     }
@@ -111,7 +111,7 @@ public class TransactionResponseDialogFragment extends DialogFragment {
             btnNegative = (Button) v.findViewById(R.id.fragment_dialog_transaction_response_btnNegative);
 
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "TransactionResponseDialogFragment", "initView");
+            AppMonitor.reportBug(getActivity(),e, "TransactionResponseDialogFragment", "initView");
         }
 
     }

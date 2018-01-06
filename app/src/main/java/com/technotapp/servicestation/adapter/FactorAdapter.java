@@ -80,7 +80,7 @@ public class FactorAdapter extends BaseAdapter {
 
             return rowView;
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "FactorAdapter", "getView");
+            AppMonitor.reportBug(mContext,e, "FactorAdapter", "getView");
             return null;
         }
     }

@@ -137,14 +137,12 @@ public class PrinterHelper extends TestLog {
 
     }
 
-    public void startPrint(Context context, final Bitmap bmpPrint) {
+    public void startPrint(Context context, final Bitmap bmpPrint, PrinterListener printerListener) {
         try {
-            String printStatus;
-            new NewPrint(context, bmpPrint).execute();
+            new NewPrint(context, bmpPrint, printerListener).execute();
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "PrinterHelper", "startPrint");
+            AppMonitor.reportBug(context, e, "PrinterHelper", "startPrint");
         }
-
     }
 
     public void leftIndents(short indent) {
@@ -257,34 +255,34 @@ public class PrinterHelper extends TestLog {
         String res = "";
         switch (status) {
             case 0:
-                res = "چاپ موفقیت آمیز ";
+                res = "چاپ موفقیت آمیز";
                 break;
             case 1:
-                res = "پرینتر مشغول چاپ است ";
+                res = "پرینتر مشغول چاپ است";
                 break;
             case 2:
-                res = "کاغذ چاپ تمام شده است ";
+                res = "کاغذ چاپ تمام شده است";
                 break;
             case 3:
                 res = "فرمت داده برای چاپ صحیح نیست";
                 break;
             case 4:
-                res = "پرینتر دچار آسیب شده است ";
+                res = "پرینتر دچار آسیب شده است";
                 break;
             case 8:
-                res = "دمای پرینتر بسیار بالا است ";
+                res = "دمای پرینتر بسیار بالا است";
                 break;
             case 9:
                 res = "ولتاز پرینتر بسیار پایین است";
                 break;
             case 240:
-                res = "عملیات چاپ ناتمام ";
+                res = "عملیات چاپ ناتمام";
                 break;
             case 252:
                 res = "کتابخانه فونت مورد نظر نصب نشده است";
                 break;
             case 254:
-                res = "حجم متن بسیار بالا است ";
+                res = "حجم متن بسیار بالا است";
                 break;
             default:
                 break;
@@ -349,10 +347,12 @@ public class PrinterHelper extends TestLog {
 
         Bitmap printBitmap;
         Context context;
+        PrinterListener printerListener;
 
-        public NewPrint(Context context, Bitmap printBitmap) {
+        public NewPrint(Context context, Bitmap printBitmap, PrinterListener printerListener) {
             this.printBitmap = printBitmap;
             this.context = context;
+            this.printerListener = printerListener;
         }
 
         @Override
@@ -409,8 +409,9 @@ public class PrinterHelper extends TestLog {
                 final String status = getInstance().start();
                 return status;
             } catch (Exception e) {
-                AppMonitor.reportBug(e, "NewPrint", "doInBackground");
+                AppMonitor.reportBug(context, e, "NewPrint", "doInBackground");
                 Helper.progressBar.hideDialog();
+                printerListener.failedPrint("مشکل فنی");
                 return null;
             }
         }
@@ -418,10 +419,21 @@ public class PrinterHelper extends TestLog {
         @Override
         protected void onPostExecute(String printStatus) {
             super.onPostExecute(printStatus);
-            AppMonitor.Log(printStatus);
+            if (printStatus.equals("چاپ موفقیت آمیز")) {
+                printerListener.onSuccessfulPrint();
+            } else {
+                printerListener.failedPrint(printStatus);
+            }
             Helper.progressBar.hideDialog();
 
+
         }
+    }
+
+    public interface PrinterListener {
+        void onSuccessfulPrint();
+
+        void failedPrint(String message);
     }
 
 

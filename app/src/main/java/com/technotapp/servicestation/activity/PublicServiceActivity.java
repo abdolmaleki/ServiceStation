@@ -52,7 +52,7 @@ public class PublicServiceActivity extends SubMenuActivity implements IPin {
             }
 
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "PublicServiceActivity", "submitFragment");
+            AppMonitor.reportBug(this, e, "PublicServiceActivity", "submitFragment");
         }
     }
 

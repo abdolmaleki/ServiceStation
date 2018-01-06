@@ -1,9 +1,12 @@
 
 package com.technotapp.servicestation.connection.restapi.dto;
 
+import com.technotapp.servicestation.Infrastructure.DontObfuscate;
+
 import java.io.Serializable;
 import java.util.List;
 
+@DontObfuscate
 public class AddFactorDto extends BaseDto {
 
     private String tokenId;
@@ -70,6 +73,7 @@ public class AddFactorDto extends BaseDto {
         this.products = products;
     }
 
+    @DontObfuscate
     public static class Product implements Serializable {
 
         private long productId;

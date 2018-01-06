@@ -1,5 +1,8 @@
 package com.technotapp.servicestation.connection.restapi.sto;
 
+import com.technotapp.servicestation.Infrastructure.DontObfuscate;
+
+@DontObfuscate
 public class ChargeSto extends BaseSto {
 
     public String resultCode; //کد نتیجه اجرای متد

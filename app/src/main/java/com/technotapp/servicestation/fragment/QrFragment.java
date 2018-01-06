@@ -56,7 +56,7 @@ public class QrFragment extends SubMenuFragment {
             img.setImageBitmap(myBitmap);
 
         } catch (Exception e) {
-            AppMonitor.reportBug(e, mClassName, "initView");
+            AppMonitor.reportBug(getActivity(),e, mClassName, "initView");
         }
     }
 

@@ -130,7 +130,7 @@ public class ProductManagementAdapter extends BaseAdapter implements Filterable 
 
             return rowView;
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "ProductManagementAdapter", "getView");
+            AppMonitor.reportBug(mContext,e, "ProductManagementAdapter", "getView");
             return null;
         }
     }

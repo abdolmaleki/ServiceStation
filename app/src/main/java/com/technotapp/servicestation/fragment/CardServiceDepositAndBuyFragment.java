@@ -49,7 +49,7 @@ public class CardServiceDepositAndBuyFragment extends SubMenuFragment implements
 
             return rootView;
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "CardServiceDepositAndBuyFragment", "onCreateView");
+            AppMonitor.reportBug(getActivity(),e, "CardServiceDepositAndBuyFragment", "onCreateView");
             return null;
         }
     }
@@ -59,7 +59,7 @@ public class CardServiceDepositAndBuyFragment extends SubMenuFragment implements
             Bundle bundle = getArguments();
             isDeposit = bundle.getBoolean("isDeposit");
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "CardServiceDepositAndBuyFragment", "loadData");
+            AppMonitor.reportBug(getActivity(),e, "CardServiceDepositAndBuyFragment", "loadData");
         }
     }
 
@@ -97,7 +97,7 @@ public class CardServiceDepositAndBuyFragment extends SubMenuFragment implements
             (v.findViewById(R.id.fragment_keypad_backspace)).setOnLongClickListener(this);
 
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "CardServiceDepositAndBuyFragment", "initView");
+            AppMonitor.reportBug(getActivity(),e, "CardServiceDepositAndBuyFragment", "initView");
         }
 
 
@@ -131,7 +131,7 @@ public class CardServiceDepositAndBuyFragment extends SubMenuFragment implements
                     }
                     tvAmount.addTextChangedListener(this);
                 } catch (Exception e) {
-                    AppMonitor.reportBug(e, "CardServiceDepositAndBuyFragment", "afterTextChanged");
+                    AppMonitor.reportBug(getActivity(),e, "CardServiceDepositAndBuyFragment", "afterTextChanged");
                 }
             }
         });
@@ -163,7 +163,7 @@ public class CardServiceDepositAndBuyFragment extends SubMenuFragment implements
                 }
             });
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "CardServiceDepositAndBuyFragment", "startMagCard");
+            AppMonitor.reportBug(getActivity(),e, "CardServiceDepositAndBuyFragment", "startMagCard");
         }
     }
 
@@ -174,7 +174,7 @@ public class CardServiceDepositAndBuyFragment extends SubMenuFragment implements
             //TODO setTerminalID
             transactionDataModel.setTerminalID("23801101741");
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "CardServiceDepositAndBuyFragment", "initTransactionModel");
+            AppMonitor.reportBug(getActivity(),e, "CardServiceDepositAndBuyFragment", "initTransactionModel");
         }
     }
 
@@ -203,7 +203,7 @@ public class CardServiceDepositAndBuyFragment extends SubMenuFragment implements
                     @Override
                     public void onSuccessfullTransaction(TransactionDataModel transactionDataModel) {
                         Helper.alert(getActivity(), getString(R.string.successfull_transaction), Constant.AlertType.Success);
-                        PrintMaker.startPrint(getActivity(), Constant.RequestMode.DEPOSIT, transactionDataModel);
+                        PrintMaker.startPrint(getActivity(), Constant.RequestMode.BUY, transactionDataModel);
                     }
 
                     @Override
@@ -214,7 +214,7 @@ public class CardServiceDepositAndBuyFragment extends SubMenuFragment implements
                 });
             }
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "CardServiceDepositAndBuyFragment", "onPinEnteredSuccessfully");
+            AppMonitor.reportBug(getActivity(),e, "CardServiceDepositAndBuyFragment", "onPinEnteredSuccessfully");
         }
 
     }

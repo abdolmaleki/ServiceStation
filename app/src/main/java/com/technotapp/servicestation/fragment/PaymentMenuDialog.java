@@ -64,7 +64,7 @@ public class PaymentMenuDialog extends DialogFragment implements View.OnClickLis
             return view;
 
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "PaymentMenuDialog", "onCreateView");
+            AppMonitor.reportBug(getActivity(),e, "PaymentMenuDialog", "onCreateView");
             return null;
         }
     }
@@ -142,7 +142,7 @@ public class PaymentMenuDialog extends DialogFragment implements View.OnClickLis
                 }
             });
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "PaymentMenuDialog", "ewalletPayment");
+            AppMonitor.reportBug(getActivity(),e, "PaymentMenuDialog", "ewalletPayment");
         }
     }
 
@@ -160,7 +160,7 @@ public class PaymentMenuDialog extends DialogFragment implements View.OnClickLis
                 }
             });
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "PaymentMenuDialog", "cashPayment");
+            AppMonitor.reportBug(getActivity(),e, "PaymentMenuDialog", "cashPayment");
         }
 
     }
@@ -181,7 +181,7 @@ public class PaymentMenuDialog extends DialogFragment implements View.OnClickLis
                 }
             });
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "PaymentMenuDialog", "onPinEnteredSuccessfully");
+            AppMonitor.reportBug(getActivity(),e, "PaymentMenuDialog", "onPinEnteredSuccessfully");
         }
 
         closeDialog();

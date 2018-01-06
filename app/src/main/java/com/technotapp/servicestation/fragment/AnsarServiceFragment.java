@@ -61,7 +61,7 @@ public class AnsarServiceFragment extends SubMenuFragment implements AdapterView
     }
 
     private void initDb() {
-        Db.init();
+        Db.init(getActivity());
     }
 
 
@@ -85,7 +85,7 @@ public class AnsarServiceFragment extends SubMenuFragment implements AdapterView
             gridView.setOnItemClickListener(this);
             mSession = Session.getInstance(getActivity());
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "CardServiceFragment", "initView");
+            AppMonitor.reportBug(getActivity(), e, "CardServiceFragment", "initView");
         }
     }
 
@@ -101,7 +101,7 @@ public class AnsarServiceFragment extends SubMenuFragment implements AdapterView
             MenuAdapter menuAdapter = new MenuAdapter(mActivity, mainMenuAdapterModels);
             gridView.setAdapter(menuAdapter);
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "CardServiceFragment", "initAdapter");
+            AppMonitor.reportBug(getActivity(), e, "CardServiceFragment", "initAdapter");
         }
     }
 
@@ -132,7 +132,7 @@ public class AnsarServiceFragment extends SubMenuFragment implements AdapterView
 
             }
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "CardServiceFragment", "onItemClick");
+            AppMonitor.reportBug(getActivity(), e, "CardServiceFragment", "onItemClick");
         }
 
     }
@@ -163,7 +163,7 @@ public class AnsarServiceFragment extends SubMenuFragment implements AdapterView
                 }
             });
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "CardServiceFragment", "onPinEnteredSuccessfully");
+            AppMonitor.reportBug(getActivity(), e, "CardServiceFragment", "onPinEnteredSuccessfully");
         }
 
     }
@@ -191,7 +191,7 @@ public class AnsarServiceFragment extends SubMenuFragment implements AdapterView
                 }
             });
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "CardServiceFragment", "startMagCard");
+            AppMonitor.reportBug(getActivity(), e, "CardServiceFragment", "startMagCard");
         }
     }
 

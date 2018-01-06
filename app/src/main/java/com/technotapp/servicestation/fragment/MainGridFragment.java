@@ -67,7 +67,7 @@ public class MainGridFragment extends Fragment {
                 });
             }
         } catch (Exception e) {
-            AppMonitor.reportBug(e, mClassName, "onActivityCreated");
+            AppMonitor.reportBug(getActivity(),e, mClassName, "onActivityCreated");
         }
     }
 
@@ -87,7 +87,7 @@ public class MainGridFragment extends Fragment {
                 Helper.alert(mContext, "محتوایی برای نمایش وجود ندارد", Constant.AlertType.Information);
             }
         } catch (Exception e) {
-            AppMonitor.reportBug(e, mClassName, "onGridItemClick");
+            AppMonitor.reportBug(getActivity(),e, mClassName, "onGridItemClick");
         }
 
     }

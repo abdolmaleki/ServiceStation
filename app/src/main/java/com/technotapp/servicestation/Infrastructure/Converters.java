@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 
@@ -25,7 +26,7 @@ public class Converters {
             result = new String(data, "utf-8");
             return result;
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "Converters", "hexToString");
+            Log.e("Converters", "hexToString");
             return null;
         }
 
@@ -68,7 +69,7 @@ public class Converters {
             }
             return new String(hexChars);
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "Converters", "bytesToHex");
+            Log.e("Converters", "bytesToHex");
             return null;
         }
     }
@@ -92,7 +93,7 @@ public class Converters {
             }
             return bin.toString();
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "Converters", "hexToBin");
+            Log.e("Converters", "hexToBin");
             return null;
         }
     }

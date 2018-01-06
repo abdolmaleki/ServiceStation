@@ -26,7 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class UrlActivity extends AppCompatActivity implements View.OnClickListener {
+public class UrlActivity extends BaseActivity implements View.OnClickListener {
 
     @BindView(R.id.toolbar_img_back)
     LinearLayout back;
@@ -71,7 +71,7 @@ public class UrlActivity extends AppCompatActivity implements View.OnClickListen
             mBrowser.setWebViewClient(new BrowserClient());
 
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "UrlActivity", "adjustBrowser");
+            AppMonitor.reportBug(UrlActivity.this,e, "UrlActivity", "adjustBrowser");
 
         }
 
@@ -83,7 +83,7 @@ public class UrlActivity extends AppCompatActivity implements View.OnClickListen
             adjustBrowser();
             mBrowser.loadUrl(mUrl);
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "UrlActivity", "loadPage");
+            AppMonitor.reportBug(UrlActivity.this,e, "UrlActivity", "loadPage");
         }
     }
 

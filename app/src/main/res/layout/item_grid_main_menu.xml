@@ -10,7 +10,6 @@
         android:id="@+id/item_grid_card_service_lyr"
         android:layout_width="112dp"
         android:layout_height="136dp"
-
         android:background="@drawable/bg_main_items"
         android:gravity="center"
         android:orientation="vertical">

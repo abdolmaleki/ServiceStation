@@ -40,9 +40,9 @@ public class MagCard {
         @Override
         public void run() {
             super.run();
+
             while (!Thread.interrupted()) {
                 try {
-
                     if (MagCardHelper.getInstance().isSwiped()) {
                         TrackData trackData = MagCardHelper.getInstance().read();
                         if (trackData != null) {
@@ -79,7 +79,6 @@ public class MagCard {
                     SystemClock.sleep(100);
 
                 } catch (Exception e) {
-                    AppMonitor.reportBug(e, "MagCard", "run");
                     Message.obtain(mMagHandler, 5, "").sendToTarget();
                 }
             }
@@ -139,8 +138,9 @@ public class MagCard {
                 MagCardHelper.getInstance().open();
                 MagCardHelper.getInstance().reset();
                 magReadThread.start();
+
             } catch (Exception e) {
-                AppMonitor.reportBug(e, "MagCard", "start");
+                AppMonitor.reportBug(ctx, e, "MagCard", "start");
             }
 
         }
@@ -153,7 +153,7 @@ public class MagCard {
             PinFragment pinFragment = new PinFragment();
             pinFragment.show(ctx.getFragmentManager(), "pin");
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "MagCard", "submitPinFragment");
+            AppMonitor.reportBug(ctx, e, "MagCard", "submitPinFragment");
         }
 
     }
@@ -170,7 +170,7 @@ public class MagCard {
             });
 
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "MagCard", "showDialog");
+            AppMonitor.reportBug(ctx, e, "MagCard", "showDialog");
         }
     }
 

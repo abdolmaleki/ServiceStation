@@ -4,9 +4,12 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.Menu;
 
+import com.technotapp.servicestation.Infrastructure.DontObfuscate;
+
 import java.io.Serializable;
 import java.util.List;
 
+@DontObfuscate
 public class MenuSto extends BaseSto implements Parcelable {
 
     public List<DataModel> dataModel;
@@ -38,6 +41,7 @@ public class MenuSto extends BaseSto implements Parcelable {
         dest.writeTypedList(dataModel);
     }
 
+    @DontObfuscate
     public static class DataModel implements Serializable, Parcelable {
         public String tokenId;
         public String terminalCode;
@@ -89,7 +93,7 @@ public class MenuSto extends BaseSto implements Parcelable {
             parcel.writeTypedList(shop);
         }
 
-
+        @DontObfuscate
         public static class Info implements Serializable, Parcelable {
             public String hashId;
             public String firstName;
@@ -139,7 +143,7 @@ public class MenuSto extends BaseSto implements Parcelable {
             }
         }
 
-
+        @DontObfuscate
         public static class Shop implements Serializable, Parcelable {
             public String address;
             public String description;
@@ -202,7 +206,7 @@ public class MenuSto extends BaseSto implements Parcelable {
                 parcel.writeString(title);
             }
         }
-
+        @DontObfuscate
         public static class Menu implements Serializable, Parcelable {
             public int menuID;
             public Integer parentMenuID;

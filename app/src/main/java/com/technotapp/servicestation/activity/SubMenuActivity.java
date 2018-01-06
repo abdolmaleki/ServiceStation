@@ -15,7 +15,7 @@ import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.fragment.IMagCard;
 import com.technotapp.servicestation.fragment.SubMenuFragment;
 
-public abstract class SubMenuActivity extends AppCompatActivity implements IToolBar {
+public abstract class SubMenuActivity extends BaseActivity implements IToolBar {
 
     public SubMenuFragment mSubmenuController;
     public IMagCard mMagCardController;
@@ -33,7 +33,6 @@ public abstract class SubMenuActivity extends AppCompatActivity implements ITool
             if (fragmentManager.getBackStackEntryCount() > 1) {
 
                 String oneLastFragment = fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 2).getName();
-
                 fragmentManager.popBackStack();
 
                 if (oneLastFragment != null) {
@@ -45,7 +44,7 @@ public abstract class SubMenuActivity extends AppCompatActivity implements ITool
                 finish();
             }
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "SubMenuActivity", "back");
+            AppMonitor.reportBug(this,e, "SubMenuActivity", "back");
         }
 
     }
@@ -57,7 +56,7 @@ public abstract class SubMenuActivity extends AppCompatActivity implements ITool
             TextView tv_title = ll.findViewById(R.id.toolbar_tv_title);
             tv_title.setText(title);
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "SubMenuActivity", "setTitle");
+            AppMonitor.reportBug(this,e, "SubMenuActivity", "setTitle");
         }
     }
 
@@ -75,7 +74,7 @@ public abstract class SubMenuActivity extends AppCompatActivity implements ITool
                 }
             });
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "SubMenuActivity", "onResume");
+            AppMonitor.reportBug(this,e, "SubMenuActivity", "onResume");
         }
     }
 

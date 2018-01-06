@@ -8,6 +8,7 @@ import android.util.Base64;
 
 import com.google.gson.Gson;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
+import com.technotapp.servicestation.Infrastructure.DontObfuscate;
 import com.technotapp.servicestation.Infrastructure.Encryptor;
 import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.Infrastructure.NetworkHelper;
@@ -24,6 +25,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+@DontObfuscate
 public class ApiCaller {
 
     private int mApiType;
@@ -194,7 +196,7 @@ public class ApiCaller {
             };
 
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "ApiCaller", "call");
+            AppMonitor.reportBug(ctx, e, "ApiCaller", "call");
         }
     }
 

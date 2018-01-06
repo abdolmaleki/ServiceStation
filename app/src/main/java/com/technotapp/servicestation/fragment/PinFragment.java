@@ -40,7 +40,7 @@ public class PinFragment extends DialogFragment implements View.OnClickListener 
 
         return rootView;
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "PinFragment", "onCreateView");
+            AppMonitor.reportBug(getActivity(),e, "PinFragment", "onCreateView");
             return null;
         }
     }
@@ -62,7 +62,7 @@ public class PinFragment extends DialogFragment implements View.OnClickListener 
                 }
             });
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "PinFragment", "initView");
+            AppMonitor.reportBug(getActivity(),e, "PinFragment", "initView");
         }
 
 
@@ -102,7 +102,7 @@ public class PinFragment extends DialogFragment implements View.OnClickListener 
             getDialog().cancel();
         }
     } catch (Exception e) {
-        AppMonitor.reportBug(e, "PinFragment", "onClick");
+        AppMonitor.reportBug(getActivity(),e, "PinFragment", "onClick");
     }
     }
 
@@ -112,7 +112,7 @@ public class PinFragment extends DialogFragment implements View.OnClickListener 
                 return true;
             }
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "PinFragment", "isValidationPin");
+            AppMonitor.reportBug(getActivity(),e, "PinFragment", "isValidationPin");
             return false;
 
         }

@@ -11,7 +11,7 @@ import com.journeyapps.barcodescanner.CaptureManager;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 import com.technotapp.servicestation.R;
 
-public class CustomScannerActivity extends Activity implements
+public class CustomScannerActivity extends BaseActivity implements
         DecoratedBarcodeView.TorchListener, View.OnClickListener {
 
     private CaptureManager capture;

@@ -50,7 +50,7 @@ public class NetworkHelper {
 
                         }
                     } catch (Exception e) {
-                        AppMonitor.reportBug(e, "NetworkHelper", "isConnectingToInternet");
+                        AppMonitor.reportBug(ctx, e, "NetworkHelper", "isConnectingToInternet");
                         checkNetworkStateListener.onNetworkChecked(false, "مشکل اتصال با اینترنت");
                     }
                 } else {
@@ -75,7 +75,7 @@ public class NetworkHelper {
                     && activeNetwork.isConnectedOrConnecting();
 
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "NetworkHelper", "isNetworkAvailable");
+            AppMonitor.reportBug(context, e, "NetworkHelper", "isNetworkAvailable");
             return false;
         }
     }
@@ -94,7 +94,7 @@ public class NetworkHelper {
             NetworkHelper.isWifiEnable = true;
         } catch (Exception e) {
             NetworkHelper.isWifiEnable = false;
-            AppMonitor.reportBug(e, "NetworkHlper", "enableWifi");
+            AppMonitor.reportBug(ctx, e, "NetworkHlper", "enableWifi");
 
         }
 
@@ -164,7 +164,7 @@ public class NetworkHelper {
             return mWifi.isConnected();
 
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "NetworkHelper", "isWifiAutoLogined");
+            AppMonitor.reportBug(context, e, "NetworkHelper", "isWifiAutoLogined");
             return false;
         }
     }
@@ -174,7 +174,7 @@ public class NetworkHelper {
             WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(WIFI_SERVICE);
             return wifiManager.getConnectionInfo();
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "NetworkHelper", "getCurrentWifiInfo");
+            AppMonitor.reportBug(context, e, "NetworkHelper", "getCurrentWifiInfo");
             return null;
         }
     }
@@ -206,7 +206,7 @@ public class NetworkHelper {
 
             }
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "NetworkHelper", "setMobileDataEnabled");
+            AppMonitor.reportBug(context, e, "NetworkHelper", "setMobileDataEnabled");
             dataEnableListener.onDataChangeState(false);
             NetworkHelper.isDataEnable = false;
 
@@ -229,7 +229,7 @@ public class NetworkHelper {
             }
         } catch (Exception e) {
             NetworkHelper.isDataEnable = false;
-            AppMonitor.reportBug(e, "NetworkHelper", "setMobileDataDisable");
+            AppMonitor.reportBug(context, e, "NetworkHelper", "setMobileDataDisable");
         }
     }
 
@@ -250,7 +250,7 @@ public class NetworkHelper {
 
             }
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "NetworkHelper", "isSimcardAvalaible");
+            AppMonitor.reportBug(context, e, "NetworkHelper", "isSimcardAvalaible");
             return false;
 
         }

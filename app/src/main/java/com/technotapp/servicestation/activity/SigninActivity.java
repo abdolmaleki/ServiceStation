@@ -34,13 +34,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class SigninActivity extends AppCompatActivity implements View.OnClickListener {
+public class SigninActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.activity_signin_btnSignin)
     Button btnSignin;
     @BindView(R.id.activity_signin_edtMerchantCode)
     EditText edtUsername;
     @BindView(R.id.activity_signin_edtPassword)
     EditText edtPassword;
+
 
     private Context mContext;
     private Session mSession;
@@ -75,8 +76,9 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
             mContext = SigninActivity.this;
             btnSignin.setOnClickListener(this);
             mSession = Session.getInstance(this);
+
         } catch (Exception e) {
-            AppMonitor.reportBug(e, mClassName, "initView");
+            AppMonitor.reportBug(this, e, mClassName, "initView");
         }
     }
 
@@ -85,12 +87,12 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
         switch (v.getId()) {
             case R.id.activity_signin_btnSignin:
                 if (checkInputValidation(edtUsername, edtPassword)) {
-                    PaxHelper.disableAllNavigationButton(mContext);
                     if (!Helper.IsAppUpToDate()) {
                         callGetMenu();
                     } else {
                         Intent intent = new Intent(mContext, MainActivity.class);
                         startActivity(intent);
+                        finish();
                     }
                 }
                 break;
@@ -115,7 +117,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
             }
             return true;
         } catch (Exception e) {
-            AppMonitor.reportBug(e, mClassName, "checkInputValidation");
+            AppMonitor.reportBug(this, e, mClassName, "checkInputValidation");
             return false;
         }
     }
@@ -134,14 +136,15 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
                         Type listType = new TypeToken<ArrayList<MenuSto>>() {
                         }.getType();
                         ArrayList<MenuSto> menuStos = gson.fromJson(jsonResult, listType);
-
                         if (menuStos != null) {
                             if (menuStos.get(0).messageModel.get(0).errorCode == Constant.Api.ErrorCode.Successfull) {
+
                                 Helper.progressBar.showDialog(SigninActivity.this, "در حال انجام تنظیمات اولیه");
                                 if (menuStos.get(0).dataModel != null && menuStos.get(0).dataModel.size() > 0) { // have active  menu
                                     mSession.setLastVersion(menuStos.get(0).messageModel.get(0).ver);
                                     if (saveMenu(menuStos) && saveInfo(menuStos)) {
                                         startActivity(new Intent(mContext, MainActivity.class));
+                                        finish();
                                     } else {
                                         Helper.alert(mContext, menuStos.get(0).messageModel.get(0).errorString, Constant.AlertType.Error);
                                     }
@@ -156,7 +159,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
                             Helper.alert(mContext, getString(R.string.api_data_download_error), Constant.AlertType.Error);
                         }
                     } catch (Exception e) {
-                        AppMonitor.reportBug(e, mClassName, "callGetMenu-OnResponse");
+                        AppMonitor.reportBug(SigninActivity.this, e, mClassName, "callGetMenu-OnResponse");
                     }
                 }
 
@@ -167,7 +170,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
                 }
             });
         } catch (Exception e) {
-            AppMonitor.reportBug(e, mClassName, "callGetMenu");
+            AppMonitor.reportBug(SigninActivity.this, e, mClassName, "callGetMenu");
         }
     }
 
@@ -187,13 +190,13 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
     private boolean saveMenu(List<MenuSto> menuStos) {
         try {
 
-            Db.init();
+            Db.init(this);
             List<MenuModel> menuModels = MenuMapper.convertStosToModels(menuStos);
             Db.Menu.insert(menuModels);
             return true;
 
         } catch (Exception e) {
-            AppMonitor.reportBug(e, mClassName, "saveMenu");
+            AppMonitor.reportBug(SigninActivity.this, e, mClassName, "saveMenu");
             return false;
         }
 
@@ -219,7 +222,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
             session.setMenuCategory(menuStos.get(0).dataModel.get(0).menuCategory);
             return true;
         } catch (Exception e) {
-            AppMonitor.reportBug(e, mClassName, "saveInfo");
+            AppMonitor.reportBug(SigninActivity.this, e, mClassName, "saveInfo");
             return false;
         }
     }

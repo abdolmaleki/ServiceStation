@@ -4,7 +4,10 @@ package com.technotapp.servicestation.fragment;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +31,7 @@ public class AlertDialogFragment extends DialogFragment implements View.OnClickL
     @BindView(R.id.fragment_dialog_alert_image)
     ImageView imageView;
     @BindView(R.id.fragment_dialog_alert_button)
-    Button button;
+    Button btn_confirm;
     @BindView(R.id.fragment_dialog_alert_layout)
     LinearLayout linearLayout;
 
@@ -36,6 +39,7 @@ public class AlertDialogFragment extends DialogFragment implements View.OnClickL
     String className;
     private int mAlertType;
     private String mMessage;
+    private String mButtonText = "";
 
     public static AlertDialogFragment newInstance(int alertType, String message) {
         AlertDialogFragment fragment = new AlertDialogFragment();
@@ -45,6 +49,17 @@ public class AlertDialogFragment extends DialogFragment implements View.OnClickL
         fragment.setArguments(args);
         return fragment;
     }
+
+    public static AlertDialogFragment newInstance(int alertType, String message, String ButtonText) {
+        AlertDialogFragment fragment = new AlertDialogFragment();
+        Bundle args = new Bundle();
+        args.putInt("alertType", alertType);
+        args.putString("alertMessage", message);
+        args.putString("buttonText", ButtonText);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
 
     @Nullable
     @Override
@@ -65,34 +80,39 @@ public class AlertDialogFragment extends DialogFragment implements View.OnClickL
         Bundle bundle = getArguments();
         mAlertType = bundle.getInt("alertType");
         mMessage = bundle.getString("alertMessage");
+        mButtonText = bundle.getString("buttonText");
+
 
     }
 
     private void initView() {
         try {
-            button.setOnClickListener(this);
+            if (!TextUtils.isEmpty(mButtonText)) {
+                btn_confirm.setText(mButtonText);
+            }
+            btn_confirm.setOnClickListener(this);
             if (mAlertType == Constant.AlertType.Information) {
                 linearLayout.setBackgroundResource(R.drawable.bg_lyr_dialog_info);
                 imageView.setBackgroundResource(R.drawable.ic_information);
-                button.setTextColor(getResources().getColor(R.color.white));
-                button.setBackgroundResource(R.drawable.bg_btn_info);
+                btn_confirm.setTextColor(getResources().getColor(R.color.white));
+                btn_confirm.setBackgroundResource(R.drawable.bg_btn_info);
             } else if (mAlertType == Constant.AlertType.Warning) {
 
             } else if (mAlertType == Constant.AlertType.Error) {
                 linearLayout.setBackgroundResource(R.drawable.bg_lyr_dialog_error);
                 imageView.setBackgroundResource(R.drawable.ic_error_message);
-                button.setTextColor(getResources().getColor(R.color.error_color));
-                button.setBackgroundResource(R.drawable.bg_btn_white_raduce);
+                btn_confirm.setTextColor(getResources().getColor(R.color.error_color));
+                btn_confirm.setBackgroundResource(R.drawable.bg_btn_white_raduce);
 
             } else if (mAlertType == Constant.AlertType.Success) {
                 linearLayout.setBackgroundResource(R.drawable.bg_lyr_dialog_success);
                 imageView.setBackgroundResource(R.drawable.ic_successfull);
-                button.setTextColor(getResources().getColor(R.color.success_dialog_color));
-                button.setBackgroundResource(R.drawable.bg_btn_white_raduce);
+                btn_confirm.setTextColor(getResources().getColor(R.color.success_dialog_color));
+                btn_confirm.setBackgroundResource(R.drawable.bg_btn_white_raduce);
             }
             textView.setText(mMessage);
         } catch (Exception e) {
-            AppMonitor.reportBug(e, className, "initView");
+            AppMonitor.reportBug(getActivity(), e, className, "initView");
         }
     }
 
@@ -109,12 +129,23 @@ public class AlertDialogFragment extends DialogFragment implements View.OnClickL
         }
     }
 
+    public void setConfirmClickListener(View.OnClickListener clickListener) {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                btn_confirm.setOnClickListener(clickListener);
+
+            }
+        });
+    }
+
+
     public void show(Activity activity) {
         try {
             setCancelable(false);
             show(activity.getFragmentManager(), "alert");
         } catch (Exception e) {
-            AppMonitor.reportBug(e, className, "show");
+            AppMonitor.reportBug(getActivity(), e, className, "show");
         }
     }
 }

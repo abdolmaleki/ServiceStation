@@ -69,7 +69,7 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
     }
 
     private void initDb() {
-        Db.init();
+        Db.init(getActivity());
     }
 
     @Nullable
@@ -93,7 +93,7 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
             btnQrReader.setOnClickListener(this);
             btnConfirm.setOnClickListener(this);
         } catch (Exception e) {
-            AppMonitor.reportBug(e, mClassName, "initView");
+            AppMonitor.reportBug(getActivity(),e, mClassName, "initView");
         }
     }
 
@@ -159,7 +159,7 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
 //                    });
 
                 } catch (Exception e) {
-                    AppMonitor.reportBug(e, mClassName, "submitFragment");
+                    AppMonitor.reportBug(getActivity(),e, mClassName, "submitFragment");
                 }
                 break;
             case R.id.fragment_receipt_btnConfirm:
@@ -206,7 +206,7 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
                 dialogFragment.setArguments(bundle);
                 //todo change this transaction
             } catch (Exception e) {
-                AppMonitor.reportBug(e, mClassName, "submitFragment");
+                AppMonitor.reportBug(getActivity(),e, mClassName, "submitFragment");
             }
         }
     }

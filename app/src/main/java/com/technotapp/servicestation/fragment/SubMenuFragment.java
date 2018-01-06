@@ -40,7 +40,7 @@ public class SubMenuFragment extends Fragment implements IMagCard {
             fragmentTransaction.addToBackStack(backStateName);
             fragmentTransaction.commit();
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "SubMenuFragment", "submitFragment");
+            AppMonitor.reportBug(getActivity(),e, "SubMenuFragment", "submitFragment");
         }
     }
 

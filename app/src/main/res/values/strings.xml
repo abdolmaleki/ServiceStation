@@ -78,6 +78,7 @@
 
     <string name="updating">در حال بروزرسانی</string>
     <string name="successfull_transaction">تراکنش موفق</string>
+    <string name="transaction_result_btn_view">رویت تراکنش</string>
 
 
 </resources>

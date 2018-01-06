@@ -142,7 +142,7 @@ public class ProductSellingAdapter extends BaseAdapter implements Filterable {
             });
             return rowView;
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "ProductSellingAdapter", "getView");
+            AppMonitor.reportBug(mContext,e, "ProductSellingAdapter", "getView");
             return null;
         }
     }

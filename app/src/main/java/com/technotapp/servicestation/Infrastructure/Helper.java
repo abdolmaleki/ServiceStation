@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
+
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -59,7 +61,7 @@ public class Helper {
             intent.putExtra(Constant.Key.MENU_ID, menuId);
             ctx.startActivity(intent);
         } catch (ClassNotFoundException ignored) {
-            AppMonitor.reportBug(ignored, "Helper", "lunchActivity");
+            Log.e("Helper", "lunchActivity");
         }
 
     }
@@ -71,7 +73,7 @@ public class Helper {
                     ctx.getPackageName());
             return resources.getDrawable(resourceId);
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "Helper", "getDrawable");
+            Log.e("Helper", "getDrawable");
             return null;
         }
 

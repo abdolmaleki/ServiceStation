@@ -35,7 +35,7 @@ import java.util.TimerTask;
 
 import javax.crypto.SecretKey;
 
-public class UpdatingActivity extends AppCompatActivity implements View.OnClickListener {
+public class UpdatingActivity extends BaseActivity implements View.OnClickListener {
 
     private Context mContext;
     private final String mClassName = getClass().getSimpleName();
@@ -91,7 +91,7 @@ public class UpdatingActivity extends AppCompatActivity implements View.OnClickL
                         try {
                             Thread.sleep(50);
                         } catch (InterruptedException e) {
-                            AppMonitor.reportBug(e, mClassName, "startUpdate");
+                            AppMonitor.reportBug(UpdatingActivity.this, e, mClassName, "startUpdate");
                         }
                     }
                     callGetTerminalInfo();
@@ -100,11 +100,9 @@ public class UpdatingActivity extends AppCompatActivity implements View.OnClickL
 
 
         } catch (Exception e) {
-            AppMonitor.reportBug(e, mClassName, "startUpdate");
+            AppMonitor.reportBug(UpdatingActivity.this, e, mClassName, "startUpdate");
         }
     }
-
-
 
 
     private void initView() {
@@ -154,7 +152,7 @@ public class UpdatingActivity extends AppCompatActivity implements View.OnClickL
                 }
             });
         } catch (Exception e) {
-            AppMonitor.reportBug(e, mClassName, "callGetTerminalInfo");
+            AppMonitor.reportBug(UpdatingActivity.this, e, mClassName, "callGetTerminalInfo");
         }
 
     }
@@ -172,13 +170,13 @@ public class UpdatingActivity extends AppCompatActivity implements View.OnClickL
     private boolean saveMenu(List<MenuSto> menuStos) {
         try {
 
-            Db.init();
+            Db.init(this);
             List<MenuModel> menuModels = MenuMapper.convertStosToModels(menuStos);
             Db.Menu.insert(menuModels);
             return true;
 
         } catch (Exception e) {
-            AppMonitor.reportBug(e, mClassName, "saveMenu");
+            AppMonitor.reportBug(UpdatingActivity.this, e, mClassName, "saveMenu");
             return false;
         }
 
@@ -204,7 +202,7 @@ public class UpdatingActivity extends AppCompatActivity implements View.OnClickL
             session.setMenuCategory(menuStos.get(0).dataModel.get(0).menuCategory);
             return true;
         } catch (Exception e) {
-            AppMonitor.reportBug(e, mClassName, "saveInfo");
+            AppMonitor.reportBug(UpdatingActivity.this, e, mClassName, "saveInfo");
             return false;
         }
     }

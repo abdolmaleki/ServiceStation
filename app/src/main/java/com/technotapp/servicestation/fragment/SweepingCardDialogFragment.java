@@ -41,7 +41,7 @@ public class SweepingCardDialogFragment extends DialogFragment implements View.O
             return view;
 
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "SweepingCardDialogFragment", "onCreateView");
+            AppMonitor.reportBug(getActivity(), e, "SweepingCardDialogFragment", "onCreateView");
             return null;
         }
     }
@@ -71,7 +71,7 @@ public class SweepingCardDialogFragment extends DialogFragment implements View.O
                             message.arg2 = i / 100;
                             handler.sendMessage(message);
                         } catch (InterruptedException e) {
-                            AppMonitor.reportBug(e, "SweepingCardDialogFragment", "counter:for");
+                            AppMonitor.reportBug(getActivity(), e, "SweepingCardDialogFragment", "counter:for");
                         }
                     }
                     if (mIsDialogHide) {
@@ -91,7 +91,7 @@ public class SweepingCardDialogFragment extends DialogFragment implements View.O
                 }
             };
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "SweepingCardDialogFragment", "counter");
+            AppMonitor.reportBug(getActivity(), e, "SweepingCardDialogFragment", "counter");
 
         }
 
@@ -105,7 +105,7 @@ public class SweepingCardDialogFragment extends DialogFragment implements View.O
             this.setCancelable(false);
             this.show(activity.getFragmentManager(), "sweepcard");
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "SweepingCardDialogFragment", "show");
+            AppMonitor.reportBug(getActivity(), e, "SweepingCardDialogFragment", "show");
         }
     }
 
@@ -121,7 +121,7 @@ public class SweepingCardDialogFragment extends DialogFragment implements View.O
 //            }
 
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "SweepingCardDialogFragment", "onResume");
+            AppMonitor.reportBug(getActivity(), e, "SweepingCardDialogFragment", "onResume");
         }
     }
 
@@ -132,7 +132,7 @@ public class SweepingCardDialogFragment extends DialogFragment implements View.O
                 mIsDialogHide = true;
                 mISweepDialog.onCancelOrTimeout();
             } catch (Exception e) {
-                AppMonitor.reportBug(e, "SweepingCardDialogFragment", "onClick");
+                AppMonitor.reportBug(getActivity(), e, "SweepingCardDialogFragment", "onClick");
             }
         }
     }

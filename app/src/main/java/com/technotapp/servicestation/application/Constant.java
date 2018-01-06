@@ -1,5 +1,8 @@
 package com.technotapp.servicestation.application;
 
+import com.technotapp.servicestation.Infrastructure.DontObfuscate;
+
+@DontObfuscate
 public class Constant {
 
     public static class Pax {
@@ -85,8 +88,10 @@ public class Constant {
         public static final String ACTION_URL = "action.url";
         public static final String PRODUCT_ID = "product.id";
         public static final String FACTOR_ID = "factor.id";
+        public static final String EXIT = "exit";
         public static final String PAYMENT_TYPE_LIST = "payment.type.list";
         public static final String FACTOR_TOTAL_PRICE = "factor.total.price";
+        public static final String PRINT_BITMAP = "print.bitmap";
     }
 
     public static class MenuAction {
@@ -152,7 +157,10 @@ public class Constant {
             public static final byte TAX = 8;
             public static final byte TRAFFIC_CRIME = 9;
         }
-
-
     }
+
+    public static class Valuse {
+        public static final int MAX_ROW_PRODUCT = 60000;
+    }
+
 }

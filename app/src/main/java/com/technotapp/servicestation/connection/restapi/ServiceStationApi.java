@@ -37,7 +37,7 @@ public interface ServiceStationApi {
     @POST("api/shop/InsertUpdateProductItem")
     Call<String> addProduct(@Query("key") String key, @Query("value") String value, @Query("deviceInfo") String deviceInfo);
 
-    @POST("api/shop/SearchProductModel")
+    @POST("api/shop/ReturnProducts")
     Call<String> serachProduct(@Query("key") String key, @Query("value") String value, @Query("deviceInfo") String deviceInfo);
 
     @POST("api/shop/InsertFactor")

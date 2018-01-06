@@ -59,7 +59,7 @@ public class CashPaymentConfirmDialog extends DialogFragment implements View.OnC
             ((TextView) rootView.findViewById(R.id.fragment_dialog_cashpayment_confirm_tv_message)).setText("آیا پرداخت مبلغ " + Converters.convertEnDigitToPersian(String.valueOf(mFactorTotalPrice)) + " ریال به صورت نقدی را تایید می کنید؟");
 
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "CashPaymentConfirmDialog", "initView");
+            AppMonitor.reportBug(getActivity(),e, "CashPaymentConfirmDialog", "initView");
         }
     }
 

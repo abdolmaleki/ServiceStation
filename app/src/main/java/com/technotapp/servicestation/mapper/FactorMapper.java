@@ -35,7 +35,7 @@ public class FactorMapper {
             dto.setProducts(products);
             return dto;
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "FactorMapper", "convertModelToDto");
+            AppMonitor.reportBug(context,e, "FactorMapper", "convertModelToDto");
             return null;
         }
 

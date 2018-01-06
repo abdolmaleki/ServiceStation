@@ -1,5 +1,7 @@
 package com.technotapp.servicestation.Infrastructure;
 
+import android.util.Log;
+
 import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.PersianCalendar;
 
@@ -15,7 +17,7 @@ public class DateHelper {
             Date date = new Date();
             return (dateFormat.format(date));
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "DateHelper", "getGregorianDateTime");
+            Log.e("DateHelper", "getGregorianDateTime");
             return "";
         }
 
@@ -29,7 +31,7 @@ public class DateHelper {
             AppMonitor.Log("Day:" + pc.get(Calendar.DAY_OF_MONTH));
             return pc.get(Calendar.YEAR) + "/" + (pc.get(Calendar.MONTH) + 1) + "/" + pc.get(Calendar.DAY_OF_MONTH);
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "DateHelper", "getShamsiDate");
+            Log.e("DateHelper", "getShamsiDate");
             return "";
         }
     }

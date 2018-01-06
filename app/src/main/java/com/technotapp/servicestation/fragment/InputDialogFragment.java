@@ -44,7 +44,7 @@ public class InputDialogFragment extends DialogFragment implements View.OnClickL
         try {
 
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "SuccessfulDialogFragment", "initView");
+            AppMonitor.reportBug(getActivity(),e, "SuccessfulDialogFragment", "initView");
         }
     }
 

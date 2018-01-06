@@ -1,6 +1,7 @@
 package com.technotapp.servicestation.Infrastructure;
 
 import android.util.Base64;
+import android.util.Log;
 
 import com.technotapp.servicestation.application.Constant;
 
@@ -106,7 +107,7 @@ public class Encryptor {
 
             return result;
         } catch (Exception e) {
-            AppMonitor.reportBug(e, "Encryptor", "decriptAES");
+            Log.e( "Encryptor", "decriptAES");
             return null;
         }
     }
