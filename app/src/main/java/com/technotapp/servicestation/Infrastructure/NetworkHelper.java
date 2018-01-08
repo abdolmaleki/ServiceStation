@@ -28,7 +28,6 @@ public class NetworkHelper {
 
     public static void isConnectingToInternet(Context ctx, CheckNetworkStateListener checkNetworkStateListener) {
 
-
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -37,10 +36,11 @@ public class NetworkHelper {
 
                 if (isNetworkAvailable(ctx)) {
                     try {
-                        HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.google.com/").openConnection());
+                        HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.time.ir/").openConnection());
                         urlc.setRequestProperty("User-Agent", "Android");
                         urlc.setRequestProperty("Connection", "close");
-                        urlc.setConnectTimeout(2000);
+                        urlc.setReadTimeout(5000);
+                        urlc.setConnectTimeout(5000);
                         urlc.connect();
                         if ((urlc.getResponseCode() == 200)) {
                             checkNetworkStateListener.onNetworkChecked(true, "اتصال موفقیت آمیز به اینترنت");
@@ -51,7 +51,7 @@ public class NetworkHelper {
                         }
                     } catch (Exception e) {
                         AppMonitor.reportBug(ctx, e, "NetworkHelper", "isConnectingToInternet");
-                        checkNetworkStateListener.onNetworkChecked(false, "مشکل اتصال با اینترنت");
+                        checkNetworkStateListener.onNetworkChecked(false, "اشکال در اتصال به اینترنت");
                     }
                 } else {
                     checkNetworkStateListener.onNetworkChecked(false, "لطفا اینترنت وای فای یا سیم کارت خود را فعال کنید");

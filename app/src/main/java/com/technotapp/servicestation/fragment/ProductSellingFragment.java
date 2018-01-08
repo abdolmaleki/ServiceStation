@@ -49,6 +49,7 @@ public class ProductSellingFragment extends Fragment implements SearchView.OnQue
     private TextView mTV_totalPrice;
     private FactorMaker mFactorMaker;
     private Button mBTN_confirm;
+    private Button mBTN_Refresh;
     private Session mSession;
 
     public static ProductSellingFragment newInstance() {
@@ -100,7 +101,9 @@ public class ProductSellingFragment extends Fragment implements SearchView.OnQue
             mFactorMaker = new FactorMaker();
             mBTN_confirm = rootView.findViewById(R.id.fragment_selling_product_btn_Confirm);
             mBTN_confirm.setOnClickListener(this);
-            rootView.findViewById(R.id.fragment_custom_service_btn_refresh).setOnClickListener(this);
+            mBTN_Refresh = rootView.findViewById(R.id.fragment_custom_service_btn_refresh);
+            mBTN_Refresh.setOnClickListener(this);
+            mBTN_Refresh.requestFocus();
 
             mSession = Session.getInstance(getActivity());
             setRetainInstance(true);
@@ -212,6 +215,12 @@ public class ProductSellingFragment extends Fragment implements SearchView.OnQue
                 public void onFail() {
                     Helper.progressBar.hideDialog();
                     Helper.alert(mActivity, getString(R.string.serverConnectingError), Constant.AlertType.Error);
+                }
+
+                @Override
+                public void onNetworkProblem(String message) {
+                    Helper.alert(mActivity, message, Constant.AlertType.Error);
+
                 }
             });
         } catch (Exception e) {

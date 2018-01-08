@@ -20,6 +20,7 @@
             android:layout_marginLeft="10dp"
             android:background="@drawable/cs_btn_charge_fragment_type_charge_selected"
             android:drawableRight="@drawable/ic_refresh"
+            android:focusableInTouchMode="true"
             android:paddingRight="10dp"
             android:text="بروزرسانی"
             android:textColor="@color/white"

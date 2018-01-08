@@ -373,6 +373,12 @@ public class ChargeFragment extends SubMenuFragment implements View.OnClickListe
                     Helper.progressBar.hideDialog();
                     Helper.alert(getActivity(), getString(R.string.serverConnectingError), Constant.AlertType.Error);
                 }
+
+                @Override
+                public void onNetworkProblem(String message) {
+                    Helper.alert(getActivity(), message, Constant.AlertType.Error);
+
+                }
             });
         } catch (Exception e) {
             AppMonitor.reportBug(getActivity(),e, "ChargeFragment", "callByeCharge");

@@ -47,33 +47,23 @@ public class ApiCaller {
 
     public void call(final Context ctx, BaseDto dto, final SecretKey AESsecretKey, String loadingMessage, final ApiCallback apiCallback) {
 
-        try {
-            NetworkHelper.isConnectingToInternet(ctx, new NetworkHelper.CheckNetworkStateListener() {
-                @Override
-                public void onNetworkChecked(boolean isSuccess, String message) {
-                    if (isSuccess) {
-                        Message.obtain(apiHandler, 0, message).sendToTarget();
-                    } else {
-                        Message.obtain(apiHandler, 1, message).sendToTarget();
-                    }
-                }
-            });
 
-            apiHandler = new Handler(Looper.getMainLooper()) {
-                @Override
-                public void handleMessage(Message msg) {
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ////////// show progressbar if needed ////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        if (loadingMessage != null) {
+            Helper.progressBar.showDialog(ctx, loadingMessage);
+        }
 
-
-                    if (msg.what == 0) {
-
-                        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-                        ////////// Network and Internet are ok
-                        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+        NetworkHelper.isConnectingToInternet(ctx, new NetworkHelper.CheckNetworkStateListener() {
+            @Override
+            public void onNetworkChecked(boolean isSuccess, String message) {
+                if (isSuccess) {
+                    try {
                         // Client For Retrofit
                         final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                                .connectTimeout(5, TimeUnit.SECONDS)
                                 .readTimeout(10, TimeUnit.SECONDS)
-                                .connectTimeout(10, TimeUnit.SECONDS)
                                 .build();
 
                         Retrofit retrofit = new Retrofit.Builder()
@@ -137,12 +127,6 @@ public class ApiCaller {
                                 break;
                         }
 
-                        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                        ////////// show progressbar if needed ////////////////////
-                        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                        if (loadingMessage != null) {
-                            Helper.progressBar.showDialog(ctx, loadingMessage);
-                        }
 
                         token.enqueue(new retrofit2.Callback<String>() {
                             @Override
@@ -184,20 +168,17 @@ public class ApiCaller {
                             }
                         });
 
-                        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-                        ////////// Network Problem
-                        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-                    } else { // NetworkProblem
-                        Helper.alert(ctx, msg.obj.toString(), Constant.AlertType.Error);
-
+                    } catch (Exception e) {
+                        Helper.progressBar.hideDialog();
+                        AppMonitor.reportBug(ctx, e, "Apicaller", "onSuccess");
                     }
-                }
-            };
 
-        } catch (Exception e) {
-            AppMonitor.reportBug(ctx, e, "ApiCaller", "call");
-        }
+                } else { // net problem
+                    Helper.progressBar.hideDialog();
+                    apiCallback.onNetworkProblem(message);
+                }
+            }
+        });
     }
 
 
@@ -205,6 +186,8 @@ public class ApiCaller {
         void onResponse(int responseCode, String jsonResult);
 
         void onFail();
+
+        void onNetworkProblem(String message);
     }
 
 

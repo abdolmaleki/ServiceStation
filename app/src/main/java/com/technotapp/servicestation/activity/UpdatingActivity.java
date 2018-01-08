@@ -40,9 +40,10 @@ public class UpdatingActivity extends BaseActivity implements View.OnClickListen
     private Context mContext;
     private final String mClassName = getClass().getSimpleName();
     private Session mSession;
-    private Button mBtnUpdate;
     private ColorfulRingProgressView mProgressView;
     private int progressStatus = 0;
+    private Button mBTN_retry;
+    private Button mBTN_exit;
 
 
     @Override
@@ -52,6 +53,13 @@ public class UpdatingActivity extends BaseActivity implements View.OnClickListen
         setContentView(R.layout.activity_updating);
 
         initView();
+        doUpdate();
+    }
+
+    private void doUpdate() {
+
+        goToUpdatingState();
+
         NetworkHelper.isConnectingToInternet(this, new NetworkHelper.CheckNetworkStateListener() {
             @Override
             public void onNetworkChecked(boolean isSuccess, String message) {
@@ -59,9 +67,22 @@ public class UpdatingActivity extends BaseActivity implements View.OnClickListen
                     startUpdate();
                 } else {
                     Helper.alert(UpdatingActivity.this, "به دلیل عدم ارتباط با اینترنت بروزرسانی ممکن نمی باشد", Constant.AlertType.Error);
+                    goToFailedState();
                 }
             }
         });
+    }
+
+    private void goToUpdatingState() {
+        mBTN_retry.setVisibility(View.INVISIBLE);
+        mBTN_exit.setVisibility(View.INVISIBLE);
+        mProgressView.setVisibility(View.VISIBLE);
+    }
+
+    private void goToFailedState() {
+        mBTN_retry.setVisibility(View.VISIBLE);
+        mBTN_exit.setVisibility(View.VISIBLE);
+        mProgressView.setVisibility(View.INVISIBLE);
     }
 
     private void startUpdate() {
@@ -104,11 +125,15 @@ public class UpdatingActivity extends BaseActivity implements View.OnClickListen
         }
     }
 
-
     private void initView() {
         mContext = this;
         mProgressView = findViewById(R.id.activity_updating_progress);
         mSession = Session.getInstance(this);
+        mBTN_retry = findViewById(R.id.activity_updating_btn_retry);
+        mBTN_retry.setOnClickListener(this);
+        mBTN_exit = findViewById(R.id.activity_updating_btn_exit);
+        mBTN_exit.setOnClickListener(this);
+
     }
 
     public void callGetTerminalInfo() {
@@ -136,12 +161,15 @@ public class UpdatingActivity extends BaseActivity implements View.OnClickListen
                                 startActivity(new Intent(mContext, MainActivity.class));
                             } else {
                                 Helper.alert(mContext, menuStos.get(0).messageModel.get(0).errorString, Constant.AlertType.Error);
+                                goToFailedState();
                             }
                         } else {
                             Helper.alert(mContext, menuStos.get(0).messageModel.get(0).errorString, Constant.AlertType.Error);
+                            goToFailedState();
                         }
                     } else {
                         Helper.alert(mContext, getString(R.string.api_data_download_error), Constant.AlertType.Error);
+                        goToFailedState();
                     }
                 }
 
@@ -149,6 +177,13 @@ public class UpdatingActivity extends BaseActivity implements View.OnClickListen
                 public void onFail() {
                     Helper.progressBar.hideDialog();
                     Helper.alert(mContext, getString(R.string.serverConnectingError), Constant.AlertType.Error);
+                    goToFailedState();
+                }
+
+                @Override
+                public void onNetworkProblem(String message) {
+                    Helper.alert(UpdatingActivity.this, message, Constant.AlertType.Error);
+                    goToFailedState();
                 }
             });
         } catch (Exception e) {
@@ -210,6 +245,11 @@ public class UpdatingActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void onClick(View view) {
         int id = view.getId();
+        if (id == mBTN_retry.getId()) {
+            doUpdate();
+        } else if (id == mBTN_exit.getId()) {
+            finish();
+        }
 
     }
 }

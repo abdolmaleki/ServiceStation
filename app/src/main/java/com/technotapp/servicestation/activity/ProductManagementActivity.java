@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -48,9 +49,12 @@ public class ProductManagementActivity extends BaseActivity implements View.OnCl
     LinearLayout back;
     @BindView(R.id.toolbar_tv_title)
     TextView txtTitle;
+    @BindView(R.id.activity_product_management_btn_refresh)
+    Button mBTN_Refresh;
 
     private SearchView mSearchView;
     private Session mSession;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +78,8 @@ public class ProductManagementActivity extends BaseActivity implements View.OnCl
             back.setOnClickListener(this);
             fab.setOnClickListener(this);
             txtTitle.setText("مدیریت کالا ها");
+            mBTN_Refresh.requestFocus();
+
             findViewById(R.id.activity_product_management_btn_refresh).setOnClickListener(this);
 
         } catch (Exception e) {
@@ -114,7 +120,7 @@ public class ProductManagementActivity extends BaseActivity implements View.OnCl
 
             case R.id.toolbar_img_back:
                 finish();
-                startActivity(new Intent(this, MainActivity.class));
+                startActivity(new Intent(this, SettingActivity.class));
                 break;
 
             case R.id.activity_product_management_fab:
@@ -177,7 +183,6 @@ public class ProductManagementActivity extends BaseActivity implements View.OnCl
                                 if (searchProductStos.get(0).dataModel.get(0).result != null && searchProductStos.get(0).dataModel.get(0).result.size() > 0) { // have registered product
                                     if (saveProduct(searchProductStos.get(0).dataModel.get(0).result)) {//db persisant have done
                                         initAdapter();
-                                        Helper.alert(ProductManagementActivity.this, "بروزرسانی کالاها و خدمات انجام شد", Constant.AlertType.Success);
                                     } else // db persisant have error
                                     {
                                         Helper.alert(ProductManagementActivity.this, "بروزرسانی کالاها و خدمات با مشکل مواجه شد", Constant.AlertType.Error);
@@ -201,6 +206,11 @@ public class ProductManagementActivity extends BaseActivity implements View.OnCl
                 public void onFail() {
                     Helper.progressBar.hideDialog();
                     Helper.alert(ProductManagementActivity.this, getString(R.string.serverConnectingError), Constant.AlertType.Error);
+                }
+
+                @Override
+                public void onNetworkProblem(String message) {
+                    Helper.alert(ProductManagementActivity.this, message, Constant.AlertType.Error);
                 }
             });
         } catch (Exception e) {

@@ -89,6 +89,7 @@ public class Constant {
         public static final String PRODUCT_ID = "product.id";
         public static final String FACTOR_ID = "factor.id";
         public static final String EXIT = "exit";
+        public static final String USER_ROLE = "user.role";
         public static final String PAYMENT_TYPE_LIST = "payment.type.list";
         public static final String FACTOR_TOTAL_PRICE = "factor.total.price";
         public static final String PRINT_BITMAP = "print.bitmap";

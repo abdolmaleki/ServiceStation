@@ -73,7 +73,7 @@ public class FactorActivity extends BaseActivity implements View.OnClickListener
             FactorAdapter adapter = new FactorAdapter(this, productModels);
             list_product.setAdapter(adapter);
         } catch (Exception e) {
-            AppMonitor.reportBug(this,e, "FactorActivity", "initAdapter");
+            AppMonitor.reportBug(this, e, "FactorActivity", "initAdapter");
         }
     }
 
@@ -145,7 +145,7 @@ public class FactorActivity extends BaseActivity implements View.OnClickListener
             }
 
         } catch (Exception e) {
-            AppMonitor.reportBug(this,e, "FactorActivity", "goPaymentMenu");
+            AppMonitor.reportBug(this, e, "FactorActivity", "goPaymentMenu");
         }
 
     }
@@ -183,7 +183,7 @@ public class FactorActivity extends BaseActivity implements View.OnClickListener
                             Helper.alert(FactorActivity.this, getString(R.string.api_data_download_error), Constant.AlertType.Error);
                         }
                     } catch (Exception e) {
-                        AppMonitor.reportBug(FactorActivity.this,e, "FactorActivity", "callSubmitFactor");
+                        AppMonitor.reportBug(FactorActivity.this, e, "FactorActivity", "callSubmitFactor");
                         Helper.alert(FactorActivity.this, getString(R.string.api_data_download_error), Constant.AlertType.Error);
 
                     }
@@ -193,9 +193,14 @@ public class FactorActivity extends BaseActivity implements View.OnClickListener
                 public void onFail() {
                     Helper.alert(FactorActivity.this, getString(R.string.serverConnectingError), Constant.AlertType.Error);
                 }
+
+                @Override
+                public void onNetworkProblem(String message) {
+                    Helper.alert(FactorActivity.this, message, Constant.AlertType.Error);
+                }
             });
         } catch (Exception e) {
-            AppMonitor.reportBug(FactorActivity.this,e, "FactorActivity", "callSubmitFactor");
+            AppMonitor.reportBug(FactorActivity.this, e, "FactorActivity", "callSubmitFactor");
         }
     }
 

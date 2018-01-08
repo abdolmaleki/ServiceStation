@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.Helper;
@@ -35,10 +36,12 @@ import com.thanosfisherman.wifiutils.wifiState.WifiStateListener;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.ghyeok.stickyswitch.widget.StickySwitch;
 
 
-public class CheckNetworkActivity extends BaseActivity implements AdapterView.OnItemClickListener, StickySwitch.OnSelectedChangeListener {
+public class CheckNetworkActivity extends BaseActivity implements AdapterView.OnItemClickListener, StickySwitch.OnSelectedChangeListener, View.OnClickListener {
 
     private SwitchCompat mNetworkType;
     private LinearLayout mDataPanel;
@@ -48,6 +51,11 @@ public class CheckNetworkActivity extends BaseActivity implements AdapterView.On
     private WifiReceiver mWifiReceiver;
     private List<ScanResult> mLastScanResults;
     public static Handler mHandler;
+
+    @BindView(R.id.toolbar_img_back)
+    LinearLayout back;
+    @BindView(R.id.toolbar_tv_title)
+    TextView txtTitle;
 
     //    private SwitchCompat mWifiState;
 //    private SwitchCompat mDataState;
@@ -125,6 +133,7 @@ public class CheckNetworkActivity extends BaseActivity implements AdapterView.On
     }
 
     private void initView() {
+        ButterKnife.bind(this);
         mDataPanel = findViewById(R.id.activity_checknetwork_panel_data);
         mWifiPanel = findViewById(R.id.activity_checknetwork_panel_wifi);
         mListWifi = findViewById(R.id.activity_checknetwork_list_wifi);
@@ -132,6 +141,10 @@ public class CheckNetworkActivity extends BaseActivity implements AdapterView.On
         mNetworkTypeSwitch.setOnSelectedChangeListener(this);
         mListWifi.setOnItemClickListener(this);
         mWifiReceiver = new WifiReceiver();
+
+        back.setOnClickListener(this);
+
+        txtTitle.setText("تنظیمات اینترنت");
 
     }
 
@@ -229,6 +242,14 @@ public class CheckNetworkActivity extends BaseActivity implements AdapterView.On
                     AppMonitor.reportBug(this, e, "CheckNetworkActivity", "onSelectedChange");
                 }
                 break;
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+        if (id == back.getId()) {
+            finish();
         }
     }
 

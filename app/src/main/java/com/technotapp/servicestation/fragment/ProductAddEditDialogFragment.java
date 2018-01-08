@@ -19,6 +19,7 @@ import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.Encryptor;
 import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.R;
+import com.technotapp.servicestation.activity.ProductManagementActivity;
 import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.connection.restapi.ApiCaller;
 import com.technotapp.servicestation.connection.restapi.dto.AddProductDto;
@@ -192,6 +193,12 @@ public class ProductAddEditDialogFragment extends DialogFragment implements View
                     Helper.alert(mActivity, getString(R.string.serverConnectingError), Constant.AlertType.Error);
 
                 }
+
+                @Override
+                public void onNetworkProblem(String message) {
+                    Helper.alert(getActivity(), message, Constant.AlertType.Error);
+
+                }
             });
         } catch (Exception e) {
             AppMonitor.reportBug(getActivity(), e, "ProductAddEditDialogFragment", "callAddProduct");
@@ -235,6 +242,12 @@ public class ProductAddEditDialogFragment extends DialogFragment implements View
                 @Override
                 public void onFail() {
                     Helper.alert(mActivity, getString(R.string.serverConnectingError), Constant.AlertType.Error);
+
+                }
+
+                @Override
+                public void onNetworkProblem(String message) {
+                    Helper.alert(getActivity(), message, Constant.AlertType.Error);
 
                 }
             });

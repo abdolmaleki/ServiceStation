@@ -84,6 +84,11 @@ public class AppMonitor {
                 @Override
                 public void onFail() {
                 }
+
+                @Override
+                public void onNetworkProblem(String message) {
+
+                }
             });
         } catch (Exception e) {
             Log.e("AppMonitor,CallLog --->", e.getMessage());

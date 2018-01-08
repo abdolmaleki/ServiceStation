@@ -80,5 +80,13 @@
     <string name="successfull_transaction">تراکنش موفق</string>
     <string name="transaction_result_btn_view">رویت تراکنش</string>
 
+    <!--=================================     Setting      =================================-->
+
+    <string-array name="user_roles">
+        <item>بازرگان</item>
+        <item>پشتیبان</item>
+
+    </string-array>
+
 
 </resources>

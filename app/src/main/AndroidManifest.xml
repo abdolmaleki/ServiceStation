@@ -56,6 +56,7 @@
         <activity
             android:name=".activity.CustomScannerActivity"
             android:screenOrientation="landscape" />
+        <activity android:name=".activity.SettingLoginActivity" />
 
 
     </application>

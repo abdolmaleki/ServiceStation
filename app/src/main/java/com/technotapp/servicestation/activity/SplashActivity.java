@@ -48,9 +48,6 @@ public class SplashActivity extends AppCompatActivity {
 
         playSplash();
 
-        checkNetStatus();
-
-
     }
 
     //run splash animation and show progressBar after two second
@@ -122,23 +119,4 @@ public class SplashActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    private void checkNetStatus() {
-
-        NetworkHelper.isConnectingToInternet(mContext, new NetworkHelper.CheckNetworkStateListener() {
-            @Override
-            public void onNetworkChecked(boolean isSuccess, String message) {
-
-                while (!mIsProgressfinished) {
-
-                }
-                if (isSuccess) {
-                    startActivity(new Intent(mContext, SigninActivity.class));
-                    finish();
-                } else {
-                    startActivity(new Intent(mContext, CheckNetworkActivity.class));
-                }
-            }
-        });
-
-    }
 }

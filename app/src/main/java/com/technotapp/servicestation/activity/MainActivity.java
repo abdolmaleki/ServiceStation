@@ -140,7 +140,7 @@ public class MainActivity extends BaseActivity {
 
             if (mCounter == 9) {
                 mCounter = 0;
-                startActivity(new Intent(mContext, SettingActivity.class));
+                startActivity(new Intent(mContext, SettingLoginActivity.class));
                 return;
             } else if (mCounter > 3) {
                 mToastMessage = Toast.makeText(mContext, "شما " + (9 - mCounter) + " قدمی دسترسی به تنظیمات هستید.", Toast.LENGTH_SHORT);
@@ -196,6 +196,10 @@ public class MainActivity extends BaseActivity {
                 @Override
                 public void onFail() {
                 }
+
+                @Override
+                public void onNetworkProblem(String message) {
+                }
             });
         } catch (Exception e) {
             AppMonitor.reportBug(MainActivity.this, e, mClassName, "callSendLog");
@@ -220,20 +224,21 @@ public class MainActivity extends BaseActivity {
                                 mSession.setLastVersion(sto.get(0).messageModel.get(0).ver);
                                 UpdateHelper.checkNeedingUpdate(MainActivity.this);
                             } else {
-                                Helper.alert(MainActivity.this, sto.get(0).messageModel.get(0).errorString, Constant.AlertType.Error);
                             }
                         } else {
-                            Helper.alert(MainActivity.this, getString(R.string.api_data_download_error), Constant.AlertType.Error);
                         }
                     } catch (Exception e) {
                         AppMonitor.reportBug(MainActivity.this, e, "MainActivity", "callGetVersion-onResponse");
-                        Helper.alert(MainActivity.this, getString(R.string.api_data_download_error), Constant.AlertType.Error);
 
                     }
                 }
 
                 @Override
                 public void onFail() {
+                }
+
+                @Override
+                public void onNetworkProblem(String message) {
                 }
             });
         } catch (Exception e) {
@@ -245,8 +250,6 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         callGetVersion();
-
-
     }
 
     @Override

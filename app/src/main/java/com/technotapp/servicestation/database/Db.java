@@ -17,7 +17,6 @@ public class Db {
     private static Realm realm;
     private static Context mContext;
 
-
     public static void init(Context context) {
         if (realm == null) {
             realm = Realm.getDefaultInstance();
@@ -55,7 +54,9 @@ public class Db {
             return realm.where(MenuModel.class).findAll();
         }
 
-        public static RealmResults<MenuModel> getMainMenu() {
+        public static RealmResults
+
+                <MenuModel> getMainMenu() {
             return realm.where(MenuModel.class).equalTo("parentMenuID", -1).findAll();
         }
 
