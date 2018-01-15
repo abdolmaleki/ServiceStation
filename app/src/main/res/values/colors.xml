@@ -23,6 +23,9 @@
     <color name="gray">#6d6d6d</color>
     <color name="green">#43A047</color>
 
+    <color name="gray_very_light">#EEEEEE</color>
+    <color name="sormeyi_very_light">#B0BEC5</color>
+
 
 
 </resources>

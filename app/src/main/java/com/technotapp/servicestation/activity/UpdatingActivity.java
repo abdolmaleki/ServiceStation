@@ -94,7 +94,7 @@ public class UpdatingActivity extends BaseActivity implements View.OnClickListen
             new Timer().schedule(new TimerTask() {
                 @Override
                 public void run() {
-
+                    Looper.prepare();
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -151,11 +151,10 @@ public class UpdatingActivity extends BaseActivity implements View.OnClickListen
 
                     if (menuStos != null) {
                         if (menuStos.get(0).messageModel.get(0).errorCode == Constant.Api.ErrorCode.Successfull) {
-                            int appVersion = menuStos.get(0).messageModel.get(0).ver;
-                            mSession.setLastVersion(appVersion);
-                            mSession.setAppVersion(appVersion);
-
                             if (saveMenu(menuStos) && saveInfo(menuStos)) {
+                                int appVersion = menuStos.get(0).messageModel.get(0).ver;
+                                mSession.setLastVersion(appVersion);
+                                mSession.setAppVersion(appVersion);
                                 mProgressView.setPercent(100.0f);
                                 Helper.alert(UpdatingActivity.this, "بروزرسانی با موفقیت انجام شد", Constant.AlertType.Success);
                                 startActivity(new Intent(mContext, MainActivity.class));
@@ -174,20 +173,15 @@ public class UpdatingActivity extends BaseActivity implements View.OnClickListen
                 }
 
                 @Override
-                public void onFail() {
+                public void onFail(String message) {
                     Helper.progressBar.hideDialog();
-                    Helper.alert(mContext, getString(R.string.serverConnectingError), Constant.AlertType.Error);
-                    goToFailedState();
-                }
-
-                @Override
-                public void onNetworkProblem(String message) {
                     Helper.alert(UpdatingActivity.this, message, Constant.AlertType.Error);
                     goToFailedState();
                 }
             });
         } catch (Exception e) {
             AppMonitor.reportBug(UpdatingActivity.this, e, mClassName, "callGetTerminalInfo");
+            goToFailedState();
         }
 
     }

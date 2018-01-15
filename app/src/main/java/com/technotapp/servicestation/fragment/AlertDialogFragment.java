@@ -101,7 +101,7 @@ public class AlertDialogFragment extends DialogFragment implements View.OnClickL
             } else if (mAlertType == Constant.AlertType.Error) {
                 linearLayout.setBackgroundResource(R.drawable.bg_lyr_dialog_error);
                 imageView.setBackgroundResource(R.drawable.ic_error_message);
-                btn_confirm.setTextColor(getResources().getColor(R.color.error_color));
+                btn_confirm.setTextColor(getResources().getColor(R.color.error_dialog_color));
                 btn_confirm.setBackgroundResource(R.drawable.bg_btn_white_raduce);
 
             } else if (mAlertType == Constant.AlertType.Success) {

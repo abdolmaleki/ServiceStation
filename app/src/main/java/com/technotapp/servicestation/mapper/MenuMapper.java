@@ -28,13 +28,7 @@ public class MenuMapper {
         model.controller = sto.controller;
         model.description = sto.description;
         model.parentMenuID = (sto.parentMenuID != null) ? sto.parentMenuID : -1;
-        if (sto.parentMenuID == null) {
-            model.orderNo = (sto.orderNo != null) ? sto.orderNo : -1;
-        } else {
-            model.orderNo = (sto.orderNoSubMenu != null) ? sto.orderNoSubMenu : -1;
-        }
         model.icon = sto.icon;
-        model.status = sto.status;
         model.url = sto.url;
         model.title = sto.title;
         return model;

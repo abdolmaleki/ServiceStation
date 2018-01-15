@@ -123,7 +123,7 @@ public class TransactionHelper {
     public static String getResponseMessage(String code) {
         switch (code) {
             case "-1":
-                return "ERROR_MESSAGE()";
+                return "خطای سرور";
             case "00":
                 return "عملیات با موفقیت انجام شد";
             case "03":
@@ -133,7 +133,7 @@ public class TransactionHelper {
             case "14":
                 return "شماره کارت وجود ندارد";
             case "30":
-                return "خطای سرور";
+                return "خطا در سرور";
             case "39":
                 return "حساب وجود ندارد یا غیر فعال است";
             case "51":

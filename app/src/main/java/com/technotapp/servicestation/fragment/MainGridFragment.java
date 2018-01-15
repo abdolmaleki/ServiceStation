@@ -47,7 +47,13 @@ public class MainGridFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main_grid_view, container, false);
         mGridView = view.findViewById(R.id.fragment_main_grid_view);
+        initView();
         return view;
+
+    }
+
+    private void initView() {
+        setRetainInstance(true);
     }
 
     @Override
@@ -67,7 +73,7 @@ public class MainGridFragment extends Fragment {
                 });
             }
         } catch (Exception e) {
-            AppMonitor.reportBug(getActivity(),e, mClassName, "onActivityCreated");
+            AppMonitor.reportBug(getActivity(), e, mClassName, "onActivityCreated");
         }
     }
 
@@ -87,7 +93,7 @@ public class MainGridFragment extends Fragment {
                 Helper.alert(mContext, "محتوایی برای نمایش وجود ندارد", Constant.AlertType.Information);
             }
         } catch (Exception e) {
-            AppMonitor.reportBug(getActivity(),e, mClassName, "onGridItemClick");
+            AppMonitor.reportBug(getActivity(), e, mClassName, "onGridItemClick");
         }
 
     }

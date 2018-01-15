@@ -11,7 +11,6 @@ public class MenuAdapterModel {
     public String url;
     public String controller;
     public String action;
-    public boolean status;
     public int orderNo;
 
 
@@ -24,7 +23,6 @@ public class MenuAdapterModel {
         this.orderNo = model.orderNo;
         this.parentMenuID = model.parentMenuID;
         this.url = model.url;
-        this.status = model.status;
         this.id = model.id;
     }
 }

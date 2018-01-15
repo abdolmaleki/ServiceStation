@@ -6,11 +6,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.application.Constant;
+import com.technotapp.servicestation.customView.CustomEditText;
 import com.technotapp.servicestation.enums.UserRole;
 
 import butterknife.BindView;
@@ -26,6 +29,8 @@ public class SettingLoginActivity extends BaseActivity implements View.OnClickLi
 
     private UserRole mUserRole = UserRole.MERCHANT;
     private Button mBTN_confirm;
+    private CustomEditText mET_UserName;
+    private CustomEditText mET_Password;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,6 +44,8 @@ public class SettingLoginActivity extends BaseActivity implements View.OnClickLi
         txtTitle.setText("ورود به تنظیمات");
         SwitchMultiButton mSwitchUserRoles = findViewById(R.id.activity_setting_login_switch_roles);
         mBTN_confirm = findViewById(R.id.activity_setting_login_btn_confirm);
+        mET_UserName = findViewById(R.id.activity_setting_login_et_username);
+        mET_Password = findViewById(R.id.activity_setting_login_et_password);
         mBTN_confirm.setOnClickListener(this);
         back.setOnClickListener(this);
 
@@ -67,11 +74,18 @@ public class SettingLoginActivity extends BaseActivity implements View.OnClickLi
                 Intent intent = new Intent(this, SettingActivity.class);
                 intent.putExtra(Constant.Key.USER_ROLE, mUserRole);
                 startActivity(intent);
+            } else {
+                Helper.alert(this, "نام کاربری یا رمز عبور را اشتباه است", Constant.AlertType.Error);
             }
         }
     }
 
     private boolean validation() {
-        return true;
+        if (mET_UserName.getText().toString().equals("1234") && (mET_Password.getText().toString().equals("1234"))) {
+            return true;
+
+        } else {
+            return false;
+        }
     }
 }

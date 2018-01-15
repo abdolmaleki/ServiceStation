@@ -164,16 +164,11 @@ public class SigninActivity extends BaseActivity implements View.OnClickListener
                 }
 
                 @Override
-                public void onFail() {
-                    Helper.progressBar.hideDialog();
-                    Helper.alert(mContext, getString(R.string.serverConnectingError), Constant.AlertType.Error);
-                }
-
-                @Override
-                public void onNetworkProblem(String message) {
+                public void onFail(String message) {
                     Helper.alert(SigninActivity.this, message, Constant.AlertType.Error);
 
                 }
+
             });
         } catch (Exception e) {
             AppMonitor.reportBug(SigninActivity.this, e, mClassName, "callGetMenu");
@@ -186,7 +181,7 @@ public class SigninActivity extends BaseActivity implements View.OnClickListener
         menuDto.userName = edtUsername.getText().toString();
         menuDto.password = edtPassword.getText().toString();
         menuDto.deviceInfo = "My Pos Info";
-        menuDto.terminalCode = "R215454D5";
+        menuDto.terminalCode = "305419896";
         return menuDto;
     }
 

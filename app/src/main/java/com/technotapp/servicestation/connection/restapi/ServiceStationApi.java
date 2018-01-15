@@ -49,5 +49,14 @@ public interface ServiceStationApi {
     @POST("api/Applications/GetTerminalVersionMenu")
     Call<String> getVersion(@Query("key") String key, @Query("value") String value, @Query("deviceInfo") String deviceInfo);
 
+    @POST("api/Shop/ReturnTransactions")
+    Call<String> searchTransaction(@Query("key") String key, @Query("value") String value, @Query("deviceInfo") String deviceInfo);
+
+    @POST("api/Shop/ReturnFactors")
+    Call<String> searchFactor(@Query("key") String key, @Query("value") String value, @Query("deviceInfo") String deviceInfo);
+
+    @POST("api/Applications/UpdateShopInfo")
+    Call<String> editShopInfo(@Query("key") String key, @Query("value") String value, @Query("deviceInfo") String deviceInfo);
+
 
 }

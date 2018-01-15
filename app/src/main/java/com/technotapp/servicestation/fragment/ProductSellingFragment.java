@@ -212,13 +212,7 @@ public class ProductSellingFragment extends Fragment implements SearchView.OnQue
                 }
 
                 @Override
-                public void onFail() {
-                    Helper.progressBar.hideDialog();
-                    Helper.alert(mActivity, getString(R.string.serverConnectingError), Constant.AlertType.Error);
-                }
-
-                @Override
-                public void onNetworkProblem(String message) {
+                public void onFail(String message) {
                     Helper.alert(mActivity, message, Constant.AlertType.Error);
 
                 }

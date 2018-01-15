@@ -22,15 +22,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/FullscreenTheme">
-        <activity
-            android:name=".activity.MainActivity"
-            android:launchMode="singleTask">
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity android:name=".activity.SplashActivity">
 
@@ -40,8 +37,7 @@
         </activity>
         <activity
             android:name=".activity.SigninActivity"
-            android:launchMode="singleInstance"
-            >
+            android:launchMode="singleInstance">
 
         </activity>
         <activity android:name=".activity.PublicServiceActivity" />
@@ -57,6 +53,9 @@
             android:name=".activity.CustomScannerActivity"
             android:screenOrientation="landscape" />
         <activity android:name=".activity.SettingLoginActivity" />
+        <activity android:name=".activity.TransactionArchiveActivity">
+
+        </activity>
 
 
     </application>

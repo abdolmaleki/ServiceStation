@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_list_archive_transaction_panel_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layoutDirection="rtl"
+    android:orientation="vertical">
+
+    <com.technotapp.servicestation.customView.CustomTextView
+        android:id="@+id/item_list_archive_transaction_tv_amount"
+        android:layout_width="88dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="7dp"
+        android:layout_marginTop="10dp"
+        android:clickable="false"
+        android:text="مبلغ"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:fontName="@string/irsansNumber" />
+
+    <com.technotapp.servicestation.customView.CustomTextView
+        android:id="@+id/item_list_archive_transaction_tv_cardNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/item_list_archive_transaction_tv_amount"
+        android:layout_marginRight="7dp"
+        android:clickable="false"
+        android:text="شماره کارت"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        app:fontName="@string/irsansNumber" />
+
+    <com.technotapp.servicestation.customView.CustomTextView
+        android:id="@+id/item_list_archive_transaction_tv_transactionTypeTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/item_list_archive_transaction_tv_cardNumber"
+        android:layout_marginRight="7dp"
+        android:gravity="center"
+        android:text="نوع تراکنش"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        app:fontName="@string/irsansNumber" />
+
+    <com.technotapp.servicestation.customView.CustomTextView
+        android:id="@+id/item_list_archive_transaction_tv_transactionId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/item_list_archive_transaction_tv_transactionTypeTitle"
+
+        android:layout_marginRight="7dp"
+        android:gravity="center"
+        android:text="شماره تراکنش"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        app:fontName="@string/irsansNumber" />
+
+    <com.technotapp.servicestation.customView.CustomTextView
+        android:id="@+id/item_list_archive_transaction_tv_accountNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/item_list_archive_transaction_tv_transactionId"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="7dp"
+        android:clickable="false"
+        android:text="شماره اکانت"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        app:fontName="@string/irsansNumber" />
+
+
+    <com.technotapp.servicestation.customView.CustomTextView
+        android:id="@+id/item_list_archive_transaction_tv_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:text="تاریخ"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        app:fontName="@string/irsansNumber" />
+
+    <com.technotapp.servicestation.customView.CustomTextView
+        android:id="@+id/item_list_archive_transaction_tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/item_list_archive_transaction_tv_date"
+        android:layout_marginLeft="10dp"
+        android:gravity="center"
+        android:text="ساعت"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        app:fontName="@string/irsansNumber" />
+
+
+    <com.technotapp.servicestation.customView.CustomTextView
+        android:id="@+id/item_list_archive_transaction_tv_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        app:fontName="@string/irsansNumber" />
+
+
+</RelativeLayout>

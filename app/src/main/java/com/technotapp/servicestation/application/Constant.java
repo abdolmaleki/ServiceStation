@@ -132,6 +132,7 @@ public class Constant {
             public static final int SUBMIT_FACTOR = 6;
             public static final int BYE_CHARGE = 7;
             public static final int GET_VERSION = 8;
+            public static final int SEARCH_TRANSACTION = 9;
 
         }
 
@@ -144,6 +145,7 @@ public class Constant {
 
     public static class Encryption {
         public static final String RSA_KEY = "pkT+gaenqqIXUzNRdoj+xqdqJXgAHgpp2ZNdaGfV4wUWJ8KTAYZlXP0cvgbwlu94M7cvLjQ3P6rn4U+VirsskSjnburdNGDTb2lf2mnaIQs9M7npb0SVaY0aWyZiuJTDjOxbgegYxA6tNDw66ewpIWMavyOyke59xmHUFqUnylULSpdmKkAuxbjBkxkRjzqsWER6HdRo6LJr4LjNYCVzyDurorFkinvyawBmO5Wi0AknkAQxQbC7sFlR6jLPoHVEL259TEq3vogsuQVXZfiPB0WmwRJtKBx++PAXR7WtJghVc7Ub/48x4I3zgL8yNtxuMqh8n0mUw6cBNeXgMJdf2Q==";
+        //public static final String RSA_KEY = "MIIBITANBgkqhkiG9w0BAQEFAAOCAQ4AMIIBCQKCAQBMk6ORZQhtrQrbfIQAGTNsQH7kLd2Tf7Z5WUL5DBB7s6x4xaxBFYMBUeWN2DhsGqlteLFEa8G1gx3EG5FnLURzSSbvbcGLpFBlAJnqSsibmh+TyyZVMrqoT/vR8lkO1Jba/CXhWfFfkp4PvoXyuo8ygTbd8Vy9A5p6K4mOZEupHoeXTgSouT3LsV2s344UKie0scJKvjDktEiDf0q1ZWE1R5rL+Dvl7CnzqYq8Iv/SennmFfSqaZujqx3bFTXfiMb0iJ6CjEZpKD40otGkvEFDaAg4a7FvdFVE7LuWX6WFZclPE/lyxhUblJ/70CeWZNKbX+mpTnD7My0ea126HKLFAgMBAAE=";
 
     }
 

@@ -77,6 +77,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         findViewById(R.id.activity_setting_btn_product).setOnClickListener(this);
         findViewById(R.id.activity_setting_btn_net).setOnClickListener(this);
         findViewById(R.id.activity_setting_btn_update).setOnClickListener(this);
+        findViewById(R.id.activity_setting_btn_search_transaction).setOnClickListener(this);
 
         initSlideView(slideView);
     }
@@ -126,6 +127,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             startActivity(new Intent(this, ProductManagementActivity.class));
         } else if (id == R.id.activity_setting_btn_update) {
             checkUpdate();
+        } else if (id == R.id.activity_setting_btn_search_transaction) {
+            startActivity(new Intent(this, TransactionArchiveActivity.class));
+
         } else if (id == back.getId()) {
             startActivity(new Intent(this, MainActivity.class));
             finish();
@@ -169,15 +173,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 }
 
                 @Override
-                public void onFail() {
-                    Helper.alert(SettingActivity.this, getString(R.string.serverConnectingError), Constant.AlertType.Error);
-
-                }
-
-                @Override
-                public void onNetworkProblem(String message) {
+                public void onFail(String message) {
                     Helper.alert(SettingActivity.this, message, Constant.AlertType.Error);
                 }
+
             });
         } catch (Exception e) {
             AppMonitor.reportBug(SettingActivity.this, e, "SettingActivity", "callGetVersion");

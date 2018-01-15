@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_card_service_deposit_buy"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
+
+        <com.technotapp.servicestation.customView.CustomButton
+            android:id="@+id/activity_transaction_archive_btn_search"
+            android:layout_width="110dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/bg_btn_purple_raduce"
+            android:text="جستجو"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:fontName="b-titr" />
+
+        <com.technotapp.servicestation.customView.CustomTextView
+            android:id="@+id/activity_transaction_archive_et_end_date"
+            android:layout_width="100dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/bg_default_edittext_blackstroke"
+            android:editable="false"
+            android:gravity="center"
+            android:hint="تا تاریخ" />
+
+        <com.technotapp.servicestation.customView.CustomTextView
+            android:id="@+id/activity_transaction_archive_et_from_date"
+            android:layout_width="100dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/bg_default_edittext_blackstroke"
+            android:editable="false"
+            android:gravity="center"
+            android:hint="از تاریخ" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:background="@drawable/bg_archive_border"
+        android:orientation="vertical">
+
+        <com.technotapp.servicestation.customView.CustomTextView
+            android:id="@+id/activity_transaction_archive_txt_not_found"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="رکوردی یافت نشد."
+            android:visibility="gone"
+            app:fontName="@string/irsansMedium" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/activity_transaction_archive_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            tools:listitem="@layout/item_list_archive_transaction" />
+
+        <com.github.ybq.android.spinkit.SpinKitView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/activity_transaction_archive_progress"
+            style="@style/SpinKitView.ThreeBounce"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            app:SpinKit_Color="@android:color/holo_blue_dark" />
+
+
+    </LinearLayout>
+
+</LinearLayout>

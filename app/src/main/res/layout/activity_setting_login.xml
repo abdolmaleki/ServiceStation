@@ -6,10 +6,6 @@
     android:background="@drawable/bg_card_service_deposit_buy"
     android:orientation="vertical">
 
-    <ViewStub
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
     <include layout="@layout/toolbar" />
 
     <lib.kingja.switchbutton.SwitchMultiButton
@@ -27,43 +23,49 @@
         app:switchTabs="@array/user_roles"
         app:textSize="14sp" />
 
-    <com.technotapp.servicestation.customView.CustomEditText
-        android:id="@+id/activity_setting_login_et_username"
-        android:layout_width="230dp"
-        android:layout_height="45dp"
-        android:layout_gravity="center"
-        android:background="@drawable/bg_default_edittext_blackstroke"
-        android:drawableRight="@drawable/ic_user_name"
-        android:gravity="center"
-        android:hint="نام کاربری"
-        android:paddingRight="5dp"
-        app:fontName="@string/irsansMedium" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <com.technotapp.servicestation.customView.CustomEditText
-        android:id="@+id/activity_setting_login_et_password"
-        android:layout_width="230dp"
-        android:layout_height="45dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/bg_default_edittext_blackstroke"
-        android:drawableRight="@drawable/ic_password"
-        android:gravity="center"
-        android:hint="رمز عبور"
-        android:paddingRight="5dp"
-        app:fontName="@string/irsansMedium" />
+            <com.technotapp.servicestation.customView.CustomEditText
+                android:id="@+id/activity_setting_login_et_username"
+                android:layout_width="230dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_default_edittext_blackstroke"
+                android:drawableRight="@drawable/ic_user_name"
+                android:gravity="center"
+                android:hint="نام کاربری"
+                android:inputType="textNoSuggestions"
+                android:paddingRight="5dp"
+                app:fontName="@string/irsansMedium" />
 
-    <com.technotapp.servicestation.customView.CustomButton
-        android:id="@+id/activity_setting_login_btn_confirm"
+            <com.technotapp.servicestation.customView.CustomEditText
+                android:id="@+id/activity_setting_login_et_password"
+                android:layout_width="230dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/bg_default_edittext_blackstroke"
+                android:drawableRight="@drawable/ic_password"
+                android:gravity="center"
+                android:hint="رمز عبور"
+                android:inputType="textPassword"
+                android:paddingRight="5dp"
+                app:fontName="@string/irsansMedium" />
 
-        android:layout_width="230dp"
-        android:layout_height="45dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/bg_btn_purple_raduce"
-        android:text="ورود"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        app:fontName="b-titr" />
-
+        <com.technotapp.servicestation.customView.CustomButton
+            android:id="@+id/activity_setting_login_btn_confirm"
+            android:layout_width="230dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_btn_purple_raduce"
+            android:text="ورود"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:fontName="b-titr" />
+    </LinearLayout>
 
 </LinearLayout>

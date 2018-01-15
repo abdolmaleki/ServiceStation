@@ -55,6 +55,19 @@
         android:textColor="@color/white"
         android:textSize="15sp"
         app:fontName="b-titr" />
+    <com.technotapp.servicestation.customView.CustomButton
+        android:id="@+id/activity_setting_btn_search_transaction"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_button_purple_raduce"
+        android:drawableRight="@drawable/ic_transaction"
+        android:paddingRight="10dp"
+        android:text="گزارش تراکنش ها"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:fontName="b-titr" />
 
     <ng.max.slideview.SlideView
         android:id="@+id/activity_setting_lock_slideView"

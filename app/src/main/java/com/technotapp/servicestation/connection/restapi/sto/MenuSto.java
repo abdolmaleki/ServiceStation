@@ -2,7 +2,6 @@ package com.technotapp.servicestation.connection.restapi.sto;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.view.Menu;
 
 import com.technotapp.servicestation.Infrastructure.DontObfuscate;
 
@@ -157,6 +156,8 @@ public class MenuSto extends BaseSto implements Parcelable {
             public String shopCategory;
             public String tel;
             public String title;
+            public int producVersion;
+
 
             protected Shop(Parcel in) {
                 address = in.readString();
@@ -171,6 +172,7 @@ public class MenuSto extends BaseSto implements Parcelable {
                 shopCategory = in.readString();
                 tel = in.readString();
                 title = in.readString();
+                producVersion = in.readInt();
             }
 
             public static final Creator<Shop> CREATOR = new Creator<Shop>() {
@@ -204,8 +206,10 @@ public class MenuSto extends BaseSto implements Parcelable {
                 parcel.writeString(shopCategory);
                 parcel.writeString(tel);
                 parcel.writeString(title);
+                parcel.writeInt(producVersion);
             }
         }
+
         @DontObfuscate
         public static class Menu implements Serializable, Parcelable {
             public int menuID;
@@ -216,9 +220,9 @@ public class MenuSto extends BaseSto implements Parcelable {
             public String url;
             public String controller;
             public String action;
-            public boolean status;
-            public Integer orderNo;
-            public Integer orderNoSubMenu;
+            public long serviceID;
+            public int serviceTypeID;
+            public String serviceTypeTitle;
 
             protected Menu(Parcel in) {
                 menuID = in.readInt();
@@ -233,17 +237,10 @@ public class MenuSto extends BaseSto implements Parcelable {
                 url = in.readString();
                 controller = in.readString();
                 action = in.readString();
-                status = in.readByte() != 0;
-                if (in.readByte() == 0) {
-                    orderNo = null;
-                } else {
-                    orderNo = in.readInt();
-                }
-                if (in.readByte() == 0) {
-                    orderNoSubMenu = null;
-                } else {
-                    orderNoSubMenu = in.readInt();
-                }
+                serviceID = in.readLong();
+                serviceTypeID = in.readInt();
+                serviceTypeTitle = in.readString();
+
             }
 
             public static final Creator<Menu> CREATOR = new Creator<Menu>() {
@@ -278,19 +275,9 @@ public class MenuSto extends BaseSto implements Parcelable {
                 dest.writeString(url);
                 dest.writeString(controller);
                 dest.writeString(action);
-                dest.writeByte((byte) (status ? 1 : 0));
-                if (orderNo == null) {
-                    dest.writeByte((byte) 0);
-                } else {
-                    dest.writeByte((byte) 1);
-                    dest.writeInt(orderNo);
-                }
-                if (orderNoSubMenu == null) {
-                    dest.writeByte((byte) 0);
-                } else {
-                    dest.writeByte((byte) 1);
-                    dest.writeInt(orderNoSubMenu);
-                }
+                dest.writeLong(serviceID);
+                dest.writeInt(serviceTypeID);
+                dest.writeString(serviceTypeTitle);
             }
         }
     }

@@ -82,11 +82,7 @@ public class AppMonitor {
                 }
 
                 @Override
-                public void onFail() {
-                }
-
-                @Override
-                public void onNetworkProblem(String message) {
+                public void onFail(String message) {
 
                 }
             });

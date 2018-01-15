@@ -97,7 +97,7 @@ public class SocketEngine {
                 if (isSuccess) {
                     new Thread(runnable).start();
                 } else {
-                    //Todo create alert
+                    Helper.alert(mContext, message, Constant.AlertType.Error);
                 }
             }
         });

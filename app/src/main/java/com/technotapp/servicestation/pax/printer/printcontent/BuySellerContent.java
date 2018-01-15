@@ -30,6 +30,8 @@ public class BuySellerContent extends Printable {
 
         page.addLine().addUnit(BitmapFactory.decodeResource(ctx.getResources(), R.drawable.ic_technotapp_print), IImgProcessing.IPage.EAlign.CENTER);
         page.addLine();
+        page.addLine().addUnit(" ", FONT_NORMAL, IImgProcessing.IPage.EAlign.CENTER);
+        page.addLine();
         page.addLine().addUnit((contents[0]), FONT_NORMAL, IImgProcessing.IPage.EAlign.CENTER); //seller
         page.addLine();
         page.addLine().addUnit(Converters.convertEnDigitToPersian(contents[1]), FONT_SMALL, IImgProcessing.IPage.EAlign.LEFT).addUnit(textToBitmap("تلفن فروشگاه"), IImgProcessing.IPage.EAlign.RIGHT); //tell

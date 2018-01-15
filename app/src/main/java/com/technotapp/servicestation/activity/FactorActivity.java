@@ -102,9 +102,9 @@ public class FactorActivity extends BaseActivity implements View.OnClickListener
         int id = view.getId();
         if (id == back.getId()) {
             finish();
+
         } else if (id == R.id.activity_factor_btn_pay) {
             goPaymentMenu();
-
         }
     }
 
@@ -190,14 +190,10 @@ public class FactorActivity extends BaseActivity implements View.OnClickListener
                 }
 
                 @Override
-                public void onFail() {
-                    Helper.alert(FactorActivity.this, getString(R.string.serverConnectingError), Constant.AlertType.Error);
-                }
-
-                @Override
-                public void onNetworkProblem(String message) {
+                public void onFail(String message) {
                     Helper.alert(FactorActivity.this, message, Constant.AlertType.Error);
                 }
+
             });
         } catch (Exception e) {
             AppMonitor.reportBug(FactorActivity.this, e, "FactorActivity", "callSubmitFactor");

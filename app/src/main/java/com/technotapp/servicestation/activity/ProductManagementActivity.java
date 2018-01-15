@@ -203,14 +203,9 @@ public class ProductManagementActivity extends BaseActivity implements View.OnCl
                 }
 
                 @Override
-                public void onFail() {
-                    Helper.progressBar.hideDialog();
-                    Helper.alert(ProductManagementActivity.this, getString(R.string.serverConnectingError), Constant.AlertType.Error);
-                }
-
-                @Override
-                public void onNetworkProblem(String message) {
+                public void onFail(String message) {
                     Helper.alert(ProductManagementActivity.this, message, Constant.AlertType.Error);
+
                 }
             });
         } catch (Exception e) {

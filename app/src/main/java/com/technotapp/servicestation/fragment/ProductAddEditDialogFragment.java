@@ -189,16 +189,11 @@ public class ProductAddEditDialogFragment extends DialogFragment implements View
                 }
 
                 @Override
-                public void onFail() {
-                    Helper.alert(mActivity, getString(R.string.serverConnectingError), Constant.AlertType.Error);
+                public void onFail(String message) {
+                    Helper.alert(mActivity, message, Constant.AlertType.Error);
 
                 }
 
-                @Override
-                public void onNetworkProblem(String message) {
-                    Helper.alert(getActivity(), message, Constant.AlertType.Error);
-
-                }
             });
         } catch (Exception e) {
             AppMonitor.reportBug(getActivity(), e, "ProductAddEditDialogFragment", "callAddProduct");
@@ -240,16 +235,10 @@ public class ProductAddEditDialogFragment extends DialogFragment implements View
                 }
 
                 @Override
-                public void onFail() {
-                    Helper.alert(mActivity, getString(R.string.serverConnectingError), Constant.AlertType.Error);
-
+                public void onFail(String message) {
+                    Helper.alert(mActivity, message, Constant.AlertType.Error);
                 }
 
-                @Override
-                public void onNetworkProblem(String message) {
-                    Helper.alert(getActivity(), message, Constant.AlertType.Error);
-
-                }
             });
         } catch (Exception e) {
             AppMonitor.reportBug(getActivity(), e, "ProductAddEditDialogFragment", "callAddProduct");

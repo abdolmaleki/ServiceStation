@@ -194,11 +194,8 @@ public class MainActivity extends BaseActivity {
                 }
 
                 @Override
-                public void onFail() {
-                }
+                public void onFail(String message) {
 
-                @Override
-                public void onNetworkProblem(String message) {
                 }
             });
         } catch (Exception e) {
@@ -234,11 +231,8 @@ public class MainActivity extends BaseActivity {
                 }
 
                 @Override
-                public void onFail() {
-                }
+                public void onFail(String message) {
 
-                @Override
-                public void onNetworkProblem(String message) {
                 }
             });
         } catch (Exception e) {

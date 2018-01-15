@@ -36,7 +36,7 @@ public class NetworkHelper {
 
                 if (isNetworkAvailable(ctx)) {
                     try {
-                        HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.time.ir/").openConnection());
+                        HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.google.com/").openConnection());
                         urlc.setRequestProperty("User-Agent", "Android");
                         urlc.setRequestProperty("Connection", "close");
                         urlc.setReadTimeout(5000);

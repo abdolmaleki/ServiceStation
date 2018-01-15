@@ -55,139 +55,130 @@ public class ApiCaller {
             Helper.progressBar.showDialog(ctx, loadingMessage);
         }
 
-        NetworkHelper.isConnectingToInternet(ctx, new NetworkHelper.CheckNetworkStateListener() {
-            @Override
-            public void onNetworkChecked(boolean isSuccess, String message) {
-                if (isSuccess) {
-                    try {
-                        // Client For Retrofit
-                        final OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                                .connectTimeout(5, TimeUnit.SECONDS)
-                                .readTimeout(10, TimeUnit.SECONDS)
-                                .build();
+        try {
+            // Client For Retrofit
+            final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                    .connectTimeout(5, TimeUnit.SECONDS)
+                    .readTimeout(10, TimeUnit.SECONDS)
+                    .build();
 
-                        Retrofit retrofit = new Retrofit.Builder()
-                                .baseUrl(Constant.Pax.API_BASE_URL)
-                                .addConverterFactory(GsonConverterFactory.create())
-                                .client(okHttpClient)
-                                .build();
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(Constant.Pax.API_BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .client(okHttpClient)
+                    .build();
 
-                        ServiceStationApi apiService = retrofit.create(ServiceStationApi.class);
+            ServiceStationApi apiService = retrofit.create(ServiceStationApi.class);
 
-                        Gson gson = new Gson();
-                        String value = gson.toJson(dto);
+            Gson gson = new Gson();
+            String value = gson.toJson(dto);
 
-                        final String AesEncryptedValue = Encryptor.encriptAES(value, AESsecretKey);
+            final String AesEncryptedValue = Encryptor.encriptAES(value, AESsecretKey);
 
-                        String AESKeyString = Base64.encodeToString(AESsecretKey.getEncoded(), Base64.DEFAULT);
-                        String RsaEncryptedkey = Encryptor.encriptRSA(AESKeyString);
+            String AESKeyString = Base64.encodeToString(AESsecretKey.getEncoded(), Base64.DEFAULT);
+            String RsaEncryptedkey = Encryptor.encriptRSA(AESKeyString);
 
-                        Call<String> token = null;
+            Call<String> token = null;
 
 
-                        //
-                        //     _    ____ ___   _____                   _   _                 _      _
-                        //    / \  |  _ \_ _| |_   _|   _ _ __   ___  | | | | __ _ _ __   __| | ___| |
-                        //   / _ \ | |_) | |    | || | | | '_ \ / _ \ | |_| |/ _` | '_ \ / _` |/ _ \ |
-                        //  / ___ \|  __/| |    | || |_| | |_) |  __/ |  _  | (_| | | | | (_| |  __/ |
-                        // /_/   \_\_|  |___|   |_| \__, | .__/ \___| |_| |_|\__,_|_| |_|\__,_|\___|_|
-                        //                          |___/|_|
+            //
+            //     _    ____ ___   _____                   _   _                 _      _
+            //    / \  |  _ \_ _| |_   _|   _ _ __   ___  | | | | __ _ _ __   __| | ___| |
+            //   / _ \ | |_) | |    | || | | | '_ \ / _ \ | |_| |/ _` | '_ \ / _` |/ _ \ |
+            //  / ___ \|  __/| |    | || |_| | |_) |  __/ |  _  | (_| | | | | (_| |  __/ |
+            // /_/   \_\_|  |___|   |_| \__, | .__/ \___| |_| |_|\__,_|_| |_|\__,_|\___|_|
+            //                          |___/|_|
 
-                        switch (mApiType) {
-                            case Constant.Api.Type.TERMINAL_LOGIN:
-                                token = apiService.terminalLoginModel(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
-                                break;
+            switch (mApiType) {
+                case Constant.Api.Type.TERMINAL_LOGIN:
+                    token = apiService.terminalLoginModel(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
+                    break;
 
-                            case Constant.Api.Type.TERMINAL_INFO:
-                                token = apiService.getTerminalInfo(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
-                                break;
+                case Constant.Api.Type.TERMINAL_INFO:
+                    token = apiService.getTerminalInfo(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
+                    break;
 
-                            case Constant.Api.Type.LOG_INFO:
-                                token = apiService.sendLogInfo(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
-                                break;
+                case Constant.Api.Type.LOG_INFO:
+                    token = apiService.sendLogInfo(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
+                    break;
 
-                            case Constant.Api.Type.ADD_UPDATE_PRODUCT:
-                                token = apiService.addProduct(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
-                                break;
+                case Constant.Api.Type.ADD_UPDATE_PRODUCT:
+                    token = apiService.addProduct(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
+                    break;
 
-                            case Constant.Api.Type.SEARCH_PRODUCT:
-                                token = apiService.serachProduct(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
-                                break;
+                case Constant.Api.Type.SEARCH_PRODUCT:
+                    token = apiService.serachProduct(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
+                    break;
 
-                            case Constant.Api.Type.SUBMIT_FACTOR:
-                                token = apiService.insertFactor(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
-                                break;
+                case Constant.Api.Type.SUBMIT_FACTOR:
+                    token = apiService.insertFactor(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
+                    break;
 
-                            case Constant.Api.Type.BYE_CHARGE:
-                                token = apiService.buyCharge(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
-                                break;
+                case Constant.Api.Type.BYE_CHARGE:
+                    token = apiService.buyCharge(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
+                    break;
 
-                            case Constant.Api.Type.GET_VERSION:
-                                token = apiService.getVersion(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
-                                break;
-                        }
+                case Constant.Api.Type.GET_VERSION:
+                    token = apiService.getVersion(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
+                    break;
 
-
-                        token.enqueue(new retrofit2.Callback<String>() {
-                            @Override
-                            public void onResponse(Call<String> call, Response<String> response) {
-                                Helper.progressBar.hideDialog();
-                                String EncryptedResponse = response.body();
-                                if (EncryptedResponse == null || EncryptedResponse.isEmpty()) {
-                                    Helper.alert(ctx, "خطا در دریافت اطلاعات", Constant.AlertType.Error);
-                                } else {
-
-                                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                                    //////// Decrypt Response Message and convert To Json and Format it
-                                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-                                    Gson gson = Helper.getGson();
-                                    String AESsecretKeyString = Base64.encodeToString(AESsecretKey.getEncoded(), Base64.DEFAULT);
-                                    String decryptedResponseString = Encryptor.decriptAES(AESsecretKeyString, EncryptedResponse);
-                                    String formattedJsonString = gson.fromJson(decryptedResponseString, String.class);
-                                    if (formattedJsonString != null && !formattedJsonString.equals("")) {
-                                        apiCallback.onResponse(response.code(), formattedJsonString);
-
-                                        ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                                        //////// Check if menu needing update do it
-                                        ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-                                        //UpdateHelper.checkNeedingUpdate(ctx);
-
-                                    } else {
-                                        Helper.alert(ctx, "خطا در دریافت اطلاعات", Constant.AlertType.Error);
-                                    }
-                                }
-                            }
-
-
-                            @Override
-                            public void onFailure(Call<String> call, Throwable t) {
-                                Helper.progressBar.hideDialog();
-                                apiCallback.onFail();
-                            }
-                        });
-
-                    } catch (Exception e) {
-                        Helper.progressBar.hideDialog();
-                        AppMonitor.reportBug(ctx, e, "Apicaller", "onSuccess");
-                    }
-
-                } else { // net problem
-                    Helper.progressBar.hideDialog();
-                    apiCallback.onNetworkProblem(message);
-                }
+                case Constant.Api.Type.SEARCH_TRANSACTION:
+                    token = apiService.searchTransaction(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
+                    break;
             }
-        });
+
+
+            token.enqueue(new retrofit2.Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+                    Helper.progressBar.hideDialog();
+                    String EncryptedResponse = response.body();
+                    if (EncryptedResponse == null || EncryptedResponse.isEmpty()) {
+                        Helper.alert(ctx, "خطا در دریافت اطلاعات", Constant.AlertType.Error);
+                    } else {
+
+                        ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                        //////// Decrypt Response Message and convert To Json and Format it
+                        ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                        Gson gson = Helper.getGson();
+                        String AESsecretKeyString = Base64.encodeToString(AESsecretKey.getEncoded(), Base64.DEFAULT);
+                        String decryptedResponseString = Encryptor.decriptAES(AESsecretKeyString, EncryptedResponse);
+                        String formattedJsonString = gson.fromJson(decryptedResponseString, String.class);
+                        if (formattedJsonString != null && !formattedJsonString.equals("")) {
+                            apiCallback.onResponse(response.code(), formattedJsonString);
+
+                            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                            //////// Check if menu needing update do it
+                            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                            //UpdateHelper.checkNeedingUpdate(ctx);
+
+                        } else {
+                            Helper.alert(ctx, "خطا در دریافت اطلاعات", Constant.AlertType.Error);
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    Helper.progressBar.hideDialog();
+                    apiCallback.onFail("لطفا اتصال اینترنت خود را بررسی نمایید");
+                }
+            });
+
+        } catch (Exception e) {
+            Helper.progressBar.hideDialog();
+            AppMonitor.reportBug(ctx, e, "Apicaller", "onSuccess");
+        }
     }
 
 
     public interface ApiCallback {
         void onResponse(int responseCode, String jsonResult);
 
-        void onFail();
+        void onFail(String message);
 
-        void onNetworkProblem(String message);
     }
 
 

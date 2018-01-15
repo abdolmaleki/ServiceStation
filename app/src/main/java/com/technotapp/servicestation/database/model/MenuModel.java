@@ -17,7 +17,6 @@ public class MenuModel extends RealmObject {
     public String url;
     public String controller;
     public String action;
-    public boolean status;
     public int orderNo;
 
 }

@@ -139,7 +139,7 @@ public class ChargeFragment extends SubMenuFragment implements View.OnClickListe
 
 
         } catch (Exception e) {
-            AppMonitor.reportBug(getActivity(),e, "ChargeFragment", "bindView");
+            AppMonitor.reportBug(getActivity(), e, "ChargeFragment", "bindView");
         }
     }
 
@@ -364,24 +364,18 @@ public class ChargeFragment extends SubMenuFragment implements View.OnClickListe
                             Helper.alert(getActivity(), getString(R.string.api_data_download_error), Constant.AlertType.Error);
                         }
                     } catch (Exception e) {
-                        AppMonitor.reportBug(getActivity(),e, "ChargeFragment", "callByeCharge-OnResponse");
+                        AppMonitor.reportBug(getActivity(), e, "ChargeFragment", "callByeCharge-OnResponse");
                     }
                 }
 
                 @Override
-                public void onFail() {
-                    Helper.progressBar.hideDialog();
-                    Helper.alert(getActivity(), getString(R.string.serverConnectingError), Constant.AlertType.Error);
-                }
-
-                @Override
-                public void onNetworkProblem(String message) {
+                public void onFail(String message) {
                     Helper.alert(getActivity(), message, Constant.AlertType.Error);
 
                 }
             });
         } catch (Exception e) {
-            AppMonitor.reportBug(getActivity(),e, "ChargeFragment", "callByeCharge");
+            AppMonitor.reportBug(getActivity(), e, "ChargeFragment", "callByeCharge");
         }
     }
 
