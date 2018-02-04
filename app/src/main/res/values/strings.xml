@@ -2,6 +2,7 @@
 
     <string name="app_name">ایستگاه خدمات</string>
     <string name="ansar_bank">بانک انصار</string>
+    <string name="technotapp_co">تکنوتَپ</string>
 
     <!--/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\-->
     <!--/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\-->
@@ -47,7 +48,7 @@
     <string name="activity_signin_signin">ورود</string>
     <string name="activity_signin_password">رمز ورود</string>
     <string name="activity_signin_merchantCode">کد فروشگاه:</string>
-    <string name="activity_signin_copyWriteText">تمامی حقوق این برنامه محفوظ میباشد.</string>
+    <string name="activity_signin_copyWriteText">تمامی حقوق این برنامه متعلق به تکنوتَپ می باشد.</string>
     <string name="activity_signin_merchant_code">کد بازرگان</string>
 
     <!--===================================     Fragments      =================================-->
@@ -87,6 +88,14 @@
         <item>پشتیبان</item>
 
     </string-array>
+
+    <!--==================================================================== -->
+    <!-- Preferences Key -->
+    <!--==================================================================== -->
+
+    <string name="pref_key_switch_turning_activation">pref_key_turning_activation</string>
+    <string name="pref_key_switch_printer_activation">pref_key_switch_printer_activation</string>
+    <string name="pref_key_seekbar_brightness">pref_key_seekbar_brightness</string>
 
 
 </resources>

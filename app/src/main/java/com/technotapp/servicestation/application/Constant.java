@@ -25,6 +25,7 @@ public class Constant {
         public static final String MOBILE = "mobile";
         public static final String FIRST_NAME = "firstname";
         public static final String LASTNAME = "lastname";
+        public static final String USER_NAME = "user.name";
         public static final String GENDER = "gender";
         public static final String APP_VERSION = "app.version";
         public static final String LAST_VERSION = "last.version";
@@ -39,6 +40,7 @@ public class Constant {
         public static final String SCORE = "score";
         public static final String IS_CUSTOMER = "is_customer";
         public static final String TOKEN_ID = "token_id";
+        public static final String BASE_URL = "base.url";
         public static final String HASH_ID = "hash_id";
         public static final String DESCRIPTION = "description";
         public static final String ECONOMIC_CODE = "economic_code";
@@ -49,6 +51,14 @@ public class Constant {
         public static final String MANAGERNAME = "manager.name";
         public static final String FAX = "fax";
 
+    }
+
+    public static class Setting {
+        public static final String IS_TURNING_ENABLED = "is.turning.enabled";
+        public static final String IS_SELLER_PRINT_ENABLED = "is.seller.print.enabled";
+        public static final String IS_CUSOTMER_PRINT_ENABLED = "is.customer.print.enabled";
+        public static final String LAST_TURNING_DATE = "last.turning.date";
+        public static final String TURN_RATE = "turn_rate";
     }
 
     public static class RequestMode {
@@ -93,6 +103,9 @@ public class Constant {
         public static final String PAYMENT_TYPE_LIST = "payment.type.list";
         public static final String FACTOR_TOTAL_PRICE = "factor.total.price";
         public static final String PRINT_BITMAP = "print.bitmap";
+        public static final String MENU_ADAPTER_MODEL = "menu.adapter.model";
+        public static final String CONTEXT = "context";
+        public static final String UPDATE_MENU = "update.menu";
     }
 
     public static class MenuAction {
@@ -133,6 +146,10 @@ public class Constant {
             public static final int BYE_CHARGE = 7;
             public static final int GET_VERSION = 8;
             public static final int SEARCH_TRANSACTION = 9;
+            public static final int SEARCH_Factor = 10;
+            public static final int EDIT_SHOP_INFO = 11;
+            public static final int SUBMIT_SUGGESTION = 12;
+
 
         }
 

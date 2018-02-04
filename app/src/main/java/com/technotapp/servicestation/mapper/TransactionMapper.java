@@ -5,16 +5,16 @@ import android.util.Log;
 
 import com.technotapp.servicestation.Infrastructure.DateHelper;
 import com.technotapp.servicestation.adapter.DataModel.ArchiveTransactionAdapterModel;
-import com.technotapp.servicestation.connection.restapi.sto.TransactionArchiveSto;
+import com.technotapp.servicestation.connection.restapi.sto.SearchTransactionSto;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TransactionMapper {
-    public static ArrayList<ArchiveTransactionAdapterModel> convertStoToAdaptrerModel(List<TransactionArchiveSto.DataModel.Result> results) {
+    public static ArrayList<ArchiveTransactionAdapterModel> convertStoToAdaptrerModel(List<SearchTransactionSto.DataModel.Result> results) {
         try {
             ArrayList<ArchiveTransactionAdapterModel> models = new ArrayList<>();
-            for (TransactionArchiveSto.DataModel.Result result : results) {
+            for (SearchTransactionSto.DataModel.Result result : results) {
                 ArchiveTransactionAdapterModel model = new ArchiveTransactionAdapterModel();
                 model.amount = result.amount;
                 model.accountNumber = result.accountNumber;

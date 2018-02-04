@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="ansarLogoW_H">128dp</dimen>
+    <dimen name="technologowH">125dp</dimen>
+    <dimen name="technologowW">135dp</dimen>
     <dimen name="fragment_keypad_buttontext">24sp</dimen>
     <dimen name="fragments_padding_top">90dp</dimen>
 </resources>

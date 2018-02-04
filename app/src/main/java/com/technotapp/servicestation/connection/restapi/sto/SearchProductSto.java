@@ -8,13 +8,13 @@ import java.util.List;
 @DontObfuscate
 public class SearchProductSto extends BaseSto {
     public List<DataModel> dataModel;
-
+    @DontObfuscate
     public class DataModel implements Serializable {
 
         public List<DataRecord> dataRecord = null;
         public List<Result> result = null;
 
-
+        @DontObfuscate
         public class DataRecord implements Serializable {
 
             public long totalRows;
@@ -22,7 +22,7 @@ public class SearchProductSto extends BaseSto {
             public long takeRows;
 
         }
-
+        @DontObfuscate
         public class Result implements Serializable {
 
             public long nidProduct;

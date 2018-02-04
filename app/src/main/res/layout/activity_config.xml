@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_card_service_deposit_buy"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <com.technotapp.servicestation.customView.CustomTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:text="نمایشگر"
+        android:textSize="14sp"
+        app:fontName="@string/irsansMedium" />
+
+    <View style="@style/Horizental_line_sub_category" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:orientation="horizontal"
+        android:paddingRight="15dp">
+
+        <SeekBar
+            android:id="@+id/activity_config_seek_brightness"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="15dp"
+            android:max="255" />
+
+        <com.technotapp.servicestation.customView.CustomTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="نور صفحه"
+            android:textSize="12sp"
+            app:fontName="@string/irsansMedium" />
+
+    </LinearLayout>
+
+    <View style="@style/Horizental_line_sub_category" />
+
+
+    <com.technotapp.servicestation.customView.CustomTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="چاپگر"
+        android:textSize="14sp"
+        app:fontName="@string/irsansMedium" />
+
+    <View style="@style/Horizental_line_sub_category" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:orientation="horizontal"
+        android:paddingRight="15dp">
+
+        <Switch
+            android:id="@+id/activity_config_switch_customer_printer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:textOff="خاموش"
+            android:textOn="روشن" />
+
+        <com.technotapp.servicestation.customView.CustomTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="چاپ تراکنش خریدار"
+            android:textSize="12sp"
+            app:fontName="@string/irsansMedium" />
+
+    </LinearLayout>
+
+    <View style="@style/Horizental_line_sub_category" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:orientation="horizontal"
+        android:paddingRight="15dp">
+
+        <Switch
+            android:id="@+id/activity_config_switch_seller_printer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:textOff="خاموش"
+            android:textOn="روشن" />
+
+        <com.technotapp.servicestation.customView.CustomTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="چاپ تراکنش فروشنده"
+            android:textSize="12sp"
+            app:fontName="@string/irsansMedium" />
+
+    </LinearLayout>
+
+    <View style="@style/Horizental_line_sub_category" />
+
+
+    <com.technotapp.servicestation.customView.CustomTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="نوبت دهی"
+        android:textSize="14sp"
+        app:fontName="@string/irsansMedium" />
+
+    <View style="@style/Horizental_line_sub_category" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:orientation="horizontal"
+        android:paddingRight="15dp">
+
+        <Switch
+            android:id="@+id/activity_config_switch_turning"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:textOff="خاموش"
+            android:textOn="روشن" />
+
+        <com.technotapp.servicestation.customView.CustomTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="فعالسازی"
+            android:textSize="12sp"
+            app:fontName="@string/irsansMedium" />
+
+    </LinearLayout>
+
+    <View style="@style/Horizental_line_sub_category" />
+
+    <com.technotapp.servicestation.customView.CustomTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="صدا"
+        android:textSize="14sp"
+        app:fontName="@string/irsansMedium" />
+
+    <View style="@style/Horizental_line_sub_category" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:orientation="horizontal"
+        android:paddingRight="15dp">
+
+        <SeekBar
+            android:id="@+id/activity_config_seek_voloum"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="15dp" />
+
+        <com.technotapp.servicestation.customView.CustomTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="میزان صدا"
+            android:textSize="12sp"
+            app:fontName="@string/irsansMedium" />
+
+    </LinearLayout>
+
+    <View style="@style/Horizental_line_sub_category" />
+
+
+</LinearLayout>

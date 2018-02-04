@@ -9,10 +9,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.fujiyuu75.sequent.Animation;
 import com.fujiyuu75.sequent.Sequent;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
+import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.Infrastructure.NetworkHelper;
 import com.technotapp.servicestation.Infrastructure.PaxHelper;
 import com.technotapp.servicestation.R;
@@ -29,6 +31,7 @@ public class SplashActivity extends AppCompatActivity {
     ProgressBar progressBar;
     @BindView(R.id.activity_splash_logoLayout)
     LinearLayout logoLayout;
+    private TextView mTV_version;
     private Handler handler;
     private int progressStatus = 0;
     private final String mClassName = getClass().getSimpleName();
@@ -70,7 +73,7 @@ public class SplashActivity extends AppCompatActivity {
                             progressBar.setVisibility(View.VISIBLE);
                         }
                     });
-                    while (progressStatus < 200) {
+                    while (progressStatus < 500) {
                         progressStatus += 1;
                         handler.post(new Runnable() {
                             public void run() {
@@ -80,7 +83,7 @@ public class SplashActivity extends AppCompatActivity {
                         try {
                             Thread.sleep(20);
                         } catch (InterruptedException e) {
-                            AppMonitor.reportBug(SplashActivity.this,e, mClassName, "playSplash-Timer");
+                            AppMonitor.reportBug(SplashActivity.this, e, mClassName, "playSplash-Timer");
                         }
                     }
 
@@ -90,7 +93,7 @@ public class SplashActivity extends AppCompatActivity {
                 }
             }, 2000);
         } catch (Exception e) {
-            AppMonitor.reportBug(SplashActivity.this,e, mClassName, "playSplash");
+            AppMonitor.reportBug(SplashActivity.this, e, mClassName, "playSplash");
         }
 
     }
@@ -101,17 +104,17 @@ public class SplashActivity extends AppCompatActivity {
             ButterKnife.bind(this);
             mContext = SplashActivity.this;
             handler = new Handler(getMainLooper());
+            mTV_version = findViewById(R.id.activity_splash_tv_version);
+            mTV_version.setText("نسخه " + Helper.getAppVersion(this));
         } catch (Exception e) {
-            AppMonitor.reportBug(SplashActivity.this,e, mClassName, "initView");
+            AppMonitor.reportBug(SplashActivity.this, e, mClassName, "initView");
         }
     }
 
     private void loadData() {
-
     }
 
     private void loadSetting() {
-
     }
 
     @Override

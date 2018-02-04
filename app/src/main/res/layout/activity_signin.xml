@@ -4,20 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layoutDirection="ltr"
     android:background="@drawable/bg_signin"
     android:gravity="center_horizontal"
+    android:layoutDirection="ltr"
     android:orientation="vertical"
     tools:context="com.technotapp.servicestation.activity.SigninActivity">
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="150dp"
-        android:layout_height="176dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:layout_gravity="end"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="38dp"
-        app:srcCompat="@drawable/ic_ansar_logo_text" />
+        app:srcCompat="@drawable/ic_logo_tchno" />
+
+    <com.technotapp.servicestation.customView.CustomTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginRight="50dp"
+        android:text="تکنوتَپ"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:fontName="@string/irsansMedium" />
 
 
     <LinearLayout
@@ -39,12 +50,12 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="16dp"
                 android:hint="@string/activity_signin_merchant_code"
-                android:maxLength="20"
                 android:imeOptions="actionNext"
                 android:inputType="textNoSuggestions"
-                android:paddingRight="8dp"
+                android:maxLength="20"
                 android:paddingLeft="8dp"
-                android:text="pirouze"
+                android:paddingRight="8dp"
+                android:text="Sjdlahooti"
                 android:textColor="#353333"
                 android:textColorHint="#55ffffff"
                 android:textDirection="rtl"
@@ -61,12 +72,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/activity_signin_password"
-                android:inputType="textPassword"
                 android:imeOptions="actionGo"
+                android:inputType="textPassword"
                 android:maxLength="20"
-                android:paddingRight="8dp"
                 android:paddingLeft="8dp"
-                android:text="pirooze6310"
+                android:paddingRight="8dp"
+                android:text="123456"
                 android:textAlignment="textEnd"
                 android:textColor="#353333"
                 android:textColorHint="#55ffffff"
@@ -93,6 +104,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="10dp"
+        android:layout_marginRight="25dp"
         android:layout_weight="1"
         android:gravity="center_horizontal|bottom"
         android:selectAllOnFocus="false"

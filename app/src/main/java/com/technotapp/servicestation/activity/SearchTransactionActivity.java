@@ -6,7 +6,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.github.ybq.android.spinkit.SpinKitView;
@@ -24,7 +23,7 @@ import com.technotapp.servicestation.adapter.DataModel.ArchiveTransactionAdapter
 import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.connection.restapi.ApiCaller;
 import com.technotapp.servicestation.connection.restapi.dto.TransactionArchiveDto;
-import com.technotapp.servicestation.connection.restapi.sto.TransactionArchiveSto;
+import com.technotapp.servicestation.connection.restapi.sto.SearchTransactionSto;
 import com.technotapp.servicestation.customView.CustomButton;
 import com.technotapp.servicestation.customView.CustomTextView;
 import com.technotapp.servicestation.mapper.TransactionMapper;
@@ -39,7 +38,7 @@ import javax.crypto.SecretKey;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class TransactionArchiveActivity extends BaseActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
+public class SearchTransactionActivity extends BaseActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
 
     @BindView(R.id.toolbar_tv_title)
     TextView txtTitle;
@@ -59,6 +58,7 @@ public class TransactionArchiveActivity extends BaseActivity implements View.OnC
     private final String mClassName = getClass().getSimpleName();
     private int mSkipRows;
     private int mTakeRows = 5;
+    private long mTotalRows = 0;
     private boolean mIsLoading = false;
 
     private ArchiveTransactionAdapter mAdapter;
@@ -67,7 +67,7 @@ public class TransactionArchiveActivity extends BaseActivity implements View.OnC
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_transaction_archive);
+        setContentView(R.layout.activity_search_transaction);
         initView();
 
     }
@@ -110,6 +110,7 @@ public class TransactionArchiveActivity extends BaseActivity implements View.OnC
         } else if (id == mBTN_Serach.getId()) {
             if (!mIsLoading) {
                 mSkipRows = 0;
+                mTotalRows = 0;
                 callSearchTransactionArchive(createDto());
             }
         }
@@ -158,9 +159,9 @@ public class TransactionArchiveActivity extends BaseActivity implements View.OnC
                 public void onResponse(int responseCode, String jsonResult) {
                     try {
                         Gson gson = Helper.getGson();
-                        Type listType = new TypeToken<ArrayList<TransactionArchiveSto>>() {
+                        Type listType = new TypeToken<ArrayList<SearchTransactionSto>>() {
                         }.getType();
-                        ArrayList<TransactionArchiveSto> transactionArchiveStos = gson.fromJson(jsonResult, listType);
+                        ArrayList<SearchTransactionSto> transactionArchiveStos = gson.fromJson(jsonResult, listType);
                         if (transactionArchiveStos != null) {
                             if (transactionArchiveStos.get(0).messageModel.get(0).errorCode == Constant.Api.ErrorCode.Successfull) {
                                 mSession.setLastVersion(transactionArchiveStos.get(0).messageModel.get(0).ver);
@@ -168,30 +169,31 @@ public class TransactionArchiveActivity extends BaseActivity implements View.OnC
                                     showFoundState();
                                     initAdapter(transactionArchiveStos.get(0).dataModel.get(0).result);
                                     mSkipRows += mTakeRows;
+                                    mTotalRows = transactionArchiveStos.get(0).dataModel.get(0).dataRecord.get(0).totalRows;
                                 } else {  // have not active  menu
                                     showNotFoundState();
                                 }
                             } else {
-                                Helper.alert(TransactionArchiveActivity.this, transactionArchiveStos.get(0).messageModel.get(0).errorString, Constant.AlertType.Error);
+                                Helper.alert(SearchTransactionActivity.this, transactionArchiveStos.get(0).messageModel.get(0).errorString, Constant.AlertType.Error);
                             }
                         } else {
-                            Helper.alert(TransactionArchiveActivity.this, getString(R.string.api_data_download_error), Constant.AlertType.Error);
+                            Helper.alert(SearchTransactionActivity.this, getString(R.string.api_data_download_error), Constant.AlertType.Error);
                         }
                     } catch (Exception e) {
-                        AppMonitor.reportBug(TransactionArchiveActivity.this, e, mClassName, "callSearchTransactionArchive-OnResponse");
-                        Helper.alert(TransactionArchiveActivity.this, getString(R.string.api_data_download_error), Constant.AlertType.Error);
+                        AppMonitor.reportBug(SearchTransactionActivity.this, e, mClassName, "callSearchTransactionArchive-OnResponse");
+                        Helper.alert(SearchTransactionActivity.this, getString(R.string.api_data_download_error), Constant.AlertType.Error);
                     }
                 }
 
                 @Override
                 public void onFail(String message) {
-                    Helper.alert(TransactionArchiveActivity.this, message, Constant.AlertType.Error);
+                    Helper.alert(SearchTransactionActivity.this, message, Constant.AlertType.Error);
 
                 }
 
             });
         } catch (Exception e) {
-            AppMonitor.reportBug(TransactionArchiveActivity.this, e, mClassName, "callSearchTransactionArchive");
+            AppMonitor.reportBug(SearchTransactionActivity.this, e, mClassName, "callSearchTransactionArchive");
         }
     }
 
@@ -205,9 +207,9 @@ public class TransactionArchiveActivity extends BaseActivity implements View.OnC
                 public void onResponse(int responseCode, String jsonResult) {
                     try {
                         Gson gson = Helper.getGson();
-                        Type listType = new TypeToken<ArrayList<TransactionArchiveSto>>() {
+                        Type listType = new TypeToken<ArrayList<SearchTransactionSto>>() {
                         }.getType();
-                        ArrayList<TransactionArchiveSto> transactionArchiveStos = gson.fromJson(jsonResult, listType);
+                        ArrayList<SearchTransactionSto> transactionArchiveStos = gson.fromJson(jsonResult, listType);
                         if (transactionArchiveStos != null) {
                             if (transactionArchiveStos.get(0).messageModel.get(0).errorCode == Constant.Api.ErrorCode.Successfull) {
                                 mSession.setLastVersion(transactionArchiveStos.get(0).messageModel.get(0).ver);
@@ -219,17 +221,17 @@ public class TransactionArchiveActivity extends BaseActivity implements View.OnC
                                     showFoundState();
                                 }
                             } else {
-                                Helper.alert(TransactionArchiveActivity.this, transactionArchiveStos.get(0).messageModel.get(0).errorString, Constant.AlertType.Error);
+                                Helper.alert(SearchTransactionActivity.this, transactionArchiveStos.get(0).messageModel.get(0).errorString, Constant.AlertType.Error);
                                 showFoundState();
                             }
                         } else {
-                            Helper.alert(TransactionArchiveActivity.this, getString(R.string.api_data_download_error), Constant.AlertType.Error);
+                            Helper.alert(SearchTransactionActivity.this, getString(R.string.api_data_download_error), Constant.AlertType.Error);
                             showFoundState();
 
                         }
                     } catch (Exception e) {
-                        AppMonitor.reportBug(TransactionArchiveActivity.this, e, mClassName, "callSearchTransactionArchive-OnResponse");
-                        Helper.alert(TransactionArchiveActivity.this, getString(R.string.api_data_download_error), Constant.AlertType.Error);
+                        AppMonitor.reportBug(SearchTransactionActivity.this, e, mClassName, "callSearchTransactionArchive-OnResponse");
+                        Helper.alert(SearchTransactionActivity.this, getString(R.string.api_data_download_error), Constant.AlertType.Error);
                         showFoundState();
                     }
                 }
@@ -237,16 +239,16 @@ public class TransactionArchiveActivity extends BaseActivity implements View.OnC
                 @Override
                 public void onFail(String message) {
                     showFoundState();
-                    Helper.alert(TransactionArchiveActivity.this, message, Constant.AlertType.Error);
+                    Helper.alert(SearchTransactionActivity.this, message, Constant.AlertType.Error);
                 }
 
             });
         } catch (Exception e) {
-            AppMonitor.reportBug(TransactionArchiveActivity.this, e, mClassName, "callSearchTransactionArchive");
+            AppMonitor.reportBug(SearchTransactionActivity.this, e, mClassName, "callSearchTransactionArchive");
         }
     }
 
-    private void initAdapter(List<TransactionArchiveSto.DataModel.Result> results) {
+    private void initAdapter(List<SearchTransactionSto.DataModel.Result> results) {
         ArrayList<ArchiveTransactionAdapterModel> adapterModels = TransactionMapper.convertStoToAdaptrerModel(results);
         mAdapter = new ArchiveTransactionAdapter(this, adapterModels);
         mRecyclerView.setAdapter(mAdapter);
@@ -254,7 +256,7 @@ public class TransactionArchiveActivity extends BaseActivity implements View.OnC
 
     }
 
-    private void addMoreItems(List<TransactionArchiveSto.DataModel.Result> results) {
+    private void addMoreItems(List<SearchTransactionSto.DataModel.Result> results) {
         ArrayList<ArchiveTransactionAdapterModel> adapterModels = TransactionMapper.convertStoToAdaptrerModel(results);
         mAdapter.addNewTransactions(adapterModels);
         mAdapter.notifyDataSetChanged();
@@ -270,7 +272,7 @@ public class TransactionArchiveActivity extends BaseActivity implements View.OnC
                         if (existItemsCount > 0) {
                             LinearLayoutManager llm = (LinearLayoutManager) recyclerView.getLayoutManager();
                             int currentPosition = llm.findLastVisibleItemPosition();
-                            if (currentPosition >= existItemsCount - 1) {
+                            if (currentPosition >= existItemsCount - 1 && currentPosition != mTotalRows - 1) {
                                 mIsLoading = true;
                                 callLoadMoreTransaction(createDto());
                             }
@@ -292,7 +294,7 @@ public class TransactionArchiveActivity extends BaseActivity implements View.OnC
         dto.dateTo = DateHelper.shamsiToMiladiDate(mEndCalendar);
         dto.idSeller = Long.parseLong(mSession.getMerchantId());
         //dto.terminalCode = mSession.getTerminalId();
-        dto.terminalCode = "305419896";
+        dto.terminalCode = mSession.getTerminalId();
         dto.tokenId = mSession.getTokenId();
         dto.skipRows = mSkipRows;
         dto.takeRows = mTakeRows;

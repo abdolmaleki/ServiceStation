@@ -102,6 +102,10 @@ public class ApiCaller {
                     token = apiService.sendLogInfo(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
                     break;
 
+                case Constant.Api.Type.SUBMIT_SUGGESTION:
+                    token = apiService.submitSuggestion(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
+                    break;
+
                 case Constant.Api.Type.ADD_UPDATE_PRODUCT:
                     token = apiService.addProduct(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
                     break;
@@ -125,12 +129,21 @@ public class ApiCaller {
                 case Constant.Api.Type.SEARCH_TRANSACTION:
                     token = apiService.searchTransaction(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
                     break;
+
+                case Constant.Api.Type.SEARCH_Factor:
+                    token = apiService.searchFactor(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
+                    break;
+
+                case Constant.Api.Type.EDIT_SHOP_INFO:
+                    token = apiService.editShopInfo(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
+                    break;
             }
 
 
             token.enqueue(new retrofit2.Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
+
                     Helper.progressBar.hideDialog();
                     String EncryptedResponse = response.body();
                     if (EncryptedResponse == null || EncryptedResponse.isEmpty()) {
@@ -141,20 +154,24 @@ public class ApiCaller {
                         //////// Decrypt Response Message and convert To Json and Format it
                         ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-                        Gson gson = Helper.getGson();
-                        String AESsecretKeyString = Base64.encodeToString(AESsecretKey.getEncoded(), Base64.DEFAULT);
-                        String decryptedResponseString = Encryptor.decriptAES(AESsecretKeyString, EncryptedResponse);
-                        String formattedJsonString = gson.fromJson(decryptedResponseString, String.class);
-                        if (formattedJsonString != null && !formattedJsonString.equals("")) {
-                            apiCallback.onResponse(response.code(), formattedJsonString);
+                        try {
+                            Gson gson = Helper.getGson();
+                            String AESsecretKeyString = Base64.encodeToString(AESsecretKey.getEncoded(), Base64.DEFAULT);
+                            String decryptedResponseString = Encryptor.decriptAES(AESsecretKeyString, EncryptedResponse);
+                            String formattedJsonString = gson.fromJson(decryptedResponseString, String.class);
+                            if (formattedJsonString != null && !formattedJsonString.equals("")) {
+                                apiCallback.onResponse(response.code(), formattedJsonString);
 
-                            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                            //////// Check if menu needing update do it
-                            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                //////// Check if menu needing update do it
+                                ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-                            //UpdateHelper.checkNeedingUpdate(ctx);
+                                //UpdateHelper.checkNeedingUpdate(ctx);
 
-                        } else {
+                            } else {
+                                Helper.alert(ctx, "خطا در دریافت اطلاعات", Constant.AlertType.Error);
+                            }
+                        } catch (Exception e) {
                             Helper.alert(ctx, "خطا در دریافت اطلاعات", Constant.AlertType.Error);
                         }
                     }

@@ -3,53 +3,71 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_main_page"
+    android:background="#4A148C"
     android:gravity="center"
     android:layoutDirection="ltr"
     android:orientation="vertical">
 
-    <com.timqi.sectorprogressview.ColorfulRingProgressView
+    <com.pitt.library.fresh.FreshDownloadView
         android:id="@+id/activity_updating_progress"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="10dp"
-        app:bgColor="#e1e1e1"
-        app:fgColorEnd="#ff4800"
-        app:fgColorStart="#ffe400"
-        app:percent="0"
-        app:startAngle="0"
-        app:strokeWidth="15dp" />
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="200dp"
-        android:text="در حال بروزرسانی منوی دستگاه" />
+        android:layout_marginTop="0dp"
+        android:background="#4A148C" />
 
-
-    <com.technotapp.servicestation.customView.CustomButton
-        android:id="@+id/activity_updating_btn_retry"
-        android:layout_width="100dp"
+    <com.technotapp.servicestation.customView.CustomTextView
+        android:id="@+id/activity_updating_tv_message"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/cs_btn_charge_fragment_type_charge_selected"
-        android:text="تلاش مجدد"
+        android:text="در حال بروزرسانی منوی دستگاه"
         android:textColor="@color/white"
-        android:visibility="invisible"
         android:textStyle="bold"
-        app:fontName="irsans" />
-
-    <com.technotapp.servicestation.customView.CustomButton
-        android:id="@+id/activity_updating_btn_exit"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="@drawable/cs_btn_charge_fragment_type_charge_selected"
-        android:text="بی خیال"
-        android:visibility="invisible"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        app:fontName="irsans" />
+        app:fontName="@string/irsansMedium" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="100dp"
+        android:orientation="horizontal">
+
+        <com.technotapp.servicestation.customView.CustomButton
+            android:id="@+id/activity_updating_btn_cancel"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="بی خیال"
+            android:textColor="@color/white"
+            android:enabled="false"
+            android:background="@drawable/bg_btn_blue_raduce"
+            android:textStyle="bold"
+            app:fontName="irsans" />
+
+        <com.technotapp.servicestation.customView.CustomButton
+            android:id="@+id/activity_updating_btn_setting"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="تنظیمات"
+            android:enabled="false"
+            android:layout_margin="5dp"
+            android:background="@drawable/bg_btn_blue_raduce"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:fontName="irsans" />
+
+        <com.technotapp.servicestation.customView.CustomButton
+            android:id="@+id/activity_updating_btn_retry"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="تلاش مجدد"
+            android:enabled="false"
+            android:background="@drawable/bg_btn_blue_raduce"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:fontName="irsans" />
+
+
+    </LinearLayout>
 
 
 </LinearLayout>

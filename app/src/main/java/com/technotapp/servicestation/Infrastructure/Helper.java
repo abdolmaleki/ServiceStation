@@ -3,6 +3,8 @@ package com.technotapp.servicestation.Infrastructure;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -196,6 +198,24 @@ public class Helper {
                 return "موسسه اعتباری کوثر";
             default:
                 return "نام بانک ثبت نشده";
+
+        }
+
+    }
+
+    public static String getAppVersion(Context context) {
+        try {
+            PackageManager manager = context.getPackageManager();
+            PackageInfo info = null;
+            try {
+                info = manager.getPackageInfo(
+                        context.getPackageName(), 0);
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
+            return info.versionName;
+        } catch (Exception e) {
+            return "0.0.0";
 
         }
 

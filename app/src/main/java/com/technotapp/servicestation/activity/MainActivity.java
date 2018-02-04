@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -17,6 +16,7 @@ import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.DateHelper;
 import com.technotapp.servicestation.Infrastructure.Encryptor;
 import com.technotapp.servicestation.Infrastructure.Helper;
+import com.technotapp.servicestation.Infrastructure.PaxHelper;
 import com.technotapp.servicestation.Infrastructure.UpdateHelper;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.adapter.DataModel.MenuAdapterModel;
@@ -25,9 +25,7 @@ import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.connection.restapi.ApiCaller;
 import com.technotapp.servicestation.connection.restapi.dto.GetVersionDto;
 import com.technotapp.servicestation.connection.restapi.dto.LogDto;
-import com.technotapp.servicestation.connection.restapi.dto.MenuDto;
 import com.technotapp.servicestation.connection.restapi.sto.BaseSto;
-import com.technotapp.servicestation.connection.restapi.sto.MenuSto;
 import com.technotapp.servicestation.database.Db;
 import com.technotapp.servicestation.database.model.MenuModel;
 import com.technotapp.servicestation.fragment.MainGridFragment;
@@ -53,9 +51,7 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.activity_main_pagerIndicator)
     InkPageIndicator mIndicator;
 
-
     private Session mSession;
-
     private MainMenuPageAdapter mPagerAdapter;
     private Toast mToastMessage;
     private byte mCounter = 0;
@@ -109,7 +105,7 @@ public class MainActivity extends BaseActivity {
                         imLst.add(itm);
                     } else break;
                 }
-                gridFragments.add(new MainGridFragment(mContext, imLst));
+                gridFragments.add(MainGridFragment.newInstance(imLst));
             }
             mPagerAdapter = new MainMenuPageAdapter(getSupportFragmentManager(), gridFragments);
             viewPager.setAdapter(mPagerAdapter);
@@ -124,7 +120,6 @@ public class MainActivity extends BaseActivity {
             ButterKnife.bind(this);
             mContext = MainActivity.this;
             mSession = Session.getInstance(this);
-            txtShopName.setText(mSession.getShopName());
 
         } catch (Exception e) {
             AppMonitor.reportBug(this, e, mClassName, "initView");
@@ -244,6 +239,7 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         callGetVersion();
+        txtShopName.setText(mSession.getShopName());
     }
 
     @Override
@@ -252,8 +248,15 @@ public class MainActivity extends BaseActivity {
         if (intent != null) {
             boolean isMustExit = intent.getBooleanExtra(Constant.Key.EXIT, false);
             if (isMustExit) {
+                PaxHelper.enableBackNavigationButton(MainActivity.this);
                 finish();
             }
+
+            boolean isMenuUpdate = intent.getBooleanExtra(Constant.Key.UPDATE_MENU, false);
+            if (isMenuUpdate) {
+                initAdapter();
+            }
+
         }
     }
 

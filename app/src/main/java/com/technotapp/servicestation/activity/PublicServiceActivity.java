@@ -71,7 +71,7 @@ public class PublicServiceActivity extends SubMenuActivity implements IPin {
             case Constant.MenuAction.KHALAFI:
                 return KhalafiFragment.newInstance();
             default:
-                Helper.alert(this, "برای این گزینه محتوایی تعریف نشده است", Constant.AlertType.Error);
+                Helper.alert(this, "این گزینه فعال نیست", Constant.AlertType.Error);
                 finish();
         }
         return null;

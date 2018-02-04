@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_card_service_deposit_buy"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <com.technotapp.servicestation.customView.CustomEditText
+        android:id="@+id/activity_suggestion_et_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="60dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/bg_product_management_fragment_header_list"
+        android:hint="عنوان"
+        android:inputType="textNoSuggestions"
+        android:padding="5dp"
+        android:textSize="14sp"
+        app:fontName="@string/irsansMedium" />
+
+    <com.technotapp.servicestation.customView.CustomEditText
+        android:id="@+id/activity_suggestion_et_message"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginHorizontal="60dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/bg_default_edittext_blackstroke"
+        android:ems="10"
+        android:gravity="right|top"
+        android:hint="متن"
+        android:nextFocusDown="@id/activity_suggestion_btn_submit"
+        android:padding="5dp"
+        android:textSize="14sp"
+        app:fontName="@string/irsansMedium" />
+
+    <com.technotapp.servicestation.customView.CustomButton
+        android:id="@+id/activity_suggestion_btn_submit"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_btn_purple_raduce"
+        android:text="ارسال"
+        android:textColor="@color/white"
+        app:fontName="@string/irsansMedium" />
+
+
+</LinearLayout>

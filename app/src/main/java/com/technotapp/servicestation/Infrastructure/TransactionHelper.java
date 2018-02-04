@@ -1,21 +1,12 @@
 package com.technotapp.servicestation.Infrastructure;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.view.View;
 
 import com.pax.gl.pack.impl.PaxGLPacker;
-import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.adapter.DataModel.TransactionDataModel;
 import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.connection.socket.ISocketCallback;
 import com.technotapp.servicestation.connection.socket.SocketEngine;
-import com.technotapp.servicestation.fragment.TransactionResponseDialogFragment;
-import com.technotapp.servicestation.pax.printer.PrintFactory;
-import com.technotapp.servicestation.pax.printer.Printable;
-import com.technotapp.servicestation.pax.printer.PrinterHelper;
 import com.technotapp.servicestation.setting.Session;
 
 import java.util.Random;
@@ -107,7 +98,8 @@ public class TransactionHelper {
             pa.getIso8583().getEntity().setFieldValue("25", "14");
             pa.getIso8583().getEntity().setFieldValue("32", fakeMerchantID);
             pa.getIso8583().getEntity().setFieldValue("37", "123456789123");
-            pa.getIso8583().getEntity().setFieldValue("41", "12345678");
+            pa.getIso8583().getEntity().setFieldValue("41", transactionDataModel.getTerminalID());
+            //pa.getIso8583().getEntity().setFieldValue("48", Helper.getGson().toJson(new SocketService()));
             pa.getIso8583().getEntity().setFieldValue("49", "001");
             pa.getIso8583().getEntity().setFieldValue("62", transactionType + fakeTransactionCode);
             pa.getIso8583().getEntity().setFieldValue("64", fakeMAC);

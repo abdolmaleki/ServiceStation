@@ -34,6 +34,4 @@ public class MyProgressDialog extends android.app.ProgressDialog {
     public void setMessageText(String message) {
         mTX_Message.setText(message);
     }
-
-
 }

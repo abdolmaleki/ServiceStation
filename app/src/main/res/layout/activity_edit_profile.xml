@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_card_service_deposit_buy"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_margin="30dp"
+        android:layout_weight="1"
+        android:background="@drawable/bg_archive_border"
+        android:orientation="vertical"
+        android:paddingBottom="30dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="true"
+                android:focusable="true"
+                android:orientation="vertical">
+
+                <com.technotapp.servicestation.customView.CustomEditText
+                    android:id="@+id/activity_edit_profile_et_shopname"
+                    android:layout_width="200dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="40dp"
+                    android:background="@drawable/bg_default_edittext_blackstroke"
+                    android:drawableRight="@drawable/ic_shop"
+                    android:gravity="center"
+                    android:hint="نام فروشگاه"
+                    android:inputType="textNoSuggestions"
+                    android:paddingRight="5dp"
+                    android:textSize="14sp"
+                    app:fontName="@string/irsansMedium" />
+
+                <com.technotapp.servicestation.customView.CustomEditText
+                    android:id="@+id/activity_edit_profile_et_shop_manager"
+                    android:layout_width="200dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_default_edittext_blackstroke"
+                    android:drawableRight="@drawable/ic_manager"
+                    android:gravity="center"
+                    android:hint="نام مدیر فروشگاه"
+                    android:inputType="textNoSuggestions"
+                    android:paddingRight="5dp"
+                    android:textSize="14sp"
+                    app:fontName="@string/irsansMedium" />
+
+                <com.technotapp.servicestation.customView.CustomEditText
+                    android:id="@+id/activity_edit_profile_et_tel1"
+                    android:layout_width="200dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_default_edittext_blackstroke"
+                    android:drawableRight="@drawable/ic_tell"
+                    android:gravity="center"
+                    android:hint="تلفن 1"
+                    android:inputType="textNoSuggestions"
+                    android:paddingRight="5dp"
+                    android:textSize="14sp"
+                    app:fontName="@string/irsansMedium" />
+
+                <com.technotapp.servicestation.customView.CustomEditText
+                    android:id="@+id/activity_edit_profile_et_tel2"
+                    android:layout_width="200dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_default_edittext_blackstroke"
+                    android:drawableRight="@drawable/ic_tell"
+                    android:gravity="center"
+                    android:hint="تلفن 2"
+                    android:inputType="textNoSuggestions"
+                    android:paddingRight="5dp"
+                    android:textSize="14sp"
+                    app:fontName="@string/irsansMedium" />
+
+                <com.technotapp.servicestation.customView.CustomEditText
+                    android:id="@+id/activity_edit_profile_et_tel3"
+                    android:layout_width="200dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_default_edittext_blackstroke"
+                    android:drawableRight="@drawable/ic_tell"
+                    android:gravity="center"
+                    android:hint="تلفن 3"
+                    android:inputType="textNoSuggestions"
+                    android:paddingRight="5dp"
+                    android:textSize="14sp"
+                    app:fontName="@string/irsansMedium" />
+
+                <com.technotapp.servicestation.customView.CustomEditText
+                    android:id="@+id/activity_edit_profile_et_mobile"
+                    android:layout_width="200dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_default_edittext_blackstroke"
+                    android:drawableRight="@drawable/ic_mobile"
+                    android:gravity="center"
+                    android:hint="موبایل"
+                    android:inputType="textNoSuggestions"
+                    android:paddingRight="5dp"
+                    android:textSize="14sp"
+                    app:fontName="@string/irsansMedium" />
+
+                <com.technotapp.servicestation.customView.CustomEditText
+                    android:id="@+id/activity_edit_profile_et_email"
+                    android:layout_width="200dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_default_edittext_blackstroke"
+                    android:drawableRight="@drawable/ic_email"
+                    android:gravity="center"
+                    android:hint="ایمیل"
+                    android:inputType="textNoSuggestions"
+                    android:paddingRight="5dp"
+                    android:textSize="14sp"
+                    app:fontName="@string/irsansMedium" />
+
+                <com.technotapp.servicestation.customView.CustomEditText
+                    android:id="@+id/activity_edit_profile_et_address"
+                    android:layout_width="200dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_default_edittext_blackstroke"
+                    android:drawableRight="@drawable/ic_address"
+                    android:gravity="center"
+                    android:hint="آدرس"
+                    android:inputType="textNoSuggestions"
+                    android:paddingRight="5dp"
+                    android:textSize="14sp"
+                    app:fontName="@string/irsansMedium" />
+
+                <com.technotapp.servicestation.customView.CustomEditText
+                    android:id="@+id/activity_edit_profile_et_fax"
+                    android:layout_width="200dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_default_edittext_blackstroke"
+                    android:drawableRight="@drawable/ic_fax"
+                    android:gravity="center"
+                    android:hint="دورنگار"
+                    android:inputType="textNoSuggestions"
+                    android:paddingRight="5dp"
+                    android:textSize="14sp"
+                    app:fontName="@string/irsansMedium" />
+
+                <com.technotapp.servicestation.customView.CustomEditText
+                    android:id="@+id/activity_edit_profile_et_description"
+                    android:layout_width="200dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_default_edittext_blackstroke"
+                    android:drawableRight="@drawable/ic_description"
+                    android:gravity="center"
+                    android:hint="توضیحات"
+                    android:inputType="textNoSuggestions"
+                    android:paddingRight="5dp"
+                    android:textSize="14sp"
+                    app:fontName="@string/irsansMedium" />
+
+                <com.technotapp.servicestation.customView.CustomButton
+                    android:id="@+id/activity_edit_profile_btn_submit"
+                    android:layout_width="200dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/bg_btn_purple_raduce"
+                    android:text="ثبت تغییرات"
+                    android:textColor="@color/white"
+                    app:fontName="@string/irsansMedium" />
+
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -14,17 +14,16 @@ import com.bumptech.glide.request.RequestOptions;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.adapter.DataModel.MenuAdapterModel;
-import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.setting.Session;
 
 import java.util.ArrayList;
-
 
 public class MenuAdapter extends BaseAdapter {
     private Context mContext;
     private ArrayList<MenuAdapterModel> dataSet;
     private boolean mIsNewUpdate;
     private Session mSession;
+    private String mBaseUrl;
 
     private static class ViewHolder {
         TextView title;
@@ -36,6 +35,7 @@ public class MenuAdapter extends BaseAdapter {
         this.mContext = mContext;
         mSession = Session.getInstance(mContext);
         mIsNewUpdate = mSession.IsNewMenu();
+        mBaseUrl = mSession.getBaseUrl();
     }
 
     @Override
@@ -79,12 +79,12 @@ public class MenuAdapter extends BaseAdapter {
             viewHolder.title.setText(dataModel.title);
             if (mIsNewUpdate) {
                 Glide.with(mContext)
-                        .load(Constant.Pax.PICTURE_BASE_URL + dataModel.icon + ".png")
+                        .load(mBaseUrl + dataModel.icon + ".png")
                         .apply(new RequestOptions().skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE))
                         .into(viewHolder.icon);
             } else {
                 Glide.with(mContext)
-                        .load(Constant.Pax.PICTURE_BASE_URL + dataModel.icon + ".png")
+                        .load(mBaseUrl + dataModel.icon + ".png")
                         .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL))
                         .into(viewHolder.icon);
             }

@@ -10,6 +10,7 @@ import java.util.List;
 public class ProductSto extends BaseSto {
     public List<DataModel> dataModel;
 
+    @DontObfuscate
     public static class DataModel implements Serializable {
         public long nidProduct;
 

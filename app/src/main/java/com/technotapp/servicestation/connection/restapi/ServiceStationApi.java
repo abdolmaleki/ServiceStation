@@ -1,14 +1,9 @@
 package com.technotapp.servicestation.connection.restapi;
 
-import android.support.v4.media.session.MediaSessionCompat;
-
 import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
@@ -33,6 +28,9 @@ public interface ServiceStationApi {
 
     @POST("api/Logs/InsertLogItem")
     Call<String> sendLogInfo(@Query("key") String key, @Query("value") String value, @Query("deviceInfo") String deviceInfo);
+
+    @POST("api/Logs/InsertSuggestionItem")
+    Call<String> submitSuggestion(@Query("key") String key, @Query("value") String value, @Query("deviceInfo") String deviceInfo);
 
     @POST("api/shop/InsertUpdateProductItem")
     Call<String> addProduct(@Query("key") String key, @Query("value") String value, @Query("deviceInfo") String deviceInfo);

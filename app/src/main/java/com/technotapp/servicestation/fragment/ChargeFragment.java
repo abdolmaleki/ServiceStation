@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.Converters;
-import com.technotapp.servicestation.Infrastructure.DontObfuscate;
 import com.technotapp.servicestation.Infrastructure.Encryptor;
 import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.adapter.CardChargeAdapter;
@@ -57,10 +56,8 @@ public class ChargeFragment extends SubMenuFragment implements View.OnClickListe
     ImageButton btnTaliya;
     @BindView(R.id.fragment_charge_btnHamraheAval)
     ImageButton btnHamraheAval;
-
     @BindView(R.id.fragment_charge_btn_submit)
     Button btnSubmit;
-
     @BindView(R.id.fragment_charge_btnAdi)
     Button btnAdi;
     @BindView(R.id.fragment_charge_btnMostaghim)
@@ -71,12 +68,11 @@ public class ChargeFragment extends SubMenuFragment implements View.OnClickListe
     Button btnCodeCharge;
     @BindView(R.id.fragment_charge_edtPhoneNumber)
     EditText edtPhoneNumber;
-
     @BindView(R.id.fragment_charge_tv_charge_amount)
     TextView tvChargeAmount;
-
     @BindView(R.id.fragment_charge_rclCharges)
     DiscreteScrollView rclCardCharge;
+
 
     private RecyclerView.Adapter adapterCardCharge;
     private ArrayList<String> mChargeAmountArray;
@@ -153,12 +149,15 @@ public class ChargeFragment extends SubMenuFragment implements View.OnClickListe
         mChargeAmountArray.add("200,000");
         mChargeAmountArray.add("500,000");
 
+
         adapterCardCharge = new CardChargeAdapter(getContext(), mChargeAmountArray);
         rclCardCharge.setAdapter(adapterCardCharge);
         rclCardCharge.scrollToPosition(mChargeAmountArray.size() / 2);
         rclCardCharge.addScrollStateChangeListener(new DiscreteScrollView.ScrollStateChangeListener<RecyclerView.ViewHolder>() {
             @Override
             public void onScrollStart(@NonNull RecyclerView.ViewHolder currentItemHolder, int adapterPosition) {
+
+
 
             }
 

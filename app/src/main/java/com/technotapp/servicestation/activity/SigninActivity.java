@@ -13,7 +13,6 @@ import com.google.gson.reflect.TypeToken;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.Encryptor;
 import com.technotapp.servicestation.Infrastructure.Helper;
-import com.technotapp.servicestation.Infrastructure.PaxHelper;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.connection.restapi.ApiCaller;
@@ -34,7 +33,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class SigninActivity extends BaseActivity implements View.OnClickListener {
+public class SigninActivity extends AppCompatActivity implements View.OnClickListener {
     @BindView(R.id.activity_signin_btnSignin)
     Button btnSignin;
     @BindView(R.id.activity_signin_edtMerchantCode)
@@ -146,7 +145,7 @@ public class SigninActivity extends BaseActivity implements View.OnClickListener
                                         startActivity(new Intent(mContext, MainActivity.class));
                                         finish();
                                     } else {
-                                        Helper.alert(mContext, menuStos.get(0).messageModel.get(0).errorString, Constant.AlertType.Error);
+                                        Helper.alert(mContext, "خطا در ذخیره سازی اطلاعات", Constant.AlertType.Error);
                                     }
                                 } else {  // have not active  menu
                                     Helper.alert(mContext, "هیچ منوی فعالی برای این دستگاه وجود ندارد", Constant.AlertType.Error);
@@ -166,9 +165,7 @@ public class SigninActivity extends BaseActivity implements View.OnClickListener
                 @Override
                 public void onFail(String message) {
                     Helper.alert(SigninActivity.this, message, Constant.AlertType.Error);
-
                 }
-
             });
         } catch (Exception e) {
             AppMonitor.reportBug(SigninActivity.this, e, mClassName, "callGetMenu");
@@ -181,7 +178,7 @@ public class SigninActivity extends BaseActivity implements View.OnClickListener
         menuDto.userName = edtUsername.getText().toString();
         menuDto.password = edtPassword.getText().toString();
         menuDto.deviceInfo = "My Pos Info";
-        menuDto.terminalCode = "305419896";
+        menuDto.terminalCode = "08200876";
         return menuDto;
     }
 
@@ -202,6 +199,7 @@ public class SigninActivity extends BaseActivity implements View.OnClickListener
 
     private boolean saveInfo(ArrayList<MenuSto> menuStos) {
         try {
+
             Session session = Session.getInstance(mContext);
             session.setAppVersion(menuStos.get(0).messageModel.get(0).ver);
             session.setMobileNumber(menuStos.get(0).dataModel.get(0).info.get(0).mobileNumber);
@@ -216,8 +214,10 @@ public class SigninActivity extends BaseActivity implements View.OnClickListener
             session.setHashId(menuStos.get(0).dataModel.get(0).info.get(0).hashId);
             session.setShopName(menuStos.get(0).dataModel.get(0).shop.get(0).title);
             session.setTerminalId(menuStos.get(0).dataModel.get(0).terminalCode);
-            session.setMerchantId(menuStos.get(0).dataModel.get(0).idSeller);
+            session.setMerchantId(menuStos.get(0).dataModel.get(0).idMerchant);
             session.setMenuCategory(menuStos.get(0).dataModel.get(0).menuCategory);
+            session.setBaseUrl(menuStos.get(0).dataModel.get(0).url);
+            session.setUserName(edtUsername.getText().toString());
             return true;
         } catch (Exception e) {
             AppMonitor.reportBug(SigninActivity.this, e, mClassName, "saveInfo");

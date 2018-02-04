@@ -198,7 +198,7 @@ public class AnsarServiceFragment extends SubMenuFragment implements AdapterView
     private void initTransactionModel() {
         transactionDataModel = new TransactionDataModel();
         //TODO setTerminalID
-        transactionDataModel.setTerminalID("23801101741");
+        transactionDataModel.setTerminalID(mSession.getTerminalId());
     }
 
 }

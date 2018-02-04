@@ -2,16 +2,18 @@ package com.technotapp.servicestation.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.pitt.library.fresh.FreshDownloadView;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.Encryptor;
 import com.technotapp.servicestation.Infrastructure.Helper;
@@ -25,7 +27,6 @@ import com.technotapp.servicestation.database.Db;
 import com.technotapp.servicestation.database.model.MenuModel;
 import com.technotapp.servicestation.mapper.MenuMapper;
 import com.technotapp.servicestation.setting.Session;
-import com.timqi.sectorprogressview.ColorfulRingProgressView;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -40,10 +41,12 @@ public class UpdatingActivity extends BaseActivity implements View.OnClickListen
     private Context mContext;
     private final String mClassName = getClass().getSimpleName();
     private Session mSession;
-    private ColorfulRingProgressView mProgressView;
+    private FreshDownloadView mProgressView;
     private int progressStatus = 0;
     private Button mBTN_retry;
     private Button mBTN_exit;
+    private TextView mTV_message;
+    private Button mBTN_setting;
 
 
     @Override
@@ -73,17 +76,6 @@ public class UpdatingActivity extends BaseActivity implements View.OnClickListen
         });
     }
 
-    private void goToUpdatingState() {
-        mBTN_retry.setVisibility(View.INVISIBLE);
-        mBTN_exit.setVisibility(View.INVISIBLE);
-        mProgressView.setVisibility(View.VISIBLE);
-    }
-
-    private void goToFailedState() {
-        mBTN_retry.setVisibility(View.VISIBLE);
-        mBTN_exit.setVisibility(View.VISIBLE);
-        mProgressView.setVisibility(View.INVISIBLE);
-    }
 
     private void startUpdate() {
 
@@ -102,11 +94,11 @@ public class UpdatingActivity extends BaseActivity implements View.OnClickListen
 
                         }
                     });
-                    while (progressStatus < 90) {
+                    while (progressStatus < 99) {
                         progressStatus += 1;
                         handler.post(new Runnable() {
                             public void run() {
-                                mProgressView.setPercent(progressStatus + 0.f);
+                                mProgressView.upDateProgress(progressStatus);
                             }
                         });
                         try {
@@ -117,7 +109,7 @@ public class UpdatingActivity extends BaseActivity implements View.OnClickListen
                     }
                     callGetTerminalInfo();
                 }
-            }, 2000);
+            }, 0);
 
 
         } catch (Exception e) {
@@ -130,9 +122,14 @@ public class UpdatingActivity extends BaseActivity implements View.OnClickListen
         mProgressView = findViewById(R.id.activity_updating_progress);
         mSession = Session.getInstance(this);
         mBTN_retry = findViewById(R.id.activity_updating_btn_retry);
+        mTV_message = findViewById(R.id.activity_updating_tv_message);
         mBTN_retry.setOnClickListener(this);
-        mBTN_exit = findViewById(R.id.activity_updating_btn_exit);
+        mBTN_exit = findViewById(R.id.activity_updating_btn_cancel);
         mBTN_exit.setOnClickListener(this);
+
+        mBTN_setting = findViewById(R.id.activity_updating_btn_setting);
+        mBTN_setting.setOnClickListener(this);
+
 
     }
 
@@ -141,7 +138,7 @@ public class UpdatingActivity extends BaseActivity implements View.OnClickListen
             TerminalInfoDto terminalInfoDto = createTerminalInfoDto();
             final SecretKey AESsecretKey = Encryptor.generateRandomAESKey();
 
-            new ApiCaller(Constant.Api.Type.TERMINAL_INFO).call(mContext, terminalInfoDto, AESsecretKey, "در جال بارگیری اطلاعات", new ApiCaller.ApiCallback() {
+            new ApiCaller(Constant.Api.Type.TERMINAL_INFO).call(mContext, terminalInfoDto, AESsecretKey, null, new ApiCaller.ApiCallback() {
                 @Override
                 public void onResponse(int responseCode, String jsonResult) {
                     Gson gson = Helper.getGson();
@@ -155,9 +152,15 @@ public class UpdatingActivity extends BaseActivity implements View.OnClickListen
                                 int appVersion = menuStos.get(0).messageModel.get(0).ver;
                                 mSession.setLastVersion(appVersion);
                                 mSession.setAppVersion(appVersion);
-                                mProgressView.setPercent(100.0f);
-                                Helper.alert(UpdatingActivity.this, "بروزرسانی با موفقیت انجام شد", Constant.AlertType.Success);
-                                startActivity(new Intent(mContext, MainActivity.class));
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        goToSuccessfulState();
+                                    }
+                                });
+
+                                mTV_message.setText("منوی برنامه با موفقیت بروزرسانی شد");
+                                goToMainMenu();
                             } else {
                                 Helper.alert(mContext, menuStos.get(0).messageModel.get(0).errorString, Constant.AlertType.Error);
                                 goToFailedState();
@@ -175,7 +178,6 @@ public class UpdatingActivity extends BaseActivity implements View.OnClickListen
                 @Override
                 public void onFail(String message) {
                     Helper.progressBar.hideDialog();
-                    Helper.alert(UpdatingActivity.this, message, Constant.AlertType.Error);
                     goToFailedState();
                 }
             });
@@ -183,6 +185,43 @@ public class UpdatingActivity extends BaseActivity implements View.OnClickListen
             AppMonitor.reportBug(UpdatingActivity.this, e, mClassName, "callGetTerminalInfo");
             goToFailedState();
         }
+
+    }
+
+    private void goToSuccessfulState() {
+        mProgressView.upDateProgress(100);
+        mProgressView.setCircularColor(Color.GREEN);
+        mProgressView.setProgressColor(Color.GREEN);
+        mProgressView.showDownloadOk();
+    }
+
+    private void goToUpdatingState() {
+        // mProgressView.setVisibility(View.VISIBLE);
+    }
+
+    private void goToFailedState() {
+        mBTN_retry.setEnabled(true);
+        mBTN_exit.setEnabled(true);
+        mBTN_exit.setEnabled(true);
+        mProgressView.setCircularColor(Color.RED);
+        mProgressView.setProgressColor(Color.RED);
+        mProgressView.showDownloadError();
+        mTV_message.setText("خطا در عملیات بروز رسانی");
+
+    }
+
+    private void goToMainMenu() {
+
+        new Handler(getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(UpdatingActivity.this, MainActivity.class);
+                intent.putExtra(Constant.Key.UPDATE_MENU, true);
+                startActivity(intent);
+                finish();
+
+            }
+        }, 1000);
 
     }
 
@@ -208,7 +247,6 @@ public class UpdatingActivity extends BaseActivity implements View.OnClickListen
             AppMonitor.reportBug(UpdatingActivity.this, e, mClassName, "saveMenu");
             return false;
         }
-
     }
 
     private boolean saveInfo(ArrayList<MenuSto> menuStos) {
@@ -227,8 +265,9 @@ public class UpdatingActivity extends BaseActivity implements View.OnClickListen
             session.setTel(menuStos.get(0).dataModel.get(0).shop.get(0).tel);
             session.setHashId(menuStos.get(0).dataModel.get(0).info.get(0).hashId);
             session.setTerminalId(menuStos.get(0).dataModel.get(0).terminalCode);
-            session.setMerchantId(menuStos.get(0).dataModel.get(0).idSeller);
+            //session.setMerchantId(menuStos.get(0).dataModel.get(0).idMerchant);
             session.setMenuCategory(menuStos.get(0).dataModel.get(0).menuCategory);
+            session.setBaseUrl(menuStos.get(0).dataModel.get(0).url);
             return true;
         } catch (Exception e) {
             AppMonitor.reportBug(UpdatingActivity.this, e, mClassName, "saveInfo");
@@ -240,8 +279,16 @@ public class UpdatingActivity extends BaseActivity implements View.OnClickListen
     public void onClick(View view) {
         int id = view.getId();
         if (id == mBTN_retry.getId()) {
-            doUpdate();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    doUpdate();
+                }
+            });
         } else if (id == mBTN_exit.getId()) {
+            finish();
+        } else if (id == mBTN_setting.getId()) {
+            startActivity(new Intent(this, SettingLoginActivity.class));
             finish();
         }
 

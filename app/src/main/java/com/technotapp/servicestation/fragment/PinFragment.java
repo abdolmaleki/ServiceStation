@@ -30,17 +30,17 @@ public class PinFragment extends DialogFragment implements View.OnClickListener 
         try {
             View rootView = inflater.inflate(R.layout.fragment_pin, container);
 
-        mPassCodeView = (PassCodeView) rootView.findViewById(R.id.pass_code_view);
+            mPassCodeView = (PassCodeView) rootView.findViewById(R.id.pass_code_view);
 
-        rootView.findViewById(R.id.fragment_pin_btn_submit).setOnClickListener(this);
-        rootView.findViewById(R.id.fragment_pin_btn_reset).setOnClickListener(this);
-        rootView.findViewById(R.id.fragment_pin_btn_abort).setOnClickListener(this);
+            rootView.findViewById(R.id.fragment_pin_btn_submit).setOnClickListener(this);
+            rootView.findViewById(R.id.fragment_pin_btn_reset).setOnClickListener(this);
+            rootView.findViewById(R.id.fragment_pin_btn_abort).setOnClickListener(this);
 
-        initView();
+            initView();
 
-        return rootView;
+            return rootView;
         } catch (Exception e) {
-            AppMonitor.reportBug(getActivity(),e, "PinFragment", "onCreateView");
+            AppMonitor.reportBug(getActivity(), e, "PinFragment", "onCreateView");
             return null;
         }
     }
@@ -62,7 +62,7 @@ public class PinFragment extends DialogFragment implements View.OnClickListener 
                 }
             });
         } catch (Exception e) {
-            AppMonitor.reportBug(getActivity(),e, "PinFragment", "initView");
+            AppMonitor.reportBug(getActivity(), e, "PinFragment", "initView");
         }
 
 
@@ -85,25 +85,25 @@ public class PinFragment extends DialogFragment implements View.OnClickListener 
     @Override
     public void onClick(View v) {
         try {
-        int id = v.getId();
+            int id = v.getId();
 
-        if (id == R.id.fragment_pin_btn_submit) {
-            if (isValidationPin()) {
-                mPinController.onPinEntered(mPassCodeView.getPassCodeText());
+            if (id == R.id.fragment_pin_btn_submit) {
+                if (isValidationPin()) {
+                    mPinController.onPinEntered(mPassCodeView.getPassCodeText());
+                    getDialog().cancel();
+                } else {
+                    Helper.alert(getActivity(), getString(R.string.PinFragment_error_minpinlenght), Constant.AlertType.Information);
+                }
+
+            } else if (id == R.id.fragment_pin_btn_reset) {
+                mPassCodeView.reset();
+
+            } else if (id == R.id.fragment_pin_btn_abort) {
                 getDialog().cancel();
-            } else {
-                Helper.alert(getActivity(), getString(R.string.PinFragment_error_minpinlenght), Constant.AlertType.Information);
             }
-
-        } else if (id == R.id.fragment_pin_btn_reset) {
-            mPassCodeView.reset();
-
-        } else if (id == R.id.fragment_pin_btn_abort) {
-            getDialog().cancel();
+        } catch (Exception e) {
+            AppMonitor.reportBug(getActivity(), e, "PinFragment", "onClick");
         }
-    } catch (Exception e) {
-        AppMonitor.reportBug(getActivity(),e, "PinFragment", "onClick");
-    }
     }
 
     private boolean isValidationPin() {
@@ -112,7 +112,7 @@ public class PinFragment extends DialogFragment implements View.OnClickListener 
                 return true;
             }
         } catch (Exception e) {
-            AppMonitor.reportBug(getActivity(),e, "PinFragment", "isValidationPin");
+            AppMonitor.reportBug(getActivity(), e, "PinFragment", "isValidationPin");
             return false;
 
         }

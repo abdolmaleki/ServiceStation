@@ -1,6 +1,5 @@
 package com.technotapp.servicestation.fragment;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -26,21 +25,35 @@ import com.technotapp.servicestation.database.model.MenuModel;
 
 import java.util.ArrayList;
 
-@SuppressLint("ValidFragment")
 public class MainGridFragment extends Fragment {
 
     private GridView mGridView;
-    private MenuAdapter mGridAdapter;
     private ArrayList<MenuAdapterModel> dataSet;
-
     private Context mContext;
     private final String mClassName = getClass().getSimpleName();
 
+    public MainGridFragment() {
+    }
 
-    @SuppressLint("ValidFragment")
-    public MainGridFragment(Context mContext, ArrayList<MenuAdapterModel> dataSet) {
-        this.dataSet = dataSet;
-        this.mContext = mContext;
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        loadData();
+    }
+
+    private void loadData() {
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            dataSet = bundle.getParcelableArrayList(Constant.Key.MENU_ADAPTER_MODEL);
+        }
+    }
+
+    public static MainGridFragment newInstance(ArrayList<MenuAdapterModel> dataSet) {
+        MainGridFragment fragment = new MainGridFragment();
+        Bundle args = new Bundle();
+        args.putParcelableArrayList(Constant.Key.MENU_ADAPTER_MODEL, dataSet);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -49,7 +62,12 @@ public class MainGridFragment extends Fragment {
         mGridView = view.findViewById(R.id.fragment_main_grid_view);
         initView();
         return view;
+    }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mContext = activity;
     }
 
     private void initView() {
@@ -61,7 +79,7 @@ public class MainGridFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         try {
             if (mContext != null) {
-                mGridAdapter = new MenuAdapter(mContext, dataSet);
+                MenuAdapter mGridAdapter = new MenuAdapter(mContext, dataSet);
                 if (mGridView != null) {
                     mGridView.setAdapter(mGridAdapter);
                 }
@@ -90,7 +108,7 @@ public class MainGridFragment extends Fragment {
             } else if (selectedMenuItem.controller != null && !TextUtils.isEmpty(selectedMenuItem.controller)) {
                 Helper.lunchActivity(mContext, selectedMenuItem.controller, (int) menuId);
             } else {
-                Helper.alert(mContext, "محتوایی برای نمایش وجود ندارد", Constant.AlertType.Information);
+                Helper.alert(mContext, "این گزینه فعال نیست", Constant.AlertType.Information);
             }
         } catch (Exception e) {
             AppMonitor.reportBug(getActivity(), e, mClassName, "onGridItemClick");

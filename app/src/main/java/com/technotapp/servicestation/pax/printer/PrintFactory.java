@@ -4,10 +4,12 @@ import com.technotapp.servicestation.pax.printer.printcontent.BalanceContent;
 import com.technotapp.servicestation.pax.printer.printcontent.BalanceNoIconContent;
 import com.technotapp.servicestation.pax.printer.printcontent.BuyCustomerContent;
 import com.technotapp.servicestation.pax.printer.printcontent.BuyCustomerNoIconContent;
+import com.technotapp.servicestation.pax.printer.printcontent.BuyCustomerRatingContent;
 import com.technotapp.servicestation.pax.printer.printcontent.BuySellerContent;
 import com.technotapp.servicestation.pax.printer.printcontent.BuySellerNoIconContent;
 import com.technotapp.servicestation.pax.printer.printcontent.CashContent;
 import com.technotapp.servicestation.pax.printer.printcontent.CashNoIconContent;
+import com.technotapp.servicestation.pax.printer.printcontent.CashRatingContent;
 import com.technotapp.servicestation.pax.printer.printcontent.DepositContent;
 import com.technotapp.servicestation.pax.printer.printcontent.DepositNoIconContent;
 
@@ -26,6 +28,9 @@ public class PrintFactory {
             case Printable.BUY_CUSTOMER:
                 return new BuyCustomerContent();
 
+            case Printable.BUY_CUSTOMER_HAVE_RATE:
+                return new BuyCustomerRatingContent();
+
             case Printable.BUY_CUSTOMER_NO_ICON:
                 return new BuyCustomerNoIconContent();
 
@@ -43,6 +48,9 @@ public class PrintFactory {
 
             case Printable.CASH:
                 return new CashContent();
+
+            case Printable.CASH_HAVE_RATE:
+                return new CashRatingContent();
 
             case Printable.CASH_NO_ICON:
                 return new CashNoIconContent();

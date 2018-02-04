@@ -28,32 +28,35 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-            <com.technotapp.servicestation.customView.CustomEditText
-                android:id="@+id/activity_setting_login_et_username"
-                android:layout_width="230dp"
-                android:layout_height="45dp"
-                android:layout_gravity="center"
-                android:background="@drawable/bg_default_edittext_blackstroke"
-                android:drawableRight="@drawable/ic_user_name"
-                android:gravity="center"
-                android:hint="نام کاربری"
-                android:inputType="textNoSuggestions"
-                android:paddingRight="5dp"
-                app:fontName="@string/irsansMedium" />
+        <com.technotapp.servicestation.customView.CustomEditText
+            android:id="@+id/activity_setting_login_et_username"
+            android:layout_width="230dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_default_edittext_blackstroke"
+            android:drawableRight="@drawable/ic_user_name"
+            android:gravity="center"
+            android:hint="نام کاربری"
+            android:inputType="textNoSuggestions"
+            android:paddingRight="5dp"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:fontName="@string/irsansMedium" />
 
-            <com.technotapp.servicestation.customView.CustomEditText
-                android:id="@+id/activity_setting_login_et_password"
-                android:layout_width="230dp"
-                android:layout_height="45dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/bg_default_edittext_blackstroke"
-                android:drawableRight="@drawable/ic_password"
-                android:gravity="center"
-                android:hint="رمز عبور"
-                android:inputType="textPassword"
-                android:paddingRight="5dp"
-                app:fontName="@string/irsansMedium" />
+        <com.technotapp.servicestation.customView.CustomEditText
+            android:id="@+id/activity_setting_login_et_password"
+            android:layout_width="230dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/bg_default_edittext_blackstroke"
+            android:drawableRight="@drawable/ic_password"
+            android:gravity="center"
+            android:hint="رمز عبور"
+            android:inputType="textPassword"
+            android:paddingRight="5dp"
+            android:textSize="14sp"
+            app:fontName="@string/irsansMedium" />
 
         <com.technotapp.servicestation.customView.CustomButton
             android:id="@+id/activity_setting_login_btn_confirm"

@@ -25,18 +25,20 @@
 
             <ImageView
                 android:id="@+id/imageView2"
-                android:layout_width="@dimen/ansarLogoW_H"
-                android:layout_height="@dimen/ansarLogoW_H"
+                android:layout_width="@dimen/technologowW"
+                android:layout_height="@dimen/technologowH"
                 android:layout_marginTop="4dp"
-                android:background="@drawable/ic_ansar_logo" />
+                android:background="@drawable/ic_logo_tchno" />
 
             <com.technotapp.servicestation.customView.CustomTextView
                 android:id="@+id/customTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/ansar_bank"
-                android:textColor="#b00f20"
-                android:textSize="34sp"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:text="@string/technotapp_co"
+                android:textColor="#263238"
+                android:textSize="28sp"
                 app:fontName="b-titr" />
 
 
@@ -71,5 +73,16 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="32dp" />
+
+    <com.technotapp.servicestation.customView.CustomTextView
+        android:id="@+id/activity_splash_tv_version"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:gravity="center"
+        android:text="0.0.0"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        app:fontName="@string/irsansNumber" />
 
 </LinearLayout>

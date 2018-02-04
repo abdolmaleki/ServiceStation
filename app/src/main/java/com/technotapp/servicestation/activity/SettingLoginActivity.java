@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -55,9 +54,11 @@ public class SettingLoginActivity extends BaseActivity implements View.OnClickLi
                 switch (position) {
                     case 0:
                         mUserRole = UserRole.MERCHANT;
+                        mET_UserName.setVisibility(View.GONE);
                         break;
                     case 1:
                         mUserRole = UserRole.SUPPORTER;
+                        mET_UserName.setVisibility(View.VISIBLE);
                         break;
                 }
             }
@@ -74,6 +75,7 @@ public class SettingLoginActivity extends BaseActivity implements View.OnClickLi
                 Intent intent = new Intent(this, SettingActivity.class);
                 intent.putExtra(Constant.Key.USER_ROLE, mUserRole);
                 startActivity(intent);
+                finish();
             } else {
                 Helper.alert(this, "نام کاربری یا رمز عبور را اشتباه است", Constant.AlertType.Error);
             }
@@ -81,11 +83,20 @@ public class SettingLoginActivity extends BaseActivity implements View.OnClickLi
     }
 
     private boolean validation() {
-        if (mET_UserName.getText().toString().equals("1234") && (mET_Password.getText().toString().equals("1234"))) {
-            return true;
+        if (mUserRole == UserRole.SUPPORTER) {
+            if (mET_UserName.getText().toString().equals("admin") && (mET_Password.getText().toString().equals("1234"))) {
+                return true;
 
+            } else {
+                return false;
+            }
         } else {
-            return false;
+            if (mET_Password.getText().toString().equals("1234")) {
+                return true;
+
+            } else {
+                return false;
+            }
         }
     }
 }

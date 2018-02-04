@@ -26,7 +26,7 @@ public class AppConfig extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         MultiDex.install(this);
-        PaxHelper.disableAllNavigationButton(getApplicationContext());
+        //PaxHelper.disableAllNavigationButton(getApplicationContext());
         init();
         configDb();
 

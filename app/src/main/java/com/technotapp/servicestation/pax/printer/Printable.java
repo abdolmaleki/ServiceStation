@@ -23,9 +23,11 @@ public abstract class Printable {
     public static final String BUY_SELLER_NO_ICON = "seller.no.icon";
 
     public static final String BUY_CUSTOMER = "customer";
+    public static final String BUY_CUSTOMER_HAVE_RATE = "customer.have.rate";
     public static final String BUY_CUSTOMER_NO_ICON = "customer.no.icon";
 
     public static final String CASH = "CASH";
+    public static final String CASH_HAVE_RATE = "cash.have.rate";
     public static final String CASH_NO_ICON = "CASH.no.icon";
 
 }

@@ -3,7 +3,6 @@ package com.technotapp.servicestation.activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -117,6 +116,7 @@ public class FactorActivity extends BaseActivity implements View.OnClickListener
                 bundle.putStringArrayList(Constant.Key.PAYMENT_TYPE_LIST, new ArrayList<String>() {{
                     add(PaymentType.CASH);
                     add(PaymentType.EWALLET);
+                    add(PaymentType.SHETABI);
                 }});
                 paymentMenuDialog.setArguments(bundle);
                 paymentMenuDialog.show(getSupportFragmentManager(), "payment.menu");
@@ -147,7 +147,6 @@ public class FactorActivity extends BaseActivity implements View.OnClickListener
         } catch (Exception e) {
             AppMonitor.reportBug(this, e, "FactorActivity", "goPaymentMenu");
         }
-
     }
 
     private void callSubmitFactor(String paymentType, TransactionDataModel transactionDataModel) {

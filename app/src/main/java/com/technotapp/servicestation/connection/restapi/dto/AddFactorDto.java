@@ -11,8 +11,8 @@ public class AddFactorDto extends BaseDto {
 
     private String tokenId;
     private String terminalCode;
-    private Integer totalPrice; // mablaghe kol bedoone takhfif
-    private Integer discountPrice; // takhfif
+    private long totalPrice; // mablaghe kol bedoone takhfif
+    private long discountPrice; // takhfif
     private long finalPrice;// mablaghe kol ba takhfif
     private String customer;
     private List<Product> products = null;
@@ -33,19 +33,19 @@ public class AddFactorDto extends BaseDto {
         this.terminalCode = terminalCode;
     }
 
-    public Integer getTotalPrice() {
+    public long getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(Integer totalPrice) {
+    public void setTotalPrice(long totalPrice) {
         this.totalPrice = totalPrice;
     }
 
-    public Integer getDiscountPrice() {
+    public long getDiscountPrice() {
         return discountPrice;
     }
 
-    public void setDiscountPrice(Integer discountPrice) {
+    public void setDiscountPrice(long discountPrice) {
         this.discountPrice = discountPrice;
     }
 

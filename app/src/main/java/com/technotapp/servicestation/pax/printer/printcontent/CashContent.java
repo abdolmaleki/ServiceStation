@@ -47,7 +47,7 @@ public class CashContent extends Printable {
         page.addLine();
         page.addLine().addUnit(" ", FONT_NORMAL, IImgProcessing.IPage.EAlign.CENTER);
         page.addLine();
-        page.addLine().addUnit("مانده: " + Converters.convertEnDigitToPersian(String.format("%,d", Long.parseLong(contents[6]))) + " ریال", FONT_NORMAL, IImgProcessing.IPage.EAlign.CENTER); // mandeh !
+        page.addLine().addUnit("مبلغ: " + Converters.convertEnDigitToPersian(String.format("%,d", Long.parseLong(contents[6]))) + " ریال", FONT_NORMAL, IImgProcessing.IPage.EAlign.CENTER); // mandeh !
         page.addLine();
         page.addLine().addUnit(BitmapFactory.decodeResource(ctx.getResources(), R.drawable.ic_dash_line), IImgProcessing.IPage.EAlign.CENTER);
         page.addLine();

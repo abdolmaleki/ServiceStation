@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission
         android:name="android.permission.MODIFY_PHONE_STATE"
         tools:ignore="ProtectedPermissions" />
@@ -17,24 +18,22 @@
     <application
         android:name=".application.AppConfig"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_wallet"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/FullscreenTheme">
-        <activity android:name=".activity.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        <activity
+            android:name=".activity.MainActivity"
+            android:launchMode="singleInstance">
+
         </activity>
+
         <activity android:name=".activity.SplashActivity">
 
         </activity>
-        <activity android:name=".activity.CheckNetworkActivity">
-
-        </activity>
+        <activity android:name=".activity.CheckNetworkActivity" />
         <activity
             android:name=".activity.SigninActivity"
             android:launchMode="singleInstance">
@@ -44,19 +43,30 @@
         <activity android:name=".activity.CustomServiceActivity" />
         <activity android:name=".activity.SettingActivity" />
         <activity android:name=".activity.UpdatingActivity" />
-        <activity android:name=".activity.ProductManagementActivity">
-
-        </activity>
+        <activity android:name=".activity.ProductManagementActivity" />
         <activity android:name=".activity.UrlActivity" />
         <activity android:name=".activity.FactorActivity" />
         <activity
             android:name=".activity.CustomScannerActivity"
             android:screenOrientation="landscape" />
-        <activity android:name=".activity.SettingLoginActivity" />
-        <activity android:name=".activity.TransactionArchiveActivity">
+        <activity
+            android:name=".activity.SettingLoginActivity"
+            android:launchMode="singleInstance">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.SearchTransactionActivity" />
+        <activity android:name=".activity.SearchFactorActivity" />
+        <activity android:name=".activity.EditProfileActivity" />
+        <activity android:name=".activity.PaymentGatewayActivity" />
+        <activity android:name=".activity.ConfigActivity">
 
         </activity>
-
+        <activity android:name=".activity.SuggestionActivity" />
+        <activity android:name=".activity.AboutActivity" />
+        <activity android:name=".activity.BaseActivity" />
 
     </application>
 

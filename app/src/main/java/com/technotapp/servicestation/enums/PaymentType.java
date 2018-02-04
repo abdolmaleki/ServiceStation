@@ -5,4 +5,5 @@ public class PaymentType {
     public static final String CASH = "CASH";
     public static final String EWALLET = "EWALLET";
     public static final String SHETABI = "SHETABI";
+    public static final String QRCode = "QRCode";
 }

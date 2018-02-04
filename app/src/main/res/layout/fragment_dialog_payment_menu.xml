@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="256dp"
-        android:layout_height="304dp"
+        android:layout_height="320dp"
         android:background="@drawable/bg_custom_fragment_bottom"
         android:layoutDirection="rtl"
         android:orientation="vertical">
@@ -60,7 +60,17 @@
                 android:background="@drawable/bg_btn_white_raduce"
                 android:enabled="false"
                 android:focusable="false"
+                android:layout_marginBottom="7dp"
                 android:text="شتابی (بدون کارت)" />
+
+            <com.technotapp.servicestation.customView.CustomButton
+                android:id="@+id/fragment_dialog_payment_menu_btn_qrcode"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_btn_white_raduce"
+                android:enabled="false"
+                android:focusable="false"
+                android:text="QR-Code" />
         </LinearLayout>
 
 

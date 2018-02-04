@@ -101,4 +101,14 @@ public class DateHelper {
         }
     }
 
+    public static long differenceDateInDay(long oldDateMilisecond, long newDateMilisecond) {
+        try {
+            long diff = newDateMilisecond - oldDateMilisecond;
+            return diff / (24 * 60 * 60 * 1000);
+        } catch (Exception e) {
+            return 0;
+        }
+
+    }
+
 }

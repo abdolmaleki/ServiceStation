@@ -35,6 +35,10 @@ public class Session {
         prefs.edit().putString(Constant.Session.LASTNAME, lastName).apply();
     }
 
+    public void setUserName(String userName) {
+        prefs.edit().putString(Constant.Session.USER_NAME, userName).apply();
+    }
+
     public void setGender(int gender) {
         prefs.edit().putInt(Constant.Session.GENDER, gender).apply();
     }
@@ -74,6 +78,10 @@ public class Session {
 
     public void setTokenId(String tokenId) {
         prefs.edit().putString(Constant.Session.TOKEN_ID, tokenId).apply();
+    }
+
+    public void setBaseUrl(String baseUrl) {
+        prefs.edit().putString(Constant.Session.BASE_URL, baseUrl).apply();
     }
 
     public void setHashId(String hashId) {
@@ -135,6 +143,8 @@ public class Session {
     }
 
     public String getTelephone() {
+
+
         String tel = prefs.getString(Constant.Session.TEL, "");
         return tel;
     }
@@ -153,6 +163,11 @@ public class Session {
     public String getLastName() {
         String lastName = prefs.getString(Constant.Session.LASTNAME, "");
         return lastName;
+    }
+
+    public String getUserName() {
+        String userName = prefs.getString(Constant.Session.USER_NAME, "");
+        return userName;
     }
 
     public int getGender() {
@@ -228,6 +243,11 @@ public class Session {
     public String getEmail() {
         String email = prefs.getString(Constant.Session.EMAIL, "");
         return email;
+    }
+
+    public String getBaseUrl() {
+        String url = prefs.getString(Constant.Session.BASE_URL, "");
+        return url;
     }
 
     public void clear() {

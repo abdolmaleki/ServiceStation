@@ -3,6 +3,7 @@ package com.technotapp.servicestation.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -21,6 +22,9 @@ import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.database.Db;
 import com.technotapp.servicestation.database.model.MenuModel;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -71,7 +75,7 @@ public class UrlActivity extends BaseActivity implements View.OnClickListener {
             mBrowser.setWebViewClient(new BrowserClient());
 
         } catch (Exception e) {
-            AppMonitor.reportBug(UrlActivity.this,e, "UrlActivity", "adjustBrowser");
+            AppMonitor.reportBug(UrlActivity.this, e, "UrlActivity", "adjustBrowser");
 
         }
 
@@ -83,7 +87,7 @@ public class UrlActivity extends BaseActivity implements View.OnClickListener {
             adjustBrowser();
             mBrowser.loadUrl(mUrl);
         } catch (Exception e) {
-            AppMonitor.reportBug(UrlActivity.this,e, "UrlActivity", "loadPage");
+            AppMonitor.reportBug(UrlActivity.this, e, "UrlActivity", "loadPage");
         }
     }
 
@@ -99,6 +103,33 @@ public class UrlActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private class BrowserClient extends WebViewClient {
+
+        private int progressStatus = 0;
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+
+                    Looper.prepare();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                        }
+                    });
+                    while (progressStatus < 200) {
+
+                        try {
+                            Thread.sleep(20);
+                        } catch (InterruptedException e) {
+                        }
+                    }
+                    finish();
+                }
+            }, 0);
+        }
+
         @Override
         public void onPageFinished(WebView view, String url) {
             Helper.progressBar.hideDialog();

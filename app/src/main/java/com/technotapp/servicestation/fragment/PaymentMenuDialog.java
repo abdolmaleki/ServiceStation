@@ -1,6 +1,7 @@
 package com.technotapp.servicestation.fragment;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.TransactionHelper;
 import com.technotapp.servicestation.R;
+import com.technotapp.servicestation.activity.PaymentGatewayActivity;
 import com.technotapp.servicestation.adapter.DataModel.TransactionDataModel;
 import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.database.Db;
@@ -32,7 +34,6 @@ public class PaymentMenuDialog extends DialogFragment implements View.OnClickLis
     private TransactionDataModel transactionDataModel;
     private PaymentResultListener mPaymentResultListener;
     private ArrayList<String> mPaymentTypeList;
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,7 +65,7 @@ public class PaymentMenuDialog extends DialogFragment implements View.OnClickLis
             return view;
 
         } catch (Exception e) {
-            AppMonitor.reportBug(getActivity(),e, "PaymentMenuDialog", "onCreateView");
+            AppMonitor.reportBug(getActivity(), e, "PaymentMenuDialog", "onCreateView");
             return null;
         }
     }
@@ -76,10 +77,12 @@ public class PaymentMenuDialog extends DialogFragment implements View.OnClickLis
         Button mBTN_Cash = view.findViewById(R.id.fragment_dialog_payment_menu_btn_cash);
         Button mBTN_Ewallet = view.findViewById(R.id.fragment_dialog_payment_menu_btn_ewallet);
         Button mBTN_Shetabi = view.findViewById(R.id.fragment_dialog_payment_menu_btn_shetabi);
+        Button mBTN_QRCode = view.findViewById(R.id.fragment_dialog_payment_menu_btn_qrcode);
 
         mBTN_Cash.setOnClickListener(this);
         mBTN_Ewallet.setOnClickListener(this);
         mBTN_Shetabi.setOnClickListener(this);
+        mBTN_QRCode.setOnClickListener(this);
 
 
         for (String paymentType : mPaymentTypeList) {
@@ -103,6 +106,12 @@ public class PaymentMenuDialog extends DialogFragment implements View.OnClickLis
                     mBTN_Shetabi.setFocusable(true);
                     mBTN_Shetabi.setTextColor(getResources().getColor(R.color.purple));
                     break;
+
+                case PaymentType.QRCode:
+                    mBTN_QRCode.setEnabled(true);
+                    mBTN_QRCode.setFocusable(true);
+                    mBTN_QRCode.setTextColor(getResources().getColor(R.color.purple));
+                    break;
             }
         }
     }
@@ -116,6 +125,10 @@ public class PaymentMenuDialog extends DialogFragment implements View.OnClickLis
                 break;
             case R.id.fragment_dialog_payment_menu_btn_ewallet:
                 ewalletPayment();
+                break;
+
+            case R.id.fragment_dialog_payment_menu_btn_shetabi:
+                startActivity(new Intent(getActivity(), PaymentGatewayActivity.class));
                 break;
         }
     }
@@ -142,7 +155,7 @@ public class PaymentMenuDialog extends DialogFragment implements View.OnClickLis
                 }
             });
         } catch (Exception e) {
-            AppMonitor.reportBug(getActivity(),e, "PaymentMenuDialog", "ewalletPayment");
+            AppMonitor.reportBug(getActivity(), e, "PaymentMenuDialog", "ewalletPayment");
         }
     }
 
@@ -160,7 +173,7 @@ public class PaymentMenuDialog extends DialogFragment implements View.OnClickLis
                 }
             });
         } catch (Exception e) {
-            AppMonitor.reportBug(getActivity(),e, "PaymentMenuDialog", "cashPayment");
+            AppMonitor.reportBug(getActivity(), e, "PaymentMenuDialog", "cashPayment");
         }
 
     }
@@ -181,7 +194,7 @@ public class PaymentMenuDialog extends DialogFragment implements View.OnClickLis
                 }
             });
         } catch (Exception e) {
-            AppMonitor.reportBug(getActivity(),e, "PaymentMenuDialog", "onPinEnteredSuccessfully");
+            AppMonitor.reportBug(getActivity(), e, "PaymentMenuDialog", "onPinEnteredSuccessfully");
         }
 
         closeDialog();

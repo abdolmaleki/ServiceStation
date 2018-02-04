@@ -1,88 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_card_service_deposit_buy"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layoutDirection="ltr"
     android:orientation="vertical"
     tools:context=".activity.SettingActivity">
 
-    <include
-        android:id="@+id/include"
-        layout="@layout/toolbar" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="163dp"
+        android:background="@drawable/bg_setting_header"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/activity_setting_img_user"
+            android:layout_width="90dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp" />
+
+        <com.technotapp.servicestation.customView.CustomTextView
+            android:id="@+id/activity_setting_tv_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/activity_setting_img_user"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_exit"
+            android:text="سجاد عبدالملکی"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            app:fontName="@string/irsansMedium"
+            />
+
+        <ImageView
+            android:id="@+id/activity_setting_img_exit"
+            android:layout_width="130dp"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_exit" />
 
 
-    <com.technotapp.servicestation.customView.CustomButton
-        android:id="@+id/activity_setting_btn_net"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="100dp"
-        android:background="@drawable/bg_button_purple_raduce"
-        android:drawableRight="@drawable/ic_internet_setting"
-        android:paddingRight="10dp"
-        android:text="اینترنت"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        app:fontName="b-titr" />
+        <ImageView
+            android:id="@+id/activity_setting_img_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_setting_back" />
 
-    <com.technotapp.servicestation.customView.CustomButton
-        android:id="@+id/activity_setting_btn_product"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/bg_button_purple_raduce"
-        android:drawableRight="@drawable/ic_product_setting"
-        android:paddingRight="10dp"
-        android:text="مدیریت کالاها"
-        android:textColor="@color/white"
-        android:textSize="15sp"
-        app:fontName="b-titr" />
+    </RelativeLayout>
 
-    <com.technotapp.servicestation.customView.CustomButton
-        android:id="@+id/activity_setting_btn_update"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/bg_button_purple_raduce"
-        android:drawableRight="@drawable/ic_updating"
-        android:paddingRight="10dp"
-        android:text="بروزرسانی نرم افزار"
-        android:textColor="@color/white"
-        android:textSize="15sp"
-        app:fontName="b-titr" />
-    <com.technotapp.servicestation.customView.CustomButton
-        android:id="@+id/activity_setting_btn_search_transaction"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/bg_button_purple_raduce"
-        android:drawableRight="@drawable/ic_transaction"
-        android:paddingRight="10dp"
-        android:text="گزارش تراکنش ها"
-        android:textColor="@color/white"
-        android:textSize="15sp"
-        app:fontName="b-titr" />
 
-    <ng.max.slideview.SlideView
-        android:id="@+id/activity_setting_lock_slideView"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center|bottom"
-        android:layout_marginTop="110dp"
-        app:sv_animateSlideText="true"
-        app:sv_buttonBackgroundColor="@android:color/holo_red_light"
-        app:sv_buttonImage="@drawable/ic_locked"
-        app:sv_slideBackgroundColor="@color/colorAccent"
-        app:sv_slideTextColor="@color/white"
-        app:sv_slideTextSize="16sp"
-
-        />
+    <GridView
+        android:id="@+id/activity_setting_grid_view_menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:horizontalSpacing="0dp"
+        android:listSelector="@android:color/transparent"
+        android:numColumns="3"
+        android:verticalSpacing="0dp"
+        tools:listitem="@layout/item_grid_setting" />
 
 
 </LinearLayout>

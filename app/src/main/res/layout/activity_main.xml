@@ -25,7 +25,7 @@
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:layout_marginStart="4dp"
-            android:background="@drawable/ic_ansar_logo"
+            android:background="@drawable/ic_logo_tchno"
             android:onClick="openSettingMenu" />
 
         <LinearLayout
@@ -40,8 +40,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:gravity="center_vertical"
-                android:text="@string/ansar_bank"
-                android:textColor="#b00f20"
+                android:text="@string/technotapp_co"
+                android:textColor="#263238"
                 android:textSize="14sp"
                 app:fontName="irsans_bold" />
 
@@ -49,11 +49,11 @@
                 android:id="@+id/activity_main_txt_shop_name"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:maxLength="18"
                 android:gravity="center_vertical"
                 android:lines="1"
+                android:maxLength="18"
                 android:text="فروشگاه افق کوروش"
-                android:textColor="#f8b019"
+                android:textColor="#1A237E"
                 android:textSize="16sp"
                 app:fontName="@string/irsansMedium" />
 
@@ -79,9 +79,9 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
         android:padding="3dp"
-        app:dotGap="8dp"
-        app:dotDiameter="12dp"
         app:currentPageIndicatorColor="#6442a6"
+        app:dotDiameter="12dp"
+        app:dotGap="8dp"
         app:pageIndicatorColor="#446442a6" />
 
 </LinearLayout>
