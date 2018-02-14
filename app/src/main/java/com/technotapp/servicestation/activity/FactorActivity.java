@@ -115,7 +115,7 @@ public class FactorActivity extends BaseActivity implements View.OnClickListener
                 bundle.putLong(Constant.Key.FACTOR_ID, mFactorModel.getId());
                 bundle.putStringArrayList(Constant.Key.PAYMENT_TYPE_LIST, new ArrayList<String>() {{
                     add(PaymentType.CASH);
-                    add(PaymentType.EWALLET);
+                    add(PaymentType.WALLET);
                     add(PaymentType.SHETABI);
                 }});
                 paymentMenuDialog.setArguments(bundle);
@@ -123,7 +123,7 @@ public class FactorActivity extends BaseActivity implements View.OnClickListener
                 paymentMenuDialog.setOnPaymentResultListener(new PaymentMenuDialog.PaymentResultListener() {
                     @Override
                     public void onSuccessfullPayment(String paymentType, TransactionDataModel transactionDataModel) {
-                        if (paymentType.equals(PaymentType.EWALLET)) {
+                        if (paymentType.equals(PaymentType.WALLET)) {
                             new Handler(getMainLooper()).post(() -> callSubmitFactor(paymentType, transactionDataModel));
                         } else {
                             callSubmitFactor(paymentType, transactionDataModel);
@@ -170,7 +170,7 @@ public class FactorActivity extends BaseActivity implements View.OnClickListener
                                     case PaymentType.CASH:
                                         PrintMaker.startPrint(FactorActivity.this, Constant.RequestMode.CASH_PAYMENT, mFactorModel.getTotalPrice());
                                         break;
-                                    case PaymentType.EWALLET:
+                                    case PaymentType.WALLET:
                                         PrintMaker.startPrint(FactorActivity.this, Constant.RequestMode.BUY, transactionDataModel);
 
                                         break;

@@ -18,7 +18,10 @@ public class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
-
+        if (!authorization()) {
+            startActivity(new Intent(this, SigninActivity.class));
+            finish();
+        }
     }
 
     private void init() {

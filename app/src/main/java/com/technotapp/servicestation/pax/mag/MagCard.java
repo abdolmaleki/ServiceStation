@@ -110,7 +110,6 @@ public class MagCard {
                         break;
 
                     case 4: // successful finish read
-                        submitPinFragment(((Activity) ctx));
                         callback.onSuccessful(mTrack1, mTrack2, mTrack3);
                         hideDialog();
                         break;
@@ -144,8 +143,6 @@ public class MagCard {
             }
 
         }
-
-
     }
 
     private void submitPinFragment(Activity ctx) {

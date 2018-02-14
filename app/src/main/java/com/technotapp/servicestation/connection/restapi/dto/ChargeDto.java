@@ -4,7 +4,7 @@ import com.technotapp.servicestation.Infrastructure.DontObfuscate;
 
 @DontObfuscate
 public class ChargeDto extends BaseDto {
-    
+
     public String svrUerName;//نام کاربری وب سرویس
     public String svrPassword;//گذرواژه وب سرویس
     public String mobileNumber;

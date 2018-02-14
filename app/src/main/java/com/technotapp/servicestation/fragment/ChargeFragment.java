@@ -267,7 +267,7 @@ public class ChargeFragment extends SubMenuFragment implements View.OnClickListe
         Bundle bundle = new Bundle();
         bundle.putLong(Constant.Key.FACTOR_ID, factorModel.getId());
         bundle.putStringArrayList(Constant.Key.PAYMENT_TYPE_LIST, new ArrayList<String>() {{
-            add(PaymentType.EWALLET);
+            add(PaymentType.WALLET);
         }});
         paymentMenuDialog.setArguments(bundle);
         paymentMenuDialog.show(getActivity().getSupportFragmentManager(), "payment.menu");

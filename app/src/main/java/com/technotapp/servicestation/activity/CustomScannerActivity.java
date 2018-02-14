@@ -1,6 +1,5 @@
 package com.technotapp.servicestation.activity;
 
-import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.KeyEvent;

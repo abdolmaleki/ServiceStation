@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_card_service_deposit_buy"
+    android:layoutDirection="ltr"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="24dp"
+        android:orientation="vertical"
+        android:paddingTop="16dp">
+
+        <com.technotapp.servicestation.customView.CustomTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/fragment_card_service_deposit_buy_amount"
+            android:textColor="#57567b"
+            android:textSize="14sp"
+            app:fontName="@string/irsansMedium" />
+
+        <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginStart="24dp">
+
+            <com.technotapp.servicestation.customView.CustomTextView
+                android:id="@+id/activity_keypad_tv_amount"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_txt_amount"
+                android:gravity="center"
+                android:inputType="numberDecimal"
+                android:lines="1"
+                android:maxLength="9"
+                android:textColor="#463667"
+                android:textSize="32sp"
+                app:fontName="@string/irsansNumber" />
+
+            <com.technotapp.servicestation.customView.CustomTextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="12dp"
+                android:gravity="end|center_vertical"
+                android:text="ریال"
+                android:textColor="#463667"
+                android:textSize="16sp"
+                app:fontName="irsans_bold" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <com.technotapp.servicestation.customView.CustomButton
+                    android:id="@+id/activity_keypad_btn_one"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_keypad"
+                    android:gravity="center"
+                    android:text="1"
+                    android:textColor="@color/fragment_keypad_button_text"
+                    android:textSize="@dimen/fragment_keypad_buttontext"
+                    app:fontName="@string/irsansNumber" />
+
+                <com.technotapp.servicestation.customView.CustomButton
+                    android:id="@+id/activity_keypad_btn_two"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_keypad"
+                    android:gravity="center"
+                    android:text="2"
+                    android:textColor="@color/fragment_keypad_button_text"
+                    android:textSize="@dimen/fragment_keypad_buttontext"
+                    app:fontName="@string/irsansNumber" />
+
+                <com.technotapp.servicestation.customView.CustomButton
+                    android:id="@+id/activity_keypad_btn_three"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_keypad"
+                    android:gravity="center"
+                    android:text="3"
+                    android:textColor="@color/fragment_keypad_button_text"
+                    android:textSize="@dimen/fragment_keypad_buttontext"
+                    app:fontName="@string/irsansNumber" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <com.technotapp.servicestation.customView.CustomButton
+                    android:id="@+id/activity_keypad_btn_four"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_keypad"
+                    android:gravity="center"
+                    android:text="4"
+                    android:textColor="@color/fragment_keypad_button_text"
+                    android:textSize="@dimen/fragment_keypad_buttontext"
+                    app:fontName="@string/irsansNumber" />
+
+                <com.technotapp.servicestation.customView.CustomButton
+                    android:id="@+id/activity_keypad_btn_five"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_keypad"
+                    android:gravity="center"
+                    android:text="5"
+                    android:textColor="@color/fragment_keypad_button_text"
+                    android:textSize="@dimen/fragment_keypad_buttontext"
+                    app:fontName="@string/irsansNumber" />
+
+                <com.technotapp.servicestation.customView.CustomButton
+                    android:id="@+id/activity_keypad_btn_six"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_keypad"
+                    android:gravity="center"
+                    android:text="6"
+                    android:textColor="@color/fragment_keypad_button_text"
+                    android:textSize="@dimen/fragment_keypad_buttontext"
+                    app:fontName="@string/irsansNumber" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <com.technotapp.servicestation.customView.CustomButton
+                    android:id="@+id/activity_keypad_btn_seven"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_keypad"
+                    android:gravity="center"
+                    android:text="7"
+                    android:textColor="@color/fragment_keypad_button_text"
+                    android:textSize="@dimen/fragment_keypad_buttontext"
+                    app:fontName="@string/irsansNumber" />
+
+                <com.technotapp.servicestation.customView.CustomButton
+                    android:id="@+id/activity_keypad_btn_eight"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_keypad"
+                    android:gravity="center"
+                    android:text="8"
+                    android:textColor="@color/fragment_keypad_button_text"
+                    android:textSize="@dimen/fragment_keypad_buttontext"
+                    app:fontName="@string/irsansNumber" />
+
+                <com.technotapp.servicestation.customView.CustomButton
+                    android:id="@+id/activity_keypad_btn_nine"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_keypad"
+                    android:gravity="center"
+                    android:text="9"
+                    android:textColor="@color/fragment_keypad_button_text"
+                    android:textSize="@dimen/fragment_keypad_buttontext"
+                    app:fontName="@string/irsansNumber" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <com.technotapp.servicestation.customView.CustomButton
+                    android:id="@+id/activity_keypad_btn_zero_triple"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_keypad"
+                    android:gravity="center"
+                    android:text="000"
+                    android:textColor="@color/fragment_keypad_button_text"
+                    android:textSize="@dimen/fragment_keypad_buttontext"
+                    app:fontName="@string/irsansNumber" />
+
+                <com.technotapp.servicestation.customView.CustomButton
+                    android:id="@+id/activity_keypad_btn_zero"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_keypad"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@color/fragment_keypad_button_text"
+                    android:textSize="@dimen/fragment_keypad_buttontext"
+                    app:fontName="@string/irsansNumber" />
+
+                <ImageButton
+                    android:id="@+id/activity_keypad_btn_backspace"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_keypad"
+                    android:gravity="center"
+                    android:src="@drawable/ic_keypad_remove"
+                    android:text="0" />
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <com.technotapp.servicestation.customView.CustomButton
+            android:id="@+id/activity_keypad_btn_submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_btn_fragment_card_service_deposit_buyconfirm"
+            android:text="@string/fragment_card_service_deposit_buy_confirm"
+            android:textColor="#fff"
+            app:fontName="@string/irsansMedium" />
+    </LinearLayout>
+
+</LinearLayout>

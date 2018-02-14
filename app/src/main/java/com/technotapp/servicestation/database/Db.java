@@ -5,6 +5,7 @@ import android.content.Context;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.database.model.FactorModel;
 import com.technotapp.servicestation.database.model.MenuModel;
+import com.technotapp.servicestation.database.model.PaymentModel;
 import com.technotapp.servicestation.database.model.ProductModel;
 
 import java.util.List;
@@ -112,7 +113,6 @@ public class Db {
         }
     }
 
-
     public static class Factor {
         public static long insert(FactorModel factorModel) {
             try {
@@ -158,6 +158,36 @@ public class Db {
 
         public static FactorModel getFactorById(long id) {
             return realm.where(FactorModel.class).equalTo("id", id).findFirst();
+        }
+    }
+
+    public static class Payment {
+        public static boolean insert(final List<PaymentModel> paymentModels) {
+            final RealmResults<PaymentModel> results = realm.where(PaymentModel.class).findAll();
+
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    results.deleteAllFromRealm();
+                }
+            });
+            try {
+
+                realm.beginTransaction();
+                realm.insert(paymentModels);
+                realm.commitTransaction();
+
+                return true;
+
+            } catch (Exception e) {
+                AppMonitor.reportBug(mContext, e, "Db", "Payment-insert");
+                return false;
+            }
+        }
+
+
+        public static RealmResults<PaymentModel> getAll() {
+            return realm.where(PaymentModel.class).findAll();
         }
     }
 }

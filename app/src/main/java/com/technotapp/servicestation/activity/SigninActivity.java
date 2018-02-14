@@ -20,6 +20,7 @@ import com.technotapp.servicestation.connection.restapi.dto.MenuDto;
 import com.technotapp.servicestation.connection.restapi.sto.MenuSto;
 import com.technotapp.servicestation.database.Db;
 import com.technotapp.servicestation.database.model.MenuModel;
+import com.technotapp.servicestation.database.model.PaymentModel;
 import com.technotapp.servicestation.mapper.MenuMapper;
 import com.technotapp.servicestation.setting.Session;
 
@@ -137,9 +138,10 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
                         ArrayList<MenuSto> menuStos = gson.fromJson(jsonResult, listType);
                         if (menuStos != null) {
                             if (menuStos.get(0).messageModel.get(0).errorCode == Constant.Api.ErrorCode.Successfull) {
+                                if (checkResponseValidation(menuStos.get(0))) {
 
-                                Helper.progressBar.showDialog(SigninActivity.this, "در حال انجام تنظیمات اولیه");
-                                if (menuStos.get(0).dataModel != null && menuStos.get(0).dataModel.size() > 0) { // have active  menu
+                                    Helper.progressBar.showDialog(SigninActivity.this, "در حال انجام تنظیمات اولیه");
+
                                     mSession.setLastVersion(menuStos.get(0).messageModel.get(0).ver);
                                     if (saveMenu(menuStos) && saveInfo(menuStos)) {
                                         startActivity(new Intent(mContext, MainActivity.class));
@@ -147,10 +149,8 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
                                     } else {
                                         Helper.alert(mContext, "خطا در ذخیره سازی اطلاعات", Constant.AlertType.Error);
                                     }
-                                } else {  // have not active  menu
-                                    Helper.alert(mContext, "هیچ منوی فعالی برای این دستگاه وجود ندارد", Constant.AlertType.Error);
-
                                 }
+
                             } else {
                                 Helper.alert(mContext, menuStos.get(0).messageModel.get(0).errorString, Constant.AlertType.Error);
                             }
@@ -172,6 +172,33 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    private boolean checkResponseValidation(MenuSto menuStos) {
+        boolean isValid = true;
+
+        if (menuStos.dataModel != null) {
+            if (menuStos.dataModel.get(0).shop.get(0) == null) {
+                Helper.alert(mContext, "فروشگاهی برای این ترمینال ثبت نشده است.", Constant.AlertType.Error);
+                isValid = false;
+            }
+
+            if (menuStos.dataModel.get(0).info == null) {
+                Helper.alert(mContext, "اطلاعات مربوط به بازرگان دریافت نشد.", Constant.AlertType.Error);
+                isValid = false;
+            }
+
+            if (menuStos.dataModel.get(0).menu == null) {
+                Helper.alert(mContext, "منوی مربوط به ترمینال دریافت نشد", Constant.AlertType.Error);
+                isValid = false;
+            }
+
+
+        } else {
+            Helper.alert(mContext, "اطلاعات ترمینال دریافت نشد.", Constant.AlertType.Error);
+            isValid = false;
+        }
+        return isValid;
+    }
+
     private MenuDto createMenuDto() {
 
         MenuDto menuDto = new MenuDto();
@@ -188,6 +215,8 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
             Db.init(this);
             List<MenuModel> menuModels = MenuMapper.convertStosToModels(menuStos);
             Db.Menu.insert(menuModels);
+            List<PaymentModel> paymentModels = MenuMapper.convertPaymentStoToModels(menuStos);
+            Db.Payment.insert(paymentModels);
             return true;
 
         } catch (Exception e) {

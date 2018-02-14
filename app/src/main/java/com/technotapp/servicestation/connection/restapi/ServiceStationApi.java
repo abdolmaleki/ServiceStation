@@ -41,9 +41,6 @@ public interface ServiceStationApi {
     @POST("api/shop/InsertFactor")
     Call<String> insertFactor(@Query("key") String key, @Query("value") String value, @Query("deviceInfo") String deviceInfo);
 
-    @POST("api/InternalCharge/Rechagre")
-    Call<String> buyCharge(@Query("key") String key, @Query("value") String value, @Query("deviceInfo") String deviceInfo);
-
     @POST("api/Applications/GetTerminalVersionMenu")
     Call<String> getVersion(@Query("key") String key, @Query("value") String value, @Query("deviceInfo") String deviceInfo);
 
@@ -55,6 +52,18 @@ public interface ServiceStationApi {
 
     @POST("api/Applications/UpdateShopInfo")
     Call<String> editShopInfo(@Query("key") String key, @Query("value") String value, @Query("deviceInfo") String deviceInfo);
+
+    @POST("api/Accounts/ReturnCustomerAccounts")
+    Call<String> getCustomerAccount(@Query("key") String key, @Query("value") String value, @Query("deviceInfo") String deviceInfo);
+
+    @POST("api/Transactions/InsertTransaction")
+    Call<String> InsertTransaction(@Query("key") String key, @Query("value") String value, @Query("deviceInfo") String deviceInfo);
+
+    @POST("api/Services/Recharge")
+    Call<String> buyCharge(@Query("key") String key, @Query("value") String value, @Query("deviceInfo") String deviceInfo);
+
+    @POST("api/Services/BillPayment")
+    Call<String> billPayment(@Query("key") String key, @Query("value") String value, @Query("deviceInfo") String deviceInfo);
 
 
 }

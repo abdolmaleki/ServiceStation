@@ -118,10 +118,6 @@ public class ApiCaller {
                     token = apiService.insertFactor(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
                     break;
 
-                case Constant.Api.Type.BYE_CHARGE:
-                    token = apiService.buyCharge(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
-                    break;
-
                 case Constant.Api.Type.GET_VERSION:
                     token = apiService.getVersion(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
                     break;
@@ -137,6 +133,25 @@ public class ApiCaller {
                 case Constant.Api.Type.EDIT_SHOP_INFO:
                     token = apiService.editShopInfo(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
                     break;
+
+                case Constant.Api.Type.GET_CUSTOMER_ACCOUNT:
+                    token = apiService.getCustomerAccount(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
+                    break;
+
+
+                case Constant.Api.Type.BYE_CHARGE:
+                    token = apiService.buyCharge(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
+                    break;
+
+                case Constant.Api.Type.BILL_PAYMENT:
+                    token = apiService.billPayment(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
+                    break;
+
+                case Constant.Api.Type.INSERT_TRANSACTION:
+                    token = apiService.InsertTransaction(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
+                    break;
+
+
             }
 
 

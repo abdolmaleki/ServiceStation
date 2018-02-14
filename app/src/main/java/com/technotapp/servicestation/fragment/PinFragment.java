@@ -9,7 +9,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.Helper;
@@ -118,5 +117,9 @@ public class PinFragment extends DialogFragment implements View.OnClickListener 
         }
 
         return false;
+    }
+
+    public interface PasswordListener {
+        void onPasswordEntered(String pass);
     }
 }

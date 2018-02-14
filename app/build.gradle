@@ -86,9 +86,7 @@ dependencies {
     implementation 'com.github.MAXDeliveryNG:slideview:1.1.0'
     compile 'lib.kingja.switchbutton:switchbutton:1.1.6'
     compile 'com.mohamadamin:persianmaterialdatetimepicker:1.2.1'
-
     compile 'com.pitt.fresh.library:freshdownloadview:1.0'
-    compile 'com.pavelsikun:material-seekbar-preference:2.3.0+'
 
 
 }

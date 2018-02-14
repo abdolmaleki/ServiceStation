@@ -50,6 +50,7 @@ public class MenuSto extends BaseSto implements Parcelable {
         public List<Info> info;
         public List<Menu> menu;
         public List<Shop> shop;
+        public List<PaymentMethod> paymentMethods;
 
 
         protected DataModel(Parcel in) {
@@ -61,6 +62,7 @@ public class MenuSto extends BaseSto implements Parcelable {
             info = in.createTypedArrayList(Info.CREATOR);
             menu = in.createTypedArrayList(Menu.CREATOR);
             shop = in.createTypedArrayList(Shop.CREATOR);
+            paymentMethods = in.createTypedArrayList(PaymentMethod.CREATOR);
         }
 
         public static final Creator<DataModel> CREATOR = new Creator<DataModel>() {
@@ -90,13 +92,11 @@ public class MenuSto extends BaseSto implements Parcelable {
             parcel.writeTypedList(info);
             parcel.writeTypedList(menu);
             parcel.writeTypedList(shop);
+            parcel.writeTypedList(paymentMethods);
         }
 
         @DontObfuscate
-        public static class
-
-
-        Info implements Serializable, Parcelable {
+        public static class Info implements Serializable, Parcelable {
             public String hashId;
             public String firstName;
             public String lastName;
@@ -281,6 +281,44 @@ public class MenuSto extends BaseSto implements Parcelable {
                 dest.writeLong(serviceID);
                 dest.writeInt(serviceTypeID);
                 dest.writeString(serviceTypeTitle);
+            }
+        }
+
+        @DontObfuscate
+        public static class PaymentMethod implements Serializable, Parcelable {
+
+            public String code;
+            public String title;
+            public String description;
+
+            protected PaymentMethod(Parcel in) {
+                code = in.readString();
+                title = in.readString();
+                description = in.readString();
+            }
+
+            public static final Creator<PaymentMethod> CREATOR = new Creator<PaymentMethod>() {
+                @Override
+                public PaymentMethod createFromParcel(Parcel in) {
+                    return new PaymentMethod(in);
+                }
+
+                @Override
+                public PaymentMethod[] newArray(int size) {
+                    return new PaymentMethod[size];
+                }
+            };
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel parcel, int i) {
+                parcel.writeString(code);
+                parcel.writeString(title);
+                parcel.writeString(description);
             }
         }
     }

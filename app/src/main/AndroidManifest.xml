@@ -26,47 +26,113 @@
 
         <activity
             android:name=".activity.MainActivity"
-            android:launchMode="singleInstance">
+            android:configChanges="orientation"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait">
 
-        </activity>
-
-        <activity android:name=".activity.SplashActivity">
-
-        </activity>
-        <activity android:name=".activity.CheckNetworkActivity" />
-        <activity
-            android:name=".activity.SigninActivity"
-            android:launchMode="singleInstance">
-
-        </activity>
-        <activity android:name=".activity.PublicServiceActivity" />
-        <activity android:name=".activity.CustomServiceActivity" />
-        <activity android:name=".activity.SettingActivity" />
-        <activity android:name=".activity.UpdatingActivity" />
-        <activity android:name=".activity.ProductManagementActivity" />
-        <activity android:name=".activity.UrlActivity" />
-        <activity android:name=".activity.FactorActivity" />
-        <activity
-            android:name=".activity.CustomScannerActivity"
-            android:screenOrientation="landscape" />
-        <activity
-            android:name=".activity.SettingLoginActivity"
-            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.SearchTransactionActivity" />
-        <activity android:name=".activity.SearchFactorActivity" />
-        <activity android:name=".activity.EditProfileActivity" />
-        <activity android:name=".activity.PaymentGatewayActivity" />
-        <activity android:name=".activity.ConfigActivity">
+
+        <activity
+            android:name=".activity.SplashActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
+
 
         </activity>
-        <activity android:name=".activity.SuggestionActivity" />
-        <activity android:name=".activity.AboutActivity" />
-        <activity android:name=".activity.BaseActivity" />
+        <activity
+            android:name=".activity.CheckNetworkActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SigninActivity"
+            android:configChanges="orientation"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity
+            android:name=".activity.PublicServiceActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CustomServiceActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SettingActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.UpdatingActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ProductManagementActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.UrlActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.FactorActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CustomScannerActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".activity.SettingLoginActivity"
+            android:configChanges="orientation"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity
+            android:name=".activity.SearchTransactionActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SearchFactorActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.EditProfileActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PaymentGatewayActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ConfigActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity
+            android:name=".activity.SuggestionActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AboutActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.BaseActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.KeypadActivity" />
+        <activity
+            android:name=".activity.PaymentListActivity"
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.AppCompat.Dialog"
+
+            />
 
     </application>
 

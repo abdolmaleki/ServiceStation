@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:digit_size="30.0dp"
-        app:digits="4"
+        app:digits="8"
         app:empty_drawable="@drawable/shape_empty_dot"
         app:filled_drawable="@drawable/shape_fill_dot"
         app:key_text_size="60.0sp" />

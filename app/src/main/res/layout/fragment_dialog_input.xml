@@ -8,14 +8,16 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/fragment_dialog_input_panel"
         android:layout_width="256dp"
         android:layout_height="256dp"
-        android:background="@drawable/bg_lyr_dialog_input"
+        android:background="@drawable/bg_lyr_dialog_input_green"
         android:gravity="center"
         android:layoutDirection="rtl"
         android:orientation="vertical">
 
         <com.technotapp.servicestation.customView.CustomTextView
+            android:id="@+id/fragment_dialog_input_tv_message"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"

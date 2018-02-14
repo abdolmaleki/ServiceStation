@@ -16,6 +16,7 @@ import android.widget.GridView;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.R;
+import com.technotapp.servicestation.activity.PaymentListActivity;
 import com.technotapp.servicestation.activity.UrlActivity;
 import com.technotapp.servicestation.adapter.DataModel.MenuAdapterModel;
 import com.technotapp.servicestation.adapter.MenuAdapter;
@@ -107,13 +108,23 @@ public class MainGridFragment extends Fragment {
                 mContext.startActivity(urlIntent);
             } else if (selectedMenuItem.controller != null && !TextUtils.isEmpty(selectedMenuItem.controller)) {
                 Helper.lunchActivity(mContext, selectedMenuItem.controller, (int) menuId);
+            } else if (selectedMenuItem.action != null && !TextUtils.isEmpty(selectedMenuItem.action)) {
+                handleAction(selectedMenuItem.action);
             } else {
                 Helper.alert(mContext, "این گزینه فعال نیست", Constant.AlertType.Information);
+
             }
         } catch (Exception e) {
             AppMonitor.reportBug(getActivity(), e, mClassName, "onGridItemClick");
         }
 
+    }
+
+    private void handleAction(String action) {
+        switch (action) {
+            case Constant.MenuAction.PURCHASE:
+                mContext.startActivity(new Intent(mContext, PaymentListActivity.class));
+        }
     }
 
 }

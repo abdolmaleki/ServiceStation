@@ -1,6 +1,5 @@
 package com.technotapp.servicestation.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -130,9 +129,10 @@ public class ProductManagementAdapter extends BaseAdapter implements Filterable 
 
             return rowView;
         } catch (Exception e) {
-            AppMonitor.reportBug(mContext,e, "ProductManagementAdapter", "getView");
+            AppMonitor.reportBug(mContext, e, "ProductManagementAdapter", "getView");
             return null;
         }
     }
+
 
 }

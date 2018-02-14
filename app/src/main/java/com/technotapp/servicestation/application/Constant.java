@@ -106,6 +106,11 @@ public class Constant {
         public static final String MENU_ADAPTER_MODEL = "menu.adapter.model";
         public static final String CONTEXT = "context";
         public static final String UPDATE_MENU = "update.menu";
+        public static final String PAYMENT_AMOUNT = "payment.amount";
+        public static final String CARD_NUMBER = "card.number";
+        public static final String ACCOUNT_PASSWORD = "account.password";
+        public static final String IS_ACTIVE_PIN = "is.active.pin";
+        public static String ACCOUNT_NUMBER = "account_number";
     }
 
     public static class MenuAction {
@@ -122,7 +127,7 @@ public class Constant {
         public static final String BUY = "buy_service";
         public static final String BALANCE = "balance_service";
         public static final String KHALAFI = "khalafi_service";
-
+        public static final String PURCHASE = "purchase_service";
         public static final String QR_READER = "merchant_qr_code";
     }
 
@@ -149,8 +154,11 @@ public class Constant {
             public static final int SEARCH_Factor = 10;
             public static final int EDIT_SHOP_INFO = 11;
             public static final int SUBMIT_SUGGESTION = 12;
+            public static final int GET_CUSTOMER_ACCOUNT = 13;
 
 
+            public static final int BILL_PAYMENT = 14;
+            public static final int INSERT_TRANSACTION = 15;
         }
 
         public static class ErrorCode {

@@ -25,6 +25,7 @@ import com.technotapp.servicestation.connection.restapi.dto.TerminalInfoDto;
 import com.technotapp.servicestation.connection.restapi.sto.MenuSto;
 import com.technotapp.servicestation.database.Db;
 import com.technotapp.servicestation.database.model.MenuModel;
+import com.technotapp.servicestation.database.model.PaymentModel;
 import com.technotapp.servicestation.mapper.MenuMapper;
 import com.technotapp.servicestation.setting.Session;
 
@@ -241,6 +242,8 @@ public class UpdatingActivity extends BaseActivity implements View.OnClickListen
             Db.init(this);
             List<MenuModel> menuModels = MenuMapper.convertStosToModels(menuStos);
             Db.Menu.insert(menuModels);
+            List<PaymentModel> paymentModels = MenuMapper.convertPaymentStoToModels(menuStos);
+            Db.Payment.insert(paymentModels);
             return true;
 
         } catch (Exception e) {

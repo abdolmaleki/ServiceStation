@@ -95,7 +95,7 @@ public class PaymentMenuDialog extends DialogFragment implements View.OnClickLis
                     mBTN_Cash.setTextColor(getResources().getColor(R.color.purple));
                     break;
 
-                case PaymentType.EWALLET:
+                case PaymentType.WALLET:
                     mBTN_Ewallet.setEnabled(true);
                     mBTN_Ewallet.setFocusable(true);
                     mBTN_Ewallet.setTextColor(getResources().getColor(R.color.purple));
@@ -182,10 +182,13 @@ public class PaymentMenuDialog extends DialogFragment implements View.OnClickLis
     public void onPinEnteredSuccessfully() {
 
         try {
-            TransactionHelper.sendRequest(getActivity(), Constant.RequestMode.BUY, transactionDataModel, String.valueOf(mFactorModel.getTotalPrice()), new TransactionHelper.TransactionResultListener() {
+            TransactionHelper.sendRequest(getActivity(), Constant.RequestMode.BUY, transactionDataModel, String.valueOf(
+
+
+                    mFactorModel.getTotalPrice()), new TransactionHelper.TransactionResultListener() {
                 @Override
                 public void onSuccessfullTransaction(TransactionDataModel transactionDataModel) {
-                    mPaymentResultListener.onSuccessfullPayment(PaymentType.EWALLET, transactionDataModel);
+                    mPaymentResultListener.onSuccessfullPayment(PaymentType.WALLET, transactionDataModel);
                 }
 
                 @Override
