@@ -1,116 +1,18 @@
 package com.technotapp.servicestation.Infrastructure;
 
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 
-import com.pax.gl.pack.impl.PaxGLPacker;
 import com.technotapp.servicestation.adapter.DataModel.TransactionDataModel;
-import com.technotapp.servicestation.application.Constant;
-import com.technotapp.servicestation.connection.socket.ISocketCallback;
-import com.technotapp.servicestation.connection.socket.SocketEngine;
-import com.technotapp.servicestation.setting.Session;
-
-import java.util.Random;
+import com.technotapp.servicestation.connection.restapi.dto.BaseDto;
+import com.technotapp.servicestation.connection.restapi.dto.BillPaymentDto;
+import com.technotapp.servicestation.connection.restapi.dto.ChargeServiceDto;
+import com.technotapp.servicestation.connection.restapi.dto.TerminalTransactionDto;
+import com.technotapp.servicestation.entity.TransactionService;
+import com.technotapp.servicestation.enums.ServiceType;
+import com.technotapp.servicestation.fragment.PaymentListFragment;
 
 public class TransactionHelper {
-
-    private static Session mSession;
-
-    public static void sendRequest(final Context ctx, final int mode, final TransactionDataModel transactionDataModel, String amount, TransactionResultListener transactionResultListener) throws Exception {
-        Helper.progressBar.showDialog(ctx, "در حال ارتباط با بانک");
-        mSession = new Session();
-        SocketEngine socketEngine = new SocketEngine(ctx, Constant.Pax.SERVER_IP, Constant.Pax.SERVER_PORT, transactionDataModel);
-        socketEngine.sendData(TransactionHelper.getPacker(ctx, transactionDataModel, mode, amount), new ISocketCallback() {
-
-            @Override
-            public void onFail() {
-                Helper.progressBar.hideDialog();
-                //todo handle fail transaction
-                transactionResultListener.onFailTransaction("مشکل ارتباط با سوییچ بانکی");
-
-            }
-
-            @Override
-            public void onReceiveData(TransactionDataModel dataModel) {
-                Helper.progressBar.hideDialog();
-                AppMonitor.Log(dataModel.getPanNumber());
-                //todo handle fail transaction
-
-                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                /////// Failed transaction
-                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                if (!(dataModel.getResponseCode().equals(Constant.TransactionResponseCode.SUCCESS))) {
-                    transactionResultListener.onFailTransaction(getResponseMessage(dataModel.getResponseCode()));
-                    return;
-                }
-
-                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                /////// Successful  transaction
-                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                transactionResultListener.onSuccessfullTransaction(dataModel);
-
-            }
-        });
-    }
-
-    private static byte[] getPacker(Context mContext, TransactionDataModel transactionDataModel, int mode, String amount) {
-        //TODO remove fakes
-        Random fakeRandom = new Random();
-        long number = 10000000 + ((long) (fakeRandom.nextDouble() * (99999999 - 10000000)));
-        String fakeTransactionCode = number + "";
-        String fakeMAC = "12345678";
-        //String fakeMerchantID = "23801101741";
-        String fakeMerchantID = mSession.getMerchantId();
-        String panNumber = transactionDataModel.getPanNumber();
-
-
-        String transactionType = null;
-
-        switch (mode) {
-            case Constant.RequestMode.BALANCE:
-                transactionType = "22";
-                break;
-            case Constant.RequestMode.DEPOSIT:
-                transactionType = "a0";
-                break;
-            case Constant.RequestMode.BUY:
-                transactionType = "00";
-                break;
-        }
-
-
-        byte[] result = new byte[0];
-        PaxGLPacker pa = PaxGLPacker.getInstance(mContext);
-        try {
-            //transaction 0200
-            pa.getIso8583().getEntity().resetAllFieldsValue();
-            pa.getIso8583().getEntity().resetAll();
-            pa.getIso8583().getEntity().loadTemplate("packer200.xml");
-            pa.getIso8583().getEntity().setFieldValue("h", "008360000480B5");
-            pa.getIso8583().getEntity().setFieldValue("m", "0200");
-            pa.getIso8583().getEntity().setFieldValue("2", panNumber);
-            pa.getIso8583().getEntity().setFieldValue("3", "500000");
-            pa.getIso8583().getEntity().setFieldValue("4", amount);
-//            pa.getIso8583().getEntity().setFieldValue("7", transactionDataModel.getDateTimeShaparak());
-            pa.getIso8583().getEntity().setFieldValue("7", "1112223045");
-            pa.getIso8583().getEntity().setFieldValue("11", "123456");
-            pa.getIso8583().getEntity().setFieldValue("12", "654321");
-            pa.getIso8583().getEntity().setFieldValue("13", "1012");
-            pa.getIso8583().getEntity().setFieldValue("25", "14");
-            pa.getIso8583().getEntity().setFieldValue("32", fakeMerchantID);
-            pa.getIso8583().getEntity().setFieldValue("37", "123456789123");
-            pa.getIso8583().getEntity().setFieldValue("41", transactionDataModel.getTerminalID());
-            //pa.getIso8583().getEntity().setFieldValue("48", Helper.getGson().toJson(new SocketService()));
-            pa.getIso8583().getEntity().setFieldValue("49", "001");
-            pa.getIso8583().getEntity().setFieldValue("62", transactionType + fakeTransactionCode);
-            pa.getIso8583().getEntity().setFieldValue("64", fakeMAC);
-
-            result = pa.getIso8583().pack();
-        } catch (Exception e) {
-            AppMonitor.reportBug(mContext, e, "TransactionHelper", "getPacker");
-        }
-
-        return result;
-    }
 
     public static String getResponseMessage(String code) {
         switch (code) {
@@ -130,7 +32,6 @@ public class TransactionHelper {
                 return "حساب وجود ندارد یا غیر فعال است";
             case "51":
                 return "مبلغ درخواستی از حداقل موجودی حساب بیشتر است";
-
             default:
 
                 return "خطای نامشخص";
@@ -142,6 +43,42 @@ public class TransactionHelper {
         void onSuccessfullTransaction(TransactionDataModel transactionDataModel);
 
         void onFailTransaction(String message);
+    }
+
+    public static void startServiceTransaction(Context context, int serviceType, BaseDto dto, PaymentListFragment.PaymentResultListener resultListener) {
+
+        TransactionService.resetValues();
+
+        TransactionService.dto = dto;
+        TransactionService.serviceType = serviceType;
+
+        PaymentListFragment paymentListFragment = null;
+        switch (serviceType) {
+            case ServiceType.CHARGE:
+                paymentListFragment = PaymentListFragment.newInstance(((ChargeServiceDto) dto).chargeModel.amount);
+                break;
+
+            case ServiceType.BILL:
+                paymentListFragment = PaymentListFragment.newInstance(((BillPaymentDto) dto).billModel.amount);
+                break;
+
+            case ServiceType.BUY_PRODUCT:
+                paymentListFragment = PaymentListFragment.newInstance(((TerminalTransactionDto) dto).transactionModel.amountOfTransaction, true);
+                break;
+
+            case ServiceType.TRANSACTION_BALANCE:
+                paymentListFragment = PaymentListFragment.newInstance(((TerminalTransactionDto) dto).transactionModel.amountOfTransaction);
+                break;
+
+            case ServiceType.TRANSACTION_BUY:
+                paymentListFragment = PaymentListFragment.newInstance();
+                break;
+
+            default:
+                paymentListFragment = PaymentListFragment.newInstance();
+
+        }
+        paymentListFragment.show(((FragmentActivity) context), resultListener);
     }
 
 }

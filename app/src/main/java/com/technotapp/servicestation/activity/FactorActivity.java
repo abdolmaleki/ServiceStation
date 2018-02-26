@@ -13,19 +13,22 @@ import com.google.gson.reflect.TypeToken;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.Encryptor;
 import com.technotapp.servicestation.Infrastructure.Helper;
+import com.technotapp.servicestation.Infrastructure.TransactionHelper;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.adapter.DataModel.ProductFactorAdapterModel;
-import com.technotapp.servicestation.adapter.DataModel.TransactionDataModel;
 import com.technotapp.servicestation.adapter.FactorAdapter;
 import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.connection.restapi.ApiCaller;
 import com.technotapp.servicestation.connection.restapi.dto.AddFactorDto;
+import com.technotapp.servicestation.connection.restapi.dto.TerminalTransactionDto;
 import com.technotapp.servicestation.connection.restapi.sto.BaseSto;
+import com.technotapp.servicestation.connection.restapi.sto.BaseTransactionSto;
 import com.technotapp.servicestation.database.Db;
 import com.technotapp.servicestation.database.model.FactorModel;
 import com.technotapp.servicestation.enums.PaymentType;
+import com.technotapp.servicestation.enums.ServiceType;
 import com.technotapp.servicestation.fragment.IMagCard;
-import com.technotapp.servicestation.fragment.PaymentMenuDialog;
+import com.technotapp.servicestation.fragment.PaymentListFragment;
 import com.technotapp.servicestation.mapper.FactorMapper;
 import com.technotapp.servicestation.pax.printer.PrintMaker;
 import com.technotapp.servicestation.setting.Session;
@@ -39,7 +42,7 @@ import javax.crypto.SecretKey;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class FactorActivity extends BaseActivity implements View.OnClickListener, IPin {
+public class FactorActivity extends BaseActivity implements View.OnClickListener {
 
 
     private FactorModel mFactorModel;
@@ -103,36 +106,24 @@ public class FactorActivity extends BaseActivity implements View.OnClickListener
             finish();
 
         } else if (id == R.id.activity_factor_btn_pay) {
-            goPaymentMenu();
+            goPaymentMenuNew();
         }
     }
 
-    private void goPaymentMenu() {
+    private void goPaymentMenuNew() {
         try {
             if (mFactorModel != null && mFactorModel.getTotalPrice() > 0) {
-                PaymentMenuDialog paymentMenuDialog = new PaymentMenuDialog();
-                Bundle bundle = new Bundle();
-                bundle.putLong(Constant.Key.FACTOR_ID, mFactorModel.getId());
-                bundle.putStringArrayList(Constant.Key.PAYMENT_TYPE_LIST, new ArrayList<String>() {{
-                    add(PaymentType.CASH);
-                    add(PaymentType.WALLET);
-                    add(PaymentType.SHETABI);
-                }});
-                paymentMenuDialog.setArguments(bundle);
-                paymentMenuDialog.show(getSupportFragmentManager(), "payment.menu");
-                paymentMenuDialog.setOnPaymentResultListener(new PaymentMenuDialog.PaymentResultListener() {
+                TransactionHelper.startServiceTransaction(this, ServiceType.BUY_PRODUCT, createTransactionDto(), new PaymentListFragment.PaymentResultListener() {
                     @Override
-                    public void onSuccessfullPayment(String paymentType, TransactionDataModel transactionDataModel) {
-                        if (paymentType.equals(PaymentType.WALLET)) {
-                            new Handler(getMainLooper()).post(() -> callSubmitFactor(paymentType, transactionDataModel));
-                        } else {
-                            callSubmitFactor(paymentType, transactionDataModel);
-                        }
+                    public void onSuccessfullPayment(String message, BaseTransactionSto response) {
+                        new Handler(getMainLooper()).post(() -> callSubmitFactor(response.paymentType, response));
+
                     }
 
                     @Override
-                    public void onFailedPayment(String message) {
+                    public void onFailedPayment(String message, BaseTransactionSto baseTransactionSto) {
                         Helper.alert(FactorActivity.this, message, Constant.AlertType.Error);
+
                     }
 
                     @Override
@@ -149,8 +140,10 @@ public class FactorActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
-    private void callSubmitFactor(String paymentType, TransactionDataModel transactionDataModel) {
+    private void callSubmitFactor(String paymentType, BaseTransactionSto baseTransactionSto) {
         try {
+
+            String FailError = "پرداخت با موفقیت انجام شد ولی ثبت فاکتور با خطا مواجه شد.";
             AddFactorDto dto = createAddFactorDto();
             final SecretKey AESsecretKey = Encryptor.generateRandomAESKey();
             new ApiCaller(Constant.Api.Type.SUBMIT_FACTOR).call(this, dto, AESsecretKey, "در حال ارسال اطلاعات", new ApiCaller.ApiCallback() {
@@ -165,36 +158,40 @@ public class FactorActivity extends BaseActivity implements View.OnClickListener
                         if (sto != null) {
                             if (sto.get(0).messageModel.get(0).errorCode == Constant.Api.ErrorCode.Successfull) {
                                 mSession.setLastVersion(sto.get(0).messageModel.get(0).ver);
-                                Helper.alert(FactorActivity.this, "فاکتور با موفقیت ثبت شد", Constant.AlertType.Success);
+                                Helper.alert(FactorActivity.this, "پس از پرداخت موفق ، فاکتور با موفقیت ثبت شد", Constant.AlertType.Success);
+
                                 switch (paymentType) {
+
                                     case PaymentType.CASH:
                                         PrintMaker.startPrint(FactorActivity.this, Constant.RequestMode.CASH_PAYMENT, mFactorModel.getTotalPrice());
                                         break;
                                     case PaymentType.WALLET:
-                                        PrintMaker.startPrint(FactorActivity.this, Constant.RequestMode.BUY, transactionDataModel);
-
+                                    case PaymentType.QRCode:
+                                        PrintMaker.startFactorPrint(FactorActivity.this, baseTransactionSto);
                                         break;
+
                                 }
                             } else {
-                                Helper.alert(FactorActivity.this, sto.get(0).messageModel.get(0).errorString, Constant.AlertType.Error);
+                                Helper.alert(FactorActivity.this, FailError, Constant.AlertType.Error);
                             }
                         } else {
-                            Helper.alert(FactorActivity.this, getString(R.string.api_data_download_error), Constant.AlertType.Error);
+                            Helper.alert(FactorActivity.this, FailError, Constant.AlertType.Error);
                         }
                     } catch (Exception e) {
                         AppMonitor.reportBug(FactorActivity.this, e, "FactorActivity", "callSubmitFactor");
-                        Helper.alert(FactorActivity.this, getString(R.string.api_data_download_error), Constant.AlertType.Error);
+                        Helper.alert(FactorActivity.this, FailError, Constant.AlertType.Error);
 
                     }
                 }
 
                 @Override
                 public void onFail(String message) {
-                    Helper.alert(FactorActivity.this, message, Constant.AlertType.Error);
+                    Helper.alert(FactorActivity.this, FailError, Constant.AlertType.Error);
                 }
 
             });
         } catch (Exception e) {
+            Helper.alert(FactorActivity.this, "پرداخت با موفقیت انجام شد ولی ثبت فاکتور با خطا مواجه شد.", Constant.AlertType.Error);
             AppMonitor.reportBug(FactorActivity.this, e, "FactorActivity", "callSubmitFactor");
         }
     }
@@ -207,15 +204,15 @@ public class FactorActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
-    @Override
-    public void onPinEntered(String pin) {
-        if (mIMagCard != null) {
-            mIMagCard.onPinEnteredSuccessfully();
-        }
-    }
-
     private AddFactorDto createAddFactorDto() {
         return FactorMapper.convertModelToDto(FactorActivity.this, mFactorModel);
+    }
+
+    private TerminalTransactionDto createTransactionDto() {
+
+        TerminalTransactionDto dto = new TerminalTransactionDto();
+        dto.transactionModel.amountOfTransaction = mFactorModel.getTotalPrice();
+        return dto;
     }
 
 }

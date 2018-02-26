@@ -7,12 +7,17 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.text.InputType;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
+import com.github.ybq.android.spinkit.style.MultiplePulse;
+import com.github.ybq.android.spinkit.style.Wave;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
@@ -26,6 +31,7 @@ import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.connection.restapi.ApiCaller;
 import com.technotapp.servicestation.connection.restapi.dto.GetCustomerAccountsDto;
 import com.technotapp.servicestation.connection.restapi.sto.CustomerAccountSto;
+import com.technotapp.servicestation.entity.TransactionService;
 import com.technotapp.servicestation.mapper.WalletMapper;
 import com.technotapp.servicestation.setting.Session;
 
@@ -42,6 +48,8 @@ public class WalletListDialog extends DialogFragment implements View.OnClickList
     private Activity mActivity;
     private String mCardNumber;
     private long mAmount;
+    private ProgressBar progressBar;
+    private String mHashId;
 
 
     @Override
@@ -54,9 +62,11 @@ public class WalletListDialog extends DialogFragment implements View.OnClickList
         Bundle bundle = getArguments();
         if (bundle != null) {
             mCardNumber = bundle.getString(Constant.Key.CARD_NUMBER, null);
+            mHashId = bundle.getString(Constant.Key.HASH_ID, null);
             mAmount = bundle.getLong(Constant.Key.PAYMENT_AMOUNT, -1);
         }
     }
+
 
     @Override
     public void onAttach(Activity activity) {
@@ -83,17 +93,23 @@ public class WalletListDialog extends DialogFragment implements View.OnClickList
         }
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        setRetainInstance(true);
+    }
+
     private void initAdapter(ArrayList<CustomerAccountSto.DataModel.CustomerAccount> accounts) {
         ArrayList<WalletAdapterModel> adapterModels = WalletMapper.convertStoToAdapterModel(accounts);
         WalletAdapter adapter = new WalletAdapter(mActivity, adapterModels, this);
         mList_wallet.setAdapter(adapter);
-
     }
 
-    public static WalletListDialog newInstance(String cardnumber, long mAmount) {
+    public static WalletListDialog newInstance(String cardnumber, String hashId, long mAmount) {
         WalletListDialog fragment = new WalletListDialog();
         Bundle args = new Bundle();
         args.putString(Constant.Key.CARD_NUMBER, cardnumber);
+        args.putString(Constant.Key.HASH_ID, hashId);
         args.putLong(Constant.Key.PAYMENT_AMOUNT, mAmount);
         fragment.setArguments(args);
         return fragment;
@@ -103,6 +119,10 @@ public class WalletListDialog extends DialogFragment implements View.OnClickList
 
         mSession = Session.getInstance(getActivity());
         mList_wallet = view.findViewById(R.id.fragment_dialog_wallets_list);
+        progressBar = view.findViewById(R.id.fragment_dialog_wallets_list_progress);
+        Wave multiplePulse = new Wave();
+        progressBar.setIndeterminateDrawable(multiplePulse);
+
     }
 
 
@@ -140,9 +160,11 @@ public class WalletListDialog extends DialogFragment implements View.OnClickList
                             if (accountStos.get(0).messageModel.get(0).errorCode == Constant.Api.ErrorCode.Successfull) {
                                 mSession.setLastVersion(accountStos.get(0).messageModel.get(0).ver);
                                 if (accountStos.get(0).dataModel.get(0).accounts != null && accountStos.get(0).dataModel.get(0).accounts.size() > 0) { // have registered account
+                                    progressBar.setVisibility(View.GONE);
+                                    mList_wallet.setVisibility(View.VISIBLE);
                                     initAdapter(accountStos.get(0).dataModel.get(0).accounts);
                                 } else {  // have not registered acount
-                                    Helper.alert(mActivity, "متسفانه شماره حسابی برای این کارت ثبت نشده است", Constant.AlertType.Error);
+                                    Helper.alert(mActivity, "متسفانه حسابی برای این کارت ثبت نشده است", Constant.AlertType.Error);
                                     closeDialog();
                                 }
                             } else {
@@ -176,14 +198,17 @@ public class WalletListDialog extends DialogFragment implements View.OnClickList
         GetCustomerAccountsDto dto = new GetCustomerAccountsDto();
         dto.terminalCode = mSession.getTerminalId();
         dto.cardNumber = mCardNumber;
+        dto.idHashCustomer = mHashId;
         dto.tokenId = mSession.getTokenId();
+
         return dto;
     }
-
 
     @Override
     public void onWalletClick(WalletAdapterModel model) {
 
+
+        TransactionService.accountNumber = model.accountNumber;
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //////////////////////   payment amount not entered in previouse steps
@@ -191,33 +216,50 @@ public class WalletListDialog extends DialogFragment implements View.OnClickList
 
         if (mAmount == -1) {
             Intent intent = new Intent(mActivity, KeypadActivity.class);
-            intent.putExtra(Constant.Key.CARD_NUMBER, mCardNumber);
-            intent.putExtra(Constant.Key.ACCOUNT_NUMBER, model.accountNumber);
             intent.putExtra(Constant.Key.IS_ACTIVE_PIN, model.isActivePin);
-            mActivity.startActivity(intent);
-            closeDialog();
+            startActivityForResult(intent, Constant.RequestCode.KEYPAD_AMOUNT);
 
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            //////////////////////   payment amount  entered in previouse steps
+            //////////////////////  Payment amount  entered in previouse steps
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         } else {
             if (model.isActivePin) {
-                InputDialogFragment inputDialogFragment = InputDialogFragment.newInstance("رمز عبور را وارد کنید", Color.BLUE);
+                InputDialogFragment inputDialogFragment = InputDialogFragment.newInstance("رمز عبور را وارد کنید", Color.BLUE, InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 inputDialogFragment.show(getActivity().getFragmentManager(), "input");
                 inputDialogFragment.setOnInputDialogClickListener(new InputDialogFragment.OnInputDialogClick() {
                     @Override
                     public void onAccept(String password) {
-                        callTransaction();
+                        Intent intent = new Intent();
+                        intent.putExtra(Constant.Key.ACTIVE_PIN, password);
+                        getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
+                        closeDialog();
                     }
                 });
             } else {
-                callTransaction();
+                Intent intent = new Intent();
+                getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_CANCELED, intent);
             }
         }
     }
 
-    private void callTransaction() {
-        closeDialog();
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == Constant.RequestCode.KEYPAD_AMOUNT) {
+                String amount = data.getStringExtra(Constant.Key.PAYMENT_AMOUNT);
+                String password = data.getStringExtra(Constant.Key.ACCOUNT_PASSWORD);
+                Intent intent = new Intent();
+                intent.putExtra(Constant.Key.ACTIVE_PIN, password);
+                intent.putExtra(Constant.Key.PAYMENT_AMOUNT, amount);
+                getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
+                closeDialog();
+            }
+        } else {
+            Intent intent = new Intent();
+            getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_CANCELED, intent);
+        }
+
     }
+
 }

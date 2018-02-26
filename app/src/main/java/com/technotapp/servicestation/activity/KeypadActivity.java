@@ -1,9 +1,12 @@
 package com.technotapp.servicestation.activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
@@ -33,8 +36,6 @@ public class KeypadActivity extends BaseActivity implements View.OnClickListener
     @BindView(R.id.toolbar_tv_title)
     TextView txtTitle;
 
-    private String mCardNumber;
-    private String mAccountNumber;
     private boolean mIsActivePin;
 
     @Override
@@ -83,10 +84,7 @@ public class KeypadActivity extends BaseActivity implements View.OnClickListener
     private void loadData() {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            mAccountNumber = bundle.getString(Constant.Key.ACCOUNT_NUMBER, null);
-            mCardNumber = bundle.getString(Constant.Key.CARD_NUMBER, null);
             mIsActivePin = bundle.getBoolean(Constant.Key.IS_ACTIVE_PIN, false);
-
         }
     }
 
@@ -97,7 +95,7 @@ public class KeypadActivity extends BaseActivity implements View.OnClickListener
                 if (mTV_amount.getText() == null || mTV_amount.getText().toString().equals("")) {
                     Helper.alert(this, "لطفا مبلغ را وارد کنید", Constant.AlertType.Error);
                 } else {
-                    insertTransaction();
+                    returnResult();
                 }
                 break;
 
@@ -158,20 +156,29 @@ public class KeypadActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
-    private void insertTransaction() {
-        if (mIsActivePin) {
-            InputDialogFragment inputDialogFragment = InputDialogFragment.newInstance("رمز عبور را وارد کنید", Color.BLUE);
-            inputDialogFragment.show(this.getFragmentManager(), "input");
-            inputDialogFragment.setOnInputDialogClickListener(new InputDialogFragment.OnInputDialogClick() {
-                @Override
-                public void onAccept(String password) {
-                    inputDialogFragment.dismiss();
-                    //callTransaction();
-                }
-            });
-        } else {
-
-        }
+    private void returnResult() {
+//        if (mIsActivePin) {
+//            InputDialogFragment inputDialogFragment = InputDialogFragment.newInstance("رمز عبور را وارد کنید", Color.BLUE, InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+//            inputDialogFragment.show(this.getFragmentManager(), "input");
+//            inputDialogFragment.setOnInputDialogClickListener(new InputDialogFragment.OnInputDialogClick() {
+//                @Override
+//                public void onAccept(String password) {
+//                    Intent returnIntent = new Intent();
+//                    String cleanAmount = mTV_amount.getText().toString().replaceAll("[,]", "");
+//                    returnIntent.putExtra(Constant.Key.ACCOUNT_PASSWORD, password);
+//                    returnIntent.putExtra(Constant.Key.PAYMENT_AMOUNT, cleanAmount);
+//                    setResult(Activity.RESULT_OK, returnIntent);
+//                    inputDialogFragment.dismiss();
+//                    finish();
+//                }
+//            });
+//        } else {
+        Intent returnIntent = new Intent();
+        String cleanAmount = mTV_amount.getText().toString().replaceAll("[,]", "");
+        returnIntent.putExtra(Constant.Key.PAYMENT_AMOUNT, cleanAmount);
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
+        //  }
     }
 
     @Override

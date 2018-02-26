@@ -10,8 +10,8 @@ public class ChargeServiceDto extends BaseDto {
 
     public String tokenId;
     public String terminalCode;
-    public TransactionParametrModel transactionModel;//مدل ثبت تراکنش
-    public ChargeParameterModel chargeModel;//مدل خرید شارژ تراکنش
+    public TransactionParametrModel transactionModel = new TransactionParametrModel();//مدل ثبت تراکنش
+    public ChargeParameterModel chargeModel = new ChargeParameterModel();//مدل خرید شارژ تراکنش
 
     @DontObfuscate
     public class TransactionParametrModel implements Serializable {
@@ -19,6 +19,10 @@ public class ChargeServiceDto extends BaseDto {
         public Date transactionDateTime;//زمان ثبت تراکنش
         public String cardNumber;//شماره کارت مشتری در صورت وجود
         public long accountNumber;//شماره حساب مشتری
+        public long idMerchant;
+        public byte[] accountPin; // رمز حساب
+
+
     }
 
     @DontObfuscate

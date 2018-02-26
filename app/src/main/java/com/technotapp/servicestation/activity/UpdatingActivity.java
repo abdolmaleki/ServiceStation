@@ -268,9 +268,10 @@ public class UpdatingActivity extends BaseActivity implements View.OnClickListen
             session.setTel(menuStos.get(0).dataModel.get(0).shop.get(0).tel);
             session.setHashId(menuStos.get(0).dataModel.get(0).info.get(0).hashId);
             session.setTerminalId(menuStos.get(0).dataModel.get(0).terminalCode);
-            //session.setMerchantId(menuStos.get(0).dataModel.get(0).idMerchant);
             session.setMenuCategory(menuStos.get(0).dataModel.get(0).menuCategory);
             session.setBaseUrl(menuStos.get(0).dataModel.get(0).url);
+            session.setPinKey(menuStos.get(0).dataModel.get(0).newPinKey);
+
             return true;
         } catch (Exception e) {
             AppMonitor.reportBug(UpdatingActivity.this, e, mClassName, "saveInfo");

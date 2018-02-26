@@ -205,7 +205,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
         menuDto.userName = edtUsername.getText().toString();
         menuDto.password = edtPassword.getText().toString();
         menuDto.deviceInfo = "My Pos Info";
-        menuDto.terminalCode = "08200876";
+        menuDto.terminalCode = "08200673";
         return menuDto;
     }
 
@@ -247,6 +247,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
             session.setMenuCategory(menuStos.get(0).dataModel.get(0).menuCategory);
             session.setBaseUrl(menuStos.get(0).dataModel.get(0).url);
             session.setUserName(edtUsername.getText().toString());
+            session.setPinKey(menuStos.get(0).dataModel.get(0).newPinKey);
             return true;
         } catch (Exception e) {
             AppMonitor.reportBug(SigninActivity.this, e, mClassName, "saveInfo");

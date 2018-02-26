@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TextView;
-
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.Converters;
 import com.technotapp.servicestation.R;
@@ -59,7 +58,7 @@ public class CashPaymentConfirmDialog extends DialogFragment implements View.OnC
             ((TextView) rootView.findViewById(R.id.fragment_dialog_cashpayment_confirm_tv_message)).setText("آیا پرداخت مبلغ " + Converters.convertEnDigitToPersian(String.valueOf(mFactorTotalPrice)) + " ریال به صورت نقدی را تایید می کنید؟");
 
         } catch (Exception e) {
-            AppMonitor.reportBug(getActivity(),e, "CashPaymentConfirmDialog", "initView");
+            AppMonitor.reportBug(getActivity(), e, "CashPaymentConfirmDialog", "initView");
         }
     }
 

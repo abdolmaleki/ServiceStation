@@ -29,7 +29,7 @@
             android:onClick="openSettingMenu" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:gravity="center_vertical"
@@ -58,6 +58,15 @@
                 app:fontName="@string/irsansMedium" />
 
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/activity_main_img_buy"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_gravity="end"
+            android:layout_marginRight="75dp"
+            android:src="@drawable/ic_buy_main"
+            android:visibility="invisible" />
 
     </LinearLayout>
 

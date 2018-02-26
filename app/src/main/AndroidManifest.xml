@@ -30,18 +30,16 @@
             android:launchMode="singleInstance"
             android:screenOrientation="portrait">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity
             android:name=".activity.SplashActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
-
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".activity.CheckNetworkActivity"
@@ -52,6 +50,7 @@
             android:configChanges="orientation"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait">
+
 
         </activity>
         <activity
@@ -128,11 +127,8 @@
             android:screenOrientation="portrait" />
         <activity android:name=".activity.KeypadActivity" />
         <activity
-            android:name=".activity.PaymentListActivity"
-            android:excludeFromRecents="true"
-            android:theme="@style/Theme.AppCompat.Dialog"
-
-            />
+            android:name=".activity.CustomQRScannerActivity"
+            android:screenOrientation="landscape" />
 
     </application>
 

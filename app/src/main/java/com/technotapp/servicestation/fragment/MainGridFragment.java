@@ -15,14 +15,17 @@ import android.widget.GridView;
 
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.Helper;
+import com.technotapp.servicestation.Infrastructure.TransactionHelper;
 import com.technotapp.servicestation.R;
-import com.technotapp.servicestation.activity.PaymentListActivity;
 import com.technotapp.servicestation.activity.UrlActivity;
 import com.technotapp.servicestation.adapter.DataModel.MenuAdapterModel;
 import com.technotapp.servicestation.adapter.MenuAdapter;
 import com.technotapp.servicestation.application.Constant;
+import com.technotapp.servicestation.connection.restapi.dto.BaseDto;
+import com.technotapp.servicestation.connection.restapi.sto.BaseTransactionSto;
 import com.technotapp.servicestation.database.Db;
 import com.technotapp.servicestation.database.model.MenuModel;
+import com.technotapp.servicestation.enums.ServiceType;
 
 import java.util.ArrayList;
 
@@ -123,8 +126,27 @@ public class MainGridFragment extends Fragment {
     private void handleAction(String action) {
         switch (action) {
             case Constant.MenuAction.PURCHASE:
-                mContext.startActivity(new Intent(mContext, PaymentListActivity.class));
+                TransactionHelper.startServiceTransaction(mContext, ServiceType.TRANSACTION_BUY, new BaseDto(), new PaymentListFragment.PaymentResultListener() {
+                    @Override
+                    public void onSuccessfullPayment(String message, BaseTransactionSto response) {
+
+                    }
+
+                    @Override
+                    public void onFailedPayment(String message, BaseTransactionSto baseTransactionSto) {
+
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }

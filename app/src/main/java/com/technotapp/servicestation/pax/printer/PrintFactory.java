@@ -12,6 +12,7 @@ import com.technotapp.servicestation.pax.printer.printcontent.CashNoIconContent;
 import com.technotapp.servicestation.pax.printer.printcontent.CashRatingContent;
 import com.technotapp.servicestation.pax.printer.printcontent.DepositContent;
 import com.technotapp.servicestation.pax.printer.printcontent.DepositNoIconContent;
+import com.technotapp.servicestation.pax.printer.printcontent.FailedOperationContent;
 
 public class PrintFactory {
     public static Printable getPrintContent(String contentName) {
@@ -54,6 +55,8 @@ public class PrintFactory {
 
             case Printable.CASH_NO_ICON:
                 return new CashNoIconContent();
+            case Printable.FAILED_OPERATION:
+                return new FailedOperationContent();
 
 
             default:

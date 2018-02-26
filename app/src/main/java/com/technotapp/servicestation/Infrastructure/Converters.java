@@ -39,7 +39,12 @@ public class Converters {
     }
 
     public static String panNumbrToStar(String str) {
-        return str.substring(12) + "-**-" + str.substring(0, 7);
+        if(str.length()>=16) {
+            return str.substring(12) + "-**-" + str.substring(0, 7);
+        }else{
+            return str.substring(8) + "-**-" + str.substring(0, 5);
+
+        }
     }
 
 

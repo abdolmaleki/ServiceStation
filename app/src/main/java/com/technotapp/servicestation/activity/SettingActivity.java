@@ -66,7 +66,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         if (mUserRole == UserRole.SUPPORTER) {
             adapterModels.add(new SettingAdapterModel("گزارش پشتیبانی", R.drawable.ic_report, SettingActionType.REPORT));
         }
-        adapterModels.add(new SettingAdapterModel("چاپگر", R.drawable.ic_printer, SettingActionType.PRINTER));
         adapterModels.add(new SettingAdapterModel("ویرایش مشخصات", R.drawable.ic_edit_profile, SettingActionType.PROFILE));
         adapterModels.add(new SettingAdapterModel("بروزرسانی", R.drawable.ic_update_setting, SettingActionType.UPDATE));
         adapterModels.add(new SettingAdapterModel("درباره نرم افزار", R.drawable.ic_about, SettingActionType.ABOUT));

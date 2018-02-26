@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_card_service_deposit_buy"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_logo_mabna"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        />
+
+    <com.technotapp.servicestation.customView.CustomButton
+        android:id="@+id/fragment_gasstation_read"
+        android:layout_width="196dp"
+        android:layout_height="55dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/bg_btn_confirm"
+        android:digits="1234567890"
+        android:imeOptions="actionDone"
+        android:inputType="numberDecimal"
+        android:text="خواندن نازل"
+        android:textColor="@color/white"
+        app:fontName="@string/irsansMedium" />
+
+    <com.technotapp.servicestation.customView.CustomButton
+        android:id="@+id/fragment_gasstation_payment"
+        android:layout_width="196dp"
+        android:layout_height="55dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/bg_btn_confirm"
+        android:digits="1234567890"
+        android:imeOptions="actionDone"
+        android:inputType="numberDecimal"
+        android:text="تسویه حساب"
+        android:textColor="@color/white"
+        app:fontName="@string/irsansMedium" />
+
+    <com.technotapp.servicestation.customView.CustomButton
+        android:id="@+id/fragment_gasstation_setting"
+        android:layout_width="196dp"
+        android:layout_height="55dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/bg_btn_confirm"
+        android:digits="1234567890"
+        android:imeOptions="actionDone"
+        android:inputType="numberDecimal"
+        android:text="تنظیمات"
+        android:textColor="@color/white"
+        app:fontName="@string/irsansMedium" />
+
+
+</LinearLayout>

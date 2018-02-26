@@ -107,7 +107,7 @@ public class Encryptor {
 
             return result;
         } catch (Exception e) {
-            Log.e( "Encryptor", "decriptAES");
+            Log.e("Encryptor", "decriptAES");
             return null;
         }
     }
@@ -196,6 +196,15 @@ public class Encryptor {
                 e.printStackTrace();
             }
             return secretKey;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static SecretKey generateAESKeyByArray(byte[] pinKey) {
+        try {
+            SecretKey originalKey = new SecretKeySpec(pinKey, 0, pinKey.length, "AES");
+            return originalKey;
         } catch (Exception e) {
             return null;
         }

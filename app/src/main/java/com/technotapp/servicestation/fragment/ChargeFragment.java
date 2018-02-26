@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,22 +13,20 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.Converters;
-import com.technotapp.servicestation.Infrastructure.Encryptor;
 import com.technotapp.servicestation.Infrastructure.Helper;
+import com.technotapp.servicestation.Infrastructure.TransactionHelper;
 import com.technotapp.servicestation.adapter.CardChargeAdapter;
 import com.technotapp.servicestation.adapter.DataModel.TransactionDataModel;
 import com.technotapp.servicestation.application.Constant;
-import com.technotapp.servicestation.connection.restapi.ApiCaller;
-import com.technotapp.servicestation.connection.restapi.dto.ChargeDto;
-import com.technotapp.servicestation.connection.restapi.sto.ChargeSto;
-import com.technotapp.servicestation.database.Db;
-import com.technotapp.servicestation.database.model.FactorModel;
+import com.technotapp.servicestation.connection.restapi.dto.ChargeServiceDto;
+import com.technotapp.servicestation.connection.restapi.sto.BaseTransactionSto;
+import com.technotapp.servicestation.connection.restapi.sto.TransactionChargeResultSto;
 import com.technotapp.servicestation.enums.ChargeType;
 import com.technotapp.servicestation.enums.OperatorType;
-import com.technotapp.servicestation.enums.PaymentType;
+import com.technotapp.servicestation.enums.ServiceType;
+import com.technotapp.servicestation.pax.printer.PrintMaker;
 import com.technotapp.servicestation.setting.Session;
 import com.yarolegovich.discretescrollview.DiscreteScrollView;
 
@@ -37,8 +34,6 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import com.technotapp.servicestation.R;
-
-import javax.crypto.SecretKey;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -80,7 +75,6 @@ public class ChargeFragment extends SubMenuFragment implements View.OnClickListe
     private OperatorType mOperatorType;
     private int mShChargeType;
     private long mChargeAmount;
-    private TransactionDataModel transactionDataModel;
     private Session mSession;
 
 
@@ -149,16 +143,12 @@ public class ChargeFragment extends SubMenuFragment implements View.OnClickListe
         mChargeAmountArray.add("200,000");
         mChargeAmountArray.add("500,000");
 
-
         adapterCardCharge = new CardChargeAdapter(getContext(), mChargeAmountArray);
         rclCardCharge.setAdapter(adapterCardCharge);
         rclCardCharge.scrollToPosition(mChargeAmountArray.size() / 2);
         rclCardCharge.addScrollStateChangeListener(new DiscreteScrollView.ScrollStateChangeListener<RecyclerView.ViewHolder>() {
             @Override
             public void onScrollStart(@NonNull RecyclerView.ViewHolder currentItemHolder, int adapterPosition) {
-
-
-
             }
 
             @Override
@@ -253,50 +243,37 @@ public class ChargeFragment extends SubMenuFragment implements View.OnClickListe
 
             case R.id.fragment_charge_btn_submit:
                 if (validation()) {
-                    goPaymentDialog();
+                    TransactionHelper.startServiceTransaction(mActivity, ServiceType.CHARGE, createDto(), new PaymentListFragment.PaymentResultListener() {
+
+                        @Override
+                        public void onSuccessfullPayment(String message, BaseTransactionSto response) {
+                            PrintMaker.startFactorPrint(getActivity(), response);
+
+                        }
+
+                        @Override
+                        public void onFailedPayment(String message, BaseTransactionSto baseTransactionSto) {
+                            TransactionChargeResultSto sto = (TransactionChargeResultSto) baseTransactionSto;
+                            if (sto != null) {
+                                if (sto.errorCode.equals(String.valueOf(Constant.Api.ErrorCode.Successfull)) || sto.errorCode.equals(Constant.Api.TransactionErrorCode.Successfull)) { //successfulTransaction
+                                   // PrintMaker.failOperationPrint(getActivity(), baseTransactionSto);
+                                }
+                            }
+
+                            Helper.alert(getActivity(), message, Constant.AlertType.Error);
+
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
                 }
 
                 break;
 
         }
-    }
-
-    private void goPaymentDialog() {
-        FactorModel factorModel = createFactor();
-        PaymentMenuDialog paymentMenuDialog = new PaymentMenuDialog();
-        Bundle bundle = new Bundle();
-        bundle.putLong(Constant.Key.FACTOR_ID, factorModel.getId());
-        bundle.putStringArrayList(Constant.Key.PAYMENT_TYPE_LIST, new ArrayList<String>() {{
-            add(PaymentType.WALLET);
-        }});
-        paymentMenuDialog.setArguments(bundle);
-        paymentMenuDialog.show(getActivity().getSupportFragmentManager(), "payment.menu");
-        paymentMenuDialog.setOnPaymentResultListener(new PaymentMenuDialog.PaymentResultListener() {
-
-            @Override
-            public void onSuccessfullPayment(String paymentType, TransactionDataModel transactionDataModel) {
-                callByeCharge();
-
-            }
-
-            @Override
-            public void onFailedPayment(String message) {
-                Helper.alert(getActivity(), message, Constant.AlertType.Error);
-
-            }
-
-            @Override
-            public void onCancel() {
-
-            }
-        });
-    }
-
-    private FactorModel createFactor() {
-        FactorModel factorModel = new FactorModel();
-        factorModel.setTotalPrice(mChargeAmount);
-        Db.Factor.insert(factorModel);
-        return factorModel;
     }
 
     private boolean validation() {
@@ -340,58 +317,31 @@ public class ChargeFragment extends SubMenuFragment implements View.OnClickListe
         unbinder.unbind();
     }
 
-    private void callByeCharge() {
-        try {
-            ChargeDto chargeDto = createDto();
-            final SecretKey AESsecretKey = Encryptor.generateRandomAESKey();
-
-            new ApiCaller(Constant.Api.Type.BYE_CHARGE).call(getActivity(), chargeDto, AESsecretKey, "در حال بارگیری اطلاعات", new ApiCaller.ApiCallback() {
-                @Override
-                public void onResponse(int responseCode, String jsonResult) {
-                    try {
-                        Gson gson = Helper.getGson();
-                        ChargeSto chargeSto = gson.fromJson(jsonResult, ChargeSto.class);
-
-                        if (chargeSto != null) {
-                            if (chargeSto.transactionID != null && !TextUtils.isEmpty(chargeSto.transactionID) && !chargeSto.transactionID.equals("0")) {
-                                Helper.alert(getActivity(), chargeSto.note, Constant.AlertType.Success); // successful transaction
-                            } else {
-                                Helper.alert(getActivity(), "سرویس مورد نظر در دسترس نمی باشد", Constant.AlertType.Error); // error transaction
-                            }
-
-                        } else {
-                            Helper.alert(getActivity(), getString(R.string.api_data_download_error), Constant.AlertType.Error);
-                        }
-                    } catch (Exception e) {
-                        AppMonitor.reportBug(getActivity(), e, "ChargeFragment", "callByeCharge-OnResponse");
-                    }
-                }
-
-                @Override
-                public void onFail(String message) {
-                    Helper.alert(getActivity(), message, Constant.AlertType.Error);
-
-                }
-            });
-        } catch (Exception e) {
-            AppMonitor.reportBug(getActivity(), e, "ChargeFragment", "callByeCharge");
-        }
-    }
-
     @Override
     public void onPinEnteredSuccessfully() {
     }
 
-    private ChargeDto createDto() {
-        ChargeDto dto = new ChargeDto();
-        dto.amount = (int) mChargeAmount;
-        dto.mobileNumber = edtPhoneNumber.getText().toString();
-        dto.param = "0";
-        dto.service = 1;
-        dto.provider = "";
-        dto.svrUerName = "";
-        dto.svrPassword = "";
-        dto.userOrderId = UUID.randomUUID().toString();
+//    private ChargeDto createDto() {
+//        ChargeDto dto = new ChargeDto();
+//        dto.amount = (int) mChargeAmount;
+//        dto.mobileNumber = edtPhoneNumber.getText().toString();
+//        dto.param = "0";
+//        dto.service = 1;
+//        dto.provider = "";
+//        dto.svrUerName = "";
+//        dto.svrPassword = "";
+//        dto.userOrderId = UUID.randomUUID().toString();
+//        return dto;
+//    }
+
+    private ChargeServiceDto createDto() {
+        ChargeServiceDto dto = new ChargeServiceDto();
+        dto.chargeModel.amount = (int) mChargeAmount;
+        dto.chargeModel.mobileNumber = edtPhoneNumber.getText().toString();
+        dto.chargeModel.param = "0";
+        dto.chargeModel.service = 1;
+        dto.chargeModel.provider = "";
+        dto.chargeModel.userOrderId = UUID.randomUUID().toString();
         return dto;
     }
 

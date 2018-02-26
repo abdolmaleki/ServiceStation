@@ -4,8 +4,6 @@ package com.technotapp.servicestation.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -93,7 +91,7 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
             btnQrReader.setOnClickListener(this);
             btnConfirm.setOnClickListener(this);
         } catch (Exception e) {
-            AppMonitor.reportBug(getActivity(),e, mClassName, "initView");
+            AppMonitor.reportBug(getActivity(), e, mClassName, "initView");
         }
     }
 
@@ -121,45 +119,8 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
                     integrator.setBarcodeImageEnabled(true);
                     integrator.initiateScan();
 
-//                    ScannerFragment scanFragment = new ScannerFragment();
-//                    scanFragment.setOnScanListener(new ScannerFragment.OnScanListener() {
-//                        @Override
-//                        public void onSuccess(String codeContent, String codeFormat) {
-//                            checkValidation(codeContent);
-//                        }
-//
-//                        @Override
-//                        public void onFailed() {
-//
-//                        }
-//                    });
-
-
-//                    neptuneLiteUser.getDal(getActivity()).getScanner(EScannerType.RIGHT).open();
-//                    neptuneLiteUser.getDal(getActivity()).getScanner(EScannerType.RIGHT).start(new IScanner.IScanListener() {
-//                        @Override
-//                        public void onRead(String result) {
-//                            str = result;
-//                        }
-//
-//                        @Override
-//                        public void onFinish() {
-//                            try {
-//                                neptuneLiteUser.getDal(getActivity()).getScanner(EScannerType.RIGHT).close();
-//                                checkValidation(str);
-//                            } catch (Exception e) {
-//                                AppMonitor.reportBug(e, mClassName, "onFinish");
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onCancel() {
-//
-//                        }
-//                    });
-
                 } catch (Exception e) {
-                    AppMonitor.reportBug(getActivity(),e, mClassName, "submitFragment");
+                    AppMonitor.reportBug(getActivity(), e, mClassName, "submitFragment");
                 }
                 break;
             case R.id.fragment_receipt_btnConfirm:
@@ -169,7 +130,7 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
                     Helper.alert(mActivity, "شناسه قبض یا شناسه پرداخت وارد نشده است ", Constant.AlertType.Information);
                     break;
                 } else if (strBill.length() < 8 || strPayment.length() < 8) {
-                    Helper.alert(mActivity, "بارکد مورد نظر معتبر نمی باشد", Constant.AlertType.Error);
+                    Helper.alert(mActivity, "کد وارد شده معتبر نمی باشد", Constant.AlertType.Error);
                     break;
                 }
                 int lengthBill = (13 - strBill.length());
@@ -206,7 +167,7 @@ public class ReceiptFragment extends SubMenuFragment implements View.OnClickList
                 dialogFragment.setArguments(bundle);
                 //todo change this transaction
             } catch (Exception e) {
-                AppMonitor.reportBug(getActivity(),e, mClassName, "submitFragment");
+                AppMonitor.reportBug(getActivity(), e, mClassName, "submitFragment");
             }
         }
     }

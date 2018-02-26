@@ -1,6 +1,8 @@
 package com.technotapp.servicestation.connection.restapi.dto;
 
+import com.google.gson.annotations.Expose;
 import com.technotapp.servicestation.Infrastructure.DontObfuscate;
+import com.technotapp.servicestation.enums.PaymentType;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -10,7 +12,10 @@ public class TerminalTransactionDto extends BaseDto {
 
     public String tokenId;
     public String terminalCode;
-    public TransactionParametr transactionModel;
+    public TransactionParametr transactionModel = new TransactionParametr();
+    @Expose
+    public String paymentType;
+
 
     @DontObfuscate
     public class TransactionParametr implements Serializable {
@@ -22,7 +27,7 @@ public class TerminalTransactionDto extends BaseDto {
         public Date transactionDateTime;
         public String cardNumber;
         public long accountNumber;
-        public String accountPin;
+        public byte[] accountPin;
         public long amountOfTransaction;
         public String merchantTrace;
         public String mediaSignature;
@@ -33,5 +38,6 @@ public class TerminalTransactionDto extends BaseDto {
         public String bankFollowCode;
         public String description;
         public int statusId;
+
     }
 }

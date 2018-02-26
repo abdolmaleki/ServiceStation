@@ -50,6 +50,7 @@
         app:fontName="@string/irsansMedium" />
 
     <ImageView
+        android:id="@+id/toolbar_img_logo"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:background="@drawable/ic_logo_tchno" />

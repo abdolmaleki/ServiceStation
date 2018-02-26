@@ -181,25 +181,6 @@ public class PaymentMenuDialog extends DialogFragment implements View.OnClickLis
     @Override
     public void onPinEnteredSuccessfully() {
 
-        try {
-            TransactionHelper.sendRequest(getActivity(), Constant.RequestMode.BUY, transactionDataModel, String.valueOf(
-
-
-                    mFactorModel.getTotalPrice()), new TransactionHelper.TransactionResultListener() {
-                @Override
-                public void onSuccessfullTransaction(TransactionDataModel transactionDataModel) {
-                    mPaymentResultListener.onSuccessfullPayment(PaymentType.WALLET, transactionDataModel);
-                }
-
-                @Override
-                public void onFailTransaction(String message) {
-                    mPaymentResultListener.onFailedPayment(message);
-                }
-            });
-        } catch (Exception e) {
-            AppMonitor.reportBug(getActivity(), e, "PaymentMenuDialog", "onPinEnteredSuccessfully");
-        }
-
         closeDialog();
 
     }

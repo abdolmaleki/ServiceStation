@@ -3,6 +3,7 @@ package com.technotapp.servicestation.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.View;
@@ -17,18 +18,23 @@ import com.technotapp.servicestation.Infrastructure.DateHelper;
 import com.technotapp.servicestation.Infrastructure.Encryptor;
 import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.Infrastructure.PaxHelper;
+import com.technotapp.servicestation.Infrastructure.TransactionHelper;
 import com.technotapp.servicestation.Infrastructure.UpdateHelper;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.adapter.DataModel.MenuAdapterModel;
 import com.technotapp.servicestation.adapter.MainMenuPageAdapter;
 import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.connection.restapi.ApiCaller;
+import com.technotapp.servicestation.connection.restapi.dto.BaseDto;
 import com.technotapp.servicestation.connection.restapi.dto.GetVersionDto;
 import com.technotapp.servicestation.connection.restapi.dto.LogDto;
 import com.technotapp.servicestation.connection.restapi.sto.BaseSto;
+import com.technotapp.servicestation.connection.restapi.sto.BaseTransactionSto;
 import com.technotapp.servicestation.database.Db;
 import com.technotapp.servicestation.database.model.MenuModel;
+import com.technotapp.servicestation.enums.ServiceType;
 import com.technotapp.servicestation.fragment.MainGridFragment;
+import com.technotapp.servicestation.fragment.PaymentListFragment;
 import com.technotapp.servicestation.setting.Session;
 
 import java.lang.reflect.Type;
@@ -42,7 +48,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.RealmResults;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @BindView(R.id.activity_main_txt_shop_name)
     TextView txtShopName;
@@ -120,6 +126,7 @@ public class MainActivity extends BaseActivity {
             ButterKnife.bind(this);
             mContext = MainActivity.this;
             mSession = Session.getInstance(this);
+            findViewById(R.id.activity_main_img_buy).setOnClickListener(this);
 
         } catch (Exception e) {
             AppMonitor.reportBug(this, e, mClassName, "initView");
@@ -277,5 +284,35 @@ public class MainActivity extends BaseActivity {
         dto.tokenId = mSession.getTokenId();
         dto.terminalCode = mSession.getTerminalId();
         return dto;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.activity_main_img_buy) {
+            TransactionHelper.startServiceTransaction(this, ServiceType.TRANSACTION_BUY, new BaseDto(), new PaymentListFragment.PaymentResultListener() {
+                @Override
+                public void onSuccessfullPayment(String message, BaseTransactionSto response) {
+
+                }
+
+                @Override
+                public void onFailedPayment(String message, BaseTransactionSto baseTransactionSto) {
+
+                }
+
+                @Override
+                public void onCancel() {
+
+                }
+            });
+        }
     }
 }

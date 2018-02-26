@@ -197,7 +197,7 @@ public class Helper {
             case "505801":
                 return "موسسه اعتباری کوثر";
             default:
-                return "نام بانک ثبت نشده";
+                return "بانک نامشخص";
 
         }
 

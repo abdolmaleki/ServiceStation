@@ -11,6 +11,8 @@ import com.technotapp.servicestation.Infrastructure.PaxHelper;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.adapter.DataModel.TransactionDataModel;
 import com.technotapp.servicestation.application.Constant;
+import com.technotapp.servicestation.connection.restapi.sto.BaseTransactionSto;
+import com.technotapp.servicestation.entity.TransactionService;
 import com.technotapp.servicestation.fragment.AlertDialogFragment;
 import com.technotapp.servicestation.fragment.PrintDialogFragment;
 import com.technotapp.servicestation.fragment.SellerPrintConfirmFragment;
@@ -22,7 +24,7 @@ public class PrintMaker {
     private static Bitmap printBitmap;
     private static Session mSession;
 
-    public static void startPrint(Context context, int requestType, TransactionDataModel dataModel) {
+    public static void startPrint(Context context, int requestType, BaseTransactionSto sto) {
 
         mSession = Session.getInstance(context);
         boolean isTurnRateEnabled = AppSetting.getInstance(context).isTurningEnabled();
@@ -34,7 +36,7 @@ public class PrintMaker {
             case Constant.RequestMode.DEPOSIT:
                 printable = PrintFactory.getPrintContent(Printable.DEPOSIT);
                 if (printable != null) {
-                    printBitmap = printable.getContent(context, mSession.getShopName(), mSession.getTelephone(), "1475478589", DateHelper.getGregorianDateTime("HH:mm:ss"), DateHelper.getShamsiDate(), dataModel.getBackTransactionID(), dataModel.getTerminalID(), dataModel.getPanNumber(), dataModel.getAmount());
+                    printBitmap = printable.getContent(context, mSession.getShopName(), mSession.getTelephone(), "1475478589", DateHelper.getGregorianDateTime("HH:mm:ss"), DateHelper.getShamsiDate(), String.valueOf(TransactionService.deviceTransactionId), TransactionService.terminalId, TransactionService.cardNumber, String.valueOf(TransactionService.amount));
                     PrinterHelper.getInstance().startPrint(context, printBitmap, new PrinterHelper.PrinterListener() {
                         @Override
                         public void onSuccessfulPrint() {
@@ -49,7 +51,7 @@ public class PrintMaker {
                                 @Override
                                 public void onClick(View view) {
                                     printable = PrintFactory.getPrintContent(Printable.DEPOSIT_NO_ICON);
-                                    printBitmap = printable.getContent(context, mSession.getShopName(), mSession.getTelephone(), "1475478589", DateHelper.getGregorianDateTime("HH:mm:ss"), DateHelper.getShamsiDate(), dataModel.getBackTransactionID(), dataModel.getTerminalID(), dataModel.getPanNumber(), dataModel.getAmount());
+                                    printBitmap = printable.getContent(context, mSession.getShopName(), mSession.getTelephone(), "1475478589", DateHelper.getGregorianDateTime("HH:mm:ss"), DateHelper.getShamsiDate(), String.valueOf(TransactionService.deviceTransactionId), TransactionService.terminalId, TransactionService.cardNumber, String.valueOf(TransactionService.amount));
                                     PrintDialogFragment printDialogFragment = PrintDialogFragment.newInstance(printBitmap);
                                     printDialogFragment.show((Activity) context);
                                     alertDialogFragment.dismiss();
@@ -72,10 +74,10 @@ public class PrintMaker {
                     if (printable != null) {
                         if (isTurnRateEnabled) {
                             long turnRate = PaxHelper.generateTurnRating(context);
-                            printBitmap = printable.getContent(context, mSession.getShopName(), mSession.getTelephone(), "1475478589", DateHelper.getGregorianDateTime("HH:mm:ss"), DateHelper.getShamsiDate(), dataModel.getBackTransactionID(), dataModel.getTerminalID(), dataModel.getPanNumber(), dataModel.getAmount(), (turnRate + ""));
+                            printBitmap = printable.getContent(context, mSession.getShopName(), mSession.getTelephone(), "1475478589", DateHelper.getGregorianDateTime("HH:mm:ss"), DateHelper.getShamsiDate(), String.valueOf(TransactionService.deviceTransactionId), mSession.getTerminalId(), TransactionService.cardNumber, String.valueOf(TransactionService.amount), (turnRate + ""));
 
                         } else {
-                            printBitmap = printable.getContent(context, mSession.getShopName(), mSession.getTelephone(), "1475478589", DateHelper.getGregorianDateTime("HH:mm:ss"), DateHelper.getShamsiDate(), dataModel.getBackTransactionID(), dataModel.getTerminalID(), dataModel.getPanNumber(), dataModel.getAmount());
+                            printBitmap = printable.getContent(context, mSession.getShopName(), mSession.getTelephone(), "1475478589", DateHelper.getGregorianDateTime("HH:mm:ss"), DateHelper.getShamsiDate(), String.valueOf(TransactionService.deviceTransactionId), mSession.getTerminalId(), TransactionService.cardNumber, String.valueOf(TransactionService.amount));
 
                         }
                         PrinterHelper.getInstance().startPrint(context, printBitmap, new PrinterHelper.PrinterListener() {
@@ -88,7 +90,7 @@ public class PrintMaker {
                                         @Override
                                         public void onAccept() {
                                             printable = PrintFactory.getPrintContent(Printable.BUY_SELLER);
-                                            printBitmap = printable.getContent(context, mSession.getShopName(), mSession.getTelephone(), "1475478589", DateHelper.getGregorianDateTime("HH:mm:ss"), DateHelper.getShamsiDate(), dataModel.getBackTransactionID(), dataModel.getTerminalID(), dataModel.getPanNumber(), dataModel.getAmount());
+                                            printBitmap = printable.getContent(context, mSession.getShopName(), mSession.getTelephone(), "1475478589", DateHelper.getGregorianDateTime("HH:mm:ss"), DateHelper.getShamsiDate(), String.valueOf(TransactionService.deviceTransactionId), mSession.getTerminalId(), TransactionService.cardNumber, String.valueOf(TransactionService.amount));
                                             PrinterHelper.getInstance().startPrint(context, printBitmap, new PrinterHelper.PrinterListener() {
                                                 @Override
                                                 public void onSuccessfulPrint() {
@@ -114,7 +116,7 @@ public class PrintMaker {
                                     @Override
                                     public void onClick(View view) {
                                         printable = PrintFactory.getPrintContent(Printable.BUY_CUSTOMER_NO_ICON);
-                                        printBitmap = printable.getContent(context, mSession.getShopName(), mSession.getTelephone(), "1475478589", DateHelper.getGregorianDateTime("HH:mm:ss"), DateHelper.getShamsiDate(), dataModel.getBackTransactionID(), dataModel.getTerminalID(), dataModel.getPanNumber(), dataModel.getAmount());
+                                        printBitmap = printable.getContent(context, mSession.getShopName(), mSession.getTelephone(), "1475478589", DateHelper.getGregorianDateTime("HH:mm:ss"), DateHelper.getShamsiDate(), String.valueOf(TransactionService.deviceTransactionId), TransactionService.terminalId, TransactionService.cardNumber, String.valueOf(TransactionService.amount));
                                         PrintDialogFragment printDialogFragment = PrintDialogFragment.newInstance(printBitmap);
                                         printDialogFragment.show((Activity) context);
                                         alertDialogFragment.dismiss();
@@ -126,7 +128,7 @@ public class PrintMaker {
                 } else {
                     if (isSellerPrintEnabled) {
                         printable = PrintFactory.getPrintContent(Printable.BUY_SELLER);
-                        printBitmap = printable.getContent(context, mSession.getShopName(), mSession.getTelephone(), "1475478589", DateHelper.getGregorianDateTime("HH:mm:ss"), DateHelper.getShamsiDate(), dataModel.getBackTransactionID(), dataModel.getTerminalID(), dataModel.getPanNumber(), dataModel.getAmount());
+                        printBitmap = printable.getContent(context, mSession.getShopName(), mSession.getTelephone(), "1475478589", DateHelper.getGregorianDateTime("HH:mm:ss"), DateHelper.getShamsiDate(), String.valueOf(TransactionService.deviceTransactionId), TransactionService.terminalId, TransactionService.cardNumber, String.valueOf(TransactionService.amount));
                         PrinterHelper.getInstance().startPrint(context, printBitmap, new PrinterHelper.PrinterListener() {
                             @Override
                             public void onSuccessfulPrint() {
@@ -146,7 +148,7 @@ public class PrintMaker {
 
                 printable = PrintFactory.getPrintContent(Printable.BALANCE);
                 if (printable != null) {
-                    printBitmap = printable.getContent(context, mSession.getShopName(), mSession.getTelephone(), "1475478589", DateHelper.getGregorianDateTime("HH:mm:ss"), DateHelper.getShamsiDate(), dataModel.getBackTransactionID(), dataModel.getTerminalID(), dataModel.getPanNumber(), dataModel.getAmount());
+                    printBitmap = printable.getContent(context, mSession.getShopName(), mSession.getTelephone(), "1475478589", DateHelper.getGregorianDateTime("HH:mm:ss"), DateHelper.getShamsiDate(), String.valueOf(sto.deviceTransactionID), mSession.getTerminalId(), sto.cardNumber, String.valueOf(sto.accountAmount));
                     PrinterHelper.getInstance().startPrint(context, printBitmap, new PrinterHelper.PrinterListener() {
                         @Override
                         public void onSuccessfulPrint() {
@@ -161,7 +163,7 @@ public class PrintMaker {
                                 @Override
                                 public void onClick(View view) {
                                     printable = PrintFactory.getPrintContent(Printable.BALANCE_NO_ICON);
-                                    printBitmap = printable.getContent(context, mSession.getShopName(), mSession.getTelephone(), "1475478589", DateHelper.getGregorianDateTime("HH:mm:ss"), DateHelper.getShamsiDate(), dataModel.getBackTransactionID(), dataModel.getTerminalID(), dataModel.getPanNumber(), dataModel.getAmount());
+                                    printBitmap = printable.getContent(context, mSession.getShopName(), mSession.getTelephone(), "1475478589", DateHelper.getGregorianDateTime("HH:mm:ss"), DateHelper.getShamsiDate(), String.valueOf(sto.deviceTransactionID), mSession.getTerminalId(), sto.cardNumber, String.valueOf(sto.accountAmount));
                                     PrintDialogFragment printDialogFragment = PrintDialogFragment.newInstance(printBitmap);
                                     printDialogFragment.show((Activity) context);
                                     alertDialogFragment.dismiss();
@@ -172,6 +174,93 @@ public class PrintMaker {
                     });
                 }
                 break;
+        }
+    }
+
+    public static void startFactorPrint(Context context, BaseTransactionSto sto) {
+
+        mSession = Session.getInstance(context);
+        boolean isTurnRateEnabled = AppSetting.getInstance(context).isTurningEnabled();
+        boolean isSellerPrintEnabled = AppSetting.getInstance(context).isSellerPrintEnabled();
+        boolean isCustomerPrintEnabled = AppSetting.getInstance(context).isCustomerPrintEnabled();
+
+        if (isCustomerPrintEnabled) {
+            if (isTurnRateEnabled) {
+                printable = PrintFactory.getPrintContent(Printable.BUY_CUSTOMER_HAVE_RATE);
+
+            } else {
+                printable = PrintFactory.getPrintContent(Printable.BUY_CUSTOMER);
+            }
+            if (printable != null) {
+                if (isTurnRateEnabled) {
+                    long turnRate = PaxHelper.generateTurnRating(context);
+                    printBitmap = printable.getContent(context, mSession.getShopName(), mSession.getTelephone(), "1475478589", DateHelper.getGregorianDateTime("HH:mm:ss"), DateHelper.getShamsiDate(), String.valueOf(sto.deviceTransactionID), mSession.getTerminalId(), sto.cardNumber, sto.amount, (turnRate + ""));
+
+                } else {
+                    printBitmap = printable.getContent(context, mSession.getShopName(), mSession.getTelephone(), "1475478589", DateHelper.getGregorianDateTime("HH:mm:ss"), DateHelper.getShamsiDate(), String.valueOf(sto.deviceTransactionID), mSession.getTerminalId(), sto.cardNumber, sto.amount);
+
+                }
+                PrinterHelper.getInstance().startPrint(context, printBitmap, new PrinterHelper.PrinterListener() {
+                    @Override
+                    public void onSuccessfulPrint() {
+                        if (isSellerPrintEnabled) {
+                            SellerPrintConfirmFragment dialog = SellerPrintConfirmFragment.newInstance();
+                            dialog.show(((Activity) context).getFragmentManager(), "seller.print");
+                            dialog.setOnDialogButtonClick(new SellerPrintConfirmFragment.OnSellerPrintDialogClick() {
+                                @Override
+                                public void onAccept() {
+                                    printable = PrintFactory.getPrintContent(Printable.BUY_SELLER);
+                                    printBitmap = printable.getContent(context, mSession.getShopName(), mSession.getTelephone(), "1475478589", DateHelper.getGregorianDateTime("HH:mm:ss"), DateHelper.getShamsiDate(), String.valueOf(sto.deviceTransactionID), mSession.getTerminalId(), sto.cardNumber, sto.amount);
+                                    PrinterHelper.getInstance().startPrint(context, printBitmap, new PrinterHelper.PrinterListener() {
+                                        @Override
+                                        public void onSuccessfulPrint() {
+
+                                        }
+
+                                        @Override
+                                        public void failedPrint(String message) {
+
+                                        }
+                                    });
+                                    dialog.dismiss();
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void failedPrint(String message) {
+                        AlertDialogFragment alertDialogFragment = AlertDialogFragment.newInstance(Constant.AlertType.Error, message, context.getString(R.string.transaction_result_btn_view));
+                        alertDialogFragment.show((Activity) context);
+                        alertDialogFragment.setConfirmClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                printable = PrintFactory.getPrintContent(Printable.BUY_CUSTOMER_NO_ICON);
+                                printBitmap = printable.getContent(context, mSession.getShopName(), mSession.getTelephone(), "1475478589", DateHelper.getGregorianDateTime("HH:mm:ss"), DateHelper.getShamsiDate(), String.valueOf(sto.deviceTransactionID), mSession.getTerminalId(), sto.cardNumber, sto.amount);
+                                PrintDialogFragment printDialogFragment = PrintDialogFragment.newInstance(printBitmap);
+                                printDialogFragment.show((Activity) context);
+                                alertDialogFragment.dismiss();
+                            }
+                        });
+                    }
+                });
+            }
+        } else {
+            if (isSellerPrintEnabled) {
+                printable = PrintFactory.getPrintContent(Printable.BUY_SELLER);
+                printBitmap = printable.getContent(context, mSession.getShopName(), mSession.getTelephone(), "1475478589", DateHelper.getGregorianDateTime("HH:mm:ss"), DateHelper.getShamsiDate(), String.valueOf(sto.deviceTransactionID), mSession.getTerminalId(), sto.cardNumber, sto.amount);
+                PrinterHelper.getInstance().startPrint(context, printBitmap, new PrinterHelper.PrinterListener() {
+                    @Override
+                    public void onSuccessfulPrint() {
+
+                    }
+
+                    @Override
+                    public void failedPrint(String message) {
+
+                    }
+                });
+            }
         }
     }
 
@@ -229,6 +318,41 @@ public class PrintMaker {
                 break;
         }
 
+
+    }
+
+    public static void failOperationPrint(Context context, BaseTransactionSto sto) {
+        printable = PrintFactory.getPrintContent(Printable.FAILED_OPERATION);
+        mSession = Session.getInstance(context);
+
+
+        if (printable != null) {
+
+            printBitmap = printable.getContent(context, mSession.getShopName(), mSession.getTelephone(), "1475478589", DateHelper.getGregorianDateTime("HH:mm:ss"), DateHelper.getShamsiDate(), String.valueOf(sto.deviceTransactionID), mSession.getTerminalId(), sto.cardNumber, sto.amount);
+
+            PrinterHelper.getInstance().startPrint(context, printBitmap, new PrinterHelper.PrinterListener() {
+                @Override
+                public void onSuccessfulPrint() {
+
+                }
+
+                @Override
+                public void failedPrint(String message) {
+                    AlertDialogFragment alertDialogFragment = AlertDialogFragment.newInstance(Constant.AlertType.Error, message, context.getString(R.string.transaction_result_btn_view));
+                    alertDialogFragment.show((Activity) context);
+                    alertDialogFragment.setConfirmClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            printable = PrintFactory.getPrintContent(Printable.BUY_CUSTOMER_NO_ICON);
+                            printBitmap = printable.getContent(context, mSession.getShopName(), mSession.getTelephone(), "1475478589", DateHelper.getGregorianDateTime("HH:mm:ss"), DateHelper.getShamsiDate(), String.valueOf(sto.deviceTransactionID), mSession.getTerminalId(), sto.cardNumber, sto.amount);
+                            PrintDialogFragment printDialogFragment = PrintDialogFragment.newInstance(printBitmap);
+                            printDialogFragment.show((Activity) context);
+                            alertDialogFragment.dismiss();
+                        }
+                    });
+                }
+            });
+        }
 
     }
 }

@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
@@ -17,7 +16,7 @@ import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.Infrastructure.TransactionHelper;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.application.Constant;
-import com.technotapp.servicestation.connection.restapi.dto.BillPaymentDto;
+import com.technotapp.servicestation.connection.restapi.dto.TerminalTransactionDto;
 import com.technotapp.servicestation.connection.restapi.sto.BaseTransactionSto;
 import com.technotapp.servicestation.connection.restapi.sto.BillPaymentSto;
 import com.technotapp.servicestation.enums.ServiceType;
@@ -25,38 +24,31 @@ import com.technotapp.servicestation.pax.printer.PrintMaker;
 import com.technotapp.servicestation.setting.Session;
 
 import java.util.Locale;
-import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 
-public class ReceiptDialogFragment extends DialogFragment implements View.OnClickListener {
-    @BindView(R.id.fragment_receipt_end_txtBillingId)
-    TextView txtBillingId;
-    @BindView(R.id.fragment_receipt_end_txtPaymentCode)
-    TextView txtPaymentCode;
-    @BindView(R.id.fragment_receipt_end_txtAmount)
+public class GasStationConfirmFragment extends DialogFragment implements View.OnClickListener {
+    @BindView(R.id.fragment_gas_station_tv_dispenser)
+    TextView txtDispenserNumber;
+    @BindView(R.id.fragment_gas_station_tv_litr)
+    TextView txtLitr;
+    @BindView(R.id.fragment_gas_station_tv_amount)
     TextView txtAmount;
-    @BindView(R.id.fragment_receipt_end_txtOrganization)
-    TextView txtOrganization;
-    @BindView(R.id.fragment_receipt_end_imgOrganization)
-    ImageView imgOrganization;
-    @BindView(R.id.fragment_receipt_end_btnBack)
+    @BindView(R.id.fragment_gas_station_btn_back)
     Button btnBack;
 
     Session mSession;
 
-    private int organizationImage;
-    private String amount;
-    private String paymentCode;
-    private String billingId;
-    private String organizationName;
+    private String mAmount;
+    private String mDispenserNnumber;
+    private String mLitr;
     private Unbinder unbinder;
 
-    public static ReceiptDialogFragment newInstance() {
-        ReceiptDialogFragment fragment = new ReceiptDialogFragment();
+    public static GasStationConfirmFragment newInstance() {
+        GasStationConfirmFragment fragment = new GasStationConfirmFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -73,7 +65,7 @@ public class ReceiptDialogFragment extends DialogFragment implements View.OnClic
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().setBackgroundDrawableResource(R.drawable.bg_transparent);
-        View rootView = inflater.inflate(R.layout.fragment_dialog_receipt, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_dialog_gasstation_confirm, container, false);
         unbinder = ButterKnife.bind(this, rootView);
 
         initView(rootView);
@@ -85,26 +77,22 @@ public class ReceiptDialogFragment extends DialogFragment implements View.OnClic
         try {
             Bundle bundle = this.getArguments();
             if (bundle != null) {
-                organizationImage = bundle.getInt("organization_image");
-                amount = bundle.getString("amount");
-                paymentCode = bundle.getString("paymentCode");
-                billingId = bundle.getString("billingId");
-                organizationName = bundle.getString("organization_name");
+                mAmount = bundle.getString(Constant.Key.PAYMENT_AMOUNT);
+                mLitr = bundle.getString(Constant.Key.LITR);
+                mDispenserNnumber = bundle.getString(Constant.Key.DISPENSER);
             }
-            txtBillingId.setText(billingId);
-            String formatted = String.format(Locale.CANADA, "%,d", Long.parseLong(amount));
+            txtLitr.setText(mLitr);
+            String formatted = String.format(Locale.CANADA, "%,d", Long.parseLong(mAmount));
             txtAmount.setText(formatted + "  ریال");
-            txtPaymentCode.setText(paymentCode);
-            imgOrganization.setImageResource(organizationImage);
-            txtOrganization.setText(organizationName);
+            txtDispenserNumber.setText(mDispenserNnumber);
             btnBack.setOnClickListener(this);
-            rootView.findViewById(R.id.fragment_receipt_end_btnConfirm).setOnClickListener(this);
+            rootView.findViewById(R.id.fragment_gas_station_tv_amount_btn_confirm).setOnClickListener(this);
 
 
             mSession = Session.getInstance(getActivity());
 
         } catch (Exception e) {
-            AppMonitor.reportBug(getActivity(), e, "ReceiptFragment", "initView");
+            AppMonitor.reportBug(getActivity(), e, "GasStationConfirmFragment", "initView");
         }
     }
 
@@ -117,8 +105,8 @@ public class ReceiptDialogFragment extends DialogFragment implements View.OnClic
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.fragment_receipt_end_btnConfirm) {
-            TransactionHelper.startServiceTransaction(getActivity(), ServiceType.BILL, createDto(), new PaymentListFragment.PaymentResultListener() {
+        if (v.getId() == R.id.fragment_gas_station_tv_amount_btn_confirm) {
+            TransactionHelper.startServiceTransaction(getActivity(), ServiceType.BUY_PRODUCT, createDto(), new PaymentListFragment.PaymentResultListener() {
                 @Override
                 public void onSuccessfullPayment(String message, BaseTransactionSto response) {
                     Helper.alert(getActivity(), message, Constant.AlertType.Success);
@@ -145,21 +133,16 @@ public class ReceiptDialogFragment extends DialogFragment implements View.OnClic
 
                 }
             });
-        } else if (v.getId() == R.id.fragment_receipt_end_btnBack) {
+        } else if (v.getId() == R.id.fragment_gas_station_btn_back) {
             dismiss();
         }
 
 
     }
 
-    private BillPaymentDto createDto() {
-        BillPaymentDto dto = new BillPaymentDto();
-        dto.tokenId = mSession.getTokenId();
-        dto.terminalCode = mSession.getTerminalId();
-        dto.billModel.amount = Long.parseLong(amount);
-        dto.billModel.billingId = billingId;
-        dto.billModel.paymentId = paymentCode;
-        dto.billModel.userOrderId = UUID.randomUUID().toString();
+    private TerminalTransactionDto createDto() {
+        TerminalTransactionDto dto = new TerminalTransactionDto();
+        dto.transactionModel.amountOfTransaction = Long.parseLong(mAmount);
 
         return dto;
     }

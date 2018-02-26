@@ -7,5 +7,6 @@ public class GetCustomerAccountsDto extends BaseDto {
     public String tokenId;
     public String terminalCode;
     public String cardNumber;
+    public String idHashCustomer;
 
 }

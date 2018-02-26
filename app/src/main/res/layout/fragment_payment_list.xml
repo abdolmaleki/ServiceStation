@@ -28,14 +28,13 @@
             app:fontName="@string/irsansMedium" />
 
         <ListView
-            android:id="@+id/activity_payment_list_listview"
+            android:id="@+id/fragment_payment_list_listview"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
             tools:listitem="@layout/item_list_payment_type" />
-
 
     </LinearLayout>
 </LinearLayout>

@@ -11,6 +11,7 @@ public class Constant {
         public static final String API_BASE_URL = "http://87.236.214.176:3400/";
         public static final String PICTURE_BASE_URL = "http://87.236.214.176:8000/POS/";
         public static final String DEFUALT_URL_ACTION_PAGE = "http://www.google.com";
+        public static final String TYPE_POS = "14";
 
 
         public static class Printer {
@@ -50,7 +51,7 @@ public class Constant {
         public static final String SHPCATEGORY = "shopcategory";
         public static final String MANAGERNAME = "manager.name";
         public static final String FAX = "fax";
-
+        public static final String PIN_KEY = "pin.key";
     }
 
     public static class Setting {
@@ -110,6 +111,13 @@ public class Constant {
         public static final String CARD_NUMBER = "card.number";
         public static final String ACCOUNT_PASSWORD = "account.password";
         public static final String IS_ACTIVE_PIN = "is.active.pin";
+        public static final String SERVICE_TYPE = "service.type";
+        public static final String SERVICE_DTO = "service.dto";
+        public static final String ACTIVE_PIN = "active.pin";
+        public static final String HAS_CASH_PAYMENT = "has.cash.payment";
+        public static final String HASH_ID = "hash.id";
+        public static final java.lang.String LITR = "LITR";
+        public static final java.lang.String DISPENSER = "dispenser";
         public static String ACCOUNT_NUMBER = "account_number";
     }
 
@@ -129,6 +137,7 @@ public class Constant {
         public static final String KHALAFI = "khalafi_service";
         public static final String PURCHASE = "purchase_service";
         public static final String QR_READER = "merchant_qr_code";
+        public static final String GAS_STATION = "gas_station_service";
     }
 
     public static class Operator {
@@ -166,12 +175,25 @@ public class Constant {
             public static final int CheckTokenValidation = 1;
         }
 
+        public static class TransactionErrorCode {
+            public static final String Successfull = "00";
+        }
+
+
+        public static class ResultCode {
+            public static final String Successfull = "0";
+        }
+
     }
 
     public static class Encryption {
         public static final String RSA_KEY = "pkT+gaenqqIXUzNRdoj+xqdqJXgAHgpp2ZNdaGfV4wUWJ8KTAYZlXP0cvgbwlu94M7cvLjQ3P6rn4U+VirsskSjnburdNGDTb2lf2mnaIQs9M7npb0SVaY0aWyZiuJTDjOxbgegYxA6tNDw66ewpIWMavyOyke59xmHUFqUnylULSpdmKkAuxbjBkxkRjzqsWER6HdRo6LJr4LjNYCVzyDurorFkinvyawBmO5Wi0AknkAQxQbC7sFlR6jLPoHVEL259TEq3vogsuQVXZfiPB0WmwRJtKBx++PAXR7WtJghVc7Ub/48x4I3zgL8yNtxuMqh8n0mUw6cBNeXgMJdf2Q==";
         //public static final String RSA_KEY = "MIIBITANBgkqhkiG9w0BAQEFAAOCAQ4AMIIBCQKCAQBMk6ORZQhtrQrbfIQAGTNsQH7kLd2Tf7Z5WUL5DBB7s6x4xaxBFYMBUeWN2DhsGqlteLFEa8G1gx3EG5FnLURzSSbvbcGLpFBlAJnqSsibmh+TyyZVMrqoT/vR8lkO1Jba/CXhWfFfkp4PvoXyuo8ygTbd8Vy9A5p6K4mOZEupHoeXTgSouT3LsV2s344UKie0scJKvjDktEiDf0q1ZWE1R5rL+Dvl7CnzqYq8Iv/SennmFfSqaZujqx3bFTXfiMb0iJ6CjEZpKD40otGkvEFDaAg4a7FvdFVE7LuWX6WFZclPE/lyxhUblJ/70CeWZNKbX+mpTnD7My0ea126HKLFAgMBAAE=";
 
+    }
+
+    public static class TransactionType {
+        public static final String BALANCE = "22";
     }
 
     public static class PayBill {
@@ -191,4 +213,10 @@ public class Constant {
         public static final int MAX_ROW_PRODUCT = 60000;
     }
 
+    public static class RequestCode {
+        public static final int TRANSACTION_RESULT_CODE = 50;
+        public static final int WALLET_PAYMENT = 51;
+        public static final int QR_SCANNER = 49374;
+        public static final int KEYPAD_AMOUNT = 52;
+    }
 }

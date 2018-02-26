@@ -187,35 +187,9 @@ public class CardServiceDepositAndBuyFragment extends SubMenuFragment implements
         super.onPinEnteredSuccessfully();
         try {
             if (isDeposit) {
-                TransactionHelper.sendRequest(getActivity(), Constant.RequestMode.DEPOSIT, transactionDataModel, tvAmount.getText().toString().replaceAll(",", ""), new TransactionHelper.TransactionResultListener() {
 
-                    @Override
-                    public void onSuccessfullTransaction(TransactionDataModel transactionDataModel) {
-                        Helper.alert(getActivity(), getString(R.string.successfull_transaction), Constant.AlertType.Success);
-                        PrintMaker.startPrint(getActivity(), Constant.RequestMode.DEPOSIT, transactionDataModel);
-                    }
-
-                    @Override
-                    public void onFailTransaction(String message) {
-                        Helper.alert(getActivity(), message, Constant.AlertType.Error);
-
-                    }
-                });
             } else {
-                TransactionHelper.sendRequest(getActivity(), Constant.RequestMode.BUY, transactionDataModel, tvAmount.getText().toString().replaceAll(",", ""), new TransactionHelper.TransactionResultListener() {
 
-                    @Override
-                    public void onSuccessfullTransaction(TransactionDataModel transactionDataModel) {
-                        Helper.alert(getActivity(), getString(R.string.successfull_transaction), Constant.AlertType.Success);
-                        PrintMaker.startPrint(getActivity(), Constant.RequestMode.BUY, transactionDataModel);
-                    }
-
-                    @Override
-                    public void onFailTransaction(String message) {
-                        Helper.alert(getActivity(), message, Constant.AlertType.Error);
-
-                    }
-                });
             }
         } catch (Exception e) {
             AppMonitor.reportBug(getActivity(), e, "CardServiceDepositAndBuyFragment", "onPinEnteredSuccessfully");

@@ -9,6 +9,8 @@ import java.util.Date;
 public class BillPaymentDto extends BaseDto {
     public String tokenId;
     public String terminalCode;
+    public TransactionParametr transactionModel = new TransactionParametr();
+    public BillParameter billModel = new BillParameter();
 
     @DontObfuscate
     public class TransactionParametr implements Serializable {
@@ -16,11 +18,12 @@ public class BillPaymentDto extends BaseDto {
         public Date transactionDateTime;//زمان ثبت تراکنش
         public String cardNumber;//شماره کارت مشتری در صورت وجود
         public long accountNumber;//شماره حساب مشتری
-        public String accountPin;
+        public byte[] accountPin;
+        public long idMerchant;
     }
 
     @DontObfuscate
-    public class billParameter implements Serializable {
+    public class BillParameter implements Serializable {
         public String userOrderId;//شناسه تراکنش در پوز
         public long amount;//مبلغ قبض
         public String billingId;//شناسه قبض

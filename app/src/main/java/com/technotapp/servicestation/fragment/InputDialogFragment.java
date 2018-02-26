@@ -4,6 +4,7 @@ import android.app.DialogFragment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ public class InputDialogFragment extends DialogFragment implements View.OnClickL
 
     private static final String INPUT_DIALOG_MESSAGE = "INPUT_DIALOG_MESSAGE";
     private static final String INPUT_DIALOG_COLOR = "INPUT_DIALOG_COLOR";
+    private static final String INPUT_DIALOG_TYPE = "INPUT_DIALOG_TYPE";
     private EditText mETPassword;
     private TextView mTV_Message;
     private LinearLayout mPanel_frame;
@@ -30,6 +32,7 @@ public class InputDialogFragment extends DialogFragment implements View.OnClickL
     private Button mBTN_Accept;
     private Button mBTN_Cancel;
     private int mPanelColor;
+    private int mInputType;
 
     public static InputDialogFragment newInstance() {
         InputDialogFragment fragment = new InputDialogFragment();
@@ -38,11 +41,12 @@ public class InputDialogFragment extends DialogFragment implements View.OnClickL
         return fragment;
     }
 
-    public static InputDialogFragment newInstance(String message, int color) {
+    public static InputDialogFragment newInstance(String message, int color, int inputType) {
         InputDialogFragment fragment = new InputDialogFragment();
         Bundle args = new Bundle();
         args.putString(INPUT_DIALOG_MESSAGE, message);
         args.putInt(INPUT_DIALOG_COLOR, color);
+        args.putInt(INPUT_DIALOG_TYPE, inputType);
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,6 +61,7 @@ public class InputDialogFragment extends DialogFragment implements View.OnClickL
         Bundle bundle = getArguments();
         if (bundle != null) {
             mPanelColor = bundle.getInt(INPUT_DIALOG_COLOR, -1);
+            mInputType = bundle.getInt(INPUT_DIALOG_TYPE, -1);
             mMessage = bundle.getString(INPUT_DIALOG_MESSAGE, null);
         }
     }
@@ -99,6 +104,10 @@ public class InputDialogFragment extends DialogFragment implements View.OnClickL
 
                     mETPassword.requestFocus();
                 }
+            }
+
+            if (mInputType != -1) {
+                mETPassword.setInputType(mInputType);
             }
         } catch (Exception e) {
             AppMonitor.reportBug(getActivity(), e, "SuccessfulDialogFragment", "initView");

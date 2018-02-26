@@ -147,24 +147,6 @@ public class AnsarServiceFragment extends SubMenuFragment implements AdapterView
     @Override
     public void onPinEnteredSuccessfully() {
         super.onPinEnteredSuccessfully();
-        try {
-            TransactionHelper.sendRequest(getActivity(), Constant.RequestMode.BALANCE, transactionDataModel, "0", new TransactionHelper.TransactionResultListener() {
-
-                @Override
-                public void onSuccessfullTransaction(TransactionDataModel transactionDataModel) {
-                    PrintMaker.startPrint(getActivity(), Constant.RequestMode.BALANCE, transactionDataModel);
-                    Helper.alert(getActivity(), getString(R.string.successfull_transaction), Constant.AlertType.Success);
-                }
-
-                @Override
-                public void onFailTransaction(String message) {
-                    Helper.alert(getActivity(), message, Constant.AlertType.Error);
-
-                }
-            });
-        } catch (Exception e) {
-            AppMonitor.reportBug(getActivity(), e, "CardServiceFragment", "onPinEnteredSuccessfully");
-        }
 
     }
 

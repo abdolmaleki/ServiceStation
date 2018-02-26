@@ -52,9 +52,9 @@ public class BaseSto implements Serializable, Parcelable {
 
 
         protected MessageModel(Parcel in) {
-            ver = in.readInt();
             errorCode = in.readInt();
             errorString = in.readString();
+            ver = in.readInt();
         }
 
         public static final Creator<MessageModel> CREATOR = new Creator<MessageModel>() {
@@ -75,10 +75,10 @@ public class BaseSto implements Serializable, Parcelable {
         }
 
         @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeInt(errorCode);
-            dest.writeInt(ver);
-            dest.writeString(errorString);
+        public void writeToParcel(Parcel parcel, int i) {
+            parcel.writeInt(errorCode);
+            parcel.writeString(errorString);
+            parcel.writeInt(ver);
         }
     }
 

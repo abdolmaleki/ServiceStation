@@ -2,16 +2,14 @@ package com.technotapp.servicestation.connection.restapi;
 
 import android.content.Context;
 import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.util.Base64;
 
 import com.google.gson.Gson;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.DontObfuscate;
 import com.technotapp.servicestation.Infrastructure.Encryptor;
+import com.technotapp.servicestation.Infrastructure.GsonHelper;
 import com.technotapp.servicestation.Infrastructure.Helper;
-import com.technotapp.servicestation.Infrastructure.NetworkHelper;
 import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.connection.restapi.dto.BaseDto;
 
@@ -33,7 +31,6 @@ public class ApiCaller {
 
     public ApiCaller(int apiType) {
         this.mApiType = apiType;
-
     }
 
     //
@@ -46,7 +43,6 @@ public class ApiCaller {
 
 
     public void call(final Context ctx, BaseDto dto, final SecretKey AESsecretKey, String loadingMessage, final ApiCallback apiCallback) {
-
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ////////// show progressbar if needed ////////////////////
@@ -70,8 +66,9 @@ public class ApiCaller {
 
             ServiceStationApi apiService = retrofit.create(ServiceStationApi.class);
 
-            Gson gson = new Gson();
-            String value = gson.toJson(dto);
+            // Gson gson = new Gson();
+            String value = GsonHelper.customGson.toJson(dto);
+            //String value = gson.toJson(dto);
 
             final String AesEncryptedValue = Encryptor.encriptAES(value, AESsecretKey);
 
@@ -150,10 +147,7 @@ public class ApiCaller {
                 case Constant.Api.Type.INSERT_TRANSACTION:
                     token = apiService.InsertTransaction(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
                     break;
-
-
             }
-
 
             token.enqueue(new retrofit2.Callback<String>() {
                 @Override
@@ -162,7 +156,7 @@ public class ApiCaller {
                     Helper.progressBar.hideDialog();
                     String EncryptedResponse = response.body();
                     if (EncryptedResponse == null || EncryptedResponse.isEmpty()) {
-                        Helper.alert(ctx, "خطا در دریافت اطلاعات", Constant.AlertType.Error);
+                        apiCallback.onFail("خطای ارتباط با سرور مرکزی");
                     } else {
 
                         ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -184,10 +178,10 @@ public class ApiCaller {
                                 //UpdateHelper.checkNeedingUpdate(ctx);
 
                             } else {
-                                Helper.alert(ctx, "خطا در دریافت اطلاعات", Constant.AlertType.Error);
+                                apiCallback.onFail("خطا در دریافت اطلاعات");
                             }
                         } catch (Exception e) {
-                            Helper.alert(ctx, "خطا در دریافت اطلاعات", Constant.AlertType.Error);
+                            apiCallback.onFail("خطا در دریافت اطلاعات");
                         }
                     }
                 }
@@ -208,7 +202,6 @@ public class ApiCaller {
 
     public interface ApiCallback {
         void onResponse(int responseCode, String jsonResult);
-
         void onFail(String message);
 
     }

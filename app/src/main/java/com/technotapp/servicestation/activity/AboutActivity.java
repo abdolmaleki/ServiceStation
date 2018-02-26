@@ -6,10 +6,8 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.customView.TextViewEx;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

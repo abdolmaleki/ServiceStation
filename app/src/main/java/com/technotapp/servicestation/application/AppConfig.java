@@ -7,7 +7,6 @@ import android.support.multidex.MultiDexApplication;
 import com.pax.dal.IDAL;
 import com.pax.neptunelite.api.NeptuneLiteUser;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
-import com.technotapp.servicestation.Infrastructure.PaxHelper;
 import com.technotapp.servicestation.setting.Session;
 
 import io.realm.Realm;
@@ -35,6 +34,10 @@ public class AppConfig extends MultiDexApplication {
     private void init() {
         mSession = Session.getInstance(this);
         initIDAL();
+
+
+
+
     }
 
     private void initIDAL() {

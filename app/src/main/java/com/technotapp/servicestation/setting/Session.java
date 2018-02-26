@@ -3,6 +3,7 @@ package com.technotapp.servicestation.setting;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Base64;
 
 import com.technotapp.servicestation.application.Constant;
 
@@ -128,6 +129,10 @@ public class Session {
         prefs.edit().putString(Constant.Session.SHPCATEGORY, shopCategory).apply();
     }
 
+    public void setPinKey(String pinKey) {
+        prefs.edit().putString(Constant.Session.PIN_KEY, pinKey).apply();
+    }
+
     public void setTel(String tel) {
         prefs.edit().putString(Constant.Session.TEL, tel).apply();
     }
@@ -140,6 +145,11 @@ public class Session {
     public boolean IsFirstRun() {
         boolean isFirstRun = prefs.getBoolean(Constant.Session.IS_FIRST_RUN, true);
         return isFirstRun;
+    }
+
+    public byte[] getPinKey() {
+        String key = prefs.getString(Constant.Session.PIN_KEY, "");
+        return Base64.decode(key, Base64.DEFAULT);
     }
 
     public String getTelephone() {

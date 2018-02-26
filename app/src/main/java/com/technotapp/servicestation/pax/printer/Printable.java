@@ -30,4 +30,7 @@ public abstract class Printable {
     public static final String CASH_HAVE_RATE = "cash.have.rate";
     public static final String CASH_NO_ICON = "CASH.no.icon";
 
+    public static final String FAILED_OPERATION = "failed_operation";
+
+
 }

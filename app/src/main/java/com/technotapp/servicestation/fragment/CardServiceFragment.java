@@ -1,6 +1,7 @@
 package com.technotapp.servicestation.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,12 +14,17 @@ import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.Infrastructure.TransactionHelper;
 import com.technotapp.servicestation.R;
+import com.technotapp.servicestation.activity.FactorActivity;
 import com.technotapp.servicestation.adapter.DataModel.MenuAdapterModel;
 import com.technotapp.servicestation.adapter.DataModel.TransactionDataModel;
 import com.technotapp.servicestation.adapter.MenuAdapter;
 import com.technotapp.servicestation.application.Constant;
+import com.technotapp.servicestation.connection.restapi.dto.BaseDto;
+import com.technotapp.servicestation.connection.restapi.dto.TerminalTransactionDto;
+import com.technotapp.servicestation.connection.restapi.sto.BaseTransactionSto;
 import com.technotapp.servicestation.database.Db;
 import com.technotapp.servicestation.database.model.MenuModel;
+import com.technotapp.servicestation.enums.ServiceType;
 import com.technotapp.servicestation.pax.mag.IMagCardCallback;
 import com.technotapp.servicestation.pax.mag.MagCard;
 import com.technotapp.servicestation.pax.printer.PrintMaker;
@@ -118,12 +124,25 @@ public class CardServiceFragment extends SubMenuFragment implements AdapterView.
                 case Constant.MenuAction.DEPOSIT:
                     args.putBoolean("isDeposit", true);
                     fragment.setArguments(args);
-                    submitFragment(fragment);
+                    // submitFragment(fragment);
                     break;
                 case Constant.MenuAction.BUY:
-                    args.putBoolean("isDeposit", false);
-                    fragment.setArguments(args);
-                    submitFragment(fragment);
+                    TransactionHelper.startServiceTransaction(getActivity(), ServiceType.TRANSACTION_BUY, new BaseDto(), new PaymentListFragment.PaymentResultListener() {
+                        @Override
+                        public void onSuccessfullPayment(String message, BaseTransactionSto response) {
+
+                        }
+
+                        @Override
+                        public void onFailedPayment(String message, BaseTransactionSto baseTransactionSto) {
+
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
                     break;
                 case Constant.MenuAction.BALANCE:
                     balanceCard();
@@ -139,31 +158,40 @@ public class CardServiceFragment extends SubMenuFragment implements AdapterView.
     TransactionDataModel transactionDataModel;
 
     private void balanceCard() {
+        TransactionHelper.startServiceTransaction(getActivity(), ServiceType.TRANSACTION_BALANCE, createTransactionDto(Constant.MenuAction.BALANCE), new PaymentListFragment.PaymentResultListener() {
+            @Override
+            public void onSuccessfullPayment(String message, BaseTransactionSto response) {
+                PrintMaker.startPrint(getActivity(), Constant.RequestMode.BALANCE, response);
+            }
 
-        startMagCard();
+            @Override
+            public void onFailedPayment(String message, BaseTransactionSto baseTransactionSto) {
+                Helper.alert(getActivity(), message, Constant.AlertType.Error);
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
+    }
+
+    private TerminalTransactionDto createTransactionDto(String action) {
+        TerminalTransactionDto dto = new TerminalTransactionDto();
+
+        switch (action) {
+            case Constant.MenuAction.BALANCE:
+                dto.transactionModel.codeTransactionType = Constant.TransactionType.BALANCE;
+                dto.transactionModel.amountOfTransaction = 0;
+                break;
+
+        }
+        return dto;
     }
 
     @Override
     public void onPinEnteredSuccessfully() {
         super.onPinEnteredSuccessfully();
-        try {
-            TransactionHelper.sendRequest(getActivity(), Constant.RequestMode.BALANCE, transactionDataModel, "0", new TransactionHelper.TransactionResultListener() {
-
-                @Override
-                public void onSuccessfullTransaction(TransactionDataModel transactionDataModel) {
-                    Helper.alert(getActivity(), getString(R.string.successfull_transaction), Constant.AlertType.Success);
-                    PrintMaker.startPrint(getActivity(), Constant.RequestMode.BALANCE, transactionDataModel);
-                }
-
-                @Override
-                public void onFailTransaction(String message) {
-                    Helper.alert(getActivity(), message, Constant.AlertType.Error);
-
-                }
-            });
-        } catch (Exception e) {
-            AppMonitor.reportBug(getActivity(), e, "CardServiceFragment", "onPinEnteredSuccessfully");
-        }
 
     }
 
