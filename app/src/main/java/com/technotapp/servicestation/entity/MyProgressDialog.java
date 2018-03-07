@@ -11,7 +11,9 @@ import com.technotapp.servicestation.Infrastructure.DontObfuscate;
 import com.technotapp.servicestation.R;
 
 @DontObfuscate
-public class MyProgressDialog extends android.app.ProgressDialog {
+public class
+
+MyProgressDialog extends android.app.ProgressDialog {
 
     private ProgressBar progressBar;
     private TextView mTX_Message;

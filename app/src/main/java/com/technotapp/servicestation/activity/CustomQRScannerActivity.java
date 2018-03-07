@@ -1,13 +1,11 @@
 package com.technotapp.servicestation.activity;
 
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
-
 import com.journeyapps.barcodescanner.CaptureManager;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
+import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.R;
 
 public class CustomQRScannerActivity extends BaseActivity implements
@@ -15,21 +13,22 @@ public class CustomQRScannerActivity extends BaseActivity implements
 
     private CaptureManager capture;
     private DecoratedBarcodeView barcodeScannerView;
-    private Button switchFlashlightButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_qr_scanner);
 
-        barcodeScannerView = (DecoratedBarcodeView) findViewById(R.id.zxing_barcode_scanner);
-        barcodeScannerView.setTorchListener(this);
-        capture = new CaptureManager(this, barcodeScannerView);
-        capture.initializeFromIntent(getIntent(), savedInstanceState);
-        capture.decode();
-        initView();
-
-
+        try {
+            barcodeScannerView = findViewById(R.id.zxing_barcode_scanner);
+            barcodeScannerView.setTorchListener(this);
+            capture = new CaptureManager(this, barcodeScannerView);
+            capture.initializeFromIntent(getIntent(), savedInstanceState);
+            capture.decode();
+            initView();
+        } catch (Exception e) {
+            AppMonitor.reportBug(this, e, "CustomQRScannerActivity", "onCreate");
+        }
     }
 
     private void initView() {
@@ -66,32 +65,13 @@ public class CustomQRScannerActivity extends BaseActivity implements
         return barcodeScannerView.onKeyDown(keyCode, event) || super.onKeyDown(keyCode, event);
     }
 
-    /**
-     * Check if the device's camera has a Flashlight.
-     *
-     * @return true if there is Flashlight, otherwise false.
-     */
-    private boolean hasFlash() {
-        return getApplicationContext().getPackageManager()
-                .hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
-    }
-
-    public void switchFlashlight(View view) {
-        if ("روشن کردن فلاش".equals(switchFlashlightButton.getText())) {
-            barcodeScannerView.setTorchOn();
-        } else {
-            barcodeScannerView.setTorchOff();
-        }
-    }
 
     @Override
     public void onTorchOn() {
-        switchFlashlightButton.setText("خاموش کردن فلاش");
     }
 
     @Override
     public void onTorchOff() {
-        switchFlashlightButton.setText("روشن کردن فلاش");
     }
 
     @Override

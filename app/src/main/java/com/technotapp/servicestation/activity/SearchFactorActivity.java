@@ -62,14 +62,23 @@ public class SearchFactorActivity extends BaseActivity implements View.OnClickLi
     private boolean mIsLoading = false;
 
     private SearchFactorAdapter mAdapter;
+    private String mUserTokenId;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_factor);
+        loadData();
         initView();
 
+    }
+
+    private void loadData() {
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            mUserTokenId = bundle.getString(Constant.Key.SUPPORT_TOKEN_ID);
+        }
     }
 
     private void initView() {
@@ -292,9 +301,15 @@ public class SearchFactorActivity extends BaseActivity implements View.OnClickLi
         SearchFactorDto dto = new SearchFactorDto();
         dto.dateFrom = DateHelper.shamsiToMiladiDate(mFromCalendar);
         dto.dateTo = DateHelper.shamsiToMiladiDate(mEndCalendar);
-        dto.idSeller = Long.parseLong(mSession.getMerchantId());
+        dto.idMerchant = Long.parseLong(mSession.getMerchantId());
         dto.terminalCode = mSession.getTerminalId();
-        dto.tokenId = mSession.getTokenId();
+        if (mUserTokenId == null) {
+            dto.tokenId = mSession.getTokenId();
+
+        } else {
+            dto.tokenId = mUserTokenId;
+
+        }
         dto.skipRows = mSkipRows;
         dto.takeRows = mTakeRows;
         return dto;

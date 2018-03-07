@@ -54,6 +54,7 @@ public class ProductManagementActivity extends BaseActivity implements View.OnCl
 
     private SearchView mSearchView;
     private Session mSession;
+    private String mUserTokenId;
 
 
     @Override
@@ -108,6 +109,10 @@ public class ProductManagementActivity extends BaseActivity implements View.OnCl
     }
 
     private void loadData() {
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            mUserTokenId = bundle.getString(Constant.Key.SUPPORT_TOKEN_ID);
+        }
     }
 
     private void initDb() {
@@ -231,7 +236,13 @@ public class ProductManagementActivity extends BaseActivity implements View.OnCl
 
         SearchProductDto dto = new SearchProductDto();
         dto.terminalCode = mSession.getTerminalId();
-        dto.tokenId = mSession.getTokenId();
+        if (mUserTokenId == null) {
+            dto.tokenId = mSession.getTokenId();
+
+        } else {
+            dto.tokenId = mUserTokenId;
+
+        }
         dto.skipRows = 0;
         dto.takeRows = Constant.Valuse.MAX_ROW_PRODUCT;
         return dto;

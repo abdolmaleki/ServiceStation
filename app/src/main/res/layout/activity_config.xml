@@ -22,7 +22,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="right"
         android:orientation="horizontal"
         android:paddingRight="15dp">
 
@@ -32,11 +31,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="15dp"
+            android:layout_marginLeft="10dp"
             android:max="255" />
 
         <com.technotapp.servicestation.customView.CustomTextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="نور صفحه"
             android:textSize="12sp"
             app:fontName="@string/irsansMedium" />
@@ -62,7 +63,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="right"
         android:orientation="horizontal"
         android:paddingRight="15dp">
 
@@ -70,13 +70,14 @@
             android:id="@+id/activity_config_switch_customer_printer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="15dp"
+            android:layout_marginLeft="10dp"
             android:textOff="خاموش"
             android:textOn="روشن" />
 
         <com.technotapp.servicestation.customView.CustomTextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="چاپ تراکنش خریدار"
             android:textSize="12sp"
             app:fontName="@string/irsansMedium" />
@@ -89,7 +90,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="right"
         android:orientation="horizontal"
         android:paddingRight="15dp">
 
@@ -98,12 +98,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
+            android:layout_marginLeft="10dp"
             android:textOff="خاموش"
             android:textOn="روشن" />
 
         <com.technotapp.servicestation.customView.CustomTextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="چاپ تراکنش فروشنده"
             android:textSize="12sp"
             app:fontName="@string/irsansMedium" />
@@ -129,7 +131,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="right"
         android:orientation="horizontal"
         android:paddingRight="15dp">
 
@@ -139,11 +140,13 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
             android:textOff="خاموش"
+            android:layout_marginLeft="10dp"
             android:textOn="روشن" />
 
         <com.technotapp.servicestation.customView.CustomTextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="فعالسازی"
             android:textSize="12sp"
             app:fontName="@string/irsansMedium" />
@@ -177,11 +180,13 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="15dp" />
 
         <com.technotapp.servicestation.customView.CustomTextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="میزان صدا"
             android:textSize="12sp"
             app:fontName="@string/irsansMedium" />

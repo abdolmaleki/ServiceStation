@@ -135,7 +135,6 @@ public class ApiCaller {
                     token = apiService.getCustomerAccount(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
                     break;
 
-
                 case Constant.Api.Type.BYE_CHARGE:
                     token = apiService.buyCharge(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
                     break;
@@ -146,6 +145,18 @@ public class ApiCaller {
 
                 case Constant.Api.Type.INSERT_TRANSACTION:
                     token = apiService.InsertTransaction(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
+                    break;
+
+                case Constant.Api.Type.LOGIN_SETTING:
+                    token = apiService.loginSetting(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
+                    break;
+
+                case Constant.Api.Type.GET_INTERNET_PACKAGE:
+                    token = apiService.getInternetPackages(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
+                    break;
+
+                case Constant.Api.Type.BUY_INTERNET_PACKAGE:
+                    token = apiService.buyInternetPackages(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
                     break;
             }
 
@@ -202,6 +213,7 @@ public class ApiCaller {
 
     public interface ApiCallback {
         void onResponse(int responseCode, String jsonResult);
+
         void onFail(String message);
 
     }

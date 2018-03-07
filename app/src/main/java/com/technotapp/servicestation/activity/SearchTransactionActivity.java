@@ -23,10 +23,13 @@ import com.technotapp.servicestation.adapter.DataModel.ArchiveTransactionAdapter
 import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.connection.restapi.ApiCaller;
 import com.technotapp.servicestation.connection.restapi.dto.TransactionArchiveDto;
+import com.technotapp.servicestation.connection.restapi.sto.BaseTransactionSto;
 import com.technotapp.servicestation.connection.restapi.sto.SearchTransactionSto;
 import com.technotapp.servicestation.customView.CustomButton;
 import com.technotapp.servicestation.customView.CustomTextView;
+import com.technotapp.servicestation.enums.PaymentType;
 import com.technotapp.servicestation.mapper.TransactionMapper;
+import com.technotapp.servicestation.pax.printer.PrintMaker;
 import com.technotapp.servicestation.setting.Session;
 
 import java.lang.reflect.Type;
@@ -62,14 +65,23 @@ public class SearchTransactionActivity extends BaseActivity implements View.OnCl
     private boolean mIsLoading = false;
 
     private ArchiveTransactionAdapter mAdapter;
+    private String mUserTokenId;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_transaction);
+        loadData();
         initView();
 
+    }
+
+    private void loadData() {
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            mUserTokenId = bundle.getString(Constant.Key.SUPPORT_TOKEN_ID);
+        }
     }
 
     private void initView() {
@@ -105,7 +117,6 @@ public class SearchTransactionActivity extends BaseActivity implements View.OnCl
 
         } else if (id == mET_End_Date.getId()) {
             mSelectedEditText = DateHelper.showDatePicker(this, mET_End_Date);
-
 
         } else if (id == mBTN_Serach.getId()) {
             if (!mIsLoading) {
@@ -250,10 +261,21 @@ public class SearchTransactionActivity extends BaseActivity implements View.OnCl
 
     private void initAdapter(List<SearchTransactionSto.DataModel.Result> results) {
         ArrayList<ArchiveTransactionAdapterModel> adapterModels = TransactionMapper.convertStoToAdaptrerModel(results);
-        mAdapter = new ArchiveTransactionAdapter(this, adapterModels);
+        mAdapter = new ArchiveTransactionAdapter(this, adapterModels, new ArchiveTransactionAdapter.ArchiveTransactionListener() {
+            @Override
+            public void onPrintTransaction(ArchiveTransactionAdapterModel archiveTransactionAdapterModel) {
+                try {
+                    if (archiveTransactionAdapterModel.amount != 0) {
+                        PrintMaker.startPrint(SearchTransactionActivity.this, archiveTransactionAdapterModel);
+                    }
+                } catch (Exception e) {
+                    AppMonitor.reportBug(SearchTransactionActivity.this, e, "SearchTransactionActivity", "onPrintTransaction");
+                }
+
+            }
+        });
         mRecyclerView.setAdapter(mAdapter);
         setLazyLoading();
-
     }
 
     private void addMoreItems(List<SearchTransactionSto.DataModel.Result> results) {
@@ -292,10 +314,15 @@ public class SearchTransactionActivity extends BaseActivity implements View.OnCl
         TransactionArchiveDto dto = new TransactionArchiveDto();
         dto.dateFrom = DateHelper.shamsiToMiladiDate(mFromCalendar);
         dto.dateTo = DateHelper.shamsiToMiladiDate(mEndCalendar);
-        dto.idSeller = Long.parseLong(mSession.getMerchantId());
-        //dto.terminalCode = mSession.getTerminalId();
+        dto.idMerchant = Long.parseLong(mSession.getMerchantId());
         dto.terminalCode = mSession.getTerminalId();
-        dto.tokenId = mSession.getTokenId();
+        if (mUserTokenId == null) {
+            dto.tokenId = mSession.getTokenId();
+
+        } else {
+            dto.tokenId = mUserTokenId;
+
+        }
         dto.skipRows = mSkipRows;
         dto.takeRows = mTakeRows;
 

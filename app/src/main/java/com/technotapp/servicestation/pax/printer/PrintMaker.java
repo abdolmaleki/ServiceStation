@@ -7,9 +7,10 @@ import android.graphics.Bitmap;
 import android.view.View;
 
 import com.technotapp.servicestation.Infrastructure.DateHelper;
+import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.Infrastructure.PaxHelper;
 import com.technotapp.servicestation.R;
-import com.technotapp.servicestation.adapter.DataModel.TransactionDataModel;
+import com.technotapp.servicestation.adapter.DataModel.ArchiveTransactionAdapterModel;
 import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.connection.restapi.sto.BaseTransactionSto;
 import com.technotapp.servicestation.entity.TransactionService;
@@ -23,6 +24,29 @@ public class PrintMaker {
     private static Printable printable;
     private static Bitmap printBitmap;
     private static Session mSession;
+
+    public static void startPrint(Context context, ArchiveTransactionAdapterModel model) {
+
+        mSession = Session.getInstance(context);
+
+        printable = PrintFactory.getPrintContent(Printable.BUY_CUSTOMER);
+
+        if (printable != null) {
+            printBitmap = printable.getContent(context, mSession.getShopName(), mSession.getTelephone(), "1475478589", model.time, model.date, String.valueOf(model.transactionId), mSession.getTerminalId(), model.cardNumber, String.valueOf(model.amount));
+
+            PrinterHelper.getInstance().startPrint(context, printBitmap, new PrinterHelper.PrinterListener() {
+                @Override
+                public void onSuccessfulPrint() {
+
+                }
+
+                @Override
+                public void failedPrint(String message) {
+                    Helper.alert(context, message, Constant.AlertType.Error);
+                }
+            });
+        }
+    }
 
     public static void startPrint(Context context, int requestType, BaseTransactionSto sto) {
 
@@ -74,10 +98,10 @@ public class PrintMaker {
                     if (printable != null) {
                         if (isTurnRateEnabled) {
                             long turnRate = PaxHelper.generateTurnRating(context);
-                            printBitmap = printable.getContent(context, mSession.getShopName(), mSession.getTelephone(), "1475478589", DateHelper.getGregorianDateTime("HH:mm:ss"), DateHelper.getShamsiDate(), String.valueOf(TransactionService.deviceTransactionId), mSession.getTerminalId(), TransactionService.cardNumber, String.valueOf(TransactionService.amount), (turnRate + ""));
+                            printBitmap = printable.getContent(context, mSession.getShopName(), mSession.getTelephone(), "1475478589", DateHelper.getGregorianDateTime("HH:mm:ss"), DateHelper.getShamsiDate(), String.valueOf(sto.deviceTransactionID), mSession.getTerminalId(), sto.cardNumber, String.valueOf(TransactionService.amount), (turnRate + ""));
 
                         } else {
-                            printBitmap = printable.getContent(context, mSession.getShopName(), mSession.getTelephone(), "1475478589", DateHelper.getGregorianDateTime("HH:mm:ss"), DateHelper.getShamsiDate(), String.valueOf(TransactionService.deviceTransactionId), mSession.getTerminalId(), TransactionService.cardNumber, String.valueOf(TransactionService.amount));
+                            printBitmap = printable.getContent(context, mSession.getShopName(), mSession.getTelephone(), "1475478589", DateHelper.getGregorianDateTime("HH:mm:ss"), DateHelper.getShamsiDate(), String.valueOf(sto.deviceTransactionID), mSession.getTerminalId(), sto.cardNumber, String.valueOf(TransactionService.amount));
 
                         }
                         PrinterHelper.getInstance().startPrint(context, printBitmap, new PrinterHelper.PrinterListener() {
@@ -276,12 +300,8 @@ public class PrintMaker {
                 if (isCustomerPrintEnabled) {
                     if (isTurnRateEnabled) {
                         printable = PrintFactory.getPrintContent(Printable.CASH_HAVE_RATE);
-
-
                     } else {
                         printable = PrintFactory.getPrintContent(Printable.CASH);
-
-
                     }
                     if (printable != null) {
 

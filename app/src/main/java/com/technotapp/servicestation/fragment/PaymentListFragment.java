@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -22,7 +21,6 @@ import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.activity.CustomQRScannerActivity;
-import com.technotapp.servicestation.activity.CustomScannerActivity;
 import com.technotapp.servicestation.adapter.DataModel.PaymentTypeAdapterModel;
 import com.technotapp.servicestation.adapter.PaymentTypeAdapter;
 import com.technotapp.servicestation.application.Constant;

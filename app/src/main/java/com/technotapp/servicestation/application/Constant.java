@@ -118,6 +118,13 @@ public class Constant {
         public static final String HASH_ID = "hash.id";
         public static final java.lang.String LITR = "LITR";
         public static final java.lang.String DISPENSER = "dispenser";
+        public static final String OPERATOR_TYPE = "operator.type";
+        public static final String SIMCARD_TYPE = "simcard.type";
+        public static final String SUPPORT_TOKEN_ID = "support.token.id";
+        public static final String SUPPORT_TOKEN_ID_EXPIRE_TIME = "support.token.expire";
+        public static final String SUPPORT_IMAGE = "support.image";
+        public static final String SUPPORT_IMAGE_URL = "support.image.url";
+        public static final String SUPPORTER_NAME = "support.name";
         public static String ACCOUNT_NUMBER = "account_number";
     }
 
@@ -128,7 +135,7 @@ public class Constant {
         public static final String TICKET = "ticket_service";
         public static final String SIMCARD = "simcard_service";
         public static final String RECEIPT = "receipt_service";
-        public static final String INTERNET = "internet_package_service";
+        public static final String INTERNET_PACKAGE = "internet_package_service";
         public static final String ANSAR = "ansar_service";
         public static final String CARD_TO_CARD = "card_to_card_service";
         public static final String DEPOSIT = "deposit_service";
@@ -164,10 +171,11 @@ public class Constant {
             public static final int EDIT_SHOP_INFO = 11;
             public static final int SUBMIT_SUGGESTION = 12;
             public static final int GET_CUSTOMER_ACCOUNT = 13;
-
-
             public static final int BILL_PAYMENT = 14;
             public static final int INSERT_TRANSACTION = 15;
+            public static final int LOGIN_SETTING = 16;
+            public static final int GET_INTERNET_PACKAGE = 17;
+            public static final int BUY_INTERNET_PACKAGE = 18;
         }
 
         public static class ErrorCode {

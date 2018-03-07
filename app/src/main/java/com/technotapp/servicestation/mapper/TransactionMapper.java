@@ -18,7 +18,7 @@ public class TransactionMapper {
                 ArchiveTransactionAdapterModel model = new ArchiveTransactionAdapterModel();
                 model.amount = result.amount;
                 model.accountNumber = result.accountNumber;
-                model.cardNumber = result.cardNumber;
+                model.cardNumber = (result.cardNumber == null) ? String.valueOf(result.accountNumber) : result.cardNumber;
                 model.date = DateHelper.miladiToShamsiِDate(result.dateTime);
                 model.time = DateHelper.miladiToShamsiِTime(result.dateTime);
                 model.description = result.description;

@@ -65,5 +65,14 @@ public interface ServiceStationApi {
     @POST("api/Services/BillPayment")
     Call<String> billPayment(@Query("key") String key, @Query("value") String value, @Query("deviceInfo") String deviceInfo);
 
+    @POST("api/BackupUsers/LoginBackupUser")
+    Call<String> loginSetting(@Query("key") String key, @Query("value") String value, @Query("deviceInfo") String deviceInfo);
+
+    @POST("api/Services/GetInternetPackageList")
+    Call<String> getInternetPackages(@Query("key") String key, @Query("value") String value, @Query("deviceInfo") String deviceInfo);
+
+    @POST("api/Services/BuyInternetPack")
+    Call<String> buyInternetPackages(@Query("key") String key, @Query("value") String value, @Query("deviceInfo") String deviceInfo);
+
 
 }

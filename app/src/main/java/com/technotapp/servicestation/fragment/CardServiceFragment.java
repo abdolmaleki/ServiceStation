@@ -1,7 +1,6 @@
 package com.technotapp.servicestation.fragment;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,7 +13,6 @@ import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.Infrastructure.TransactionHelper;
 import com.technotapp.servicestation.R;
-import com.technotapp.servicestation.activity.FactorActivity;
 import com.technotapp.servicestation.adapter.DataModel.MenuAdapterModel;
 import com.technotapp.servicestation.adapter.DataModel.TransactionDataModel;
 import com.technotapp.servicestation.adapter.MenuAdapter;
@@ -38,7 +36,6 @@ public class CardServiceFragment extends SubMenuFragment implements AdapterView.
 
     GridView gridView;
     Bundle args;
-    Fragment fragment;
     private int mMenuId;
     private MenuModel mCurrenMenu;
     private Session mSession;
@@ -84,7 +81,6 @@ public class CardServiceFragment extends SubMenuFragment implements AdapterView.
     private void initView(View v) {
         try {
             gridView = v.findViewById(R.id.fragment_card_services_grdList);
-            fragment = CardServiceDepositAndBuyFragment.newInstance();
             setRetainInstance(true);
             setTitle(mCurrenMenu.title);
             gridView.setOnItemClickListener(this);
@@ -122,9 +118,7 @@ public class CardServiceFragment extends SubMenuFragment implements AdapterView.
                 case Constant.MenuAction.CARD_TO_CARD:
                     break;
                 case Constant.MenuAction.DEPOSIT:
-                    args.putBoolean("isDeposit", true);
-                    fragment.setArguments(args);
-                    // submitFragment(fragment);
+
                     break;
                 case Constant.MenuAction.BUY:
                     TransactionHelper.startServiceTransaction(getActivity(), ServiceType.TRANSACTION_BUY, new BaseDto(), new PaymentListFragment.PaymentResultListener() {

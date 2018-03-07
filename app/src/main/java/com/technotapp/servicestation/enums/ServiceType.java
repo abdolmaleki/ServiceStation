@@ -6,5 +6,6 @@ public class ServiceType {
     public static final int BUY_PRODUCT = 2;
     public static final int TRANSACTION_BUY = 3;
     public static final int TRANSACTION_BALANCE = 4;
+    public static final int BUY_ITERNET_PACKAGE = 5;
 
 }

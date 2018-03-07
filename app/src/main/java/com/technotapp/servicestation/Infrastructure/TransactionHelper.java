@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import com.technotapp.servicestation.adapter.DataModel.TransactionDataModel;
 import com.technotapp.servicestation.connection.restapi.dto.BaseDto;
 import com.technotapp.servicestation.connection.restapi.dto.BillPaymentDto;
+import com.technotapp.servicestation.connection.restapi.dto.BuyInternetPackageDto;
 import com.technotapp.servicestation.connection.restapi.dto.ChargeServiceDto;
 import com.technotapp.servicestation.connection.restapi.dto.TerminalTransactionDto;
 import com.technotapp.servicestation.entity.TransactionService;
@@ -56,6 +57,10 @@ public class TransactionHelper {
         switch (serviceType) {
             case ServiceType.CHARGE:
                 paymentListFragment = PaymentListFragment.newInstance(((ChargeServiceDto) dto).chargeModel.amount);
+                break;
+
+            case ServiceType.BUY_ITERNET_PACKAGE:
+                paymentListFragment = PaymentListFragment.newInstance(((BuyInternetPackageDto) dto).internetPackModel.amount);
                 break;
 
             case ServiceType.BILL:

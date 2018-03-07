@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -205,7 +206,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
         menuDto.userName = edtUsername.getText().toString();
         menuDto.password = edtPassword.getText().toString();
         menuDto.deviceInfo = "My Pos Info";
-        menuDto.terminalCode = "08200673";
+        menuDto.terminalCode = "08200876";
         return menuDto;
     }
 

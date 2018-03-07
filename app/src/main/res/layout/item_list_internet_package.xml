@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="155dp"
+        android:background="@drawable/bg_internet_package_list"
+        android:orientation="vertical"
+        android:paddingBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="20dp">
+
+
+        <com.technotapp.servicestation.customView.CustomTextView
+            android:id="@+id/item_list_internet_package_balance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="100 مگابایت شبانه:"
+            android:textColor="@color/white"
+            app:fontName="@string/irsansMedium" />
+
+        <com.technotapp.servicestation.customView.CustomTextView
+            android:id="@+id/item_list_internet_package_expire"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ماهانه 1 روزه"
+            android:textColor="@color/white"
+            app:fontName="@string/irsansMedium" />
+
+        <com.technotapp.servicestation.customView.CustomTextView
+            android:id="@+id/item_list_internet_package_amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="30000 تومان"
+            android:textColor="@color/white"
+            app:fontName="@string/irsansMedium" />
+
+
+    </LinearLayout>
+
+    <com.technotapp.servicestation.customView.CustomButton
+        android:id="@+id/item_list_internet_package_btn_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/bg_btn_internet_package_list_select"
+        android:text="انتخاب بسته"
+        android:textColor="@color/white"
+        app:fontName="@string/irsansMedium" />
+
+
+</LinearLayout>

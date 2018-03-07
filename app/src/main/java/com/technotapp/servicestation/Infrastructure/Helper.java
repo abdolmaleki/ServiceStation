@@ -8,21 +8,15 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
-
 import com.google.gson.FieldNamingPolicy;
-import com.google.gson.FieldNamingStrategy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.entity.MyProgressDialog;
 import com.technotapp.servicestation.fragment.AlertDialogFragment;
 
-import java.lang.reflect.Type;
 import java.util.Date;
 
 public class Helper {
@@ -120,7 +114,6 @@ public class Helper {
     }
 
     static JsonDeserializer<Date> deser = (json, typeOfT, context) -> json == null ? null : new Date(json.getAsLong());
-
 
     public static String getBankName(String panNumber) {
 

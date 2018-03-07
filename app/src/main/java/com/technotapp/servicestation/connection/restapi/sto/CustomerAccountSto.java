@@ -18,7 +18,7 @@ public class CustomerAccountSto extends BaseSto {
         @DontObfuscate
         public class CustomerAccount implements Serializable {
 
-            public Integer accountNumber;
+            public long accountNumber;
             public Integer nidAccountType;
             public String title;
             public int isActivePin;

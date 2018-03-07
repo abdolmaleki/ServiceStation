@@ -1,8 +1,7 @@
 package com.technotapp.servicestation.enums;
 
-public enum OperatorType {
-    IRANCELL,
-    HAMRAHE_AVAL,
-    RIGHTEL,
-    TALYIA
+public class OperatorType {
+    public final static int IRANCELL = 1;
+    public final static int HAMRAHE_AVAL = 2;
+    public final static int RIGHTEL = 3;
 }

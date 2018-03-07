@@ -100,15 +100,19 @@
         android:textSize="12sp"
         app:fontName="@string/irsansNumber" />
 
-
-    <com.technotapp.servicestation.customView.CustomTextView
-        android:id="@+id/item_list_archive_transaction_tv_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="false"
-        android:textColor="@color/black"
+    <com.technotapp.servicestation.customView.CustomButton
+        android:id="@+id/item_list_archive_transaction_btn_print"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/item_list_archive_transaction_tv_time"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/bg_btn_purple_raduce"
+        android:text="چاپ تراکنش"
+        android:textColor="@color/white"
         android:textSize="12sp"
-        app:fontName="@string/irsansNumber" />
 
+        />
 
 </RelativeLayout>

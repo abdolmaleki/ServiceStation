@@ -88,7 +88,6 @@ public class ConfigActivity extends BaseActivity implements View.OnClickListener
 
     }
 
-
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
         if (compoundButton.getId() == mSwitch_turning.getId()) {

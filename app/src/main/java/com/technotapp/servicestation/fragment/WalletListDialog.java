@@ -13,10 +13,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
-import com.github.ybq.android.spinkit.style.MultiplePulse;
 import com.github.ybq.android.spinkit.style.Wave;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -24,7 +24,6 @@ import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.Encryptor;
 import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.R;
-import com.technotapp.servicestation.activity.KeypadActivity;
 import com.technotapp.servicestation.adapter.DataModel.WalletAdapterModel;
 import com.technotapp.servicestation.adapter.WalletAdapter;
 import com.technotapp.servicestation.application.Constant;
@@ -164,7 +163,7 @@ public class WalletListDialog extends DialogFragment implements View.OnClickList
                                     mList_wallet.setVisibility(View.VISIBLE);
                                     initAdapter(accountStos.get(0).dataModel.get(0).accounts);
                                 } else {  // have not registered acount
-                                    Helper.alert(mActivity, "متسفانه حسابی برای این کارت ثبت نشده است", Constant.AlertType.Error);
+                                    Helper.alert(mActivity, "متاسفانه حسابی برای این کارت ثبت نشده است", Constant.AlertType.Error);
                                     closeDialog();
                                 }
                             } else {
@@ -200,7 +199,6 @@ public class WalletListDialog extends DialogFragment implements View.OnClickList
         dto.cardNumber = mCardNumber;
         dto.idHashCustomer = mHashId;
         dto.tokenId = mSession.getTokenId();
-
         return dto;
     }
 
@@ -215,9 +213,26 @@ public class WalletListDialog extends DialogFragment implements View.OnClickList
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         if (mAmount == -1) {
-            Intent intent = new Intent(mActivity, KeypadActivity.class);
-            intent.putExtra(Constant.Key.IS_ACTIVE_PIN, model.isActivePin);
-            startActivityForResult(intent, Constant.RequestCode.KEYPAD_AMOUNT);
+//            Intent intent = new Intent(mActivity, KeypadActivity.class);
+//            intent.putExtra(Constant.Key.IS_ACTIVE_PIN, model.isActivePin);
+//            startActivityForResult(intent, Constant.RequestCode.KEYPAD_AMOUNT);
+
+            KeypadFragment keypadFragment = KeypadFragment.newInstance(model.isActivePin);
+
+            keypadFragment.show(mActivity, new KeypadFragment.KeypadListener() {
+                @Override
+                public void onAmountEntered(String amount, String password) {
+                    Intent intent = new Intent();
+                    intent.putExtra(Constant.Key.ACTIVE_PIN, password);
+                    intent.putExtra(Constant.Key.PAYMENT_AMOUNT, amount);
+                    getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
+                    closeDialog();
+                }
+            });
+
+//            Window window = keypadFragment.getDialog().getWindow();
+//            window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+
 
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             //////////////////////  Payment amount  entered in previouse steps
@@ -225,7 +240,7 @@ public class WalletListDialog extends DialogFragment implements View.OnClickList
 
         } else {
             if (model.isActivePin) {
-                InputDialogFragment inputDialogFragment = InputDialogFragment.newInstance("رمز عبور را وارد کنید", Color.BLUE, InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                InputDialogFragment inputDialogFragment = InputDialogFragment.newInstance("رمز حساب را وارد کنید", Color.BLUE, InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 inputDialogFragment.show(getActivity().getFragmentManager(), "input");
                 inputDialogFragment.setOnInputDialogClickListener(new InputDialogFragment.OnInputDialogClick() {
                     @Override
@@ -261,5 +276,4 @@ public class WalletListDialog extends DialogFragment implements View.OnClickList
         }
 
     }
-
 }

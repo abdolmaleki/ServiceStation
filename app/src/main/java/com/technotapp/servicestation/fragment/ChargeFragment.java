@@ -72,7 +72,7 @@ public class ChargeFragment extends SubMenuFragment implements View.OnClickListe
     private RecyclerView.Adapter adapterCardCharge;
     private ArrayList<String> mChargeAmountArray;
     private Unbinder unbinder;
-    private OperatorType mOperatorType;
+    private int mOperatorType;
     private int mShChargeType;
     private long mChargeAmount;
     private Session mSession;
@@ -198,11 +198,11 @@ public class ChargeFragment extends SubMenuFragment implements View.OnClickListe
                 mOperatorType = OperatorType.RIGHTEL;
                 break;
 
-            case R.id.fragment_charge_btnTaliya:
-                resetOperatorTypeUi();
-                btnTaliya.setImageResource(R.drawable.ic_taliya_selected);
-                mOperatorType = OperatorType.TALYIA;
-                break;
+//            case R.id.fragment_charge_btnTaliya:
+//                resetOperatorTypeUi();
+//                btnTaliya.setImageResource(R.drawable.ic_taliya_selected);
+//                mOperatorType = OperatorType.TALYIA;
+//                break;
 
             case R.id.fragment_charge_btnIrancell:
                 resetOperatorTypeUi();
@@ -256,7 +256,7 @@ public class ChargeFragment extends SubMenuFragment implements View.OnClickListe
                             TransactionChargeResultSto sto = (TransactionChargeResultSto) baseTransactionSto;
                             if (sto != null) {
                                 if (sto.errorCode.equals(String.valueOf(Constant.Api.ErrorCode.Successfull)) || sto.errorCode.equals(Constant.Api.TransactionErrorCode.Successfull)) { //successfulTransaction
-                                   // PrintMaker.failOperationPrint(getActivity(), baseTransactionSto);
+                                    // PrintMaker.failOperationPrint(getActivity(), baseTransactionSto);
                                 }
                             }
 

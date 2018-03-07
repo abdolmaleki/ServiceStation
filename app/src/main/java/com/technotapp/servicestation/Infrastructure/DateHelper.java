@@ -39,7 +39,7 @@ public class DateHelper {
 
     public static String miladiToShamsiِDate(String miladi) {
         try {
-            DateFormat originDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+            DateFormat originDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
             Date date = originDate.parse(miladi);
             PersianCalendar persianCalendar = new PersianCalendar(date);
             return persianCalendar.get(Calendar.YEAR) + "/" + persianCalendar.get(Calendar.MONTH) + "/" + persianCalendar.get(Calendar.DAY_OF_MONTH);
@@ -52,7 +52,7 @@ public class DateHelper {
 
     public static String miladiToShamsiِTime(String miladi) {
         try {
-            DateFormat originDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+            DateFormat originDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
             Date date = originDate.parse(miladi);
             PersianCalendar persianCalendar = new PersianCalendar(date);
             return persianCalendar.get(Calendar.HOUR_OF_DAY) + ":" + (persianCalendar.get(Calendar.MINUTE) > 9 ? persianCalendar.get(Calendar.MINUTE) : ("0" + persianCalendar.get(Calendar.MINUTE)))

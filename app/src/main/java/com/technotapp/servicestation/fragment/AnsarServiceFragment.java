@@ -10,8 +10,6 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
-import com.technotapp.servicestation.Infrastructure.Helper;
-import com.technotapp.servicestation.Infrastructure.TransactionHelper;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.adapter.DataModel.MenuAdapterModel;
 import com.technotapp.servicestation.adapter.DataModel.TransactionDataModel;
@@ -21,7 +19,6 @@ import com.technotapp.servicestation.database.Db;
 import com.technotapp.servicestation.database.model.MenuModel;
 import com.technotapp.servicestation.pax.mag.IMagCardCallback;
 import com.technotapp.servicestation.pax.mag.MagCard;
-import com.technotapp.servicestation.pax.printer.PrintMaker;
 import com.technotapp.servicestation.setting.Session;
 
 import java.util.ArrayList;
@@ -32,7 +29,6 @@ public class AnsarServiceFragment extends SubMenuFragment implements AdapterView
 
     GridView gridView;
     Bundle args;
-    Fragment fragment;
     private int mMenuId;
     private MenuModel mCurrenMenu;
     private Session mSession;
@@ -79,7 +75,6 @@ public class AnsarServiceFragment extends SubMenuFragment implements AdapterView
     private void initView(View v) {
         try {
             gridView = v.findViewById(R.id.fragment_ansar_services_grdList);
-            fragment = CardServiceDepositAndBuyFragment.newInstance();
             setRetainInstance(true);
             setTitle(mCurrenMenu.title);
             gridView.setOnItemClickListener(this);
@@ -117,14 +112,10 @@ public class AnsarServiceFragment extends SubMenuFragment implements AdapterView
                 case Constant.MenuAction.CARD_TO_CARD:
                     break;
                 case Constant.MenuAction.DEPOSIT:
-                    args.putBoolean("isDeposit", true);
-                    fragment.setArguments(args);
-                    submitFragment(fragment);
+
                     break;
                 case Constant.MenuAction.BUY:
-                    args.putBoolean("isDeposit", false);
-                    fragment.setArguments(args);
-                    submitFragment(fragment);
+
                     break;
                 case Constant.MenuAction.BALANCE:
                     balanceCard();

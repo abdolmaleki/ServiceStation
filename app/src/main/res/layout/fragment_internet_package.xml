@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_card_service_deposit_buy"
+    android:layoutDirection="rtl"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/fragments_padding_top">
+
+
+    <com.technotapp.servicestation.customView.CustomTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:scrollbars="horizontal"
+        android:text="انتخاب اپراتور"
+        android:textColor="@color/textViewColor"
+        android:textSize="12dp"
+        app:fontName="irsans_bold" />
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+
+        <ImageButton
+            android:id="@+id/fragment_internet_package_btn_irancell"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginStart="4dp"
+            android:background="@android:color/transparent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_irancell" />
+
+        <ImageButton
+            android:id="@+id/fragment_internet_package_btn_hamraheAval"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginStart="4dp"
+            android:background="@android:color/transparent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_hamrah_aval" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/lineColor" />
+
+
+    <com.technotapp.servicestation.customView.CustomTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:scrollbars="horizontal"
+        android:text="نوع سیم کارت"
+        android:textColor="@color/textViewColor"
+        android:textSize="12sp"
+        app:fontName="irsans_bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.technotapp.servicestation.customView.CustomButton
+                android:id="@+id/fragment_internet_package_btn_etebari"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/cs_btn_charge_fragment_type_charge_selected"
+                android:drawableStart="@drawable/ic_tick"
+                android:gravity="center"
+                android:paddingEnd="8dp"
+                android:paddingStart="8dp"
+                android:text="اعتباری"
+                android:textColor="@color/fragment_charge_switch_text_color"
+                android:textSize="14sp" />
+
+            <com.technotapp.servicestation.customView.CustomButton
+                android:id="@+id/fragment_internet_package_btn_daemi"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/cs_btn_charge_fragment_type_charge"
+                android:gravity="center"
+                android:paddingEnd="8dp"
+                android:paddingStart="8dp"
+                android:text="دائمی"
+                android:textColor="@color/fragment_charge_switch_text_color"
+                android:textSize="14sp" />
+
+            <com.technotapp.servicestation.customView.CustomButton
+                android:id="@+id/fragment_internet_package_btn_tdlte"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/cs_btn_charge_fragment_type_charge"
+                android:gravity="center"
+                android:paddingEnd="8dp"
+                android:paddingStart="8dp"
+                android:text="TD LTE"
+                android:textColor="@color/fragment_charge_switch_text_color"
+                android:textSize="14sp" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/lineColor" />
+
+
+    <com.technotapp.servicestation.customView.CustomTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:scrollbars="horizontal"
+        android:text="انتخاب بسته مورد نظر"
+        android:textColor="@color/textViewColor"
+        android:textSize="12sp"
+        app:fontName="irsans_bold" />
+
+    <com.technotapp.servicestation.customView.CustomButton
+        android:id="@+id/fragment_internet_package_btn_packages"
+        android:layout_width="280dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_btn_firoozeh"
+        android:maxLines="2"
+        android:paddingBottom="10dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="10dp"
+        android:text="مشاهده لیست بسته ها"
+        android:textColor="@color/white"
+        app:fontName="@string/irsansMedium" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/lineColor" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <com.technotapp.servicestation.customView.CustomTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:gravity="center"
+            android:scrollbars="horizontal"
+            android:text="شماره تلفن"
+            android:textColor="@color/textViewColor"
+            android:textSize="12sp"
+            app:fontName="irsans_bold" />
+
+        <com.technotapp.servicestation.customView.CustomEditText
+            android:id="@+id/fragment_internet_package_et_mobile"
+            android:layout_width="176dp"
+            android:layout_height="32dp"
+            android:background="@drawable/bg_default_edittext"
+            android:gravity="center"
+            android:hint="09000000000"
+            android:inputType="number"
+            android:maxLength="11"
+            android:textColor="@color/button_bar_divider_color_dark"
+            android:textSize="16sp"
+            app:fontName="@string/irsansNumber" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <com.technotapp.servicestation.customView.CustomButton
+        android:id="@+id/fragment_internet_package_btn_submit"
+        android:layout_width="196dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bg_btn_confirm"
+        android:digits="1234567890"
+        android:imeOptions="actionDone"
+        android:inputType="numberDecimal"
+        android:text="تایید و پرداخت"
+        android:textColor="@color/white"
+        app:fontName="@string/irsansMedium" />
+
+
+</LinearLayout>

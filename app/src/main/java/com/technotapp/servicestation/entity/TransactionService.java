@@ -13,10 +13,12 @@ import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.connection.restapi.ApiCaller;
 import com.technotapp.servicestation.connection.restapi.dto.BaseDto;
 import com.technotapp.servicestation.connection.restapi.dto.BillPaymentDto;
+import com.technotapp.servicestation.connection.restapi.dto.BuyInternetPackageDto;
 import com.technotapp.servicestation.connection.restapi.dto.ChargeServiceDto;
 import com.technotapp.servicestation.connection.restapi.dto.TerminalTransactionDto;
 import com.technotapp.servicestation.connection.restapi.sto.BaseTransactionSto;
 import com.technotapp.servicestation.connection.restapi.sto.BillPaymentSto;
+import com.technotapp.servicestation.connection.restapi.sto.BuyInternetPackaeResultSto;
 import com.technotapp.servicestation.connection.restapi.sto.TransactionChargeResultSto;
 import com.technotapp.servicestation.enums.ServiceType;
 import com.technotapp.servicestation.fragment.PaymentListFragment;
@@ -75,6 +77,10 @@ public class TransactionService {
 
                 case ServiceType.TRANSACTION_BALANCE:
                     callTransactionBalance(context, resultListener);
+                    break;
+
+                case ServiceType.BUY_ITERNET_PACKAGE:
+                    callBuyInternetPackage(context, resultListener);
                     break;
             }
         } else {
@@ -273,6 +279,7 @@ public class TransactionService {
             buyDto.transactionModel.transactionDateTime = transactionDateTime;
             buyDto.transactionModel.idMerchant = idMerchant;
             buyDto.transactionModel.codeTerminalType = codeTerminalType;
+            buyDto.transactionModel.amountOfTransaction = amount;
             buyDto.tokenId = tokenId;
             buyDto.terminalCode = terminalId;
             buyDto.transactionModel.codeTransactionType = "00";
@@ -383,6 +390,75 @@ public class TransactionService {
             });
         } catch (Exception e) {
             AppMonitor.reportBug(context, e, "TransactionService", "callTransactionBalance");
+        } finally {
+            resetValues();
+        }
+    }
+
+    private static void callBuyInternetPackage(Context context, PaymentListFragment.PaymentResultListener resultListener) {
+        try {
+            BuyInternetPackageDto buyInternetPackageDto = (BuyInternetPackageDto) dto;
+            buyInternetPackageDto.transactionModel.accountNumber = accountNumber;
+            buyInternetPackageDto.transactionModel.cardNumber = cardNumber;
+            buyInternetPackageDto.transactionModel.deviceTransactionId = deviceTransactionId;
+            buyInternetPackageDto.transactionModel.transactionDateTime = transactionDateTime;
+            buyInternetPackageDto.transactionModel.idMerchant = idMerchant;
+            buyInternetPackageDto.tokenId = tokenId;
+            buyInternetPackageDto.terminalCode = terminalId;
+            session = Session.getInstance(context);
+
+            final SecretKey AESsecretKey = Encryptor.generateRandomAESKey();
+            SecretKey AES_Key_For_Pin = Encryptor.generateAESKeyByArray(session.getPinKey());
+            String encryptedPinKey = Encryptor.encriptAES(accountPin, AES_Key_For_Pin);
+            buyInternetPackageDto.transactionModel.accountPin = Base64.decode(encryptedPinKey, Base64.DEFAULT);
+
+
+            new ApiCaller(Constant.Api.Type.BUY_INTERNET_PACKAGE).call(context, buyInternetPackageDto, AESsecretKey, "در حال ارسال اطلاعات", new ApiCaller.ApiCallback() {
+                @Override
+                public void onResponse(int responseCode, String jsonResult) {
+                    try {
+                        Gson gson = Helper.getGson();
+                        BuyInternetPackaeResultSto buyInternetPackaeResultSto = gson.fromJson(jsonResult, BuyInternetPackaeResultSto.class);
+
+                        if (buyInternetPackaeResultSto != null) {
+                            Session.getInstance(context).setPinKey(buyInternetPackaeResultSto.newPinKey);
+                            if (buyInternetPackaeResultSto.errorCode.equals(String.valueOf(Constant.Api.ErrorCode.Successfull)) || buyInternetPackaeResultSto.errorCode.equals(Constant.Api.TransactionErrorCode.Successfull)) { //successfulTransaction
+                                if (buyInternetPackaeResultSto.internetPackResult.resultCode.equals(Constant.Api.ResultCode.Successfull)) {
+
+                                    buyInternetPackaeResultSto.amount = String.valueOf(buyInternetPackageDto.internetPackModel.amount);
+                                    if (buyInternetPackageDto.transactionModel.cardNumber != null && !TextUtils.isEmpty(buyInternetPackageDto.transactionModel.cardNumber)) {
+                                        buyInternetPackaeResultSto.cardNumber = buyInternetPackageDto.transactionModel.cardNumber; // have carNumber
+                                    } else {
+                                        buyInternetPackaeResultSto.cardNumber = String.valueOf(buyInternetPackageDto.transactionModel.accountNumber); // have HashId
+
+                                    }
+
+                                    resultListener.onSuccessfullPayment(buyInternetPackaeResultSto.internetPackResult.note, buyInternetPackaeResultSto);
+                                } else {
+                                    resultListener.onFailedPayment(buyInternetPackaeResultSto.internetPackResult.note, buyInternetPackaeResultSto);
+                                }
+
+                            } else {
+                                resultListener.onFailedPayment(buyInternetPackaeResultSto.errorString, null);
+                            }
+
+                        } else {
+                            resultListener.onFailedPayment(context.getString(R.string.api_data_download_error), null);
+                        }
+                    } catch (Exception e) {
+                        AppMonitor.reportBug(context, e, "TransactionService", "callBuyInternetPackage-OnResponse");
+                        resultListener.onFailedPayment(context.getString(R.string.api_data_download_error), null);
+                    }
+                }
+
+                @Override
+                public void onFail(String message) {
+                    resultListener.onFailedPayment(message, null);
+
+                }
+            });
+        } catch (Exception e) {
+            AppMonitor.reportBug(context, e, "ChargeFragment", "callBuyInternetPackage");
         } finally {
             resetValues();
         }

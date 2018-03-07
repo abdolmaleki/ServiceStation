@@ -9,7 +9,7 @@ public class SearchFactorDto extends BaseDto {
     public String tokenId;
     public String terminalCode;
     public Long nidFactor = null;
-    public long idSeller;
+    public long idMerchant;
     public Date dateFrom;
     public Date dateTo;
     public int skipRows;

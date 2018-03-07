@@ -23,6 +23,7 @@ import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.connection.restapi.ApiCaller;
 import com.technotapp.servicestation.connection.restapi.dto.GetVersionDto;
 import com.technotapp.servicestation.connection.restapi.sto.BaseSto;
+import com.technotapp.servicestation.customView.CustomTextView;
 import com.technotapp.servicestation.enums.SettingActionType;
 import com.technotapp.servicestation.enums.UserRole;
 import com.technotapp.servicestation.setting.Session;
@@ -35,7 +36,8 @@ import javax.crypto.SecretKey;
 
 import butterknife.ButterKnife;
 
-public class SettingActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
+public class
+SettingActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
 
     private Session mSession;
@@ -43,6 +45,12 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private ImageView mExit;
     private GridView mGridMenu;
     UserRole mUserRole;
+    private String mSupporterImage;
+    private String mImageUrl;
+    private String mSupportTokenId;
+    private String mSupportTokenIDExipre;
+    private String mUserName;
+    private CustomTextView mTV_UserName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +66,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         adapterModels.add(new SettingAdapterModel("پیکره بندی", R.drawable.ic_config, SettingActionType.CONFIG));
         adapterModels.add(new SettingAdapterModel("خدمات و کالاها", R.drawable.ic_product, SettingActionType.PRODUCT));
         adapterModels.add(new SettingAdapterModel("اینترنت", R.drawable.ic_internet, SettingActionType.INTERNET));
+        adapterModels.add(new SettingAdapterModel("گزارش تراکنش ها", R.drawable.ic_transaction_setting, SettingActionType.TRANSACTIONS));
+        adapterModels.add(new SettingAdapterModel("گزارش فاکتورها", R.drawable.ic_invoice, SettingActionType.FACTOR));
         if (mUserRole == UserRole.MERCHANT) {
-            adapterModels.add(new SettingAdapterModel("گزارش تراکنش ها", R.drawable.ic_transaction_setting, SettingActionType.TRANSACTIONS));
-            adapterModels.add(new SettingAdapterModel("گزارش فاکتورها", R.drawable.ic_invoice, SettingActionType.FACTOR));
+
             adapterModels.add(new SettingAdapterModel("پیشنهادات", R.drawable.ic_offer, SettingActionType.OFFERS));
         }
         if (mUserRole == UserRole.SUPPORTER) {
@@ -84,6 +93,14 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             } else {
                 mUserRole = userRole;
             }
+
+            if (mUserRole == UserRole.SUPPORTER) {
+                mSupportTokenId = intent.getStringExtra(Constant.Key.SUPPORT_TOKEN_ID);
+                mSupportTokenIDExipre = intent.getStringExtra(Constant.Key.SUPPORT_TOKEN_ID_EXPIRE_TIME);
+                mImageUrl = intent.getStringExtra(Constant.Key.SUPPORT_IMAGE_URL);
+                mSupporterImage = intent.getStringExtra(Constant.Key.SUPPORT_IMAGE);
+                mUserName = intent.getStringExtra(Constant.Key.SUPPORTER_NAME);
+            }
         }
     }
 
@@ -91,18 +108,31 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         ButterKnife.bind(this);
         mSession = Session.getInstance(this);
         mGridMenu = findViewById(R.id.activity_setting_grid_view_menu);
+        mTV_UserName = findViewById(R.id.activity_setting_tv_username);
         ImageView mUserImage = findViewById(R.id.activity_setting_img_user);
         mExit = findViewById(R.id.activity_setting_img_exit);
         mExit.setOnClickListener(this);
         mBack = findViewById(R.id.activity_setting_img_back);
         mBack.setOnClickListener(this);
 
+        if (mUserRole == UserRole.SUPPORTER) {
 
-        Glide.with(this).load("https://media.licdn.com/mpr/mpr/shrinknp_200_200/p/3/000/076/07f/0d01ca8.jpg")
-                .apply(RequestOptions.circleCropTransform())
-                .apply(new RequestOptions().skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE))
-                .into(mUserImage)
-                .onLoadFailed(getResources().getDrawable(R.drawable.ic_loading));
+            Glide.with(this).load(mImageUrl + mUserImage)
+                    .apply(RequestOptions.circleCropTransform())
+                    .apply(new RequestOptions().skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE))
+                    .into(mUserImage)
+                    .onLoadFailed(getResources().getDrawable(R.drawable.ic_loading));
+
+            mTV_UserName.setText(mUserName);
+
+
+        } else {
+            Glide.with(this).load("")
+                    .apply(RequestOptions.circleCropTransform())
+                    .apply(new RequestOptions().skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE))
+                    .into(mUserImage)
+                    .onLoadFailed(getResources().getDrawable(R.drawable.ic_loading));
+        }
     }
 
     @Override
@@ -182,21 +212,36 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long actionType) {
+
+        Intent intent;
         switch ((int) actionType) {
             case SettingActionType.CONFIG:
                 startActivity(new Intent(this, ConfigActivity.class));
                 break;
             case SettingActionType.PRODUCT:
-                startActivity(new Intent(this, ProductManagementActivity.class));
+                intent = new Intent(this, ProductManagementActivity.class);
+                if (mUserRole == UserRole.SUPPORTER) {
+                    intent.putExtra(Constant.Key.SUPPORT_TOKEN_ID, mSupportTokenId);
+                }
+                startActivity(intent);
                 break;
             case SettingActionType.INTERNET:
                 startActivity(new Intent(this, CheckNetworkActivity.class));
                 break;
             case SettingActionType.TRANSACTIONS:
-                startActivity(new Intent(this, SearchTransactionActivity.class));
+                intent = new Intent(this, SearchTransactionActivity.class);
+                if (mUserRole == UserRole.SUPPORTER) {
+                    intent.putExtra(Constant.Key.SUPPORT_TOKEN_ID, mSupportTokenId);
+                }
+                startActivity(intent);
+
                 break;
             case SettingActionType.FACTOR:
-                startActivity(new Intent(this, SearchFactorActivity.class));
+                intent = new Intent(this, SearchFactorActivity.class);
+                if (mUserRole == UserRole.SUPPORTER) {
+                    intent.putExtra(Constant.Key.SUPPORT_TOKEN_ID, mSupportTokenId);
+                }
+                startActivity(intent);
                 break;
             case SettingActionType.OFFERS:
                 startActivity(new Intent(this, SuggestionActivity.class));

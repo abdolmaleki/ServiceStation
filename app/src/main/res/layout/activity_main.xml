@@ -64,9 +64,9 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_gravity="end"
-            android:layout_marginRight="75dp"
-            android:src="@drawable/ic_buy_main"
-            android:visibility="invisible" />
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="80dp"
+            android:src="@drawable/ic_buy_main" />
 
     </LinearLayout>
 

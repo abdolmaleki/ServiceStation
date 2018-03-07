@@ -16,6 +16,7 @@ import com.technotapp.servicestation.fragment.CardServiceFragment;
 import com.technotapp.servicestation.fragment.ChargeFragment;
 import com.technotapp.servicestation.fragment.GasStationFragment;
 import com.technotapp.servicestation.fragment.IMagCard;
+import com.technotapp.servicestation.fragment.InternetPackageFragment;
 import com.technotapp.servicestation.fragment.KhalafiFragment;
 import com.technotapp.servicestation.fragment.QrFragment;
 import com.technotapp.servicestation.fragment.ReceiptFragment;
@@ -73,6 +74,9 @@ public class PublicServiceActivity extends SubMenuActivity implements IPin {
                 return KhalafiFragment.newInstance();
             case Constant.MenuAction.GAS_STATION:
                 return GasStationFragment.newInstance();
+            case Constant.MenuAction.INTERNET_PACKAGE:
+                return InternetPackageFragment.newInstance();
+
             default:
                 Helper.alert(this, "این گزینه فعال نیست", Constant.AlertType.Error);
                 finish();

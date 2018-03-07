@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.adapter.DataModel.ArchiveTransactionAdapterModel;
+import com.technotapp.servicestation.customView.CustomButton;
 
 import java.util.ArrayList;
 
@@ -17,10 +18,13 @@ public class ArchiveTransactionAdapter extends RecyclerView.Adapter<ArchiveTrans
 
     ArrayList<ArchiveTransactionAdapterModel> dataSet;
     Context mContext;
+    ArchiveTransactionListener mArchiveTransactionListener;
 
-    public ArchiveTransactionAdapter(Context ctx, ArrayList<ArchiveTransactionAdapterModel> data) {
+    public ArchiveTransactionAdapter(Context ctx, ArrayList<ArchiveTransactionAdapterModel> data, ArchiveTransactionListener archiveTransactionListener) {
         this.dataSet = data;
         mContext = ctx;
+        mArchiveTransactionListener = archiveTransactionListener;
+
     }
 
     public void addNewTransactions(ArrayList<ArchiveTransactionAdapterModel> datas) {
@@ -46,9 +50,27 @@ public class ArchiveTransactionAdapter extends RecyclerView.Adapter<ArchiveTrans
         holder.transactionId.setText("شماره تراکنش: " + dataSet.get(position).transactionId);
         holder.transactionTypeTitle.setText("نوع تراکنش: " + dataSet.get(position).transactionTypeTitle);
         holder.date.setText(dataSet.get(position).date);
-        holder.cardNumber.setText("شماره کارت: " + dataSet.get(position).cardNumber);
+        if (dataSet.get(position).cardNumber != null) {
+            holder.cardNumber.setText("شماره کارت: " + dataSet.get(position).cardNumber);
+        } else {
+            holder.cardNumber.setText("نوع کارت: " + "کیف پول");
+
+        }
         holder.accountNumber.setText("شماره اکانت: " + dataSet.get(position).accountNumber);
         holder.time.setText(dataSet.get(position).time);
+        if (dataSet.get(position).amount == 0) {
+            holder.printBtn.setVisibility(View.INVISIBLE);
+        } else {
+            holder.printBtn.setVisibility(View.VISIBLE);
+            holder.printBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mArchiveTransactionListener.onPrintTransaction(dataSet.get(position));
+                }
+            });
+        }
+
+
     }
 
     @Override
@@ -64,6 +86,7 @@ public class ArchiveTransactionAdapter extends RecyclerView.Adapter<ArchiveTrans
         TextView time;
         TextView cardNumber;
         TextView accountNumber;
+        CustomButton printBtn;
         RelativeLayout rootLayout;
 
         ViewHolder(View itemView) {
@@ -75,7 +98,12 @@ public class ArchiveTransactionAdapter extends RecyclerView.Adapter<ArchiveTrans
             time = itemView.findViewById(R.id.item_list_archive_transaction_tv_time);
             cardNumber = itemView.findViewById(R.id.item_list_archive_transaction_tv_cardNumber);
             accountNumber = itemView.findViewById(R.id.item_list_archive_transaction_tv_accountNumber);
+            printBtn = itemView.findViewById(R.id.item_list_archive_transaction_btn_print);
             rootLayout = itemView.findViewById(R.id.item_list_archive_transaction_panel_root);
         }
+    }
+
+    public interface ArchiveTransactionListener {
+        void onPrintTransaction(ArchiveTransactionAdapterModel archiveTransactionAdapterModel);
     }
 }

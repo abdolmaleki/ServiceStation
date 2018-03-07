@@ -28,6 +28,7 @@ import com.technotapp.servicestation.connection.restapi.ApiCaller;
 import com.technotapp.servicestation.connection.restapi.dto.BaseDto;
 import com.technotapp.servicestation.connection.restapi.dto.GetVersionDto;
 import com.technotapp.servicestation.connection.restapi.dto.LogDto;
+import com.technotapp.servicestation.connection.restapi.dto.TerminalTransactionDto;
 import com.technotapp.servicestation.connection.restapi.sto.BaseSto;
 import com.technotapp.servicestation.connection.restapi.sto.BaseTransactionSto;
 import com.technotapp.servicestation.database.Db;
@@ -35,6 +36,7 @@ import com.technotapp.servicestation.database.model.MenuModel;
 import com.technotapp.servicestation.enums.ServiceType;
 import com.technotapp.servicestation.fragment.MainGridFragment;
 import com.technotapp.servicestation.fragment.PaymentListFragment;
+import com.technotapp.servicestation.pax.printer.PrintMaker;
 import com.technotapp.servicestation.setting.Session;
 
 import java.lang.reflect.Type;
@@ -297,15 +299,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.activity_main_img_buy) {
-            TransactionHelper.startServiceTransaction(this, ServiceType.TRANSACTION_BUY, new BaseDto(), new PaymentListFragment.PaymentResultListener() {
+            TerminalTransactionDto dto = new TerminalTransactionDto();
+            dto.transactionModel.amountOfTransaction = -1;
+            TransactionHelper.startServiceTransaction(this, ServiceType.BUY_PRODUCT, dto, new PaymentListFragment.PaymentResultListener() {
                 @Override
                 public void onSuccessfullPayment(String message, BaseTransactionSto response) {
-
+                    Helper.alert(MainActivity.this, message, Constant.AlertType.Success);
+                    PrintMaker.startFactorPrint(MainActivity.this, response);
                 }
 
                 @Override
                 public void onFailedPayment(String message, BaseTransactionSto baseTransactionSto) {
-
+                    Helper.alert(MainActivity.this, message, Constant.AlertType.Error);
                 }
 
                 @Override

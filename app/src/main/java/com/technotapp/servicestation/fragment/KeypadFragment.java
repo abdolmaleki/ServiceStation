@@ -1,39 +1,47 @@
 package com.technotapp.servicestation.fragment;
 
+import android.app.Activity;
+import android.app.DialogFragment;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.Helper;
-import com.technotapp.servicestation.Infrastructure.TransactionHelper;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.adapter.DataModel.TransactionDataModel;
 import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.pax.mag.IMagCardCallback;
 import com.technotapp.servicestation.pax.mag.MagCard;
-import com.technotapp.servicestation.pax.printer.PrintMaker;
 import com.technotapp.servicestation.setting.Session;
 
 import java.util.Locale;
 
-public class CardServiceDepositAndBuyFragment extends SubMenuFragment implements View.OnClickListener, View.OnLongClickListener {
+public class KeypadFragment extends DialogFragment implements View.OnClickListener, View.OnLongClickListener {
     private TransactionDataModel transactionDataModel;
     private TextView tvAmount;
-    private boolean isDeposit;
     private Button btnZero;
     private Button btnTripleZero;
     private Session mSession;
+    private KeypadListener mKeypadListener;
+    private TextView mTV_amount;
+    private boolean mIsActivePin;
 
-    public static CardServiceDepositAndBuyFragment newInstance() {
-        CardServiceDepositAndBuyFragment fragment = new CardServiceDepositAndBuyFragment();
+    public static KeypadFragment newInstance(boolean isActivePin) {
+        KeypadFragment fragment = new KeypadFragment();
         Bundle args = new Bundle();
+        args.putBoolean(Constant.Key.IS_ACTIVE_PIN, isActivePin);
         fragment.setArguments(args);
         return fragment;
     }
@@ -46,12 +54,16 @@ public class CardServiceDepositAndBuyFragment extends SubMenuFragment implements
 
 
             View rootView = inflater.inflate(R.layout.fragment_card_service_deposit_and_buy, container, false);
+            getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+            getDialog().getWindow().setBackgroundDrawableResource(R.drawable.bg_transparent);
+            Window window = getDialog().getWindow();
+            window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
             loadData();
             initView(rootView);
 
             return rootView;
         } catch (Exception e) {
-            AppMonitor.reportBug(getActivity(), e, "CardServiceDepositAndBuyFragment", "onCreateView");
+            AppMonitor.reportBug(getActivity(), e, "KeypadFragment", "onCreateView");
             return null;
         }
     }
@@ -59,20 +71,16 @@ public class CardServiceDepositAndBuyFragment extends SubMenuFragment implements
     private void loadData() {
         try {
             Bundle bundle = getArguments();
-            isDeposit = bundle.getBoolean("isDeposit");
+            mIsActivePin = bundle.getBoolean(Constant.Key.IS_ACTIVE_PIN, false);
+
         } catch (Exception e) {
-            AppMonitor.reportBug(getActivity(), e, "CardServiceDepositAndBuyFragment", "loadData");
+            AppMonitor.reportBug(getActivity(), e, "KeypadFragment", "loadData");
         }
     }
 
     private void initView(View v) {
         try {
             tvAmount = (TextView) v.findViewById(R.id.fragment_card_service_buy_txtAmount);
-            if (isDeposit) {
-                setTitle("واریز");
-            } else {
-                setTitle("خرید");
-            }
 
             btnZero = v.findViewById(R.id.fragment_keypad_triple_zero);
             btnTripleZero = v.findViewById(R.id.fragment_keypad_zero);
@@ -99,7 +107,7 @@ public class CardServiceDepositAndBuyFragment extends SubMenuFragment implements
             (v.findViewById(R.id.fragment_keypad_backspace)).setOnLongClickListener(this);
 
         } catch (Exception e) {
-            AppMonitor.reportBug(getActivity(), e, "CardServiceDepositAndBuyFragment", "initView");
+            AppMonitor.reportBug(getActivity(), e, "KeypadFragment", "initView");
         }
 
 
@@ -133,7 +141,7 @@ public class CardServiceDepositAndBuyFragment extends SubMenuFragment implements
                     }
                     tvAmount.addTextChangedListener(this);
                 } catch (Exception e) {
-                    AppMonitor.reportBug(getActivity(), e, "CardServiceDepositAndBuyFragment", "afterTextChanged");
+                    AppMonitor.reportBug(getActivity(), e, "KeypadFragment", "afterTextChanged");
                 }
             }
         });
@@ -143,34 +151,6 @@ public class CardServiceDepositAndBuyFragment extends SubMenuFragment implements
 
     }
 
-
-    private void startMagCard() {
-        try {
-
-            MagCard magCard = MagCard.getInstance();
-            magCard.start(getActivity(), new IMagCardCallback() {
-                @Override
-                public void onFail() {
-
-                }
-
-                @Override
-                public void onSuccessful(String track1, String track2, String track3) {
-
-                    initTransactionModel();
-
-                    if (track1 != null && !track1.equals("")) {
-                        transactionDataModel.setPanNumber(track1.substring(1, 17));
-                    } else if (track2 != null && !track2.equals("")) {
-                        transactionDataModel.setPanNumber(track2.substring(0, 16));
-                    }
-                }
-            });
-        } catch (Exception e) {
-            AppMonitor.reportBug(getActivity(), e, "CardServiceDepositAndBuyFragment", "startMagCard");
-        }
-    }
-
     private void initTransactionModel() {
         try {
 
@@ -178,30 +158,15 @@ public class CardServiceDepositAndBuyFragment extends SubMenuFragment implements
             //TODO setTerminalID
             transactionDataModel.setTerminalID(mSession.getTerminalId());
         } catch (Exception e) {
-            AppMonitor.reportBug(getActivity(), e, "CardServiceDepositAndBuyFragment", "initTransactionModel");
+            AppMonitor.reportBug(getActivity(), e, "KeypadFragment", "initTransactionModel");
         }
-    }
-
-    @Override
-    public void onPinEnteredSuccessfully() {
-        super.onPinEnteredSuccessfully();
-        try {
-            if (isDeposit) {
-
-            } else {
-
-            }
-        } catch (Exception e) {
-            AppMonitor.reportBug(getActivity(), e, "CardServiceDepositAndBuyFragment", "onPinEnteredSuccessfully");
-        }
-
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fragment_card_service_buy_btn:
-                startMagCard();
+                returnResult();
                 break;
 
             case R.id.fragment_keypad_one:
@@ -259,6 +224,27 @@ public class CardServiceDepositAndBuyFragment extends SubMenuFragment implements
 
     }
 
+    private void returnResult() {
+        if (tvAmount.getText() == null || tvAmount.getText().toString().equals("")) {
+            Helper.alert(getActivity(), "لطفا مبلغ را وارد کنید", Constant.AlertType.Error);
+        } else {
+            if (mIsActivePin) {
+                InputDialogFragment inputDialogFragment = InputDialogFragment.newInstance("رمز حساب را وارد کنید", Color.BLUE, InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                inputDialogFragment.show(this.getFragmentManager(), "input");
+                inputDialogFragment.setOnInputDialogClickListener(new InputDialogFragment.OnInputDialogClick() {
+                    @Override
+                    public void onAccept(String password) {
+                        mKeypadListener.onAmountEntered(tvAmount.getText().toString().replaceAll("[,]", ""), password);
+                        inputDialogFragment.dismiss();
+                    }
+                });
+            } else {
+                mKeypadListener.onAmountEntered(tvAmount.getText().toString().replaceAll("[,]", ""), null);
+            }
+            dismiss();
+        }
+    }
+
     @Override
     public boolean onLongClick(View v) {
         if (v.getId() == R.id.fragment_keypad_backspace) {
@@ -267,5 +253,14 @@ public class CardServiceDepositAndBuyFragment extends SubMenuFragment implements
             tvAmount.setText("");
         }
         return false;
+    }
+
+    public void show(Activity activity, KeypadListener keypadListener) {
+        mKeypadListener = keypadListener;
+        this.show(activity.getFragmentManager(), this.getClass().getName());
+    }
+
+    public interface KeypadListener {
+        void onAmountEntered(String amount, String password);
     }
 }
