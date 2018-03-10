@@ -6,7 +6,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.github.ybq.android.spinkit.style.MultiplePulse;
-import com.github.ybq.android.spinkit.style.MultiplePulseRing;
 import com.technotapp.servicestation.Infrastructure.DontObfuscate;
 import com.technotapp.servicestation.R;
 
