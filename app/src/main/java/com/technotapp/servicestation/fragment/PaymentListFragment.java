@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.CheckBox;
 import android.widget.ListView;
 
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -46,6 +47,8 @@ public class PaymentListFragment extends DialogFragment implements View.OnClickL
     private Activity mActivity;
     private boolean mHasCashPayment;
     private PaymentResultListener mPaymentResultListener;
+    private CheckBox mCheckDiscount;
+    private boolean isNeedShowDiscountOption = true;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -92,6 +95,14 @@ public class PaymentListFragment extends DialogFragment implements View.OnClickL
         TransactionService.dto = null;
     }
 
+    public static PaymentListFragment newInstance(boolean needShowDiscountOption) {
+        PaymentListFragment fragment = new PaymentListFragment();
+        Bundle args = new Bundle();
+        args.putBoolean(Constant.Key.NEED_SHOW_DISCOUNT_OPTION, needShowDiscountOption);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     public static PaymentListFragment newInstance() {
         PaymentListFragment fragment = new PaymentListFragment();
         Bundle args = new Bundle();
@@ -124,6 +135,7 @@ public class PaymentListFragment extends DialogFragment implements View.OnClickL
         if (bundle != null) {
             mAmount = bundle.getLong(Constant.Key.PAYMENT_AMOUNT, -1);
             mHasCashPayment = bundle.getBoolean(Constant.Key.HAS_CASH_PAYMENT, false);
+            isNeedShowDiscountOption = bundle.getBoolean(Constant.Key.NEED_SHOW_DISCOUNT_OPTION, true);
             TransactionService.amount = mAmount;
         }
     }
@@ -148,7 +160,11 @@ public class PaymentListFragment extends DialogFragment implements View.OnClickL
 
     private void initView(View view) {
         mList_payment = view.findViewById(R.id.fragment_payment_list_listview);
+        mCheckDiscount = view.findViewById(R.id.fragment_payment_list_check_discount);
         mSession = Session.getInstance(mActivity);
+        if (mSession.hasDiscount() && isNeedShowDiscountOption) {
+            mCheckDiscount.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -167,6 +183,9 @@ public class PaymentListFragment extends DialogFragment implements View.OnClickL
     public void onPaymentClick(String code) {
 
         TransactionService.paymentType = code;
+        if (mSession.hasDiscount()) {
+            TransactionService.hasDiscount = mCheckDiscount.isChecked();
+        }
 
         switch (code) {
             case PaymentType.SHETABI:
@@ -219,6 +238,7 @@ public class PaymentListFragment extends DialogFragment implements View.OnClickL
                 }
             });
         } else {
+            TransactionService.hashId = hashId;
             WalletListDialog walletListDialog = WalletListDialog.newInstance(null, hashId, mAmount);
             walletListDialog.setTargetFragment(PaymentListFragment.this, Constant.RequestCode.WALLET_PAYMENT);
             walletListDialog.show(getActivity().getSupportFragmentManager(), walletListDialog.getClass().getName());

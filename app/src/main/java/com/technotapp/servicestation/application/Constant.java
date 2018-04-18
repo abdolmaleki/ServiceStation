@@ -52,6 +52,8 @@ public class Constant {
         public static final String MANAGERNAME = "manager.name";
         public static final String FAX = "fax";
         public static final String PIN_KEY = "pin.key";
+        public static final String HAS_DISCOUNT = "has.discount";
+        public static final String DISCOUNT = "discount";
     }
 
     public static class Setting {
@@ -125,6 +127,8 @@ public class Constant {
         public static final String SUPPORT_IMAGE = "support.image";
         public static final String SUPPORT_IMAGE_URL = "support.image.url";
         public static final String SUPPORTER_NAME = "support.name";
+        public static final String IS_USE_SCORE = "is.use.score";
+        public static final String NEED_SHOW_DISCOUNT_OPTION = "need.show.discount.option";
         public static String ACCOUNT_NUMBER = "account_number";
     }
 
@@ -176,6 +180,10 @@ public class Constant {
             public static final int LOGIN_SETTING = 16;
             public static final int GET_INTERNET_PACKAGE = 17;
             public static final int BUY_INTERNET_PACKAGE = 18;
+            public static final int SEARCH_PRODUCT_SUPPORT = 19;
+            public static final int SEARCH_TRANSACTION_SUPPORT = 20;
+            public static final int SEARCH_Factor_SUPPORT = 21;
+            public static final int GET_CUSTOMER_ACCOUNTS_AND_VERIFICATION = 22;
         }
 
         public static class ErrorCode {
@@ -202,6 +210,7 @@ public class Constant {
 
     public static class TransactionType {
         public static final String BALANCE = "22";
+        public static final String BUY = "00";
     }
 
     public static class PayBill {
@@ -226,5 +235,6 @@ public class Constant {
         public static final int WALLET_PAYMENT = 51;
         public static final int QR_SCANNER = 49374;
         public static final int KEYPAD_AMOUNT = 52;
+        public static final int FACTOR = 20010;
     }
 }

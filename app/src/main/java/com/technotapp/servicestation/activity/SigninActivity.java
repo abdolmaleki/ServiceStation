@@ -249,6 +249,8 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
             session.setBaseUrl(menuStos.get(0).dataModel.get(0).url);
             session.setUserName(edtUsername.getText().toString());
             session.setPinKey(menuStos.get(0).dataModel.get(0).newPinKey);
+            session.setHasDiscount(menuStos.get(0).dataModel.get(0).shop.get(0).customersDiscountStatus==1);
+            session.setDiscount(menuStos.get(0).dataModel.get(0).shop.get(0).customersDiscountValue);
             return true;
         } catch (Exception e) {
             AppMonitor.reportBug(SigninActivity.this, e, mClassName, "saveInfo");

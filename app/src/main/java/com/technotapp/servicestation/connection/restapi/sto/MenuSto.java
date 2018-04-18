@@ -166,6 +166,8 @@ public class MenuSto extends BaseSto implements Parcelable {
             public String tel;
             public String title;
             public int producVersion;
+            public int customersDiscountStatus;
+            public int customersDiscountValue;
 
 
             protected Shop(Parcel in) {
@@ -182,6 +184,9 @@ public class MenuSto extends BaseSto implements Parcelable {
                 tel = in.readString();
                 title = in.readString();
                 producVersion = in.readInt();
+                customersDiscountValue = in.readInt();
+                customersDiscountStatus = in.readInt();
+
             }
 
             public static final Creator<Shop> CREATOR = new Creator<Shop>() {
@@ -216,6 +221,8 @@ public class MenuSto extends BaseSto implements Parcelable {
                 parcel.writeString(tel);
                 parcel.writeString(title);
                 parcel.writeInt(producVersion);
+                parcel.writeInt(customersDiscountValue);
+                parcel.writeInt(customersDiscountStatus);
             }
         }
 

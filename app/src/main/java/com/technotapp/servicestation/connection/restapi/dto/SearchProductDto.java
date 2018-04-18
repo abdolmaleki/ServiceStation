@@ -13,5 +13,6 @@ public class SearchProductDto extends BaseDto {
     public String description;
     public Integer skipRows;
     public Integer takeRows;
+    public String backupUserTokenId;
 
 }

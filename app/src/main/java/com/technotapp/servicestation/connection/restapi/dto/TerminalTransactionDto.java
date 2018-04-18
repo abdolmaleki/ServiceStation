@@ -12,32 +12,8 @@ public class TerminalTransactionDto extends BaseDto {
 
     public String tokenId;
     public String terminalCode;
-    public TransactionParametr transactionModel = new TransactionParametr();
+    public TransactionParametrModel transactionModel = new TransactionParametrModel();
     @Expose
     public String paymentType;
 
-
-    @DontObfuscate
-    public class TransactionParametr implements Serializable {
-        public long deviceTransactionId;
-        public long idMerchant;
-        public String codeTerminal;
-        public String codeTerminalType;
-        public String codeTransactionType;
-        public Date transactionDateTime;
-        public String cardNumber;
-        public long accountNumber;
-        public byte[] accountPin;
-        public long amountOfTransaction;
-        public String merchantTrace;
-        public String mediaSignature;
-        public long nidSettlement;
-        public boolean isSettle;
-        public String gatewayRefId;
-        public String bankRefId;
-        public String bankFollowCode;
-        public String description;
-        public int statusId;
-
-    }
 }

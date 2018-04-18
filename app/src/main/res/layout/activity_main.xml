@@ -25,13 +25,14 @@
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:layout_marginStart="4dp"
-            android:background="@drawable/ic_logo_tchno"
+            android:background="@drawable/ic_ansar_logo"
             android:onClick="openSettingMenu" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
+            android:minWidth="100dp"
             android:gravity="center_vertical"
             android:layoutDirection="rtl"
             android:orientation="vertical">
@@ -64,8 +65,8 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_gravity="end"
-            android:layout_marginTop="20dp"
             android:layout_marginRight="80dp"
+            android:layout_marginTop="20dp"
             android:src="@drawable/ic_buy_main" />
 
     </LinearLayout>

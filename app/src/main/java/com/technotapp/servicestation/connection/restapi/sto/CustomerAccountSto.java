@@ -14,6 +14,7 @@ public class CustomerAccountSto extends BaseSto {
     @DontObfuscate
     public class DataModel implements Serializable {
         public ArrayList<CustomerAccount> accounts = null;
+        public ArrayList<Score> scores = null;
 
         @DontObfuscate
         public class CustomerAccount implements Serializable {
@@ -22,6 +23,15 @@ public class CustomerAccountSto extends BaseSto {
             public Integer nidAccountType;
             public String title;
             public int isActivePin;
+
+        }
+
+        @DontObfuscate
+        public class Score implements Serializable {
+
+            public long score;
+            public long scoreCoefficient;
+            public long scorePrice;
 
         }
     }

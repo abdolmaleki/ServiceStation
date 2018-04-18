@@ -53,5 +53,5 @@
         android:id="@+id/toolbar_img_logo"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:background="@drawable/ic_logo_tchno" />
+        android:background="@drawable/ic_ansar_logo" />
 </LinearLayout>

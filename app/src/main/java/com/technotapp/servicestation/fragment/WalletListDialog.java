@@ -8,15 +8,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.text.InputType;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-
+import android.widget.TextView;
 import com.github.ybq.android.spinkit.style.Wave;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -49,6 +49,9 @@ public class WalletListDialog extends DialogFragment implements View.OnClickList
     private long mAmount;
     private ProgressBar progressBar;
     private String mHashId;
+    private CheckBox mCheck_useScore;
+    private TextView mTV_score;
+    private LinearLayout mPanel_account;
 
 
     @Override
@@ -65,7 +68,6 @@ public class WalletListDialog extends DialogFragment implements View.OnClickList
             mAmount = bundle.getLong(Constant.Key.PAYMENT_AMOUNT, -1);
         }
     }
-
 
     @Override
     public void onAttach(Activity activity) {
@@ -98,10 +100,13 @@ public class WalletListDialog extends DialogFragment implements View.OnClickList
         setRetainInstance(true);
     }
 
-    private void initAdapter(ArrayList<CustomerAccountSto.DataModel.CustomerAccount> accounts) {
+    private void initAdapter(ArrayList<CustomerAccountSto.DataModel.CustomerAccount> accounts, ArrayList<CustomerAccountSto.DataModel.Score> scores) {
         ArrayList<WalletAdapterModel> adapterModels = WalletMapper.convertStoToAdapterModel(accounts);
         WalletAdapter adapter = new WalletAdapter(mActivity, adapterModels, this);
         mList_wallet.setAdapter(adapter);
+        mTV_score.setText("امتیاز شما: " + String.valueOf(scores.get(0).scorePrice) + " ریال");
+
+
     }
 
     public static WalletListDialog newInstance(String cardnumber, String hashId, long mAmount) {
@@ -119,6 +124,9 @@ public class WalletListDialog extends DialogFragment implements View.OnClickList
         mSession = Session.getInstance(getActivity());
         mList_wallet = view.findViewById(R.id.fragment_dialog_wallets_list);
         progressBar = view.findViewById(R.id.fragment_dialog_wallets_list_progress);
+        mCheck_useScore = view.findViewById(R.id.fragment_dialog_wallets_list_check_score);
+        mTV_score = view.findViewById(R.id.fragment_dialog_wallets_list_txt_score);
+        mPanel_account = view.findViewById(R.id.fragment_dialog_wallets_list_panel_accounts);
         Wave multiplePulse = new Wave();
         progressBar.setIndeterminateDrawable(multiplePulse);
 
@@ -129,7 +137,6 @@ public class WalletListDialog extends DialogFragment implements View.OnClickList
     public void onClick(View view) {
         int id = view.getId();
     }
-
 
     private void closeDialog() {
         dismiss();
@@ -160,8 +167,8 @@ public class WalletListDialog extends DialogFragment implements View.OnClickList
                                 mSession.setLastVersion(accountStos.get(0).messageModel.get(0).ver);
                                 if (accountStos.get(0).dataModel.get(0).accounts != null && accountStos.get(0).dataModel.get(0).accounts.size() > 0) { // have registered account
                                     progressBar.setVisibility(View.GONE);
-                                    mList_wallet.setVisibility(View.VISIBLE);
-                                    initAdapter(accountStos.get(0).dataModel.get(0).accounts);
+                                    mPanel_account.setVisibility(View.VISIBLE);
+                                    initAdapter(accountStos.get(0).dataModel.get(0).accounts, accountStos.get(0).dataModel.get(0).scores);
                                 } else {  // have not registered acount
                                     Helper.alert(mActivity, "متاسفانه حسابی برای این کارت ثبت نشده است", Constant.AlertType.Error);
                                     closeDialog();
@@ -207,6 +214,7 @@ public class WalletListDialog extends DialogFragment implements View.OnClickList
 
 
         TransactionService.accountNumber = model.accountNumber;
+        TransactionService.isUseScore = mCheck_useScore.isChecked();
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //////////////////////   payment amount not entered in previouse steps
@@ -240,7 +248,7 @@ public class WalletListDialog extends DialogFragment implements View.OnClickList
 
         } else {
             if (model.isActivePin) {
-                InputDialogFragment inputDialogFragment = InputDialogFragment.newInstance("رمز حساب را وارد کنید", Color.BLUE, InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                InputDialogFragment inputDialogFragment = InputDialogFragment.newInstance("رمز حساب را وارد کنید", Color.BLUE, InputType.TYPE_CLASS_NUMBER | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 inputDialogFragment.show(getActivity().getFragmentManager(), "input");
                 inputDialogFragment.setOnInputDialogClickListener(new InputDialogFragment.OnInputDialogClick() {
                     @Override
@@ -267,6 +275,7 @@ public class WalletListDialog extends DialogFragment implements View.OnClickList
                 Intent intent = new Intent();
                 intent.putExtra(Constant.Key.ACTIVE_PIN, password);
                 intent.putExtra(Constant.Key.PAYMENT_AMOUNT, amount);
+                // intent.putExtra(Constant.Key.IS_USE_SCORE, amount);
                 getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
                 closeDialog();
             }

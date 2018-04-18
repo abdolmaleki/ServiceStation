@@ -129,10 +129,10 @@ public class SearchFactorActivity extends BaseActivity implements View.OnClickLi
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         if (mSelectedEditText == mET_From_Date.getId()) {
             mET_From_Date.setText(year + "/" + (monthOfYear + 1) + "/" + dayOfMonth);
-            mFromCalendar.set(year, monthOfYear, dayOfMonth);
+            mFromCalendar.set(year, monthOfYear, dayOfMonth, 0, 0);
         } else if (mSelectedEditText == mET_End_Date.getId()) {
             mET_End_Date.setText(year + "/" + (monthOfYear + 1) + "/" + dayOfMonth);
-            mEndCalendar.set(year, monthOfYear, dayOfMonth);
+            mEndCalendar.set(year, monthOfYear, dayOfMonth, 23, 59);
 
         }
     }

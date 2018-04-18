@@ -28,7 +28,7 @@
                 android:layout_width="@dimen/technologowW"
                 android:layout_height="@dimen/technologowH"
                 android:layout_marginTop="4dp"
-                android:background="@drawable/ic_logo_tchno" />
+                android:background="@drawable/ic_ansar_logo" />
 
             <com.technotapp.servicestation.customView.CustomTextView
                 android:id="@+id/customTextView"

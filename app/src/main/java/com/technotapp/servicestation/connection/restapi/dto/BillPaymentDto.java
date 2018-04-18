@@ -9,18 +9,9 @@ import java.util.Date;
 public class BillPaymentDto extends BaseDto {
     public String tokenId;
     public String terminalCode;
-    public TransactionParametr transactionModel = new TransactionParametr();
+    public TransactionParametrModel transactionModel = new TransactionParametrModel();
     public BillParameter billModel = new BillParameter();
 
-    @DontObfuscate
-    public class TransactionParametr implements Serializable {
-        public long deviceTransactionId;//کد تراکنش ایجاد شده در موبایل
-        public Date transactionDateTime;//زمان ثبت تراکنش
-        public String cardNumber;//شماره کارت مشتری در صورت وجود
-        public long accountNumber;//شماره حساب مشتری
-        public byte[] accountPin;
-        public long idMerchant;
-    }
 
     @DontObfuscate
     public class BillParameter implements Serializable {

@@ -14,4 +14,5 @@ public class SearchFactorDto extends BaseDto {
     public Date dateTo;
     public int skipRows;
     public int takeRows;
+    public String backupUserTokenId;
 }

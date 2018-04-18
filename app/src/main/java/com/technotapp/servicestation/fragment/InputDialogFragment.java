@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.InputType;
+import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -108,6 +109,10 @@ public class InputDialogFragment extends DialogFragment implements View.OnClickL
 
             if (mInputType != -1) {
                 mETPassword.setInputType(mInputType);
+                if (mInputType == (InputType.TYPE_CLASS_NUMBER | InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
+                    mETPassword.setInputType(InputType.TYPE_CLASS_NUMBER);
+                    mETPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                }
             }
         } catch (Exception e) {
             AppMonitor.reportBug(getActivity(), e, "SuccessfulDialogFragment", "initView");

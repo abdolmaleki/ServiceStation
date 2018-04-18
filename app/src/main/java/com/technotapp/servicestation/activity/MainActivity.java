@@ -25,7 +25,6 @@ import com.technotapp.servicestation.adapter.DataModel.MenuAdapterModel;
 import com.technotapp.servicestation.adapter.MainMenuPageAdapter;
 import com.technotapp.servicestation.application.Constant;
 import com.technotapp.servicestation.connection.restapi.ApiCaller;
-import com.technotapp.servicestation.connection.restapi.dto.BaseDto;
 import com.technotapp.servicestation.connection.restapi.dto.GetVersionDto;
 import com.technotapp.servicestation.connection.restapi.dto.LogDto;
 import com.technotapp.servicestation.connection.restapi.dto.TerminalTransactionDto;

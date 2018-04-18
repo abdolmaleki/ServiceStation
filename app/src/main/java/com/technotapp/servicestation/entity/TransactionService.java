@@ -3,8 +3,11 @@ package com.technotapp.servicestation.entity;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
+import android.view.View;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.Encryptor;
 import com.technotapp.servicestation.Infrastructure.Helper;
@@ -15,15 +18,20 @@ import com.technotapp.servicestation.connection.restapi.dto.BaseDto;
 import com.technotapp.servicestation.connection.restapi.dto.BillPaymentDto;
 import com.technotapp.servicestation.connection.restapi.dto.BuyInternetPackageDto;
 import com.technotapp.servicestation.connection.restapi.dto.ChargeServiceDto;
+import com.technotapp.servicestation.connection.restapi.dto.GetCustomerAccountsDto;
+import com.technotapp.servicestation.connection.restapi.dto.GetCustomerAccountsVerificationDto;
 import com.technotapp.servicestation.connection.restapi.dto.TerminalTransactionDto;
 import com.technotapp.servicestation.connection.restapi.sto.BaseTransactionSto;
 import com.technotapp.servicestation.connection.restapi.sto.BillPaymentSto;
 import com.technotapp.servicestation.connection.restapi.sto.BuyInternetPackaeResultSto;
+import com.technotapp.servicestation.connection.restapi.sto.CustomerAccountSto;
 import com.technotapp.servicestation.connection.restapi.sto.TransactionChargeResultSto;
 import com.technotapp.servicestation.enums.ServiceType;
 import com.technotapp.servicestation.fragment.PaymentListFragment;
 import com.technotapp.servicestation.setting.Session;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -35,6 +43,7 @@ public class TransactionService {
     public static Date transactionDateTime;
     public static String cardNumber;
     public static long accountNumber;
+    public static boolean isUseScore;
     public static String accountPin;
     public static String paymentType;
     public static int serviceType;
@@ -45,6 +54,8 @@ public class TransactionService {
     public static String tokenId;
     public static String codeTerminalType;
     public static Session session;
+    public static String hashId;
+    public static boolean hasDiscount;
 
     //
     //  ____                  _            _____                   _   _                 _ _
@@ -118,6 +129,9 @@ public class TransactionService {
         tokenId = null;
         codeTerminalType = null;
         session = null;
+        hasDiscount = false;
+        isUseScore = false;
+        hashId = null;
 
     }
 
@@ -139,6 +153,8 @@ public class TransactionService {
             chargeDto.transactionModel.deviceTransactionId = deviceTransactionId;
             chargeDto.transactionModel.transactionDateTime = transactionDateTime;
             chargeDto.transactionModel.idMerchant = idMerchant;
+            chargeDto.transactionModel.useSourceScoreForTransaction = isUseScore;
+            chargeDto.transactionModel.useShopDiscount = hasDiscount;
             chargeDto.tokenId = tokenId;
             chargeDto.terminalCode = terminalId;
             session = Session.getInstance(context);
@@ -159,6 +175,7 @@ public class TransactionService {
                         if (chargeSto != null) {
                             Session.getInstance(context).setPinKey(chargeSto.newPinKey);
                             if (chargeSto.errorCode.equals(String.valueOf(Constant.Api.ErrorCode.Successfull)) || chargeSto.errorCode.equals(Constant.Api.TransactionErrorCode.Successfull)) { //successfulTransaction
+                                callGetCusomrtAccountAndVerification(context, chargeSto.nidTransaction);
                                 if (chargeSto.chargeResult.resultCode.equals(Constant.Api.ResultCode.Successfull)) {
 
                                     chargeSto.amount = String.valueOf(chargeDto.chargeModel.amount);
@@ -196,7 +213,6 @@ public class TransactionService {
         } catch (Exception e) {
             AppMonitor.reportBug(context, e, "ChargeFragment", "callByeCharge");
         } finally {
-            resetValues();
         }
     }
 
@@ -207,7 +223,9 @@ public class TransactionService {
             billPaymentDto.transactionModel.cardNumber = cardNumber;
             billPaymentDto.transactionModel.deviceTransactionId = deviceTransactionId;
             billPaymentDto.transactionModel.transactionDateTime = transactionDateTime;
+            billPaymentDto.transactionModel.useSourceScoreForTransaction = isUseScore;
             billPaymentDto.transactionModel.idMerchant = idMerchant;
+            billPaymentDto.transactionModel.useShopDiscount = hasDiscount;
             billPaymentDto.tokenId = tokenId;
             billPaymentDto.terminalCode = terminalId;
 
@@ -235,6 +253,8 @@ public class TransactionService {
                             }
 
                             if (billPaymentSto.errorCode.equals(String.valueOf(Constant.Api.ErrorCode.Successfull)) || billPaymentSto.errorCode.equals(Constant.Api.TransactionErrorCode.Successfull)) { //successfulTransaction
+                                callGetCusomrtAccountAndVerification(context, billPaymentSto.nidTransaction);
+
                                 if (billPaymentSto.billResult.errorCode.equals(Constant.Api.TransactionErrorCode.Successfull)) {
 
                                     resultListener.onSuccessfullPayment(billPaymentSto.billResult.errorString, billPaymentSto);
@@ -265,7 +285,6 @@ public class TransactionService {
         } catch (Exception e) {
             AppMonitor.reportBug(context, e, "TransactionService", "callBillPayment");
         } finally {
-            resetValues();
         }
     }
 
@@ -277,12 +296,14 @@ public class TransactionService {
             buyDto.transactionModel.cardNumber = cardNumber;
             buyDto.transactionModel.deviceTransactionId = deviceTransactionId;
             buyDto.transactionModel.transactionDateTime = transactionDateTime;
+            buyDto.transactionModel.useSourceScoreForTransaction = isUseScore;
             buyDto.transactionModel.idMerchant = idMerchant;
             buyDto.transactionModel.codeTerminalType = codeTerminalType;
             buyDto.transactionModel.amountOfTransaction = amount;
+            buyDto.transactionModel.useShopDiscount = hasDiscount;
             buyDto.tokenId = tokenId;
             buyDto.terminalCode = terminalId;
-            buyDto.transactionModel.codeTransactionType = "00";
+            buyDto.transactionModel.codeTransactionType = Constant.TransactionType.BUY;
 
             final SecretKey AESsecretKey = Encryptor.generateRandomAESKey();
             SecretKey AES_Key_For_Pin = Encryptor.generateAESKeyByArray(session.getPinKey());
@@ -297,6 +318,7 @@ public class TransactionService {
                         BaseTransactionSto transactionResultSto = gson.fromJson(jsonResult, BaseTransactionSto.class);
 
                         if (transactionResultSto != null) {
+                            Session.getInstance(context).setPinKey(transactionResultSto.newPinKey);
                             transactionResultSto.paymentType = buyDto.paymentType;
                             transactionResultSto.amount = String.valueOf(buyDto.transactionModel.amountOfTransaction);
                             if (buyDto.transactionModel.cardNumber != null && !TextUtils.isEmpty(buyDto.transactionModel.cardNumber)) {
@@ -307,6 +329,7 @@ public class TransactionService {
                             }
                             Session.getInstance(context).setPinKey(transactionResultSto.newPinKey);
                             if (transactionResultSto.errorCode.equals(String.valueOf(Constant.Api.ErrorCode.Successfull)) || transactionResultSto.errorCode.equals(Constant.Api.TransactionErrorCode.Successfull)) { //successfulTransaction
+                                callGetCusomrtAccountAndVerification(context, transactionResultSto.nidTransaction);
                                 resultListener.onSuccessfullPayment(transactionResultSto.errorString, transactionResultSto);
                             } else {
                                 resultListener.onFailedPayment(transactionResultSto.errorString, null);
@@ -330,7 +353,6 @@ public class TransactionService {
         } catch (Exception e) {
             AppMonitor.reportBug(context, e, "ChargeFragment", "callByeCharge");
         } finally {
-            resetValues();
         }
     }
 
@@ -341,10 +363,13 @@ public class TransactionService {
             balanceDto.transactionModel.cardNumber = cardNumber;
             balanceDto.transactionModel.deviceTransactionId = deviceTransactionId;
             balanceDto.transactionModel.transactionDateTime = transactionDateTime;
+            balanceDto.transactionModel.useSourceScoreForTransaction = isUseScore;
             balanceDto.transactionModel.idMerchant = idMerchant;
             balanceDto.transactionModel.codeTerminalType = codeTerminalType;
             balanceDto.tokenId = tokenId;
             balanceDto.terminalCode = terminalId;
+            balanceDto.transactionModel.useShopDiscount = hasDiscount;
+
 
             final SecretKey AESsecretKey = Encryptor.generateRandomAESKey();
             SecretKey AES_Key_For_Pin = Encryptor.generateAESKeyByArray(session.getPinKey());
@@ -359,6 +384,7 @@ public class TransactionService {
                         BaseTransactionSto transactionResultSto = gson.fromJson(jsonResult, BaseTransactionSto.class);
 
                         if (transactionResultSto != null) {
+                            Session.getInstance(context).setPinKey(transactionResultSto.newPinKey);
                             transactionResultSto.paymentType = balanceDto.paymentType;
                             if (balanceDto.transactionModel.cardNumber != null && !TextUtils.isEmpty(balanceDto.transactionModel.cardNumber)) {
                                 transactionResultSto.cardNumber = balanceDto.transactionModel.cardNumber; // have carNumber
@@ -368,6 +394,7 @@ public class TransactionService {
                             }
                             Session.getInstance(context).setPinKey(transactionResultSto.newPinKey);
                             if (transactionResultSto.errorCode.equals(String.valueOf(Constant.Api.ErrorCode.Successfull)) || transactionResultSto.errorCode.equals(Constant.Api.TransactionErrorCode.Successfull)) { //successfulTransaction
+                                callGetCusomrtAccountAndVerification(context, transactionResultSto.nidTransaction);
                                 resultListener.onSuccessfullPayment(transactionResultSto.errorString, transactionResultSto);
                             } else {
                                 resultListener.onFailedPayment(transactionResultSto.errorString, null);
@@ -391,7 +418,6 @@ public class TransactionService {
         } catch (Exception e) {
             AppMonitor.reportBug(context, e, "TransactionService", "callTransactionBalance");
         } finally {
-            resetValues();
         }
     }
 
@@ -402,7 +428,9 @@ public class TransactionService {
             buyInternetPackageDto.transactionModel.cardNumber = cardNumber;
             buyInternetPackageDto.transactionModel.deviceTransactionId = deviceTransactionId;
             buyInternetPackageDto.transactionModel.transactionDateTime = transactionDateTime;
+            buyInternetPackageDto.transactionModel.useSourceScoreForTransaction = isUseScore;
             buyInternetPackageDto.transactionModel.idMerchant = idMerchant;
+            buyInternetPackageDto.transactionModel.useShopDiscount = hasDiscount;
             buyInternetPackageDto.tokenId = tokenId;
             buyInternetPackageDto.terminalCode = terminalId;
             session = Session.getInstance(context);
@@ -423,6 +451,7 @@ public class TransactionService {
                         if (buyInternetPackaeResultSto != null) {
                             Session.getInstance(context).setPinKey(buyInternetPackaeResultSto.newPinKey);
                             if (buyInternetPackaeResultSto.errorCode.equals(String.valueOf(Constant.Api.ErrorCode.Successfull)) || buyInternetPackaeResultSto.errorCode.equals(Constant.Api.TransactionErrorCode.Successfull)) { //successfulTransaction
+                                callGetCusomrtAccountAndVerification(context, buyInternetPackaeResultSto.nidTransaction);
                                 if (buyInternetPackaeResultSto.internetPackResult.resultCode.equals(Constant.Api.ResultCode.Successfull)) {
 
                                     buyInternetPackaeResultSto.amount = String.valueOf(buyInternetPackageDto.internetPackModel.amount);
@@ -459,6 +488,32 @@ public class TransactionService {
             });
         } catch (Exception e) {
             AppMonitor.reportBug(context, e, "ChargeFragment", "callBuyInternetPackage");
+        } finally {
+        }
+    }
+
+    private static void callGetCusomrtAccountAndVerification(Context context, long nidTransaction) {
+
+        try {
+            GetCustomerAccountsVerificationDto dto = new GetCustomerAccountsVerificationDto();
+            dto.cardNumber = cardNumber;
+            dto.terminalCode = terminalId;
+            dto.tokenId = tokenId;
+            dto.nidTransaction = nidTransaction;
+            dto.idHashCustomer = hashId;
+            final SecretKey AESsecretKey = Encryptor.generateRandomAESKey();
+
+            new ApiCaller(Constant.Api.Type.GET_CUSTOMER_ACCOUNTS_AND_VERIFICATION).call(context, dto, AESsecretKey, null, new ApiCaller.ApiCallback() {
+                @Override
+                public void onResponse(int responseCode, String jsonResult) {
+                }
+
+                @Override
+                public void onFail(String message) {
+                }
+            });
+        } catch (Exception e) {
+            AppMonitor.reportBug(context, e, "TransactionService", "callGetCusomrtAccountAndVerification");
         } finally {
             resetValues();
         }

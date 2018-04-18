@@ -1,6 +1,5 @@
 package com.technotapp.servicestation.activity;
 
-
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -22,13 +21,13 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.about);
-        iniView();
+        initView();
     }
 
-    private void iniView() {
+    private void initView() {
         ButterKnife.bind(this);
         TextViewEx mTV_description = findViewById(R.id.activity_about_tv_description);
-        mTV_description.setText("شرکت تکنوتَپ یکی از شرکت های دانش بنیان می باشد که در سال 1395 تاسیس شد. عمده فعالیت های این شرکت نرم افزاری بر مبنای نرم افزارهای حوزه پرداخت الکترونیکی و هوشمندسازی خودرو می باشد. البته شرکت تکنوتَپ دستاوردهای خوبی در زمینه اختراعات و تولیدات سخت افزاری داشته است. مدیرعامل این شرکت آقای محمودی می باشد.", true);
+        mTV_description.setText("شرکت تکنوتَپ یکی از شرکت های دانش بنیان مبتنی بر ایده های خلاقانه می باشد که در سال 1395 تاسیس شد. عمده فعالیت های این شرکت نرم افزاری بر مبنای نرم افزارهای حوزه پرداخت الکترونیکی و هوشمندسازی خودرو می باشد. البته شرکت تکنوتَپ دستاوردهای خوبی در زمینه اختراعات و تولیدات سخت افزاری داشته است.", true);
         txtTitle.setText("درباره نرم افزار");
         back.setOnClickListener(this);
     }

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
+import com.technotapp.servicestation.Infrastructure.Converters;
 import com.technotapp.servicestation.Infrastructure.Encryptor;
 import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.Infrastructure.TransactionHelper;
@@ -82,7 +83,7 @@ public class FactorActivity extends BaseActivity implements View.OnClickListener
     private void initView() {
         ButterKnife.bind(this);
         txtTitle.setText("فاکتور فروش");
-        tv_totalPrice.setText(mFactorModel.getTotalPrice() + " ریال");
+        tv_totalPrice.setText(Converters.toPersianPrice(mFactorModel.getTotalPrice()) + " ریال");
         back.setOnClickListener(this);
         findViewById(R.id.activity_factor_btn_pay).setOnClickListener(this);
         mSession = Session.getInstance(this);

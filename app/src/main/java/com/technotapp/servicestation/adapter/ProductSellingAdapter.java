@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
+import com.technotapp.servicestation.Infrastructure.Converters;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.adapter.DataModel.ProductFactorAdapterModel;
 import com.technotapp.servicestation.enums.ProductUnitCode;
@@ -116,7 +117,7 @@ public class ProductSellingAdapter extends BaseAdapter implements Filterable {
             ProductFactorAdapterModel dataModel = dataSet.get(position);
             viewHolder.txtName.setText(dataModel.getName());
             viewHolder.txtamount.setText("0");
-            viewHolder.txtPrice.setText(dataModel.getUnitPrice() + " ریال");
+            viewHolder.txtPrice.setText(Converters.toPersianPrice(dataModel.getUnitPrice()) + " ریال");
             viewHolder.btnPlus.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -142,7 +143,7 @@ public class ProductSellingAdapter extends BaseAdapter implements Filterable {
             });
             return rowView;
         } catch (Exception e) {
-            AppMonitor.reportBug(mContext,e, "ProductSellingAdapter", "getView");
+            AppMonitor.reportBug(mContext, e, "ProductSellingAdapter", "getView");
             return null;
         }
     }

@@ -10,20 +10,8 @@ public class BuyInternetPackageDto extends BaseDto {
 
     public String tokenId;
     public String terminalCode;
-    public TransactionParametrModel transactionModel = new TransactionParametrModel();//مدل ثبت تراکنش
+    public com.technotapp.servicestation.connection.restapi.dto.TransactionParametrModel transactionModel = new com.technotapp.servicestation.connection.restapi.dto.TransactionParametrModel();
     public InternetPackParameterModel internetPackModel = new InternetPackParameterModel();//مدل خرید شارژ تراکنش
-
-    @DontObfuscate
-    public class TransactionParametrModel implements Serializable {
-        public long deviceTransactionId;//کد تراکنش ایجاد شده در موبایل
-        public Date transactionDateTime;//زمان ثبت تراکنش
-        public String cardNumber;//شماره کارت مشتری در صورت وجود
-        public long accountNumber;//شماره حساب مشتری
-        public long idMerchant;
-        public byte[] accountPin; // رمز حساب
-
-
-    }
 
     @DontObfuscate
     public class InternetPackParameterModel implements Serializable {

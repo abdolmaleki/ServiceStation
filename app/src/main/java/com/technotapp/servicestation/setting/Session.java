@@ -105,6 +105,14 @@ public class Session {
         prefs.edit().putBoolean(Constant.Session.IS_FIRST_RUN, isFirstRun).apply();
     }
 
+    public void setHasDiscount(boolean hasDiscount) {
+        prefs.edit().putBoolean(Constant.Session.HAS_DISCOUNT, hasDiscount).apply();
+    }
+
+    public void setDiscount(int discount) {
+        prefs.edit().putInt(Constant.Session.DISCOUNT, discount).apply();
+    }
+
     public void setDescription(String description) {
         prefs.edit().putString(Constant.Session.DESCRIPTION, description).apply();
     }
@@ -208,6 +216,16 @@ public class Session {
     public boolean IsNewMenu() {
         boolean isNewMenu = prefs.getBoolean(Constant.Session.IS_NEW_MENU, false);
         return isNewMenu;
+    }
+
+    public boolean hasDiscount() {
+        boolean hasDiscount = prefs.getBoolean(Constant.Session.HAS_DISCOUNT, false);
+        return hasDiscount;
+    }
+
+    public int getDiscount() {
+        int discount = prefs.getInt(Constant.Session.DISCOUNT, -1);
+        return discount;
     }
 
     public String getAddress() {

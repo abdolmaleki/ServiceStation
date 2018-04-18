@@ -36,5 +36,23 @@
             android:layout_weight="1"
             tools:listitem="@layout/item_list_payment_type" />
 
+        <com.technotapp.servicestation.customView.CustomCheckbox
+            android:id="@+id/fragment_payment_list_check_discount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="10dp"
+            android:button="@drawable/selector_checkbox"
+            android:drawablePadding="5dp"
+            android:fontFamily="@string/irsansMedium"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="استفاده کردن از تخفیف"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
     </LinearLayout>
 </LinearLayout>

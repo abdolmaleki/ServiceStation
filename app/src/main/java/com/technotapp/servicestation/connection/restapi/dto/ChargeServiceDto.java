@@ -3,7 +3,6 @@ package com.technotapp.servicestation.connection.restapi.dto;
 import com.technotapp.servicestation.Infrastructure.DontObfuscate;
 
 import java.io.Serializable;
-import java.util.Date;
 
 @DontObfuscate
 public class ChargeServiceDto extends BaseDto {
@@ -11,19 +10,8 @@ public class ChargeServiceDto extends BaseDto {
     public String tokenId;
     public String terminalCode;
     public TransactionParametrModel transactionModel = new TransactionParametrModel();//مدل ثبت تراکنش
+
     public ChargeParameterModel chargeModel = new ChargeParameterModel();//مدل خرید شارژ تراکنش
-
-    @DontObfuscate
-    public class TransactionParametrModel implements Serializable {
-        public long deviceTransactionId;//کد تراکنش ایجاد شده در موبایل
-        public Date transactionDateTime;//زمان ثبت تراکنش
-        public String cardNumber;//شماره کارت مشتری در صورت وجود
-        public long accountNumber;//شماره حساب مشتری
-        public long idMerchant;
-        public byte[] accountPin; // رمز حساب
-
-
-    }
 
     @DontObfuscate
     public class ChargeParameterModel implements Serializable {

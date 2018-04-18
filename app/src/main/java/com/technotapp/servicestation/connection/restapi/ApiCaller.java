@@ -54,7 +54,7 @@ public class ApiCaller {
         try {
             // Client For Retrofit
             final OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                    .connectTimeout(5, TimeUnit.SECONDS)
+                    .connectTimeout(10, TimeUnit.SECONDS)
                     .readTimeout(10, TimeUnit.SECONDS)
                     .build();
 
@@ -111,6 +111,10 @@ public class ApiCaller {
                     token = apiService.serachProduct(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
                     break;
 
+                case Constant.Api.Type.SEARCH_PRODUCT_SUPPORT:
+                    token = apiService.serachProductSupport(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
+                    break;
+
                 case Constant.Api.Type.SUBMIT_FACTOR:
                     token = apiService.insertFactor(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
                     break;
@@ -123,8 +127,16 @@ public class ApiCaller {
                     token = apiService.searchTransaction(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
                     break;
 
+                case Constant.Api.Type.SEARCH_TRANSACTION_SUPPORT:
+                    token = apiService.searchTransactionSupport(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
+                    break;
+
                 case Constant.Api.Type.SEARCH_Factor:
                     token = apiService.searchFactor(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
+                    break;
+
+                case Constant.Api.Type.SEARCH_Factor_SUPPORT:
+                    token = apiService.searchFactorSupport(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
                     break;
 
                 case Constant.Api.Type.EDIT_SHOP_INFO:
@@ -148,6 +160,7 @@ public class ApiCaller {
                     break;
 
                 case Constant.Api.Type.LOGIN_SETTING:
+
                     token = apiService.loginSetting(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
                     break;
 
@@ -157,6 +170,10 @@ public class ApiCaller {
 
                 case Constant.Api.Type.BUY_INTERNET_PACKAGE:
                     token = apiService.buyInternetPackages(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
+                    break;
+
+                case Constant.Api.Type.GET_CUSTOMER_ACCOUNTS_AND_VERIFICATION:
+                    token = apiService.getCustomerAccountsAndVerifyTransaction(RsaEncryptedkey, AesEncryptedValue, Helper.getDeviceInfo());
                     break;
             }
 

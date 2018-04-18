@@ -4,24 +4,23 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.SearchView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
 import android.widget.GridView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
+import com.technotapp.servicestation.Infrastructure.Converters;
 import com.technotapp.servicestation.Infrastructure.Encryptor;
 import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.activity.FactorActivity;
-import com.technotapp.servicestation.activity.ProductManagementActivity;
 import com.technotapp.servicestation.adapter.DataModel.ProductFactorAdapterModel;
 import com.technotapp.servicestation.adapter.ProductSellingAdapter;
 import com.technotapp.servicestation.application.Constant;
@@ -41,7 +40,7 @@ import java.util.List;
 
 import javax.crypto.SecretKey;
 
-public class ProductSellingFragment extends Fragment implements SearchView.OnQueryTextListener, ProductSellingAdapter.OnFactorChangeListener, View.OnClickListener {
+public class ProductSellingFragment extends SubMenuFragment implements SearchView.OnQueryTextListener, ProductSellingAdapter.OnFactorChangeListener, View.OnClickListener {
 
     private Activity mActivity;
     private GridView mGVProduct;
@@ -51,6 +50,7 @@ public class ProductSellingFragment extends Fragment implements SearchView.OnQue
     private Button mBTN_confirm;
     private Button mBTN_Refresh;
     private Session mSession;
+    private Filter mFilter;
 
     public static ProductSellingFragment newInstance() {
         ProductSellingFragment fragment = new ProductSellingFragment();
@@ -92,6 +92,7 @@ public class ProductSellingFragment extends Fragment implements SearchView.OnQue
 
     private void initView(View rootView) {
         try {
+            setTitle("فروش کالا");
             mGVProduct = rootView.findViewById(R.id.fragment_custom_service_gridView);
             mSearchView = rootView.findViewById(R.id.fragment_custom_service_sv_product);
             mTV_totalPrice = rootView.findViewById(R.id.fragment_custom_service_txt_totalPrice);
@@ -118,7 +119,8 @@ public class ProductSellingFragment extends Fragment implements SearchView.OnQue
             ArrayList<ProductFactorAdapterModel> adapterModels = ProductMapper.convertModelToFactorAdapterModel(productModels);
             ProductSellingAdapter adapter = new ProductSellingAdapter(mActivity, adapterModels, this);
             mGVProduct.setAdapter(adapter);
-            mGVProduct.setTextFilterEnabled(true);
+            mGVProduct.setTextFilterEnabled(false);
+            mFilter = adapter.getFilter();
 
         } catch (Exception e) {
             AppMonitor.reportBug(getActivity(), e, "ProductManagementFragment", "initAdapter");
@@ -132,11 +134,7 @@ public class ProductSellingFragment extends Fragment implements SearchView.OnQue
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        if (TextUtils.isEmpty(newText)) {
-            mGVProduct.clearTextFilter();
-        } else {
-            mGVProduct.setFilterText(newText);
-        }
+        mFilter.filter(newText);
         return true;
     }
 
@@ -147,27 +145,38 @@ public class ProductSellingFragment extends Fragment implements SearchView.OnQue
     }
 
     private void updatePriceBoard(String totalPrice) {
-        mTV_totalPrice.setText(String.valueOf(totalPrice) + " " + "ریال");
+        mTV_totalPrice.setText(Converters.toPersianPrice(totalPrice) + "ریال");
     }
 
     @Override
     public void onClick(View view) {
         int id = view.getId();
         if (id == mBTN_confirm.getId()) {
-            FactorModel factorModel = mFactorMaker.exportFactor();
-            if (Db.Factor.insert(factorModel) != -1) {
-                long factorId = factorModel.getId();
-                Intent intent = new Intent(mActivity, FactorActivity.class);
-                intent.putExtra(Constant.Key.FACTOR_ID, factorId);
-                mActivity.startActivity(intent);
-            } else {
-                Helper.alert(mActivity, "خطا در ذخیره سازی اطلاعات", Constant.AlertType.Error);
+            if (validation()) {
+                FactorModel factorModel = mFactorMaker.exportFactor();
+                if (Db.Factor.insert(factorModel) != -1) {
+                    long factorId = factorModel.getId();
+                    Intent intent = new Intent(mActivity, FactorActivity.class);
+                    intent.putExtra(Constant.Key.FACTOR_ID, factorId);
+                    startActivityForResult(intent, Constant.RequestCode.FACTOR);
+                } else {
+                    Helper.alert(mActivity, "خطا در ذخیره سازی اطلاعات", Constant.AlertType.Error);
+                }
             }
         }
 
         if (id == R.id.fragment_custom_service_btn_refresh) {
             callSearchProduct();
         }
+    }
+
+    private boolean validation() {
+        boolean isValid = true;
+        if (mFactorMaker.getTotalPrice() == 0) {
+            isValid = false;
+            Helper.alert(mActivity, "هیچ کالا یا خدماتی انتخاب نشده است", Constant.AlertType.Error);
+        }
+        return isValid;
     }
 
     private void callSearchProduct() {
@@ -244,5 +253,12 @@ public class ProductSellingFragment extends Fragment implements SearchView.OnQue
             return true;
         }
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Constant.RequestCode.KEYPAD_AMOUNT && resultCode == Activity.RESULT_OK) {
+
+        }
     }
 }

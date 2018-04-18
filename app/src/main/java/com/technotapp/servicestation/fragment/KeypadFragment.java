@@ -2,7 +2,6 @@ package com.technotapp.servicestation.fragment;
 
 import android.app.Activity;
 import android.app.DialogFragment;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,8 +21,6 @@ import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.R;
 import com.technotapp.servicestation.adapter.DataModel.TransactionDataModel;
 import com.technotapp.servicestation.application.Constant;
-import com.technotapp.servicestation.pax.mag.IMagCardCallback;
-import com.technotapp.servicestation.pax.mag.MagCard;
 import com.technotapp.servicestation.setting.Session;
 
 import java.util.Locale;
@@ -46,18 +43,16 @@ public class KeypadFragment extends DialogFragment implements View.OnClickListen
         return fragment;
     }
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         try {
-
-
             View rootView = inflater.inflate(R.layout.fragment_card_service_deposit_and_buy, container, false);
             getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
             getDialog().getWindow().setBackgroundDrawableResource(R.drawable.bg_transparent);
             Window window = getDialog().getWindow();
-            window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+            window.setLayout(LinearLayout.
+                    LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
             loadData();
             initView(rootView);
 
@@ -229,7 +224,7 @@ public class KeypadFragment extends DialogFragment implements View.OnClickListen
             Helper.alert(getActivity(), "لطفا مبلغ را وارد کنید", Constant.AlertType.Error);
         } else {
             if (mIsActivePin) {
-                InputDialogFragment inputDialogFragment = InputDialogFragment.newInstance("رمز حساب را وارد کنید", Color.BLUE, InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                InputDialogFragment inputDialogFragment = InputDialogFragment.newInstance("رمز حساب را وارد کنید", Color.BLUE, InputType.TYPE_CLASS_NUMBER | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 inputDialogFragment.show(this.getFragmentManager(), "input");
                 inputDialogFragment.setOnInputDialogClickListener(new InputDialogFragment.OnInputDialogClick() {
                     @Override

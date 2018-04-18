@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -18,6 +19,7 @@ import com.technotapp.servicestation.entity.MyProgressDialog;
 import com.technotapp.servicestation.fragment.AlertDialogFragment;
 
 import java.util.Date;
+import java.util.Locale;
 
 public class Helper {
 
@@ -49,7 +51,6 @@ public class Helper {
         AlertDialogFragment dialogFragment = AlertDialogFragment.newInstance(alertType, message);
         dialogFragment.show((Activity) activity);
     }
-
 
     public static boolean IsAppUpToDate() {
         boolean isUptodate = false;

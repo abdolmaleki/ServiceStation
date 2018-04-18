@@ -55,9 +55,9 @@ public class BuyCustomerRatingContent extends Printable {
         page.addLine();
         page.addLine().addUnit(BitmapFactory.decodeResource(ctx.getResources(), R.drawable.ic_dash_line), IImgProcessing.IPage.EAlign.CENTER);
         page.addLine();
-        page.addLine().addUnit(Converters.ConvertTextToHighlitedText("www.technotapp.com", 24.0f), IImgProcessing.IPage.EAlign.CENTER);
+        page.addLine().addUnit(Converters.ConvertTextToHighlitedText(ctx.getString(R.string.print_web), 24.0f), IImgProcessing.IPage.EAlign.CENTER);
         page.addLine();
-        page.addLine().addUnit(Converters.convertEnDigitToPersian("مرکز تماس: 02122578583"), FONT_NORMAL, IImgProcessing.IPage.EAlign.CENTER);
+        page.addLine().addUnit(Converters.convertEnDigitToPersian("شماره تماس: " + ctx.getString(R.string.print_tel)), FONT_NORMAL, IImgProcessing.IPage.EAlign.CENTER);
 
         return img.pageToBitmap(page, 384);
     }

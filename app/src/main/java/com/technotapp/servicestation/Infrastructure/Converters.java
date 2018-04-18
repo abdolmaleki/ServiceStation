@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
 
+import java.util.Locale;
+
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 
 public class Converters {
@@ -33,15 +35,28 @@ public class Converters {
 
     }
 
+    public static String toPersianPrice(String price) {
+        String formatted = String.format(Locale.CANADA, "%,d", Long.parseLong(price));
+        return formatted;
+
+    }
+
+    public static String toPersianPrice(long price) {
+        String formatted = String.format(Locale.CANADA, "%,d", Long.parseLong(String.valueOf(price)));
+        return formatted;
+
+    }
+
+
     public static String convertEnDigitToPersian(String str) {
         str = str.replace("1", "١").replace("2", "٢").replace("3", "٣").replace("4", "٤").replace("5", "٥").replace("6", "٦").replace("7", "٧").replace("8", "٨").replace("9", "٩").replace("0", "٠");
         return str;
     }
 
     public static String panNumbrToStar(String str) {
-        if(str.length()>=16) {
+        if (str.length() >= 16) {
             return str.substring(12) + "-**-" + str.substring(0, 7);
-        }else{
+        } else {
             return str.substring(8) + "-**-" + str.substring(0, 5);
 
         }

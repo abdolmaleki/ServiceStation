@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-
 import com.technotapp.servicestation.Infrastructure.AppMonitor;
 import com.technotapp.servicestation.Infrastructure.Helper;
 import com.technotapp.servicestation.Infrastructure.TransactionHelper;
@@ -99,6 +98,7 @@ public class MainGridFragment extends Fragment {
         }
     }
 
+
     public void onGridItemClick(GridView g, View v, int pos, long menuId) {
         try {
             MenuModel selectedMenuItem = Db.Menu.getMenuById(menuId);
@@ -122,6 +122,8 @@ public class MainGridFragment extends Fragment {
         }
 
     }
+
+    
 
     private void handleAction(String action) {
         switch (action) {
